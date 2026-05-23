@@ -276,4 +276,17 @@ const styles = {
         padding: '60px 0'
     },
     ctaContent: {
-        display: 'flex'
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '24px'
+    },
+    ctaTitre: {
+        fontSize: '24px',
+        fontWeight: '700',
+        color: 'white'
+    }
+};
+
+export default LandingPage;
