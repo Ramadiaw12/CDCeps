@@ -1,8 +1,6 @@
 // ============================================================
 // server.js
 // Point d'entrée principal du backend Node.js
-// Ce fichier démarre le serveur Express et configure
-// tous les middlewares et routes
 // ============================================================
 
 import express from 'express';
@@ -12,53 +10,41 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { testConnection } from './database/mysql.js';
 
-// Charge les variables d'environnement
+// Import des routes
+import routesProjets    from './routes/projets.js';
+import routesAgents     from './routes/agents.js';
+import routesDocuments  from './routes/documents.js';
+
 dotenv.config();
 
-// ── Initialisation ──────────────────────────────────────────
-
+// ── Initialisation ───────────────────────────────────────────
 const app = express();
-
-// createServer wrape Express pour que Socket.io
-// puisse utiliser le même port que l'API REST
 const httpServer = createServer(app);
 
-// Initialise Socket.io sur le même serveur HTTP
-// Le frontend React se connectera à cette instance
-// pour recevoir la progression des agents en temps réel
 const io = new Server(httpServer, {
     cors: {
-        origin: 'http://localhost:5173', // Port de Vite (React)
+        origin: 'http://localhost:5173',
         methods: ['GET', 'POST']
     }
 });
 
 // ── Middlewares ──────────────────────────────────────────────
-
-// Autorise React (port 5173) à appeler cette API (port 3001)
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true
 }));
-
-// Parse le JSON dans le body des requêtes
 app.use(express.json());
-
-// Parse les données de formulaires
 app.use(express.urlencoded({ extended: true }));
 
 // ── Socket.io ────────────────────────────────────────────────
-
-// Quand un client React se connecte via WebSocket
 io.on('connection', (socket) => {
     console.log(`🔌 Client connecté : ${socket.id}`);
 
-    // Quand le client rejoint une session de génération
-    // il envoie son session_uuid pour recevoir
-    // uniquement les mises à jour de SA session
+    // Le frontend envoie le sessionUuid pour s'abonner
+    // aux événements de SA session uniquement
     socket.on('rejoindre_session', (sessionUuid) => {
         socket.join(sessionUuid);
-        console.log(`📎 Socket ${socket.id} a rejoint la session ${sessionUuid}`);
+        console.log(`📎 Session rejointe : ${sessionUuid}`);
     });
 
     socket.on('disconnect', () => {
@@ -66,13 +52,12 @@ io.on('connection', (socket) => {
     });
 });
 
-// Rend io accessible depuis les routes et services
-// en l'attachant à l'objet app
+// Rend io accessible depuis toutes les routes
 app.set('io', io);
 
 // ── Routes ───────────────────────────────────────────────────
 
-// Route de test pour vérifier que le serveur tourne
+// Route de santé — teste que le serveur tourne
 app.get('/api/health', (req, res) => {
     res.json({
         statut: 'ok',
@@ -81,13 +66,41 @@ app.get('/api/health', (req, res) => {
     });
 });
 
-// ── Démarrage ────────────────────────────────────────────────
+// Routes métier
+app.use('/api/projets',    routesProjets);
+app.use('/api/agents',     routesAgents);
+app.use('/api/documents',  routesDocuments);
 
+// ── Gestion des routes inexistantes ─────────────────────────
+app.use((req, res) => {
+    res.status(404).json({
+        succes: false,
+        message: `Route introuvable : ${req.method} ${req.url}`
+    });
+});
+
+// ── Gestion globale des erreurs ──────────────────────────────
+app.use((err, req, res, next) => {
+    console.error('Erreur serveur :', err.message);
+    res.status(500).json({
+        succes: false,
+        message: 'Erreur interne du serveur',
+        erreur: err.message
+    });
+});
+
+// ── Démarrage ────────────────────────────────────────────────
 const PORT = process.env.PORT || 3001;
 
 httpServer.listen(PORT, async () => {
     console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
-    
-    // Teste la connexion MySQL au démarrage
     await testConnection();
+    console.log(`📡 Routes disponibles :`);
+    console.log(`   GET  /api/health`);
+    console.log(`   POST /api/projets`);
+    console.log(`   GET  /api/projets`);
+    console.log(`   POST /api/agents/generer/:projetId`);
+    console.log(`   GET  /api/documents/cdc`);
+    console.log(`   GET  /api/documents/cdc/:id/pdf`);
+    console.log(`   GET  /api/documents/cdc/:id/markdown`);
 });
