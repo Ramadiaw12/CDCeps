@@ -374,6 +374,6 @@ Description projet
 
 ---
 
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=14&duration=3000&pause=1000&color=64748B&center=true&vCenter=true&width=500&lines=Merci+de+votre+intérêt+pour+CDCEPS+!;N'hésitez+pas+à+⭐+le+projet+!;Contributions+bienvenues+!" alt="Footer" />
+⭐ N'hésitez pas à star le projet &nbsp;|&nbsp; Contributions bienvenues !
 
 </div>
