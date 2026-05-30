@@ -2,8 +2,7 @@
 // Cet agent reçoit la description brute du client et extrait toutes les informations importantes de façon structurée. Il retourne un JSON propre que l'Agent 2 va utiliser.
 // agents/agentCollecte.js
 // Agent 1 : Collecte et extraction des besoins
-// Reçoit la description brute du client et extrait
-// les informations clés sous forme structurée
+// Reçoit la description brute du client et extrait les informations clés sous forme structurée
 // ============================================================
 
 import BaseAgent from './baseAgent.js';

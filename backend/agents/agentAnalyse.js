@@ -1,13 +1,13 @@
 // ============================================================
 // agents/agentAnalyse.js
-// Cet agent prend le résultat structuré de l'Agent 1 et fait une analyse approfondie — il classe les besoins par priorité, détecte les risques, et enrichit le contexte avec les documents RAG.
+// Cet agent prend le résultat structuré de l'Agent collecte et fait une analyse approfondie — il classe les besoins par priorité, détecte les risques, et enrichit le contexte avec les documents RAG.
 // Agent 2 : Analyse et classification des besoins
 // Prend le résultat de l'Agent 1 et produit une analyse
 // approfondie enrichie par le module RAG
 // ============================================================
 
 import BaseAgent from './baseAgent.js';
-import { 
+import {
     rechercherDocumentsSimilaires, 
     formaterContexteRAG 
 } from '../services/ragService.js';
