@@ -1,15 +1,14 @@
 // ============================================================
 // agents/baseAgent.js
 // Classe de base pour tous les agents du système
-// Chaque agent hérite de cette classe et implémente
-// sa propre méthode "executer()"
+// Chaque agent hérite de cette classe et implémente sa propre méthode "executer()"
 // ============================================================
 
 import pool from '../database/mysql.js';
 import { appelLLM } from '../services/openaiService.js';
 
 class BaseAgent {
-    // ── Constructeur ─────────────────────────────────────────
+    // Constructeur
     // Chaque agent a un nom et un rôle (prompt système)
     // Le prompt système définit le comportement de l'agent
     constructor(nom, promptSysteme) {
@@ -17,7 +16,7 @@ class BaseAgent {
         this.promptSysteme = promptSysteme;
     }
 
-    // ── Méthode principale ───────────────────────────────────
+    // Méthode principale
     // Appelle le LLM avec le prompt système de l'agent
     // et le message de l'utilisateur
     async appelerLLM(messageUtilisateur, options = {}) {
@@ -38,7 +37,7 @@ class BaseAgent {
         return await appelLLM(messages, options);
     }
 
-    // ── Mise à jour du statut en base ────────────────────────
+    // Mise à jour du statut en base
     // Met à jour le statut de l'agent dans la table
     // sessions_agents pour que le frontend puisse
     // afficher la progression en temps réel
@@ -63,7 +62,7 @@ class BaseAgent {
         console.log(`🤖 ${this.nom} → statut : ${statut}`);
     }
 
-    // ── Notification temps réel ──────────────────────────────
+    // Notification temps réel
     // Envoie une mise à jour au frontend via Socket.io
     // pour afficher la progression de l'agent
     notifierProgression(io, sessionUuid, message) {
@@ -74,7 +73,7 @@ class BaseAgent {
         });
     }
 
-    // ── Méthode à implémenter par chaque agent ───────────────
+    // Méthode à implémenter par chaque agent
     // Chaque agent doit implémenter cette méthode
     // avec sa propre logique
     async executer(donnees, sessionId, io, sessionUuid) {
