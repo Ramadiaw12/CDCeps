@@ -18,7 +18,7 @@ class AgentGeneration extends BaseAgent {
             
             Ton rôle est de générer des cahiers des charges
             préliminaires professionnels, complets et structurés avec des titres en gras 
-            aux formats Markdown et en Pdf.
+            aux formats Markdown.
             
             Règles importantes :
             - Utilise un langage professionnel et précis
@@ -121,13 +121,13 @@ class AgentGeneration extends BaseAgent {
                 Ensuite inclus toutes les sections listées ci-dessus.
                 Utilise des tableaux Markdown quand c'est pertinent.
                 Utilise des listes à puces pour les énumérations.
-                Le document doit faire au minimum 800 mots.
+                Le document doit faire au minimum 1000 mots.
             `;
 
-            // Génère le CDC — on augmente les tokens
+            // Génère le CDC on augmente les tokens
             // car le document doit être long et complet
             const cdcMarkdown = await this.appelerLLM(messageUtilisateur, {
-                temperature: 0.4,
+                temperature: 0.8,
                 maxTokens: 4000
             });
 
@@ -148,7 +148,7 @@ class AgentGeneration extends BaseAgent {
 
             this.notifierProgression(
                 io, sessionUuid,
-                `❌ Erreur génération : ${error.message}`
+                `Erreur génération : ${error.message}`
             );
 
             throw new Error(`AgentGeneration : ${error.message}`);
