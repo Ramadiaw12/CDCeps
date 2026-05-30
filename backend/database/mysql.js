@@ -41,7 +41,7 @@ export const testConnection = async () => {
         // Libère la connexion pour qu'elle retourne dans le pool
         connection.release();
     } catch (error) {
-        console.error('❌ Erreur de connexion MySQL :', error.message);
+        console.error('Erreur de connexion MySQL :', error.message);
         
         // Si on ne peut pas se connecter à la base,
         // inutile de continuer — on arrête le serveur

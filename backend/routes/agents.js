@@ -17,7 +17,7 @@ const router = express.Router();
 // On la crée une fois et on la réutilise
 const orchestrateur = new Orchestrateur();
 
-// ── POST /api/agents/generer/:projetId ───────────────────────
+// POST /api/agents/generer/:projetId
 // Déclenche le pipeline complet des 4 agents
 // C'est l'endpoint le plus important du système
 router.post('/generer/:projetId', async (req, res) => {
@@ -120,7 +120,7 @@ router.post('/generer/:projetId', async (req, res) => {
     }
 });
 
-// ── GET /api/agents/session/:uuid ────────────────────────────
+// GET /api/agents/session/:uuid
 // Retourne le statut détaillé d'une session
 // Utilisé par le frontend pour afficher la progression
 router.get('/session/:uuid', async (req, res) => {
@@ -157,7 +157,7 @@ router.get('/session/:uuid', async (req, res) => {
     }
 });
 
-// ── GET /api/agents/sessions/:projetId ──────────────────────
+// GET /api/agents/sessions/:projetId
 // Retourne l'historique de toutes les sessions
 // d'un projet — utile pour voir les tentatives précédentes
 router.get('/sessions/:projetId', async (req, res) => {
