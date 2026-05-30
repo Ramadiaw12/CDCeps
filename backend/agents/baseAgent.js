@@ -59,7 +59,7 @@ class BaseAgent {
             [statut, sessionId]
         );
 
-        console.log(`🤖 ${this.nom} → statut : ${statut}`);
+        console.log(` ${this.nom} → statut : ${statut}`);
     }
 
     // Notification temps réel

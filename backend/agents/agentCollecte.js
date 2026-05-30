@@ -56,13 +56,13 @@ class AgentCollecte extends BaseAgent {
         );
     }
 
-    // ── Méthode principale ───────────────────────────────────
+    //  Méthode principale 
     async executer(donnees, sessionId, io, sessionUuid) {
         try {
             // Notifie le frontend que l'agent a démarré
             this.notifierProgression(
                 io, sessionUuid,
-                '🔍 Analyse de la description du projet en cours...'
+                ' Analyse de la description du projet en cours...'
             );
 
             // Met à jour le statut en base : "running"
@@ -88,7 +88,7 @@ class AgentCollecte extends BaseAgent {
             // Appelle le LLM via la classe parente
             const reponse = await this.appelerLLM(messageUtilisateur, {
                 temperature: 0.2, // Très déterministe pour l'extraction
-                maxTokens: 1500
+                maxTokens: 2000
             });
 
             // Parse la réponse JSON du LLM
