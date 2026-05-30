@@ -17,12 +17,12 @@ class AgentGeneration extends BaseAgent {
             chez EPS SARL, une société de services informatiques.
             
             Ton rôle est de générer des cahiers des charges
-            préliminaires professionnels, complets et structurés
-            en Markdown.
+            préliminaires professionnels, complets et structurés avec des titres en gras 
+            aux formats Markdown et en Pdf.
             
             Règles importantes :
             - Utilise un langage professionnel et précis
-            - Structure le document avec des titres Markdown clairs
+            - Structure le document avec des titres Markdown clairs et un grand trait pour séparer les différents titres
             - Chaque section doit être détaillée et exploitable
             - Adapte le contenu au contexte spécifique du projet
             - Ne laisse aucune section vide
@@ -35,7 +35,7 @@ class AgentGeneration extends BaseAgent {
         try {
             this.notifierProgression(
                 io, sessionUuid,
-                '📝 Génération du cahier des charges en cours...'
+                'Génération du cahier des charges en cours...'
             );
 
             await this.mettreAJourStatut(sessionId, 'running');

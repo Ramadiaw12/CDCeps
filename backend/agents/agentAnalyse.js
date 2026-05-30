@@ -70,7 +70,7 @@ class AgentAnalyse extends BaseAgent {
             // de lancer l'analyse — ça enrichit le contexte
             this.notifierProgression(
                 io, sessionUuid,
-                '📚 Recherche de projets similaires dans la base...'
+                'Recherche de projets similaires dans la base...'
             );
 
             const documentsSimilaires = await rechercherDocumentsSimilaires(
@@ -150,7 +150,7 @@ class AgentAnalyse extends BaseAgent {
 
             this.notifierProgression(
                 io, sessionUuid,
-                `❌ Erreur analyse : ${error.message}`
+                `Erreur analyse : ${error.message}`
             );
 
             throw new Error(`AgentAnalyse : ${error.message}`);
