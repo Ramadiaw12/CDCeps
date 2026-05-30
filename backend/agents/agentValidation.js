@@ -100,7 +100,7 @@ class AgentValidation extends BaseAgent {
             const reponse = await this.appelerLLM(messageUtilisateur, {
                 // Température plus élevée pour une évaluation
                 // plus nuancée et moins mécanique
-                temperature: 0.3,
+                temperature: 0.4,
                 maxTokens: 2000
             });
 
@@ -126,7 +126,7 @@ class AgentValidation extends BaseAgent {
 
             this.notifierProgression(
                 io, sessionUuid,
-                `❌ Erreur validation : ${error.message}`
+                `Erreur validation : ${error.message}`
             );
 
             throw new Error(`AgentValidation : ${error.message}`);
