@@ -148,17 +148,17 @@ const agents = [
 
 const styles = {
     hero: {
-        backgroundColor: '#ffffff',
+        backgroundColor: 'var(--surface)',
         padding: '80px 0',
-        borderBottom: '1px solid #e2e8f0'
+        borderBottom: '1px solid var(--border)'
     },
     heroContent: {
         maxWidth: '700px'
     },
     badge: {
         display: 'inline-block',
-        backgroundColor: '#dbeafe',
-        color: '#748ee6',
+        backgroundColor: 'var(--primary-light)',
+        color: 'var(--primary)',
         padding: '6px 14px',
         borderRadius: '20px',
         fontSize: '13px',
@@ -170,14 +170,14 @@ const styles = {
         fontWeight: '700',
         lineHeight: '1.2',
         marginBottom: '20px',
-        color: '#2a4179'
+        color: 'var(--text)'
     },
     titreBleu: {
-        color: '#0a193a'
+        color: 'var(--primary)'
     },
     description: {
         fontSize: '17px',
-        color: '#64748b',
+        color: 'var(--text-muted)',
         marginBottom: '32px',
         lineHeight: '1.7'
     },
@@ -192,12 +192,12 @@ const styles = {
     sectionTitre: {
         fontSize: '28px',
         fontWeight: '700',
-        color: '#0f172a',
+        color: 'var(--text)',
         marginBottom: '12px',
         textAlign: 'center'
     },
     sectionDesc: {
-        color: '#64748b',
+        color: 'var(--text-muted)',
         textAlign: 'center',
         marginBottom: '40px',
         fontSize: '15px'
@@ -215,8 +215,8 @@ const styles = {
     etapeNumero: {
         width: '32px',
         height: '32px',
-        backgroundColor: '#fedbdb',
-        color: '#719cfa',
+        backgroundColor: 'var(--primary-light)',
+        color: 'var(--primary)',
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
@@ -233,11 +233,11 @@ const styles = {
         fontSize: '16px',
         fontWeight: '600',
         marginBottom: '10px',
-        color: '#0f172a'
+        color: 'var(--text)'
     },
     etapeDesc: {
         fontSize: '14px',
-        color: '#64748b',
+        color: 'var(--text-muted)',
         lineHeight: '1.6'
     },
     agentsGrid: {
@@ -263,16 +263,16 @@ const styles = {
     agentNom: {
         fontSize: '15px',
         fontWeight: '600',
-        color: '#0f172a',
+        color: 'var(--text)',
         marginBottom: '8px'
     },
     agentRole: {
         fontSize: '13px',
-        color: '#64748b',
+        color: 'var(--text-muted)',
         lineHeight: '1.6'
     },
     cta: {
-        backgroundColor: '#2563eb',
+        backgroundColor: 'var(--primary)',
         padding: '60px 0'
     },
     ctaContent: {
@@ -285,7 +285,7 @@ const styles = {
     ctaTitre: {
         fontSize: '24px',
         fontWeight: '700',
-        color: 'white'
+        color: '#ffffff'
     }
 };
 
