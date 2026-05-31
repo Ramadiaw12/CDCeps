@@ -70,12 +70,12 @@ export const rechercherDocumentsSimilaires = async (description, typeProjet, nbR
 
     } catch (error) {
         // Le RAG est optionnel — si ça échoue on continue sans lui
-        console.error('❌ Erreur RAG :', error.message);
+        console.error('Erreur RAG :', error.message);
         return [];
     }
 };
 
-// ── Indexation d'un nouveau document ────────────────────────
+// Indexation d'un nouveau document
 
 // Quand on ajoute un ancien CDC en base,
 // on génère et stocke son embedding pour les futures recherches
@@ -102,7 +102,7 @@ export const indexerDocument = async (titre, contenu, typeProjet, secteur, motsC
             ]
         );
 
-        console.log(`✅ Document indexé avec succès : ${titre}`);
+        console.log(`Document indexé avec succès : ${titre}`);
         return result.insertId;
 
     } catch (error) {
@@ -110,7 +110,7 @@ export const indexerDocument = async (titre, contenu, typeProjet, secteur, motsC
     }
 };
 
-// ── Formater le contexte RAG pour le prompt ─────────────────
+// Formater le contexte RAG pour le prompt
 
 // Prend les documents trouvés et les formate en texte
 // pour les injecter dans le prompt des agents
@@ -135,7 +135,7 @@ export const formaterContexteRAG = (documents) => {
     return contexte;
 };
 
-// ── Algorithme de similarité cosinus ────────────────────────
+// Algorithme de similarité cosinus
 
 // Mesure la similarité entre deux vecteurs
 // C'est la formule mathématique de base du RAG

@@ -14,7 +14,7 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-// ── Fonction principale ──────────────────────────────────────
+// Fonction principale
 
 // Cette fonction est appelée par chaque agent
 // Elle prend un tableau de messages (conversation) et
@@ -59,7 +59,7 @@ export const appelLLM = async (messages, options = {}) => {
     }
 };
 
-// ── Fonction pour générer les embeddings ─────────────────────
+// Fonction pour générer les embeddings 
 
 // Les embeddings sont des représentations numériques (vecteurs)
 // d'un texte. Deux textes similaires auront des vecteurs proches.

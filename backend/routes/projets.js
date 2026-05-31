@@ -13,7 +13,7 @@ import pool from '../database/mysql.js';
 
 const router = express.Router();
 
-// ── POST /api/projets ────────────────────────────────────────
+// POST /api/projets
 // Reçoit les données du formulaire React et crée
 // le client + projet en base de données
 router.post('/', async (req, res) => {
@@ -132,7 +132,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// ── GET /api/projets ─────────────────────────────────────────
+// GET /api/projets 
 // Retourne la liste de tous les projets avec
 // les infos client associées
 router.get('/', async (req, res) => {
@@ -165,7 +165,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-// ── GET /api/projets/:id ─────────────────────────────────────
+// GET /api/projets/:id 
 // Retourne le détail complet d'un projet
 router.get('/:id', async (req, res) => {
     try {
@@ -200,7 +200,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// ── PUT /api/projets/:id ─────────────────────────────────────
+// PUT /api/projets/:id
 // Met à jour le statut ou les infos d'un projet
 router.put('/:id', async (req, res) => {
     try {

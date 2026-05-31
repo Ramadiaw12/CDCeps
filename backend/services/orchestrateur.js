@@ -21,7 +21,7 @@ class Orchestrateur {
         this.agentValidation = new AgentValidation();
     }
 
-    // ── Lancement du pipeline complet ───────────────────────
+    // Lancement du pipeline complet
     // C'est la méthode principale appelée par la route API
     // Elle reçoit les données du projet et retourne le CDC
     async lancerPipeline(projetId, donneesProjet, io) {
@@ -32,7 +32,7 @@ class Orchestrateur {
         let sessionId = null;
 
         try {
-            // ── Étape 0 : Création de la session ────────────
+            // Étape 0 : Création de la session
             // Enregistre la session en base avant de démarrer
             const [sessionResult] = await pool.execute(
                 `INSERT INTO sessions_agents 
@@ -48,7 +48,7 @@ class Orchestrateur {
                 message: '🚀 Pipeline multi-agents démarré'
             });
 
-            // ── Étape 1 : Agent Collecte ─────────────────────
+            // Étape 1 : Agent Collecte 
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'CollecteAgent',
                 numero: 1
@@ -61,7 +61,7 @@ class Orchestrateur {
                 sessionUuid
             );
 
-            // ── Étape 2 : Agent Analyse ──────────────────────
+            // Étape 2 : Agent Analyse
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'AnalyseAgent',
                 numero: 2
@@ -75,7 +75,7 @@ class Orchestrateur {
                 sessionUuid
             );
 
-            // ── Étape 3 : Agent Génération ───────────────────
+            // Étape 3 : Agent Génération
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'GenerationAgent',
                 numero: 3
@@ -92,7 +92,7 @@ class Orchestrateur {
                 sessionUuid
             );
 
-            // ── Étape 4 : Agent Validation ───────────────────
+            // Étape 4 : Agent Validation
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'ValidationAgent',
                 numero: 4
@@ -110,7 +110,7 @@ class Orchestrateur {
                 sessionUuid
             );
 
-            // ── Étape 5 : Sauvegarde du CDC en base ─────────
+            // Étape 5 : Sauvegarde du CDC en base
             const [cdcResult] = await pool.execute(
                 `INSERT INTO cahiers_des_charges
                  (projet_id, session_id, contenu_markdown, 
@@ -185,7 +185,7 @@ class Orchestrateur {
         }
     }
 
-    // ── Récupération d'un CDC existant ───────────────────────
+    // Récupération d'un CDC existant
     // Utilisée par la route GET /api/cdc/:id
     async recupererCDC(cdcId) {
         const [rows] = await pool.execute(
