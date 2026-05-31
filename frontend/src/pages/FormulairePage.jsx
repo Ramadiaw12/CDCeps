@@ -154,7 +154,7 @@ function FormulairePage() {
                     {/* Erreur globale */}
                     {erreurs.global && (
                         <div style={styles.erreurGlobale}>
-                            ⚠️ {erreurs.global}
+                             {erreurs.global}
                         </div>
                     )}
 
@@ -273,7 +273,7 @@ function FormulairePage() {
                         {etape === 2 && (
                             <div>
                                 <h2 style={styles.sectionTitre}>
-                                    🚀 Description du projet
+                                     Description du projet
                                 </h2>
 
                                 <div className="form-group">
@@ -383,7 +383,7 @@ function FormulairePage() {
                                                 Création en cours...
                                             </>
                                         ) : (
-                                            '🚀 Générer le CDC'
+                                            ' Générer le CDC'
                                         )}
                                     </button>
                                 </div>

@@ -20,7 +20,7 @@ function GenerationPage() {
     const { projetId } = useParams();
     const navigate = useNavigate();
 
-    // ── États ────────────────────────────────────────────────
+    // États 
     const [projet, setProjet]           = useState(null);
     const [sessionUuid, setSessionUuid] = useState(null);
     const [agentActif, setAgentActif]   = useState(null);
@@ -38,12 +38,12 @@ function GenerationPage() {
     const [resultatFinal, setResultatFinal] = useState(null);
     const messagesEndRef = useRef(null);
 
-    // ── Scroll automatique vers le bas du journal ────────────
+    // Scroll automatique vers le bas du journal
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // ── Chargement du projet et connexion Socket.io ──────────
+    // Chargement du projet et connexion Socket.io 
     useEffect(() => {
         const initialiser = async () => {
             try {
@@ -91,7 +91,7 @@ function GenerationPage() {
         };
     }, [projetId]);
 
-    // ── Configuration des événements Socket.io ───────────────
+    //Configuration des événements Socket.io 
     const configurerEvenements = () => {
 
         // Reçoit les messages de progression des agents
@@ -151,7 +151,7 @@ function GenerationPage() {
         });
     };
 
-    // ── Rendu ────────────────────────────────────────────────
+    //  Rendu 
     return (
         <div className="page">
             <div className="container">
@@ -160,8 +160,8 @@ function GenerationPage() {
                 <div style={styles.header}>
                     <h1 style={styles.titre}>
                         {statut === 'termine'
-                            ? '🎉 CDC généré avec succès'
-                            : '⚙️ Génération en cours...'}
+                            ? 'CDC généré avec succès'
+                            : 'Génération en cours...'}
                     </h1>
                     {projet && (
                         <p style={styles.sousTitre}>
@@ -218,7 +218,7 @@ function GenerationPage() {
                             style={styles.btnResultat}
                             onClick={() => navigate(`/resultat/${resultatFinal.cdcId}`)}
                         >
-                            📄 Voir le CDC généré →
+                             Voir le CDC généré →
                         </button>
                     </div>
                 )}
@@ -226,7 +226,7 @@ function GenerationPage() {
                 {/* Message d'erreur */}
                 {statut === 'erreur' && (
                     <div style={styles.erreur}>
-                        <h3>❌ Une erreur est survenue</h3>
+                        <h3>Une erreur est survenue</h3>
                         <p>Vérifiez votre clé API OpenAI et réessayez.</p>
                         <button
                             className="btn btn-secondary"
