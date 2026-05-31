@@ -38,7 +38,7 @@ function ResultatPage() {
         chargerCDC();
     }, [cdcId]);
 
-    // ── Export PDF ───────────────────────────────────────────
+    // Export PDF
     const handleExportPDF = async () => {
         setExportPDF(true);
         try {
@@ -49,7 +49,7 @@ function ResultatPage() {
         }
     };
 
-    // ── Chargement ───────────────────────────────────────────
+    // Chargement
     if (chargement) {
         return (
             <div className="page">
@@ -63,13 +63,13 @@ function ResultatPage() {
         );
     }
 
-    // ── Erreur ───────────────────────────────────────────────
+    // Erreur 
     if (erreur || !cdc) {
         return (
             <div className="page">
                 <div className="container">
                     <div style={styles.erreur}>
-                        <h3>❌ {erreur || 'CDC introuvable'}</h3>
+                        <h3> {erreur || 'CDC introuvable'}</h3>
                         <button
                             className="btn btn-secondary"
                             onClick={() => navigate('/')}
@@ -83,12 +83,12 @@ function ResultatPage() {
         );
     }
 
-    // ── Rendu principal ──────────────────────────────────────
+    // Rendu principal 
     return (
         <div className="page">
             <div className="container">
 
-                {/* ── En-tête avec actions ─────────────────── */}
+                {/*  En-tête avec actions  */}
                 <div style={styles.header}>
                     <div>
                         <h1 style={styles.titre}>
@@ -175,7 +175,7 @@ function ResultatPage() {
                 {/* ── Sections manquantes ──────────────────── */}
                 {cdc.sections_manquantes?.length > 0 && (
                     <div style={styles.avertissement}>
-                        <strong>⚠️ Sections à compléter :</strong>
+                        <strong>Sections à compléter :</strong>
                         <ul style={{ marginTop: 8, paddingLeft: 20 }}>
                             {cdc.sections_manquantes.map((section, i) => (
                                 <li key={i} style={{ fontSize: 13 }}>
@@ -186,12 +186,12 @@ function ResultatPage() {
                     </div>
                 )}
 
-                {/* ── Contenu du CDC ───────────────────────── */}
+                {/* ── Contenu du CDC */}
                 <div className="card" style={styles.cdcCard}>
                     <CDCViewer contenu={cdc.contenu_markdown} />
                 </div>
 
-                {/* ── Actions bas de page ──────────────────── */}
+                {/*  Actions bas de page  */}
                 <div style={styles.actionsBottom}>
                     <button
                         className="btn btn-secondary"
@@ -213,7 +213,7 @@ function ResultatPage() {
     );
 }
 
-// ── Styles ───────────────────────────────────────────────────
+//  Styles 
 const styles = {
     header: {
         display: 'flex',

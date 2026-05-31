@@ -14,7 +14,7 @@ function LandingPage() {
                 <div className="container">
                     <div style={styles.heroContent}>
                         <div style={styles.badge}>
-                            🤖 Système Multi-Agents IA
+                            Système Multi-Agents IA
                         </div>
 
                         <h1 style={styles.titre}>
@@ -30,7 +30,7 @@ function LandingPage() {
 
                         <div style={styles.heroBtns}>
                             <Link to="/nouveau-projet" className="btn btn-primary">
-                                🚀 Générer un CDC maintenant
+                             Générer un CDC maintenant
                             </Link>
                         </div>
                     </div>
@@ -158,7 +158,7 @@ const styles = {
     badge: {
         display: 'inline-block',
         backgroundColor: '#dbeafe',
-        color: '#1e40af',
+        color: '#748ee6',
         padding: '6px 14px',
         borderRadius: '20px',
         fontSize: '13px',
@@ -170,10 +170,10 @@ const styles = {
         fontWeight: '700',
         lineHeight: '1.2',
         marginBottom: '20px',
-        color: '#0f172a'
+        color: '#2a4179'
     },
     titreBleu: {
-        color: '#2563eb'
+        color: '#0a193a'
     },
     description: {
         fontSize: '17px',
@@ -215,8 +215,8 @@ const styles = {
     etapeNumero: {
         width: '32px',
         height: '32px',
-        backgroundColor: '#dbeafe',
-        color: '#2563eb',
+        backgroundColor: '#fedbdb',
+        color: '#719cfa',
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
