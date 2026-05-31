@@ -15,9 +15,9 @@ dotenv.config();
 // Crée un pool de connexions avec les infos du .env
 const pool = mysql.createPool({
     host: process.env.DB_HOST,         // localhost
-    user: process.env.DB_USER,         // cdceps_user
-    password: process.env.DB_PASSWORD, // cdceps2024
-    database: process.env.DB_NAME,     // cdceps
+    user: process.env.DB_USER,         
+    password: process.env.DB_PASSWORD, 
+    database: process.env.DB_NAME,    
     
     // Nombre maximum de connexions simultanées
     connectionLimit: 10,

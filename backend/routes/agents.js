@@ -72,9 +72,9 @@ router.post('/generer/:projetId', async (req, res) => {
         // On le récupère depuis la promesse
         // mais on répond d'abord au frontend
         pipelinePromise.then(resultat => {
-            console.log(`✅ Pipeline terminé — CDC ID: ${resultat.cdcId}`);
+            console.log(`✅ Pipeline terminé - CDC ID: ${resultat.cdcId}`);
         }).catch(error => {
-            console.error('❌ Erreur pipeline :', error.message);
+            console.error(' Erreur pipeline :', error.message);
         });
 
         // Récupère le sessionUuid créé par l'orchestrateur
@@ -101,7 +101,7 @@ router.post('/generer/:projetId', async (req, res) => {
 
         return res.status(202).json({
             succes: true,
-            message: 'Pipeline démarré — suivez la progression via Socket.io',
+            message: 'Pipeline démarré - suivez la progression via Socket.io',
             data: {
                 projetId: parseInt(projetId),
                 // 202 Accepted = requête acceptée mais pas encore terminée
@@ -159,7 +159,7 @@ router.get('/session/:uuid', async (req, res) => {
 
 // GET /api/agents/sessions/:projetId
 // Retourne l'historique de toutes les sessions
-// d'un projet — utile pour voir les tentatives précédentes
+// d'un projet - utile pour voir les tentatives précédentes
 router.get('/sessions/:projetId', async (req, res) => {
     try {
         const [sessions] = await pool.execute(
