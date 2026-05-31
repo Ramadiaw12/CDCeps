@@ -47,7 +47,7 @@ router.get('/cdc', async (req, res) => {
     }
 });
 
-// ── GET /api/documents/cdc/:id ───────────────────────────────
+// GET /api/documents/cdc/:id 
 // Retourne le contenu complet d'un CDC
 router.get('/cdc/:id', async (req, res) => {
     try {
@@ -90,7 +90,7 @@ router.get('/cdc/:id', async (req, res) => {
     }
 });
 
-// ── GET /api/documents/cdc/:id/markdown ─────────────────────
+// GET /api/documents/cdc/:id/markdown
 // Télécharge le CDC en fichier Markdown
 router.get('/cdc/:id/markdown', async (req, res) => {
     try {
@@ -137,7 +137,7 @@ router.get('/cdc/:id/markdown', async (req, res) => {
     }
 });
 
-// ── GET /api/documents/cdc/:id/pdf ──────────────────────────
+// GET /api/documents/cdc/:id/pdf
 // Génère et télécharge le CDC en PDF
 // Processus : Markdown → HTML → PDF via Puppeteer
 router.get('/cdc/:id/pdf', async (req, res) => {
@@ -179,7 +179,7 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                         font-family: 'Arial', sans-serif;
                         font-size: 12px;
                         line-height: 1.6;
-                        color: #333;
+                        color: #918e8e;
                         max-width: 800px;
                         margin: 0 auto;
                         padding: 20px;
@@ -187,13 +187,13 @@ router.get('/cdc/:id/pdf', async (req, res) => {
 
                     /* En-tête du document */
                     .header {
-                        border-bottom: 3px solid #2563eb;
+                        border-bottom: 3px solid #000000;
                         padding-bottom: 20px;
                         margin-bottom: 30px;
                     }
 
                     .header h1 {
-                        color: #2563eb;
+                        color: #6082ca;
                         font-size: 22px;
                         margin: 0 0 5px 0;
                     }
@@ -206,7 +206,7 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                     /* Badge score de complétude */
                     .score-badge {
                         display: inline-block;
-                        background: #2563eb;
+                        background: #000000;
                         color: white;
                         padding: 4px 12px;
                         border-radius: 20px;
@@ -216,11 +216,11 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                     }
 
                     /* Titres */
-                    h1 { color: #1e40af; font-size: 20px; }
+                    h1 { color: #7c99f8; font-size: 20px; }
                     h2 { color: #2563eb; font-size: 16px;
                          border-bottom: 1px solid #e5e7eb;
                          padding-bottom: 5px; }
-                    h3 { color: #3b82f6; font-size: 14px; }
+                    h3 { color: #03193d; font-size: 14px; }
 
                     /* Tableaux */
                     table {
@@ -360,7 +360,7 @@ router.get('/cdc/:id/pdf', async (req, res) => {
     }
 });
 
-// ── POST /api/documents/rag ──────────────────────────────────
+// POST /api/documents/rag 
 // Indexe un nouveau document dans la base RAG
 // Utilisé par l'interface admin PHP pour ajouter
 // des anciens CDC comme références
@@ -405,7 +405,7 @@ router.post('/rag', async (req, res) => {
     }
 });
 
-// ── GET /api/documents/rag ───────────────────────────────────
+// GET /api/documents/rag 
 // Liste tous les documents RAG disponibles
 router.get('/rag', async (req, res) => {
     try {
