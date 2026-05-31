@@ -22,7 +22,7 @@ function ResultatPage() {
     const [erreur, setErreur]         = useState(null);
     const [exportPDF, setExportPDF]   = useState(false);
 
-    // ── Chargement du CDC ────────────────────────────────────
+    //  Chargement du CDC 
     useEffect(() => {
         const chargerCDC = async () => {
             try {
@@ -126,7 +126,7 @@ function ResultatPage() {
                     </div>
                 </div>
 
-                {/* ── Métadonnées du CDC ───────────────────── */}
+                {/*  Métadonnées du CDC  */}
                 <div style={styles.metaGrid}>
                     <div className="card" style={styles.metaCard}>
                         <div style={styles.metaLabel}>Score de complétude</div>
@@ -172,7 +172,7 @@ function ResultatPage() {
                     </div>
                 </div>
 
-                {/* ── Sections manquantes ──────────────────── */}
+                {/*  Sections manquantes  */}
                 {cdc.sections_manquantes?.length > 0 && (
                     <div style={styles.avertissement}>
                         <strong>Sections à compléter :</strong>
@@ -186,7 +186,7 @@ function ResultatPage() {
                     </div>
                 )}
 
-                {/* ── Contenu du CDC */}
+                {/*  Contenu du CDC */}
                 <div className="card" style={styles.cdcCard}>
                     <CDCViewer contenu={cdc.contenu_markdown} />
                 </div>
