@@ -2,9 +2,9 @@
 // routes/agents.js
 // Endpoints pour déclencher et suivre le pipeline multi-agents
 //
-// POST /api/agents/generer/:projetId → Lance le pipeline
-// GET  /api/agents/session/:uuid     → Statut d'une session
-// GET  /api/agents/sessions/:projetId → Historique sessions
+// POST /api/agents/generer/:projetId = Lance le pipeline
+// GET  /api/agents/session/:uuid     = Statut d'une session
+// GET  /api/agents/sessions/:projetId = Historique sessions
 // ============================================================
 
 import express from 'express';
