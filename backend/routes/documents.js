@@ -18,7 +18,7 @@ import { indexerDocument } from '../services/ragService.js';
 
 const router = express.Router();
 
-// ── GET /api/documents/cdc ───────────────────────────────────
+// GET /api/documents/cdc 
 // Liste tous les CDC générés avec leurs métadonnées
 router.get('/cdc', async (req, res) => {
     try {

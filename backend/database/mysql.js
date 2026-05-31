@@ -36,7 +36,7 @@ export const testConnection = async () => {
     try {
         // Prend une connexion du pool et envoie un ping
         const connection = await pool.getConnection();
-        console.log('✅ Connexion MySQL établie avec succès');
+        console.log('Connexion MySQL établie avec succès');
         
         // Libère la connexion pour qu'elle retourne dans le pool
         connection.release();
@@ -44,7 +44,7 @@ export const testConnection = async () => {
         console.error('Erreur de connexion MySQL :', error.message);
         
         // Si on ne peut pas se connecter à la base,
-        // inutile de continuer — on arrête le serveur
+        // inutile de continuer  on arrête le serveur
         process.exit(1);
     }
 };

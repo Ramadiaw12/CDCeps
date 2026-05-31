@@ -72,7 +72,7 @@ router.post('/generer/:projetId', async (req, res) => {
         // On le récupère depuis la promesse
         // mais on répond d'abord au frontend
         pipelinePromise.then(resultat => {
-            console.log(`✅ Pipeline terminé - CDC ID: ${resultat.cdcId}`);
+            console.log(`Pipeline terminé - CDC ID: ${resultat.cdcId}`);
         }).catch(error => {
             console.error(' Erreur pipeline :', error.message);
         });
