@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 function LandingPage() {
     return (
         <div className="page">
-            {/* ── Hero Section ─────────────────────────────── */}
+            {/*  Hero Section  */}
             <section style={styles.hero}>
                 <div className="container">
                     <div style={styles.heroContent}>
@@ -37,7 +37,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* ── Comment ça marche ────────────────────────── */}
+            {/*  Comment ça marche  */}
             <section style={styles.section}>
                 <div className="container">
                     <h2 style={styles.sectionTitre}>Comment ça marche ?</h2>
@@ -55,7 +55,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* ── Les 4 Agents ─────────────────────────────── */}
+            {/*  Les 4 Agents  */}
             <section style={{ ...styles.section, backgroundColor: '#f1f5f9' }}>
                 <div className="container">
                     <h2 style={styles.sectionTitre}>Les 4 agents IA</h2>
@@ -81,7 +81,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* ── CTA Final ────────────────────────────────── */}
+            {/*  CTA Final  */}
             <section style={styles.cta}>
                 <div className="container" style={styles.ctaContent}>
                     <h2 style={styles.ctaTitre}>
@@ -96,7 +96,7 @@ function LandingPage() {
     );
 }
 
-// ── Données ──────────────────────────────────────────────────
+//  Données 
 
 const etapes = [
     {
@@ -144,7 +144,7 @@ const agents = [
     }
 ];
 
-// ── Styles ───────────────────────────────────────────────────
+//  Styles 
 
 const styles = {
     hero: {

@@ -36,7 +36,7 @@ function FormulairePage() {
     const [chargement, setChargement] = useState(false);
     const [etape, setEtape]           = useState(1); // 1 = client, 2 = projet
 
-    // ── Mise à jour des champs ───────────────────────────────
+    //  Mise à jour des champs 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormulaire(prev => ({ ...prev, [name]: value }));
@@ -47,7 +47,7 @@ function FormulairePage() {
         }
     };
 
-    // ── Validation ───────────────────────────────────────────
+    //  Validation 
     const validerEtape1 = () => {
         const nouvellesErreurs = {};
 
@@ -78,14 +78,14 @@ function FormulairePage() {
         return Object.keys(nouvellesErreurs).length === 0;
     };
 
-    // ── Navigation entre étapes ──────────────────────────────
+    //  Navigation entre étapes 
     const etapeSuivante = () => {
         if (validerEtape1()) setEtape(2);
     };
 
     const etapePrecedente = () => setEtape(1);
 
-    // ── Soumission du formulaire ─────────────────────────────
+    //  Soumission du formulaire 
     const handleSubmit = async () => {
         if (!validerEtape2()) return;
 
@@ -118,7 +118,7 @@ function FormulairePage() {
         }
     };
 
-    // ── Rendu ────────────────────────────────────────────────
+    //  Rendu 
     return (
         <div className="page">
             <div className="container">
@@ -396,7 +396,7 @@ function FormulairePage() {
     );
 }
 
-// ── Styles ───────────────────────────────────────────────────
+//  Styles 
 const styles = {
     wrapper: {
         maxWidth: '680px',

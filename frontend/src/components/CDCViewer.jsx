@@ -66,7 +66,7 @@ function CDCViewer({ contenu }) {
     );
 }
 
-// ── Styles ───────────────────────────────────────────────────
+//  Styles 
 const styles = {
     container: {
         fontFamily: "'Inter', 'Segoe UI', sans-serif",

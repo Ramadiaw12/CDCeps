@@ -93,7 +93,7 @@ function AgentProgressBar({ agents, agentActif, messages }) {
                 })}
             </div>
 
-            {/* ── Journal des messages en temps réel ──────── */}
+            {/*  Journal des messages en temps réel  */}
             {messages.length > 0 && (
                 <div style={styles.journal}>
                     <div style={styles.journalTitre}>
@@ -115,7 +115,7 @@ function AgentProgressBar({ agents, agentActif, messages }) {
     );
 }
 
-// ── Styles ───────────────────────────────────────────────────
+//  Styles 
 const styles = {
     container: {
         width: '100%'

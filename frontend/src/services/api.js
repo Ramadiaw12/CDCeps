@@ -22,7 +22,7 @@ const api = axios.create({
     timeout: 30000
 });
 
-// ── Projets ──────────────────────────────────────────────────
+//  Projets 
 
 // Crée un nouveau client + projet
 export const creerProjet = async (donneesFormulaire) => {
@@ -42,7 +42,7 @@ export const getProjet = async (projetId) => {
     return response.data;
 };
 
-// ── Agents ───────────────────────────────────────────────────
+//  Agents 
 
 // Lance le pipeline multi-agents pour un projet
 export const lancerGeneration = async (projetId) => {
@@ -56,7 +56,7 @@ export const getSession = async (sessionUuid) => {
     return response.data;
 };
 
-// ── Documents CDC ─────────────────────────────────────────────
+//  Documents CDC 
 
 // Récupère la liste de tous les CDC
 export const listerCDC = async () => {

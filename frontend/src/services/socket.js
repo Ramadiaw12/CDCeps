@@ -17,7 +17,7 @@ const socket = io(SOCKET_URL, {
     autoConnect: false
 });
 
-// ── Fonctions utilitaires ────────────────────────────────────
+//  Fonctions utilitaires 
 
 // Connecte le socket et rejoint une session spécifique
 // Appelé quand la page de génération s'ouvre
