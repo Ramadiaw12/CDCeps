@@ -1,22 +1,29 @@
 // ============================================================
 // components/Navbar.jsx
-// Barre de navigation présente sur toutes les pages
+// Barre de navigation avec bouton dark/light mode
 // ============================================================
 
 import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '../context/ThemeContext.jsx';
 
 function Navbar() {
-    // Récupère l'URL actuelle pour mettre en évidence
-    // le lien de la page active
-    const location = useLocation();
+    const location  = useLocation();
+    const { theme, toggleTheme } = useTheme();
 
     const estActif = (chemin) => location.pathname === chemin;
 
     return (
-        <nav style={styles.nav}>
+        <nav style={{
+            ...styles.nav,
+            backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+            borderBottom: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
+        }}>
             <div style={styles.container}>
-                {/* Logo / Nom de l'application */}
-                <Link to="/" style={styles.logo}>
+                {/* Logo */}
+                <Link to="/" style={{
+                    ...styles.logo,
+                    color: theme === 'dark' ? '#f1f5f9' : '#1e293b'
+                }}>
                     <span style={styles.logoIcon}>📋</span>
                     <span>CDC<strong>EPS</strong></span>
                 </Link>
@@ -27,7 +34,9 @@ function Navbar() {
                         to="/"
                         style={{
                             ...styles.lien,
-                            ...(estActif('/') ? styles.lienActif : {})
+                            color: estActif('/')
+                                ? '#2563eb'
+                                : theme === 'dark' ? '#94a3b8' : '#64748b'
                         }}
                     >
                         Accueil
@@ -37,11 +46,27 @@ function Navbar() {
                         to="/nouveau-projet"
                         style={{
                             ...styles.lien,
-                            ...(estActif('/nouveau-projet') ? styles.lienActif : {})
+                            color: estActif('/nouveau-projet')
+                                ? '#2563eb'
+                                : theme === 'dark' ? '#94a3b8' : '#64748b'
                         }}
                     >
                         Nouveau projet
                     </Link>
+
+                    {/* Bouton dark/light mode */}
+                    <button
+                        onClick={toggleTheme}
+                        style={{
+                            ...styles.btnTheme,
+                            backgroundColor: theme === 'dark' ? '#334155' : '#f1f5f9',
+                            color: theme === 'dark' ? '#f1f5f9' : '#1e293b',
+                            border: `1px solid ${theme === 'dark' ? '#475569' : '#e2e8f0'}`
+                        }}
+                        title={theme === 'dark' ? 'Passer en mode clair' : 'Passer en mode sombre'}
+                    >
+                        {theme === 'dark' ? '☀️ Clair' : '🌙 Sombre'}
+                    </button>
 
                     {/* Bouton principal */}
                     <Link to="/nouveau-projet" style={styles.btnNav}>
@@ -53,18 +78,16 @@ function Navbar() {
     );
 }
 
-// Styles inline pour la navbar
 const styles = {
     nav: {
-        backgroundColor: '#ffffff',
-        borderBottom: '1px solid #e2e8f0',
         height: '64px',
         display: 'flex',
         alignItems: 'center',
         position: 'sticky',
         top: 0,
         zIndex: 100,
-        boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+        transition: 'background-color 0.3s'
     },
     container: {
         maxWidth: '1100px',
@@ -80,9 +103,9 @@ const styles = {
         alignItems: 'center',
         gap: '8px',
         fontSize: '18px',
-        color: '#1e293b',
         textDecoration: 'none',
-        fontWeight: '400'
+        fontWeight: '400',
+        transition: 'color 0.3s'
     },
     logoIcon: {
         fontSize: '22px'
@@ -90,17 +113,24 @@ const styles = {
     liens: {
         display: 'flex',
         alignItems: 'center',
-        gap: '24px'
+        gap: '20px'
     },
     lien: {
-        color: '#64748b',
         textDecoration: 'none',
         fontSize: '14px',
         fontWeight: '500',
         transition: 'color 0.2s'
     },
-    lienActif: {
-        color: '#2563eb'
+    btnTheme: {
+        padding: '7px 14px',
+        borderRadius: '8px',
+        fontSize: '13px',
+        fontWeight: '500',
+        cursor: 'pointer',
+        transition: 'all 0.3s',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px'
     },
     btnNav: {
         backgroundColor: '#2563eb',
