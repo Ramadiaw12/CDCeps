@@ -10,7 +10,7 @@
 // (session, autoload, connexion DB, constantes)
 require_once __DIR__ . '/config/config.php';
 
-// ── Routing des actions ──────────────────────────────────────
+// Routing des actions
 // Les actions sont des opérations POST (créer, modifier, supprimer)
 // Elles redirigent après exécution
 $action = $_GET['action'] ?? null;
@@ -18,13 +18,13 @@ $action = $_GET['action'] ?? null;
 if ($action) {
     switch ($action) {
 
-        // ── Projets ──────────────────────────────────────────
+        // Projets
         case 'update_statut':
             $controller = new ProjetController();
             $controller->updateStatut();
             break;
 
-        // ── CDC ──────────────────────────────────────────────
+        // CDC
         case 'cdc_finaliser':
             $controller = new CDCController();
             $controller->finaliser();
@@ -35,7 +35,7 @@ if ($action) {
             $controller->exportMarkdown();
             break;
 
-        // ── RAG ──────────────────────────────────────────────
+        // RAG
         case 'rag_ajouter':
             $controller = new RAGController();
             $controller->ajouter();
@@ -58,7 +58,7 @@ if ($action) {
     }
 }
 
-// ── Routing des pages ────────────────────────────────────────
+// Routing des pages
 // Les pages sont des vues GET (afficher du contenu)
 $page = $_GET['page'] ?? 'dashboard';
 

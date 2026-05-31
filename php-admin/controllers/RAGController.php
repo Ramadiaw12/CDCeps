@@ -91,7 +91,7 @@ class RAGController {
         exit;
     }
 
-    // ── Supprime un document ─────────────────────────────────
+    // Supprime un document
     public function supprimer(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = (int) ($_POST['id'] ?? 0);

@@ -16,7 +16,7 @@ class Database {
     // Instance PDO partagée (singleton)
     private static $instance = null;
 
-    // ── Singleton ────────────────────────────────────────────
+    //  Singleton 
     // On crée une seule connexion et on la réutilise
     // dans tout le projet PHP
     public static function getInstance(): PDO {

@@ -12,7 +12,7 @@ class Projet {
         $this->db = Database::getInstance();
     }
 
-    // ── Récupère tous les projets ────────────────────────────
+    // Récupère tous les projets
     public function getTous(): array {
         $stmt = $this->db->prepare(
             "SELECT p.id, p.titre, p.type_projet, p.statut,
@@ -30,7 +30,7 @@ class Projet {
         return $stmt->fetchAll();
     }
 
-    // ── Récupère un projet par son ID ────────────────────────
+    // Récupère un projet par son ID
     public function getById(int $id): array|false {
         $stmt = $this->db->prepare(
             "SELECT p.*, c.nom, c.prenom, c.email,
@@ -43,7 +43,7 @@ class Projet {
         return $stmt->fetch();
     }
 
-    // ── Statistiques pour le dashboard ──────────────────────
+    // Statistiques pour le dashboard
     public function getStats(): array {
         // Nombre total de projets
         $total = $this->db->query(
@@ -80,7 +80,7 @@ class Projet {
         ];
     }
 
-    // ── Met à jour le statut d'un projet ────────────────────
+    // Met à jour le statut d'un projet
     public function updateStatut(int $id, string $statut): bool {
         $stmt = $this->db->prepare(
             "UPDATE projets SET statut = ? WHERE id = ?"

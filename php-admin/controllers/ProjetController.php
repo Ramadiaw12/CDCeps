@@ -11,14 +11,14 @@ class ProjetController {
         $this->projet = new Projet();
     }
 
-    // ── Liste tous les projets ───────────────────────────────
+    // Liste tous les projets 
     public function index(): void {
         $projets = $this->projet->getTous();
         $vue = 'projets';
         require_once __DIR__ . '/../views/layout.php';
     }
 
-    // ── Met à jour le statut d'un projet ────────────────────
+    // Met à jour le statut d'un projet 
     public function updateStatut(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id     = (int) ($_POST['id'] ?? 0);

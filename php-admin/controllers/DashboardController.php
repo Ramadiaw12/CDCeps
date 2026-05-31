@@ -16,7 +16,7 @@ class DashboardController {
         $this->documentRAG = new DocumentRAG();
     }
 
-    // ── Page principale du dashboard ────────────────────────
+    //  Page principale du dashboard 
     public function index(): void {
         // Récupère toutes les statistiques
         $stats = [

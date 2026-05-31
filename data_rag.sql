@@ -9,7 +9,7 @@ USE cdceps;
 
 INSERT INTO documents_rag (titre, type_projet, secteur, contenu, mots_cles) VALUES
 
--- ── Document 1 : Application Web RH ─────────────────────────
+-- ── Document 1 : Application Web RH 
 (
 'CDC - Application de gestion des ressources humaines',
 'application_web',
@@ -66,7 +66,7 @@ entièrement manuel basé sur des fichiers Excel.
 '["RH", "ressources humaines", "paie", "congés", "employés", "pointage"]'
 ),
 
--- ── Document 2 : E-commerce ──────────────────────────────────
+-- ── Document 2 : E-commerce 
 (
 'CDC - Plateforme e-commerce vente en ligne',
 'ecommerce',
@@ -233,7 +233,7 @@ et logistique sur une seule plateforme.
 '["ERP", "gestion commerciale", "comptabilité", "stocks", "facturation", "CRM", "multi-agences"]'
 ),
 
--- ── Document 5 : API Backend ────────────────────────────────
+-- ── Document 5 : API Backend 
 (
 'CDC - API REST microservices fintech',
 'api',

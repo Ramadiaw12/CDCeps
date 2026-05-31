@@ -11,7 +11,7 @@ class CDC {
         $this->db = Database::getInstance();
     }
 
-    // ── Récupère tous les CDC ────────────────────────────────
+    // Récupère tous les CDC
     public function getTous(): array {
         $stmt = $this->db->prepare(
             "SELECT cdc.id, cdc.score_completude, cdc.statut,
@@ -27,7 +27,7 @@ class CDC {
         return $stmt->fetchAll();
     }
 
-    // ── Récupère un CDC complet ──────────────────────────────
+    // Récupère un CDC complet
     public function getById(int $id): array|false {
         $stmt = $this->db->prepare(
             "SELECT cdc.*,
@@ -53,7 +53,7 @@ class CDC {
         return $cdc;
     }
 
-    // ── Statistiques CDC ─────────────────────────────────────
+    // Statistiques CDC
     public function getStats(): array {
         // Total CDC générés
         $total = $this->db->query(
@@ -80,7 +80,7 @@ class CDC {
         ];
     }
 
-    // ── Finalise un CDC ──────────────────────────────────────
+    // Finalise un CDC
     public function finaliser(int $id): bool {
         $stmt = $this->db->prepare(
             "UPDATE cahiers_des_charges

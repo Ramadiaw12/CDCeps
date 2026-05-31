@@ -11,14 +11,14 @@ class CDCController {
         $this->cdc = new CDC();
     }
 
-    // ── Liste tous les CDC ───────────────────────────────────
+    //  Liste tous les CDC 
     public function index(): void {
         $cdcs = $this->cdc->getTous();
         $vue  = 'cdcs';
         require_once __DIR__ . '/../views/layout.php';
     }
 
-    // ── Détail d'un CDC ──────────────────────────────────────
+    //  Détail d'un CDC 
     public function detail(): void {
         $id  = (int) ($_GET['id'] ?? 0);
         $cdc = $this->cdc->getById($id);
@@ -33,7 +33,7 @@ class CDCController {
         require_once __DIR__ . '/../views/layout.php';
     }
 
-    // ── Finalise un CDC ──────────────────────────────────────
+    //  Finalise un CDC 
     public function finaliser(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = (int) ($_POST['id'] ?? 0);
@@ -48,7 +48,7 @@ class CDCController {
         exit;
     }
 
-    // ── Export Markdown ──────────────────────────────────────
+    //  Export Markdown 
     public function exportMarkdown(): void {
         $id  = (int) ($_GET['id'] ?? 0);
         $cdc = $this->cdc->getById($id);

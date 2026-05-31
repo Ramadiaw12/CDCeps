@@ -11,7 +11,7 @@ class DocumentRAG {
         $this->db = Database::getInstance();
     }
 
-    // ── Récupère tous les documents RAG ─────────────────────
+    // Récupère tous les documents RAG
     public function getTous(): array {
         $stmt = $this->db->prepare(
             "SELECT id, titre, type_projet, secteur,
@@ -24,7 +24,7 @@ class DocumentRAG {
         return $stmt->fetchAll();
     }
 
-    // ── Active ou désactive un document ─────────────────────
+    // Active ou désactive un document
     public function toggleActif(int $id): bool {
         $stmt = $this->db->prepare(
             "UPDATE documents_rag
@@ -34,7 +34,7 @@ class DocumentRAG {
         return $stmt->execute([$id]);
     }
 
-    // ── Supprime un document ─────────────────────────────────
+    // Supprime un document
     public function supprimer(int $id): bool {
         $stmt = $this->db->prepare(
             "DELETE FROM documents_rag WHERE id = ?"
@@ -42,7 +42,7 @@ class DocumentRAG {
         return $stmt->execute([$id]);
     }
 
-    // ── Statistiques RAG ─────────────────────────────────────
+    // Statistiques RAG 
     public function getStats(): array {
         $total = $this->db->query(
             "SELECT COUNT(*) FROM documents_rag"
