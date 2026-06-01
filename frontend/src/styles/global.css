@@ -4,45 +4,41 @@
     margin: 0;
     padding: 0;
 }
-
-/* ── Thème clair ────────────────────────────────────────────── */
 [data-theme="light"] {
-    --bg:              #f8fafc;
-    --surface:         #ffffff;
-    --surface-hover:   #f1f5f9;
-    --border:          #e2e8f0;
-    --text:            #1e293b;
-    --text-muted:      #64748b;
-    --text-hint:       #94a3b8;
-    --primary:         #5488f8;
-    --primary-dark:    #5488f8;
-    --primary-light:   #dbeafe;
+    --bg:              #F5F0E8;
+    --surface:         #FAFAF7;
+    --surface-hover:   #EDE8DC;
+    --border:          #D4C9B0;
+    --text:            #0A0A0A;
+    --text-muted:      #4A4A4A;
+    --text-hint:       #7A7A7A;
+    --primary:         #87CEEB;
+    --primary-dark:    #5BB8DE;
+    --primary-light:   #D6EFFA;
     --success:         #10b981;
-    --warning:         #f1b958;
-    --danger:          #f08f8f;
+    --warning:         #f59e0b;
+    --danger:          #ef4444;
     --shadow:          0 1px 3px rgba(0,0,0,0.08);
     --shadow-md:       0 4px 6px rgba(0,0,0,0.07);
 }
 
-/* ── Thème sombre ───────────────────────────────────────────── */
 [data-theme="dark"] {
-    --bg:              #0f172a;
-    --surface:         #1e293b;
-    --surface-hover:   #273549;
-    --border:          #334155;
-    --text:            #f1f5f9;
-    --text-muted:      #94a3b8;
-    --text-hint:       #64748b;
-    --primary:         #3b82f6;
-    --primary-dark:    #2563eb;
-    --primary-light:   #1e3a5f;
+    --bg:              #0A0A0A;
+    --surface:         #141414;
+    --surface-hover:   #1E1E1E;
+    --border:          #2A2A2A;
+    --text:            #F5F0E8;
+    --text-muted:      #B8B0A0;
+    --text-hint:       #7A7470;
+    --primary:         #87CEEB;
+    --primary-dark:    #5BB8DE;
+    --primary-light:   #0D2A36;
     --success:         #10b981;
     --warning:         #f59e0b;
     --danger:          #ef4444;
-    --shadow:          0 1px 3px rgba(0,0,0,0.4);
-    --shadow-md:       0 4px 6px rgba(0,0,0,0.3);
+    --shadow:          0 1px 3px rgba(0,0,0,0.5);
+    --shadow-md:       0 4px 6px rgba(0,0,0,0.4);
 }
-
 /* ── Base ───────────────────────────────────────────────────── */
 body {
     font-family: 'Inter', 'Segoe UI', sans-serif;
