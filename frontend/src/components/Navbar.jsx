@@ -76,6 +76,34 @@ function Navbar() {
             textDecoration: 'none',
             fontSize: '14px',
             fontWeight: '600'
+        },
+        logoText: {
+            display: 'flex',
+            alignItems: 'baseline',
+            gap: '1px',
+            letterSpacing: '-1px'
+        },
+        logoCDC: {
+            fontFamily: "'Georgia', serif",
+            fontSize: '22px',
+            fontWeight: '900',
+            color: '#87CEEB',
+            textTransform: 'uppercase',
+            letterSpacing: '2px'
+        },
+        logoEPS: {
+            fontFamily: "'Georgia', serif",
+            fontSize: '18px',
+            fontWeight: '400',
+            color: theme === 'dark' ? '#F5F0E8' : '#0A0A0A',
+            letterSpacing: '3px',
+            fontStyle: 'italic'
+        },
+        logoDot: {
+            fontSize: '28px',
+            color: '#87CEEB',
+            fontWeight: '900',
+            lineHeight: '1'
         }
     };
 
@@ -84,7 +112,11 @@ function Navbar() {
             <div style={styles.container}>
                 <Link to="/" style={styles.logo}>
                     <span style={styles.logoIcon}>📋</span>
-                    <span>CDC<strong>EPS</strong></span>
+                    <span style={styles.logoText}>
+                        <span style={styles.logoCDC}>CDC</span>
+                        <span style={styles.logoEPS}>EPS</span>
+                        <span style={styles.logoDot}>.</span>
+                    </span>
                 </Link>
 
                 <div style={styles.liens}>
