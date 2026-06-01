@@ -14,12 +14,12 @@
     --text:            #1e293b;
     --text-muted:      #64748b;
     --text-hint:       #94a3b8;
-    --primary:         #2563eb;
-    --primary-dark:    #1d4ed8;
+    --primary:         #5488f8;
+    --primary-dark:    #5488f8;
     --primary-light:   #dbeafe;
     --success:         #10b981;
-    --warning:         #f59e0b;
-    --danger:          #ef4444;
+    --warning:         #f1b958;
+    --danger:          #f08f8f;
     --shadow:          0 1px 3px rgba(0,0,0,0.08);
     --shadow-md:       0 4px 6px rgba(0,0,0,0.07);
 }
