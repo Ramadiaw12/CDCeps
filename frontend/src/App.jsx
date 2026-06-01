@@ -11,6 +11,7 @@ import FormulairePage  from './pages/FormulairePage.jsx';
 import GenerationPage  from './pages/GenerationPage.jsx';
 import ResultatPage    from './pages/ResultatPage.jsx';
 import Navbar          from './components/Navbar.jsx';
+import Footer         from './components/Footer.jsx';
 import './styles/global.css';
 
 
@@ -33,6 +34,7 @@ function App() {
                     {/* :cdcId = l'id du CDC généré */}
                     <Route path="/resultat/:cdcId" element={<ResultatPage />} />
                 </Routes>
+                <Footer />
             </BrowserRouter>
         </ThemeProvider>
     );
