@@ -272,7 +272,7 @@ const styles = {
         lineHeight: '1.6'
     },
     cta: {
-        backgroundColor: 'var(--primary)',
+        backgroundColor: '#87CEEB',
         padding: '60px 0'
     },
     ctaContent: {
@@ -285,7 +285,7 @@ const styles = {
     ctaTitre: {
         fontSize: '24px',
         fontWeight: '700',
-        color: '#ffffff'
+        color: '#0A0A0A'
     }
 };
 

@@ -14,10 +14,10 @@ function Navbar() {
 
     return (
         <nav style={{
-            ...styles.nav,
-            backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-            borderBottom: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`
-        }}>
+                ...styles.nav,
+                backgroundColor: theme === 'dark' ? '#141414' : '#FAFAF7',
+                borderBottom: `1px solid ${theme === 'dark' ? '#2A2A2A' : '#D4C9B0'}`
+            }}>
             <div style={styles.container}>
                 {/* Logo */}
                 <Link to="/" style={{
