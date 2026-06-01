@@ -130,7 +130,10 @@ const styles = {
         transition: 'all 0.3s',
         display: 'flex',
         alignItems: 'center',
-        gap: '6px'
+        gap: '6px',
+        backgroundColor: theme === 'dark' ? '#1E1E1E' : '#D6EFFA',
+        color: theme === 'dark' ? '#87CEEB' : '#0A0A0A',
+        border: `1px solid ${theme === 'dark' ? '#2A2A2A' : '#87CEEB'}`
     },
     btnNav: {
         backgroundColor: '#2563eb',
