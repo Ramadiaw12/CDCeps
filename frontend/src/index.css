@@ -1,10 +1,10 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
+  --text: #aca2b8;
+  --text-h: #170a38;
+  --bg: #fdbcbcd8;
+  --border: #aceef3;
   --code-bg: #f4f3ec;
-  --accent: #aa3bff;
+  --accent: #aa81ca;
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
