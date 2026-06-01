@@ -18,6 +18,8 @@ export function ThemeProvider({ children }) {
 
     // Applique le thème sur le body à chaque changement
     useEffect(() => {
+    
+        document.documentElement.setAttribute('data-theme', theme);
         document.body.setAttribute('data-theme', theme);
         localStorage.setItem('cdceps-theme', theme);
     }, [theme]);
