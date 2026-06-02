@@ -18,7 +18,7 @@ function LandingPage() {
                     <div className="hero-content">
                         <div className="hero-badge">
                             <span className="hero-badge-dot"></span>
-                            🤖 Système Multi-Agents IA
+                             Système Multi-Agents IA
                         </div>
 
                         <h1 className="hero-title">
