@@ -1139,3 +1139,98 @@ body {
     width: 100%;
     overflow-x: hidden;
 }
+
+/* Suppression de la double scrollbar sur la page formulaire */
+.formulaire-page {
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+    min-height: 100vh;
+}
+
+/* Permet au formulaire de s'adapter à la hauteur sans scroll inutile */
+.formulaire-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+/* La card s'adapte naturellement à son contenu */
+.formulaire-card {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 32px 40px;
+    position: relative;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.6s ease-out;
+    overflow: visible;
+    margin-bottom: 40px;
+}
+
+/* Ajustement du padding sur mobile */
+@media (max-width: 640px) {
+    .formulaire-card {
+        padding: 24px;
+    }
+}
+
+/* S'assurer que le body n'a pas de scroll en trop */
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    position: relative;
+}
+
+/* Le container principal ne doit pas créer de scroll supplémentaire */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+/* La page doit prendre toute la hauteur sans créer de scroll inutile */
+.page {
+    min-height: auto;
+    padding: 40px 0;
+    background-color: var(--bg);
+    transition: background-color 0.3s;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+/* Correction des orbes pour ne pas créer de scroll */
+.formulaire-orb-1,
+.formulaire-orb-2 {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.formulaire-orb-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    opacity: 0.1;
+    animation: float 10s ease-in-out infinite;
+}
+
+.formulaire-orb-2 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, var(--primary-dark) 0%, transparent 70%);
+    bottom: -80px;
+    left: -80px;
+    opacity: 0.08;
+    animation: floatReverse 12s ease-in-out infinite;
+}
