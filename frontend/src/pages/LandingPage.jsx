@@ -4,7 +4,7 @@
 
 import { Link } from 'react-router-dom';
 import { useState } from 'react';  // ← IMPORTANT : décommentez cette ligne
-import Documentation from './Documentation';  // Assurez-vous que le fichier existe
+import Documentation from "../components/Documentation";
 
 function LandingPage() {
     const [showDoc, setShowDoc] = useState(false);
