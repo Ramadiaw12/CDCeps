@@ -9,96 +9,137 @@ import { Link } from 'react-router-dom';
 function LandingPage() {
     return (
         <div className="page">
-            {/*  Hero Section  */}
-            <section className="hero-section" style={styles.hero}>
-                <div className="container" style={styles.container}>
-                    <div style={styles.heroContent}>
-                    <div className="hero-badge" style={styles.badge}>
-                        <span className="badge-dot" style={styles.badgeDot}></span>
-                        Système Multi-Agents IA
+            {/* Hero Section - Design animé attractif */}
+            <section className="hero">
+                <div className="container hero-container">
+                    <div className="hero-content">
+                        <div className="hero-badge">
+                            <span className="hero-badge-dot"></span>
+                            🤖 Système Multi-Agents IA
+                        </div>
+
+                        <h1 className="hero-title">
+                            Générez vos cahiers des charges
+                            <span className="hero-title-gradient"> en quelques minutes</span>
+                        </h1>
+
+                        <p className="hero-description">
+                            CDCEPS automatise l'analyse des besoins clients et génère
+                            des cahiers des charges préliminaires professionnels grâce
+                            à l'intelligence artificielle et au système multi-agents.
+                        </p>
+
+                        <div className="hero-buttons">
+                            <Link to="/nouveau-projet" className="btn btn-primary hero-btn-primary">
+                                ✨ Générer un CDC maintenant
+                                <span className="hero-btn-arrow">→</span>
+                            </Link>
+                            <button className="btn hero-btn-secondary">
+                                🎥 Voir la démo
+                            </button>
+                        </div>
+
+                        {/* Statistiques */}
+                        <div className="hero-stats">
+                            <div className="hero-stat">
+                                <div className="hero-stat-number">500+</div>
+                                <div className="hero-stat-label">CDG générés</div>
+                            </div>
+                            <div className="hero-stat">
+                                <div className="hero-stat-number">98%</div>
+                                <div className="hero-stat-label">Satisfaction</div>
+                            </div>
+                            <div className="hero-stat">
+                                <div className="hero-stat-number">10min</div>
+                                <div className="hero-stat-label">Gain de temps</div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <h1 style={styles.titre}>
-                        Générez vos cahiers des charges
-                        <span style={styles.titreBleu}> en quelques minutes</span>
-                    </h1>
-
-                    <p style={styles.description}>
-                        CDCEPS automatise l'analyse des besoins clients et génère
-                        des cahiers des charges préliminaires professionnels grâce
-                        à l'intelligence artificielle et au système multi-agents.
-                    </p>
-
-                    <div style={styles.heroBtns}>
-                        <Link to="/nouveau-projet" className="btn-hero-primary" style={styles.btnPrimary}>
-                        ✨ Générer un CDC maintenant
-                        <span style={styles.btnArrow}>→</span>
-                        </Link>
-                        <button className="btn-hero-secondary" style={styles.btnSecondary}>
-                        🎥 Voir la démo
-                        </button>
-                    </div>
-
-                    {/* Éléments décoratifs animés */}
-                    <div className="orb orb-1" style={styles.floatingOrb1}></div>
-                    <div className="orb orb-2" style={styles.floatingOrb2}></div>
-                    <div className="orb orb-3" style={styles.floatingOrb3}></div>
-                    </div>
+                {/* Éléments décoratifs animés */}
+                <div className="hero-orb hero-orb-1"></div>
+                <div className="hero-orb hero-orb-2"></div>
+                <div className="hero-orb hero-orb-3"></div>
+                <div className="hero-orb hero-orb-4"></div>
+                
+                {/* Vague décorative */}
+                <div className="hero-wave">
+                    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <path d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="currentColor" opacity="0.05"></path>
+                    </svg>
                 </div>
             </section>
 
-            {/*  Comment ça marche  */}
-            <section style={styles.section}>
+            {/* Comment ça marche */}
+            <section className="section">
                 <div className="container">
-                    <h2 style={styles.sectionTitre}>Comment ça marche ?</h2>
+                    <h2 className="section-title">Comment ça marche ?</h2>
+                    <p className="section-subtitle">
+                        Un processus simple et rapide en 4 étapes
+                    </p>
 
-                    <div style={styles.etapesGrid}>
+                    <div className="steps-grid">
                         {etapes.map((etape, index) => (
-                            <div key={index} className="card" style={styles.etapeCard}>
-                                <div style={styles.etapeNumero}>{index + 1}</div>
-                                <div style={styles.etapeIcone}>{etape.icone}</div>
-                                <h3 style={styles.etapeTitre}>{etape.titre}</h3>
-                                <p style={styles.etapeDesc}>{etape.description}</p>
+                            <div key={index} className="card step-card">
+                                <div className="step-number">{index + 1}</div>
+                                <div className="step-icon">{etape.icone}</div>
+                                <h3 className="step-title">{etape.titre}</h3>
+                                <p className="step-description">{etape.description}</p>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/*  Les 4 Agents  */}
-            <section style={{ ...styles.section}}>
+            {/* Les 4 Agents */}
+            <section className="section section-alt">
                 <div className="container">
-                    <h2 style={styles.sectionTitre}>Les 4 agents IA</h2>
-                    <p style={styles.sectionDesc}>
+                    <h2 className="section-title">Les 4 agents IA</h2>
+                    <p className="section-subtitle">
                         Chaque agent est spécialisé dans une tâche précise
                         et travaille en pipeline pour produire un CDC de qualité.
                     </p>
 
-                    <div style={styles.agentsGrid}>
+                    <div className="agents-grid">
                         {agents.map((agent, index) => (
-                            <div key={index} className="card" style={styles.agentCard}>
-                                <div style={{
-                                    ...styles.agentNumero,
-                                    backgroundColor: agent.couleur
-                                }}>
+                            <div key={index} className="card agent-card">
+                                <div 
+                                    className="agent-number"
+                                    style={{ backgroundColor: agent.couleur }}
+                                >
                                     {index + 1}
                                 </div>
-                                <h3 style={styles.agentNom}>{agent.nom}</h3>
-                                <p style={styles.agentRole}>{agent.role}</p>
+                                <h3 className="agent-name">{agent.nom}</h3>
+                                <p className="agent-role">{agent.role}</p>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/*  CTA Final  */}
-            
+            {/* CTA Final */}
+            <section className="cta-section">
+                <div className="container">
+                    <div className="cta-content">
+                        <div className="cta-text">
+                            <h2 className="cta-title">Prêt à générer votre premier CDC ?</h2>
+                            <p className="cta-description">
+                                Rejoignez les centaines d'entreprises qui utilisent CDCEPS
+                            </p>
+                        </div>
+                        <Link to="/nouveau-projet" className="btn btn-primary cta-button">
+                            🚀 Commencer maintenant
+                            <span className="cta-arrow">→</span>
+                        </Link>
+                    </div>
+                </div>
+            </section>
         </div>
     );
 }
 
-//  Données 
-
+// Données
 const etapes = [
     {
         icone: '📝',
@@ -144,286 +185,5 @@ const agents = [
         couleur: '#f59e0b'
     }
 ];
-
-//  Styles 
-
-const styles = {
-    hero: {
-        backgroundColor: 'var(--surface)',
-        padding: '80px 0',
-        borderBottom: '1px solid var(--border)'
-    },
-    heroContent: {
-        maxWidth: '700px'
-    },
-    badge: {
-        display: 'inline-block',
-        backgroundColor: 'var(--primary-light)',
-        color: 'var(--primary)',
-        padding: '6px 14px',
-        borderRadius: '20px',
-        fontSize: '13px',
-        fontWeight: '500',
-        marginBottom: '24px'
-    },
-    titre: {
-        fontSize: '42px',
-        fontWeight: '700',
-        lineHeight: '1.2',
-        marginBottom: '20px',
-        color: 'var(--text)'
-    },
-    titreBleu: {
-        color: 'var(--primary)'
-    },
-    description: {
-        fontSize: '17px',
-        color: 'var(--text-muted)',
-        marginBottom: '32px',
-        lineHeight: '1.7'
-    },
-    heroBtns: {
-        display: 'flex',
-        gap: '12px',
-        flexWrap: 'wrap'
-    },
-    section: {
-        padding: '70px 0'
-    },
-    sectionTitre: {
-        fontSize: '28px',
-        fontWeight: '700',
-        color: 'var(--text)',
-        marginBottom: '12px',
-        textAlign: 'center'
-    },
-    sectionDesc: {
-        color: 'var(--text-muted)',
-        textAlign: 'center',
-        marginBottom: '40px',
-        fontSize: '15px'
-    },
-    etapesGrid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '24px',
-        marginTop: '40px'
-    },
-    etapeCard: {
-        textAlign: 'center',
-        padding: '32px 24px'
-    },
-    etapeNumero: {
-        width: '32px',
-        height: '32px',
-        backgroundColor: 'var(--primary-light)',
-        color: 'var(--primary)',
-        borderRadius: '50%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontWeight: '700',
-        fontSize: '14px',
-        margin: '0 auto 12px'
-    },
-    etapeIcone: {
-        fontSize: '36px',
-        marginBottom: '16px'
-    },
-    etapeTitre: {
-        fontSize: '16px',
-        fontWeight: '600',
-        marginBottom: '10px',
-        color: 'var(--text)'
-    },
-    etapeDesc: {
-        fontSize: '14px',
-        color: 'var(--text-muted)',
-        lineHeight: '1.6'
-    },
-    agentsGrid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-        gap: '20px'
-    },
-    agentCard: {
-        padding: '24px'
-    },
-    agentNumero: {
-        width: '36px',
-        height: '36px',
-        borderRadius: '8px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: 'white',
-        fontWeight: '700',
-        fontSize: '16px',
-        marginBottom: '14px'
-    },
-    agentNom: {
-        fontSize: '15px',
-        fontWeight: '600',
-        color: 'var(--text)',
-        marginBottom: '8px'
-    },
-    agentRole: {
-        fontSize: '13px',
-        color: 'var(--text-muted)',
-        lineHeight: '1.6'
-    },
-    cta: {
-        backgroundColor: '#87CEEB',
-        padding: '60px 0'
-    },
-    ctaContent: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '24px'
-    },
-    ctaTitre: {
-        fontSize: '24px',
-        fontWeight: '700',
-        color: '#0A0A0A'
-    },
-    hero: {
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    container: {
-        position: 'relative',
-        zIndex: 2,
-    },
-    heroContent: {
-        textAlign: 'center',
-        maxWidth: '800px',
-        margin: '0 auto',
-        padding: '0 20px',
-    },
-    badge: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '8px',
-        background: 'rgba(255,255,255,0.1)',
-        backdropFilter: 'blur(10px)',
-        padding: '8px 20px',
-        borderRadius: '40px',
-        fontSize: '14px',
-        fontWeight: '500',
-        color: '#a78bfa',
-        marginBottom: '30px',
-        border: '1px solid rgba(255,255,255,0.2)',
-    },
-    badgeDot: {
-        width: '8px',
-        height: '8px',
-        background: '#a78bfa',
-        borderRadius: '50%',
-        animation: 'pulse 2s infinite',
-    },
-    titre: {
-        fontSize: '56px',
-        fontWeight: '800',
-        color: '#fff',
-        marginBottom: '24px',
-        lineHeight: '1.2',
-    },
-    titreBleu: {
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-    },
-    description: {
-        fontSize: '18px',
-        color: 'rgba(255,255,255,0.8)',
-        lineHeight: '1.6',
-        marginBottom: '40px',
-        maxWidth: '600px',
-        marginLeft: 'auto',
-        marginRight: 'auto',
-    },
-    heroBtns: {
-        display: 'flex',
-        gap: '20px',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-    },
-    btnPrimary: {
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        border: 'none',
-        padding: '14px 32px',
-        fontSize: '16px',
-        fontWeight: '600',
-        borderRadius: '40px',
-        color: '#fff',
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        boxShadow: '0 4px 15px rgba(102,126,234,0.4)',
-        textDecoration: 'none',
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '8px',
-    },
-    btnArrow: {
-        transition: 'transform 0.3s ease',
-    },
-    btnSecondary: {
-        background: 'rgba(255,255,255,0.1)',
-        border: '1px solid rgba(255,255,255,0.3)',
-        padding: '14px 32px',
-        fontSize: '16px',
-        fontWeight: '600',
-        borderRadius: '40px',
-        color: '#fff',
-        cursor: 'pointer',
-        transition: 'all 0.3s ease',
-        backdropFilter: 'blur(10px)',
-    },
-    floatingOrb1: {
-        position: 'absolute',
-        width: '300px',
-        height: '300px',
-        background: 'radial-gradient(circle, rgba(102,126,234,0.3) 0%, rgba(102,126,234,0) 70%)',
-        borderRadius: '50%',
-        top: '10%',
-        left: '-100px',
-        animation: 'float 6s ease-in-out infinite',
-    },
-    floatingOrb2: {
-        position: 'absolute',
-        width: '200px',
-        height: '200px',
-        background: 'radial-gradient(circle, rgba(118,75,162,0.3) 0%, rgba(118,75,162,0) 70%)',
-        borderRadius: '50%',
-        bottom: '10%',
-        right: '-50px',
-        animation: 'floatReverse 8s ease-in-out infinite',
-    },
-    floatingOrb3: {
-        position: 'absolute',
-        width: '150px',
-        height: '150px',
-        background: 'radial-gradient(circle, rgba(167,139,250,0.2) 0%, rgba(167,139,250,0) 70%)',
-        borderRadius: '50%',
-        bottom: '30%',
-        left: '20%',
-        animation: 'float 10s ease-in-out infinite',
-    },
-    wave: {
-        position: 'absolute',
-        bottom: '-10px',
-        left: 0,
-        width: '100%',
-        overflow: 'hidden',
-        lineHeight: 0,
-    }
-};
 
 export default LandingPage;
