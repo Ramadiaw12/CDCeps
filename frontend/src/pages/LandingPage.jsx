@@ -198,19 +198,50 @@ function LandingPage() {
             </section>
 
             {/* CTA Final */}
-            <section className="cta-section">
+            <section className="cta-engineering-section">
                 <div className="container">
-                    <div className="cta-content">
-                        <div className="cta-text">
-                            <h2 className="cta-title">Prêt à automatiser vos cahiers des charges ?</h2>
-                            <p className="cta-description">
-                                Gagnez du temps et améliorez la qualité de vos spécifications
-                            </p>
+                    <div className="cta-engineering-card">
+                        <div className="cta-engineering-badge">
+                            <span className="badge-icon">🧠</span>
+                            <span>Testez en moins de 2 minutes</span>
                         </div>
-                        <Link to="/nouveau-projet" className="btn btn-primary cta-button">
-                            🚀 Commencer maintenant
-                            <span className="cta-arrow">→</span>
-                        </Link>
+                        
+                        <h2 className="cta-engineering-title">
+                            Prêt à automatiser vos 
+                            <span className="title-highlight"> cahiers des charges ?</span>
+                        </h2>
+                        
+                        <p className="cta-engineering-description">
+                            Gagnez en productivité et standardisez vos livrables techniques.
+                            Aucune installation requise, lancez-vous immédiatement.
+                        </p>
+                        
+                        <div className="cta-engineering-buttons">
+                            <Link to="/nouveau-projet" className="cta-primary-btn">
+                                <span>✨</span>
+                                Générer mon premier CDC
+                                <span className="btn-arrow">→</span>
+                            </Link>
+                            <button className="cta-secondary-btn">
+                                <span>📖</span>
+                                Voir la documentation
+                            </button>
+                        </div>
+                        
+                        <div className="cta-engineering-features">
+                            <div className="feature-item">
+                                <span className="feature-check">✓</span>
+                                <span>Gratuit pour les tests</span>
+                            </div>
+                            <div className="feature-item">
+                                <span className="feature-check">✓</span>
+                                <span>Export PDF/Markdown</span>
+                            </div>
+                            <div className="feature-item">
+                                <span className="feature-check">✓</span>
+                                <span>Support technique inclus</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
