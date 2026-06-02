@@ -1594,3 +1594,187 @@ body {
         font-size: 12px;
     }
 }
+/* ============================================
+   KPI / IMPACT SECTION
+   Mesures de performance avec animations
+   ============================================ */
+
+.kpi-section {
+    padding: 70px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* En-tête de section */
+.kpi-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.kpi-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.kpi-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+    animation: fadeInUp 0.6s ease-out 0.1s backwards;
+}
+
+/* Grille des KPIs */
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 30px;
+}
+
+/* Carte KPI individuelle */
+.kpi-card {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    border: 1px solid var(--border);
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.kpi-card:nth-child(1) { animation-delay: 0.1s; }
+.kpi-card:nth-child(2) { animation-delay: 0.2s; }
+.kpi-card:nth-child(3) { animation-delay: 0.3s; }
+.kpi-card:nth-child(4) { animation-delay: 0.4s; }
+
+.kpi-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Bordure animée au survol */
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+}
+
+.kpi-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Icône décorative */
+.kpi-icon {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.kpi-card:hover .kpi-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Valeur KPI avec animation de compteur */
+.kpi-value {
+    font-size: 48px;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
+    line-height: 1;
+    letter-spacing: -2px;
+}
+
+.kpi-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.kpi-desc {
+    font-size: 12px;
+    color: var(--text-hint);
+    line-height: 1.4;
+}
+
+/* Badge période */
+.kpi-badge {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.period-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 60px;
+    padding: 10px 24px;
+    font-size: 13px;
+    color: var(--text-muted);
+    animation: fadeInUp 0.6s ease-out 0.5s backwards;
+}
+
+.period-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--success);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* Animation de compteur (JavaScript) */
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .kpi-value {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 500px) {
+    .kpi-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .kpi-section {
+        padding: 50px 0;
+    }
+    
+    .kpi-title {
+        font-size: 26px;
+    }
+}
