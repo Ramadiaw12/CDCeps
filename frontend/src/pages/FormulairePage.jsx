@@ -128,8 +128,8 @@ function FormulairePage() {
                         {/* Étape 1 */}
                         {etape === 1 && (
                             <div className="formulaire-step-content">
-                                <div className="step-header">
-                                    <div className="step-header-icon">👤</div>
+                                <div className="form-step-header">
+                                    <div className="form-step-header-icon">👤</div>
                                     <h2>Informations client</h2>
                                 </div>
 
@@ -214,7 +214,7 @@ function FormulairePage() {
                                 <div className="formulaire-buttons">
                                     <button className="btn btn-primary next-btn" onClick={etapeSuivante}>
                                         Étape suivante
-                                        <span className="btn-arrow">→</span>
+                                        <span className="form-btn-arrow">→</span>
                                     </button>
                                 </div>
                             </div>
@@ -223,8 +223,8 @@ function FormulairePage() {
                         {/* Étape 2 */}
                         {etape === 2 && (
                             <div className="formulaire-step-content">
-                                <div className="step-header">
-                                    <div className="step-header-icon">📋</div>
+                                <div className="form-step-header">
+                                    <div className="form-step-header-icon">📋</div>
                                     <h2>Description du projet</h2>
                                 </div>
 
@@ -318,7 +318,7 @@ function FormulairePage() {
                                         ) : (
                                             <>
                                                 ✨ Générer le CDC
-                                                <span className="btn-arrow">→</span>
+                                                <span className="form-btn-arrow">→</span>
                                             </>
                                         )}
                                     </button>
