@@ -3839,3 +3839,111 @@ body {
     margin-top: 0;
     padding-top: 60px;
 }
+/* ============================================
+   CORRECTIONS GLOBALES - LAYOUT
+   ============================================ */
+
+/* Reset complet */
+html, body, #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    overflow-x: hidden;
+}
+
+/* Layout principal */
+.layout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.layout-main {
+    flex: 1;
+    padding-top: 74px; /* Hauteur de la navbar */
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Pages */
+.page {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    padding: 0;
+    background-color: var(--bg);
+}
+
+/* Container responsive */
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+/* Hero section corrigée */
+.hero {
+    position: relative;
+    min-height: calc(100vh - 74px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, 
+        var(--bg) 0%,
+        var(--surface) 100%);
+    width: 100%;
+}
+
+/* Correction du menu mobile */
+@media (max-width: 768px) {
+    .layout-main {
+        padding-top: 64px;
+    }
+    
+    .container {
+        padding: 0 16px;
+    }
+    
+    .hero {
+        min-height: calc(100vh - 64px);
+    }
+}
+
+/* S'assurer que rien ne dépasse */
+img, video, iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Correction des grilles */
+.agents-grid-full,
+.benefits-grid,
+.kpi-grid,
+.pipeline {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Correction pour les orbes flottantes */
+.hero-orb,
+.formulaire-orb-1,
+.formulaire-orb-2 {
+    position: absolute;
+    pointer-events: none;
+    max-width: 100%;
+    overflow: hidden;
+}
