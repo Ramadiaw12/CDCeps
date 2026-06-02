@@ -1778,3 +1778,230 @@ body {
         font-size: 26px;
     }
 }
+
+
+/* ============================================
+   CTA ENGINEERING SECTION - Version ingénieur
+   ============================================ */
+
+.cta-engineering-section {
+    padding: 80px 0;
+    background: linear-gradient(135deg, 
+        var(--bg) 0%,
+        var(--surface) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Carte principale */
+.cta-engineering-card {
+    background: var(--surface);
+    border-radius: 32px;
+    padding: 48px 40px;
+    text-align: center;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow);
+}
+
+.cta-engineering-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+/* Bordure animée */
+.cta-engineering-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, 
+        var(--primary) 0%, 
+        var(--primary-dark) 50%, 
+        transparent 100%);
+    border-radius: 33px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cta-engineering-card:hover::before {
+    opacity: 0.15;
+}
+
+/* Badge */
+.cta-engineering-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 24px;
+}
+
+.badge-icon {
+    font-size: 14px;
+}
+
+/* Titre */
+.cta-engineering-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.3;
+}
+
+.title-highlight {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+}
+
+/* Description */
+.cta-engineering-description {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 550px;
+    margin: 0 auto 32px auto;
+    line-height: 1.6;
+}
+
+/* Boutons */
+.cta-engineering-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
+.cta-primary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(135, 206, 235, 0.3);
+    border: none;
+    cursor: pointer;
+}
+
+.cta-primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(135, 206, 235, 0.4);
+    gap: 14px;
+}
+
+.cta-primary-btn .btn-arrow {
+    transition: transform 0.3s ease;
+}
+
+.cta-primary-btn:hover .btn-arrow {
+    transform: translateX(5px);
+}
+
+.cta-secondary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--text);
+    padding: 14px 32px;
+    border-radius: 50px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.cta-secondary-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: translateY(-2px);
+    background: rgba(135, 206, 235, 0.05);
+}
+
+/* Features (arguments pour convaincre) */
+.cta-engineering-features {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.feature-check {
+    width: 20px;
+    height: 20px;
+    background: var(--success);
+    color: white;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .cta-engineering-section {
+        padding: 50px 0;
+    }
+    
+    .cta-engineering-card {
+        padding: 32px 24px;
+    }
+    
+    .cta-engineering-title {
+        font-size: 24px;
+    }
+    
+    .cta-engineering-description {
+        font-size: 14px;
+    }
+    
+    .cta-primary-btn,
+    .cta-secondary-btn {
+        padding: 10px 24px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .cta-engineering-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .cta-engineering-features {
+        gap: 16px;
+        flex-direction: column;
+        align-items: center;
+    }
+}
