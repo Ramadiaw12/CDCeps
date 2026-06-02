@@ -146,33 +146,64 @@ function LandingPage() {
             </section>
 
             {/* SECTION : Bénéfices pour l'équipe */}
-            <section className="section benefits-section">
+            <section className="benefits-section">
                 <div className="container">
-                    <h2 className="section-title">Ce que CDCEPS apporte à l'équipe</h2>
-                    <p className="section-subtitle">
-                        Des bénéfices concrets pour les ingénieurs et chefs de projet
-                    </p>
+                    <div className="benefits-header">
+                        <div className="benefits-badge">
+                            <span>✨</span>
+                            <span>Pourquoi c'est utile</span>
+                        </div>
+                        <h2 className="benefits-title">
+                            Ce que <span>CDCEPS</span> apporte à l'équipe
+                        </h2>
+                        <p className="benefits-subtitle">
+                            Des bénéfices concrets pour les ingénieurs et chefs de projet
+                        </p>
+                    </div>
 
                     <div className="benefits-grid">
                         <div className="benefit-card">
-                            <div className="benefit-icon">⚡</div>
+                            <div className="benefit-icon-wrapper">
+                                <div className="benefit-icon">⚡</div>
+                            </div>
                             <h3>Gain de temps</h3>
                             <p>Rédigez vos cahiers des charges en 10 minutes au lieu de plusieurs heures.</p>
+                            <div className="benefit-link">
+                                En savoir plus <span>→</span>
+                            </div>
                         </div>
+
                         <div className="benefit-card">
-                            <div className="benefit-icon">🎯</div>
+                            <div className="benefit-icon-wrapper">
+                                <div className="benefit-icon">🎯</div>
+                            </div>
                             <h3>Précision améliorée</h3>
                             <p>Réduction des oublis et incohérences grâce à l'analyse structurée.</p>
+                            <div className="benefit-link">
+                                En savoir plus <span>→</span>
+                            </div>
                         </div>
+
                         <div className="benefit-card">
-                            <div className="benefit-icon">📐</div>
+                            <div className="benefit-icon-wrapper">
+                                <div className="benefit-icon">📐</div>
+                            </div>
                             <h3>Standardisation</h3>
                             <p>Homogénéisez la qualité de tous vos documents projets.</p>
+                            <div className="benefit-link">
+                                En savoir plus <span>→</span>
+                            </div>
                         </div>
+
                         <div className="benefit-card">
-                            <div className="benefit-icon">📚</div>
+                            <div className="benefit-icon-wrapper">
+                                <div className="benefit-icon">📚</div>
+                            </div>
                             <h3>Traçabilité</h3>
                             <p>Gardez l'historique complet de tous vos CDC avec versionnement.</p>
+                            <div className="benefit-link">
+                                En savoir plus <span>→</span>
+                            </div>
                         </div>
                     </div>
                 </div>
