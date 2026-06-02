@@ -159,28 +159,35 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* SECTION 4 : Témoignages / Cas d'usage */}
-            <section className="section-alt testimonial-section">
+            {/* SECTION : KPIs après déploiement */}
+            <section className="section-alt kpi-section">
                 <div className="container">
-                    <h2 className="section-title">Ils nous font confiance</h2>
+                    <h2 className="section-title">Impact mesuré</h2>
                     <p className="section-subtitle">
-                        Des entreprises qui ont optimisé leur processus de spécification
+                        Résultats observés après 3 mois d'utilisation en interne
                     </p>
 
-                    <div className="testimonials-grid">
-                        {testimonials.map((testimonial, index) => (
-                            <div key={index} className="testimonial-card">
-                                <div className="testimonial-quote">“</div>
-                                <p className="testimonial-text">{testimonial.text}</p>
-                                <div className="testimonial-author">
-                                    <div className="testimonial-avatar">{testimonial.avatar}</div>
-                                    <div>
-                                        <div className="testimonial-name">{testimonial.name}</div>
-                                        <div className="testimonial-role">{testimonial.role}</div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+                    <div className="kpi-grid">
+                        <div className="kpi-card">
+                            <div className="kpi-value">-65%</div>
+                            <div className="kpi-label">Temps de rédaction</div>
+                            <div className="kpi-desc">Comparé à la méthode manuelle</div>
+                        </div>
+                        <div className="kpi-card">
+                            <div className="kpi-value">+40%</div>
+                            <div className="kpi-label">Complétude des CDC</div>
+                            <div className="kpi-desc">Moins d'oublis dans les spécifications</div>
+                        </div>
+                        <div className="kpi-card">
+                            <div className="kpi-value">12</div>
+                            <div className="kpi-label">Projets traités</div>
+                            <div className="kpi-desc">Depuis le lancement du pilote</div>
+                        </div>
+                        <div className="kpi-card">
+                            <div className="kpi-value">100%</div>
+                            <div className="kpi-label">Satisfaction interne</div>
+                            <div className="kpi-desc">Des équipes utilisatrices</div>
+                        </div>
                     </div>
                 </div>
             </section>
