@@ -2005,3 +2005,359 @@ body {
         align-items: center;
     }
 }
+
+/* ============================================
+   GENERATION PAGE STYLES
+   ============================================ */
+
+.generation-page {
+    min-height: calc(100vh - 64px);
+    padding: 50px 0;
+    background: linear-gradient(135deg, 
+        var(--bg) 0%,
+        var(--surface) 100%);
+}
+
+/* Header */
+.gen-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.gen-header-icon {
+    font-size: 56px;
+    margin-bottom: 16px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.gen-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+}
+
+.gen-subtitle {
+    font-size: 16px;
+    color: var(--text-muted);
+}
+
+/* Barre de progression */
+.gen-progress-container {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 24px;
+    margin-bottom: 40px;
+    border: 1px solid var(--border);
+}
+
+.gen-progress-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.gen-progress-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.gen-progress-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.gen-progress-bar {
+    height: 12px;
+    background: var(--bg);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.gen-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    border-radius: 20px;
+    transition: width 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.gen-progress-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+        transparent 0%,
+        rgba(255,255,255,0.3) 50%,
+        transparent 100%);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.gen-progress-info {
+    margin-top: 12px;
+    text-align: right;
+}
+
+.gen-time-estimate {
+    font-size: 12px;
+    color: var(--text-hint);
+}
+
+/* Grille agents */
+.gen-agents-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.gen-agent-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.gen-agent-card.active {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(135, 206, 235, 0.2);
+    transform: translateY(-4px);
+}
+
+.gen-agent-card.completed {
+    border-color: var(--success);
+    background: linear-gradient(135deg, var(--surface), rgba(16, 185, 129, 0.05));
+}
+
+.gen-agent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.gen-agent-icon {
+    font-size: 32px;
+}
+
+.gen-agent-status-icon {
+    font-size: 20px;
+}
+
+.gen-agent-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.gen-agent-role {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.gen-agent-progress {
+    margin-top: 8px;
+}
+
+.gen-agent-progress-bar {
+    height: 4px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.gen-agent-progress-bar.active {
+    background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+    animation: pulse 1.5s infinite;
+}
+
+.gen-agent-progress-bar.completed {
+    background: var(--success);
+}
+
+.gen-agent-pulse {
+    width: 100%;
+    height: 100%;
+    background: var(--primary);
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.gen-agent-message {
+    font-size: 11px;
+    color: var(--text-hint);
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* Logs console */
+.gen-logs-container {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.gen-logs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--surface-hover);
+    border-bottom: 1px solid var(--border);
+}
+
+.gen-logs-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.gen-logs-count {
+    font-size: 11px;
+    color: var(--text-hint);
+    font-family: monospace;
+}
+
+.gen-logs-list {
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+}
+
+.gen-log-item {
+    display: flex;
+    gap: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: monospace;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s ease;
+}
+
+.gen-log-item:hover {
+    background: var(--surface-hover);
+}
+
+.gen-log-time {
+    color: var(--text-hint);
+    min-width: 80px;
+}
+
+.gen-log-message {
+    color: var(--text-muted);
+}
+
+.gen-log-item.success .gen-log-message {
+    color: var(--success);
+}
+
+.gen-log-item.error .gen-log-message {
+    color: var(--danger);
+}
+
+.gen-log-item.agent .gen-log-message {
+    color: var(--primary);
+}
+
+.gen-logs-empty {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-hint);
+}
+
+.gen-logs-empty span {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* Erreur */
+.gen-error-container {
+    margin-top: 30px;
+}
+
+.gen-error-card {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--danger);
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.gen-error-icon {
+    font-size: 48px;
+}
+
+.gen-error-content h3 {
+    font-size: 18px;
+    color: var(--danger);
+    margin-bottom: 8px;
+}
+
+.gen-error-content p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.gen-retry-btn {
+    background: var(--danger);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.gen-retry-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .gen-agents-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .gen-agents-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .gen-title {
+        font-size: 24px;
+    }
+    
+    .gen-error-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
