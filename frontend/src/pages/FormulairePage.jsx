@@ -102,16 +102,16 @@ function FormulairePage() {
 
                     {/* Indicateur d'étapes animé */}
                     <div className="formulaire-steps">
-                        <div className={`step-item ${etape >= 1 ? 'active' : ''}`}>
-                            <div className="step-number">1</div>
-                            <div className="step-label">Informations client</div>
+                        <div className={`form-step-item ${etape >= 1 ? 'active' : ''}`}>
+                            <div className="form-step-number">1</div>
+                            <div className="form-step-label">Informations client</div>
                         </div>
-                        <div className="step-line">
-                            <div className="step-line-fill" style={{ width: etape === 2 ? '100%' : '0%' }}></div>
+                        <div className="form-step-line">
+                            <div className="form-step-line-fill" style={{ width: etape === 2 ? '100%' : '0%' }}></div>
                         </div>
-                        <div className={`step-item ${etape >= 2 ? 'active' : ''}`}>
-                            <div className="step-number">2</div>
-                            <div className="step-label">Description du projet</div>
+                        <div className={`form-step-item ${etape >= 2 ? 'active' : ''}`}>
+                            <div className="form-step-number">2</div>
+                            <div className="form-step-label">Description du projet</div>
                         </div>
                     </div>
 
