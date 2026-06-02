@@ -13,12 +13,10 @@ function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
 
-    // Fermer le menu au changement de page
     useEffect(() => {
         setIsMenuOpen(false);
     }, [location]);
 
-    // Détecter le scroll pour changer le style
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 50);
@@ -27,15 +25,21 @@ function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Empêcher le scroll du body quand le menu est ouvert
+    // Gestion du body scroll
     useEffect(() => {
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
         }
         return () => {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
         };
     }, [isMenuOpen]);
 
@@ -50,7 +54,6 @@ function Navbar() {
         <>
             <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
                 <div className="navbar-container">
-                    {/* Logo */}
                     <Link to="/" className="navbar-logo">
                         <div className="logo-icon">📄</div>
                         <div className="logo-text">
@@ -72,19 +75,17 @@ function Navbar() {
                             </Link>
                         ))}
                         
-                        {/* Bouton générer (CTA) */}
                         <Link to="/nouveau-projet" className="nav-cta">
                             <span>+</span>
                             <span>Générer un CDC</span>
                         </Link>
 
-                        {/* Theme Toggle */}
                         <button onClick={toggleTheme} className="nav-theme-toggle">
                             {theme === 'dark' ? '☀️' : '🌙'}
                         </button>
                     </div>
 
-                    {/* Mobile Menu Button (Burger) */}
+                    {/* Burger Menu Button */}
                     <button 
                         className={`burger-menu ${isMenuOpen ? 'open' : ''}`}
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -97,9 +98,9 @@ function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile Menu Overlay */}
-            <div className={`mobile-menu-overlay ${isMenuOpen ? 'active' : ''}`}>
-                <div className="mobile-menu-container">
+            {/* Mobile Menu */}
+            <div className={`mobile-menu ${isMenuOpen ? 'active' : ''}`}>
+                <div className="mobile-menu-inner">
                     <div className="mobile-menu-header">
                         <div className="mobile-logo">
                             <div className="logo-icon">📄</div>
@@ -108,12 +109,6 @@ function Navbar() {
                                 <span className="logo-eps">EPS</span>
                             </div>
                         </div>
-                        <button 
-                            className="mobile-close"
-                            onClick={() => setIsMenuOpen(false)}
-                        >
-                            ✕
-                        </button>
                     </div>
 
                     <div className="mobile-menu-links">
@@ -130,10 +125,8 @@ function Navbar() {
                             </Link>
                         ))}
                         
-                        <div className="mobile-divider"></div>
-                        
                         <Link to="/nouveau-projet" className="mobile-cta" onClick={() => setIsMenuOpen(false)}>
-                            <span>+</span>
+                            <span>✨</span>
                             Générer un cahier des charges
                             <span className="mobile-cta-arrow">→</span>
                         </Link>
