@@ -3,13 +3,12 @@
 // ============================================================
 
 import { Link } from 'react-router-dom';
-// import { useState, useEffect, useRef } from 'react';
-
-
-
-
+import { useState } from 'react';  // ← IMPORTANT : décommentez cette ligne
+import Documentation from './Documentation';  // Assurez-vous que le fichier existe
 
 function LandingPage() {
+    const [showDoc, setShowDoc] = useState(false);
+    
     return (
         <div className="page">
             {/* Hero Section */}
@@ -18,7 +17,7 @@ function LandingPage() {
                     <div className="hero-content">
                         <div className="hero-badge">
                             <span className="hero-badge-dot"></span>
-                             Système Multi-Agents IA
+                            🤖 Système Multi-Agents IA
                         </div>
 
                         <h1 className="hero-title">
@@ -70,7 +69,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* SECTION 1 : Pipeline de traitement (remplace les étapes) */}
+            {/* SECTION 1 : Pipeline de traitement */}
             <section className="section pipeline-section">
                 <div className="container">
                     <h2 className="section-title">Comment ça fonctionne ?</h2>
@@ -96,7 +95,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* SECTION 2 : Architecture des agents (visuel + détails techniques) */}
+            {/* SECTION 2 : Architecture des agents */}
             <section className="section-alt agents-architecture">
                 <div className="container">
                     <h2 className="section-title">Architecture multi-agents</h2>
@@ -126,7 +125,6 @@ function LandingPage() {
                         </div>
                     </div>
 
-                    {/* Schéma de communication entre agents */}
                     <div className="agents-communication">
                         <div className="comm-title">🔄 Orchestration des agents</div>
                         <div className="comm-flow">
@@ -168,9 +166,6 @@ function LandingPage() {
                             </div>
                             <h3>Gain de temps</h3>
                             <p>Rédigez vos cahiers des charges en 10 minutes au lieu de plusieurs heures.</p>
-                            <div className="benefit-link">
-                                En savoir plus <span>→</span>
-                            </div>
                         </div>
 
                         <div className="benefit-card">
@@ -179,9 +174,6 @@ function LandingPage() {
                             </div>
                             <h3>Précision améliorée</h3>
                             <p>Réduction des oublis et incohérences grâce à l'analyse structurée.</p>
-                            <div className="benefit-link">
-                                En savoir plus <span>→</span>
-                            </div>
                         </div>
 
                         <div className="benefit-card">
@@ -190,9 +182,6 @@ function LandingPage() {
                             </div>
                             <h3>Standardisation</h3>
                             <p>Homogénéisez la qualité de tous vos documents projets.</p>
-                            <div className="benefit-link">
-                                En savoir plus <span>→</span>
-                            </div>
                         </div>
 
                         <div className="benefit-card">
@@ -201,39 +190,42 @@ function LandingPage() {
                             </div>
                             <h3>Traçabilité</h3>
                             <p>Gardez l'historique complet de tous vos CDC avec versionnement.</p>
-                            <div className="benefit-link">
-                                En savoir plus <span>→</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* SECTION : KPIs après déploiement */}
-            <section className="section-alt kpi-section">
+            {/* SECTION : KPIs */}
+            <section className="kpi-section">
                 <div className="container">
-                    <h2 className="section-title">Impact mesuré</h2>
-                    <p className="section-subtitle">
-                        Résultats observés après 3 mois d'utilisation en interne
-                    </p>
+                    <div className="kpi-header">
+                        <h2 className="kpi-title">Impact mesuré</h2>
+                        <p className="kpi-subtitle">
+                            Résultats observés après 3 mois d'utilisation en interne
+                        </p>
+                    </div>
 
                     <div className="kpi-grid">
                         <div className="kpi-card">
+                            <div className="kpi-icon">⏱️</div>
                             <div className="kpi-value">-65%</div>
                             <div className="kpi-label">Temps de rédaction</div>
                             <div className="kpi-desc">Comparé à la méthode manuelle</div>
                         </div>
                         <div className="kpi-card">
+                            <div className="kpi-icon">📋</div>
                             <div className="kpi-value">+40%</div>
                             <div className="kpi-label">Complétude des CDC</div>
                             <div className="kpi-desc">Moins d'oublis dans les spécifications</div>
                         </div>
                         <div className="kpi-card">
+                            <div className="kpi-icon">🚀</div>
                             <div className="kpi-value">12</div>
                             <div className="kpi-label">Projets traités</div>
                             <div className="kpi-desc">Depuis le lancement du pilote</div>
                         </div>
                         <div className="kpi-card">
+                            <div className="kpi-icon">⭐</div>
                             <div className="kpi-value">100%</div>
                             <div className="kpi-label">Satisfaction interne</div>
                             <div className="kpi-desc">Des équipes utilisatrices</div>
@@ -247,7 +239,7 @@ function LandingPage() {
                 <div className="container">
                     <div className="cta-engineering-card">
                         <div className="cta-engineering-badge">
-                            <span className="badge-icon"></span>
+                            <span className="badge-icon">🧪</span>
                             <span>Testez en moins de 2 minutes</span>
                         </div>
                         
@@ -267,7 +259,10 @@ function LandingPage() {
                                 Générer mon premier CDC
                                 <span className="btn-arrow">→</span>
                             </Link>
-                            <button className="cta-secondary-btn">
+                            <button 
+                                className="cta-secondary-btn" 
+                                onClick={() => setShowDoc(true)}
+                            >
                                 <span>📖</span>
                                 Voir la documentation
                             </button>
@@ -290,11 +285,14 @@ function LandingPage() {
                     </div>
                 </div>
             </section>
+
+            {/* Documentation Modal */}
+            <Documentation isOpen={showDoc} onClose={() => setShowDoc(false)} />
         </div>
     );
 }
 
-// Données du pipeline (remplace les anciennes étapes)
+// Données du pipeline
 const pipeline = [
     {
         icone: '📝',
@@ -318,7 +316,7 @@ const pipeline = [
     }
 ];
 
-// Données des agents (version enrichie)
+// Données des agents
 const agents = [
     {
         icone: '🔍',
@@ -347,52 +345,6 @@ const agents = [
         role: 'Vérifie la cohérence du CDC et calcule un score de complétude.',
         couleur: '#f59e0b',
         skills: ['Validation', 'Score', 'Cohérence']
-    }
-];
-
-// Données des avantages
-const benefits = [
-    {
-        icone: '⚡',
-        titre: 'Gain de temps',
-        description: 'Rédigez vos cahiers des charges en 10 minutes au lieu de plusieurs jours.'
-    },
-    {
-        icone: '🎯',
-        titre: 'Précision améliorée',
-        description: 'Réduction des oublis et des incohérences grâce à l\'analyse structurée.'
-    },
-    {
-        icone: '🔄',
-        titre: 'Standardisation',
-        description: 'Homogénéisez la qualité de tous vos documents projets.'
-    },
-    {
-        icone: '📈',
-        titre: 'Traçabilité',
-        description: 'Gardez l\'historique de tous vos CDC avec versionnement.'
-    }
-];
-
-// Données des témoignages
-const testimonials = [
-    {
-        text: 'CDCEPS nous a fait gagner un temps précieux sur la rédaction des spécifications. La qualité est constante et professionnelle.',
-        name: 'Ahmed Benali',
-        role: 'Chef de projet technique',
-        avatar: 'AB'
-    },
-    {
-        text: 'Les agents IA sont impressionnants. L\'analyse des risques nous a permis d\'anticiper des problèmes majeurs sur nos projets.',
-        name: 'Sarah Mansouri',
-        role: 'Directrice technique',
-        avatar: 'SM'
-    },
-    {
-        text: 'Un outil indispensable pour toute équipe qui veut standardiser ses processus de spécification.',
-        name: 'Karim Hadj',
-        role: 'Consultant IT',
-        avatar: 'KH'
     }
 ];
 
