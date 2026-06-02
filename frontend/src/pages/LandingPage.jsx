@@ -145,21 +145,35 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* SECTION 3 : Avantages pour les ingénieurs */}
+            {/* SECTION : Bénéfices pour l'équipe */}
             <section className="section benefits-section">
                 <div className="container">
-                    <h2 className="section-title">Pourquoi choisir CDCEPS ?</h2>
+                    <h2 className="section-title">Ce que CDCEPS apporte à l'équipe</h2>
                     <p className="section-subtitle">
+                        Des bénéfices concrets pour les ingénieurs et chefs de projet
                     </p>
 
                     <div className="benefits-grid">
-                        {benefits.map((benefit, index) => (
-                            <div key={index} className="benefit-card">
-                                <div className="benefit-icon">{benefit.icone}</div>
-                                <h3 className="benefit-title">{benefit.titre}</h3>
-                                <p className="benefit-desc">{benefit.description}</p>
-                            </div>
-                        ))}
+                        <div className="benefit-card">
+                            <div className="benefit-icon">⚡</div>
+                            <h3>Gain de temps</h3>
+                            <p>Rédigez vos cahiers des charges en 10 minutes au lieu de plusieurs heures.</p>
+                        </div>
+                        <div className="benefit-card">
+                            <div className="benefit-icon">🎯</div>
+                            <h3>Précision améliorée</h3>
+                            <p>Réduction des oublis et incohérences grâce à l'analyse structurée.</p>
+                        </div>
+                        <div className="benefit-card">
+                            <div className="benefit-icon">📐</div>
+                            <h3>Standardisation</h3>
+                            <p>Homogénéisez la qualité de tous vos documents projets.</p>
+                        </div>
+                        <div className="benefit-card">
+                            <div className="benefit-icon">📚</div>
+                            <h3>Traçabilité</h3>
+                            <p>Gardez l'historique complet de tous vos CDC avec versionnement.</p>
+                        </div>
                     </div>
                 </div>
             </section>
