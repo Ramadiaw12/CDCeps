@@ -82,16 +82,7 @@ function LandingPage() {
             </section>
 
             {/*  CTA Final  */}
-            <section style={styles.cta}>
-                <div className="container" style={styles.ctaContent}>
-                    <h2 style={styles.ctaTitre}>
-                        Prêt à générer votre premier CDC ?
-                    </h2>
-                    <Link to="/nouveau-projet" className="btn btn-primary">
-                        Commencer maintenant →
-                    </Link>
-                </div>
-            </section>
+            
         </div>
     );
 }
