@@ -11,29 +11,46 @@ function LandingPage() {
         <div className="page">
             {/*  Hero Section  */}
             <section style={styles.hero}>
-                <div className="container">
+                <div className="container" style={styles.container}>
                     <div style={styles.heroContent}>
-                        <div style={styles.badge}>
-                            Système Multi-Agents IA
-                        </div>
-
-                        <h1 style={styles.titre}>
-                            Générez vos cahiers des charges
-                            <span style={styles.titreBleu}> en quelques minutes</span>
-                        </h1>
-
-                        <p style={styles.description}>
-                            CDCEPS automatise l'analyse des besoins clients et génère
-                            des cahiers des charges préliminaires professionnels grâce
-                            à l'intelligence artificielle et au système multi-agents.
-                        </p>
-
-                        <div style={styles.heroBtns}>
-                            <Link to="/nouveau-projet" className="btn btn-primary">
-                             Générer un CDC maintenant
-                            </Link>
-                        </div>
+                    <div style={styles.badge}>
+                        <span style={styles.badgeDot}></span>
+                        Système Multi-Agents IA
                     </div>
+
+                    <h1 style={styles.titre}>
+                        Générez vos cahiers des charges
+                        <span style={styles.titreBleu}> en quelques minutes</span>
+                    </h1>
+
+                    <p style={styles.description}>
+                        CDCEPS automatise l'analyse des besoins clients et génère
+                        des cahiers des charges préliminaires professionnels grâce
+                        à l'intelligence artificielle et au système multi-agents.
+                    </p>
+
+                    <div style={styles.heroBtns}>
+                        <Link to="/nouveau-projet" style={styles.btnPrimary}>
+                        ✨ Générer un CDC maintenant
+                        <span style={styles.btnArrow}>→</span>
+                        </Link>
+                        <button style={styles.btnSecondary}>
+                        🎥 Voir la démo
+                        </button>
+                    </div>
+
+                    {/* Éléments décoratifs animés */}
+                    <div style={styles.floatingOrb1}></div>
+                    <div style={styles.floatingOrb2}></div>
+                    <div style={styles.floatingOrb3}></div>
+                    </div>
+                </div>
+
+                {/* Vagues décoratives */}
+                <div style={styles.wave}>
+                    <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="rgba(255,255,255,0.05)"></path>
+                    </svg>
                 </div>
             </section>
 
@@ -277,7 +294,8 @@ const styles = {
         fontSize: '24px',
         fontWeight: '700',
         color: '#0A0A0A'
-    }
+    },
+    
 };
 
 export default LandingPage;
