@@ -1,163 +1,175 @@
+// ============================================================
+// components/Navbar.jsx
+// Barre de navigation responsive avec menu burger
+// ============================================================
+
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.jsx';
 
 function Navbar() {
-    const location = useLocation();
     const { theme, toggleTheme } = useTheme();
+    const location = useLocation();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
 
-    const estActif = (chemin) => location.pathname === chemin;
+    // Fermer le menu au changement de page
+    useEffect(() => {
+        setIsMenuOpen(false);
+    }, [location]);
 
-    // Les styles sont DANS le composant pour accéder à theme
-    const styles = {
-        nav: {
-            height: '64px',
-            display: 'flex',
-            alignItems: 'center',
-            position: 'sticky',
-            top: 0,
-            zIndex: 100,
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-            transition: 'background-color 0.3s',
-            backgroundColor: theme === 'dark' ? '#141414' : '#FAFAF7',
-            borderBottom: `1px solid ${theme === 'dark' ? '#2A2A2A' : '#D4C9B0'}`
-        },
-        container: {
-            maxWidth: '1100px',
-            margin: '0 auto',
-            padding: '0 24px',
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-        },
-        logo: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            fontSize: '18px',
-            textDecoration: 'none',
-            fontWeight: '400',
-            transition: 'color 0.3s',
-            color: theme === 'dark' ? '#F5F0E8' : '#0A0A0A'
-        },
-        logoIcon: {
-            fontSize: '22px'
-        },
-        liens: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '20px'
-        },
-        lien: {
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: '500',
-            transition: 'color 0.2s'
-        },
-        btnTheme: {
-            padding: '7px 14px',
-            borderRadius: '8px',
-            fontSize: '13px',
-            fontWeight: '500',
-            cursor: 'pointer',
-            transition: 'all 0.3s',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            backgroundColor: theme === 'dark' ? '#1E1E1E' : '#D6EFFA',
-            color: theme === 'dark' ? '#87CEEB' : '#0A0A0A',
-            border: `1px solid ${theme === 'dark' ? '#2A2A2A' : '#87CEEB'}`
-        },
-        btnNav: {
-            backgroundColor: '#87CEEB',
-            color: '#0A0A0A',
-            padding: '8px 16px',
-            borderRadius: '8px',
-            textDecoration: 'none',
-            fontSize: '14px',
-            fontWeight: '600'
-        },
-        logoText: {
-            display: 'flex',
-            alignItems: 'baseline',
-            gap: '1px',
-            letterSpacing: '-1px'
-        },
-        logoCDC: {
-            fontFamily: "'Georgia', serif",
-            fontSize: '22px',
-            fontWeight: '900',
-            color: '#87CEEB',
-            textTransform: 'uppercase',
-            letterSpacing: '2px'
-        },
-        logoEPS: {
-            fontFamily: "'Georgia', serif",
-            fontSize: '18px',
-            fontWeight: '400',
-            color: theme === 'dark' ? '#F5F0E8' : '#0A0A0A',
-            letterSpacing: '3px',
-            fontStyle: 'italic'
-        },
-        logoDot: {
-            fontSize: '28px',
-            color: '#87CEEB',
-            fontWeight: '900',
-            lineHeight: '1'
+    // Détecter le scroll pour changer le style
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Empêcher le scroll du body quand le menu est ouvert
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
         }
-    };
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [isMenuOpen]);
+
+    const navLinks = [
+        { path: '/', label: 'Accueil', icon: '🏠' },
+        { path: '/nouveau-projet', label: 'Nouveau projet', icon: '✨' },
+    ];
+
+    const isActive = (path) => location.pathname === path;
 
     return (
-        <nav style={styles.nav}>
-            <div style={styles.container}>
-                <Link to="/" style={styles.logo}>
-                    <span style={styles.logoIcon}>📋</span>
-                    <span style={styles.logoText}>
-                        <span style={styles.logoCDC}>CDC</span>
-                        <span style={styles.logoEPS}>EPS</span>
-                        <span style={styles.logoDot}>.</span>
-                    </span>
-                </Link>
-
-                <div style={styles.liens}>
-                    <Link
-                        to="/"
-                        style={{
-                            ...styles.lien,
-                            color: estActif('/')
-                                ? '#87CEEB'
-                                : theme === 'dark' ? '#B8B0A0' : '#4A4A4A'
-                        }}
-                    >
-                        Accueil
+        <>
+            <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
+                <div className="navbar-container">
+                    {/* Logo */}
+                    <Link to="/" className="navbar-logo">
+                        <div className="logo-icon">📄</div>
+                        <div className="logo-text">
+                            <span className="logo-cdc">CDC</span>
+                            <span className="logo-eps">EPS</span>
+                        </div>
                     </Link>
 
-                    <Link
-                        to="/nouveau-projet"
-                        style={{
-                            ...styles.lien,
-                            color: estActif('/nouveau-projet')
-                                ? '#87CEEB'
-                                : theme === 'dark' ? '#B8B0A0' : '#4A4A4A'
-                        }}
-                    >
-                        Nouveau projet
-                    </Link>
+                    {/* Desktop Navigation */}
+                    <div className="navbar-links">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.path}
+                                to={link.path}
+                                className={`nav-link ${isActive(link.path) ? 'active' : ''}`}
+                            >
+                                <span className="nav-icon">{link.icon}</span>
+                                <span>{link.label}</span>
+                            </Link>
+                        ))}
+                        
+                        {/* Bouton générer (CTA) */}
+                        <Link to="/nouveau-projet" className="nav-cta">
+                            <span>+</span>
+                            <span>Générer un CDC</span>
+                        </Link>
 
-                    <button
-                        onClick={toggleTheme}
-                        style={styles.btnTheme}
-                        title={theme === 'dark' ? 'Mode clair' : 'Mode sombre'}
+                        {/* Theme Toggle */}
+                        <button onClick={toggleTheme} className="nav-theme-toggle">
+                            {theme === 'dark' ? '☀️' : '🌙'}
+                        </button>
+                    </div>
+
+                    {/* Mobile Menu Button (Burger) */}
+                    <button 
+                        className={`burger-menu ${isMenuOpen ? 'open' : ''}`}
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        aria-label="Menu"
                     >
-                        {theme === 'dark' ? '☀️ Clair' : '🌙 Sombre'}
+                        <span className="burger-line"></span>
+                        <span className="burger-line"></span>
+                        <span className="burger-line"></span>
                     </button>
+                </div>
+            </nav>
 
-                    <Link to="/nouveau-projet" style={styles.btnNav}>
-                        + Générer un CDC
-                    </Link>
+            {/* Mobile Menu Overlay */}
+            <div className={`mobile-menu-overlay ${isMenuOpen ? 'active' : ''}`}>
+                <div className="mobile-menu-container">
+                    <div className="mobile-menu-header">
+                        <div className="mobile-logo">
+                            <div className="logo-icon">📄</div>
+                            <div className="logo-text">
+                                <span className="logo-cdc">CDC</span>
+                                <span className="logo-eps">EPS</span>
+                            </div>
+                        </div>
+                        <button 
+                            className="mobile-close"
+                            onClick={() => setIsMenuOpen(false)}
+                        >
+                            ✕
+                        </button>
+                    </div>
+
+                    <div className="mobile-menu-links">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.path}
+                                to={link.path}
+                                className={`mobile-nav-link ${isActive(link.path) ? 'active' : ''}`}
+                                onClick={() => setIsMenuOpen(false)}
+                            >
+                                <span className="mobile-nav-icon">{link.icon}</span>
+                                <span>{link.label}</span>
+                                <span className="mobile-nav-arrow">→</span>
+                            </Link>
+                        ))}
+                        
+                        <div className="mobile-divider"></div>
+                        
+                        <Link to="/nouveau-projet" className="mobile-cta" onClick={() => setIsMenuOpen(false)}>
+                            <span>+</span>
+                            Générer un cahier des charges
+                            <span className="mobile-cta-arrow">→</span>
+                        </Link>
+
+                        <div className="mobile-theme">
+                            <span className="mobile-theme-label">
+                                {theme === 'dark' ? '🌙 Mode sombre' : '☀️ Mode clair'}
+                            </span>
+                            <button onClick={toggleTheme} className="mobile-theme-toggle">
+                                {theme === 'dark' ? '☀️' : '🌙'}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="mobile-menu-footer">
+                        <div className="mobile-stats">
+                            <div className="mobile-stat">
+                                <span className="stat-value">4</span>
+                                <span className="stat-label">Agents IA</span>
+                            </div>
+                            <div className="mobile-stat">
+                                <span className="stat-value">500+</span>
+                                <span className="stat-label">CDC générés</span>
+                            </div>
+                            <div className="mobile-stat">
+                                <span className="stat-value">98%</span>
+                                <span className="stat-label">Satisfaction</span>
+                            </div>
+                        </div>
+                        <div className="mobile-version">
+                            CDCEPS v2.0.0
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </>
     );
 }
 
