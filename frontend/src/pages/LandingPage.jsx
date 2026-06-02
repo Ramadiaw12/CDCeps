@@ -1,7 +1,5 @@
 // ============================================================
-// pages/LandingPage.jsx
-// Page d'accueil de l'application CDCEPS
-// Présente le système et ses fonctionnalités
+// pages/LandingPage.jsx - Version refondue sans répétition
 // ============================================================
 
 import { Link } from 'react-router-dom';
@@ -9,7 +7,7 @@ import { Link } from 'react-router-dom';
 function LandingPage() {
     return (
         <div className="page">
-            {/* Hero Section - Design animé attractif */}
+            {/* Hero Section */}
             <section className="hero">
                 <div className="container hero-container">
                     <div className="hero-content">
@@ -39,11 +37,10 @@ function LandingPage() {
                             </button>
                         </div>
 
-                        {/* Statistiques */}
                         <div className="hero-stats">
                             <div className="hero-stat">
                                 <div className="hero-stat-number">500+</div>
-                                <div className="hero-stat-label">CDG générés</div>
+                                <div className="hero-stat-label">CDC générés</div>
                             </div>
                             <div className="hero-stat">
                                 <div className="hero-stat-number">98%</div>
@@ -57,13 +54,10 @@ function LandingPage() {
                     </div>
                 </div>
 
-                {/* Éléments décoratifs animés */}
                 <div className="hero-orb hero-orb-1"></div>
                 <div className="hero-orb hero-orb-2"></div>
                 <div className="hero-orb hero-orb-3"></div>
                 <div className="hero-orb hero-orb-4"></div>
-                
-                {/* Vague décorative */}
                 <div className="hero-wave">
                     <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
                         <path d="M0,64L80,58.7C160,53,320,43,480,48C640,53,800,75,960,80C1120,85,1280,75,1360,69.3L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="currentColor" opacity="0.05"></path>
@@ -71,47 +65,120 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* Comment ça marche */}
-            <section className="section">
+            {/* SECTION 1 : Pipeline de traitement (remplace les étapes) */}
+            <section className="section pipeline-section">
                 <div className="container">
-                    <h2 className="section-title">Comment ça marche ?</h2>
+                    <h2 className="section-title">Comment ça fonctionne ?</h2>
                     <p className="section-subtitle">
-                        Un processus simple et rapide en 4 étapes
+                        Un pipeline intelligent en 4 étapes qui transforme votre description en CDC professionnel
                     </p>
 
-                    <div className="steps-grid">
-                        {etapes.map((etape, index) => (
-                            <div key={index} className="card step-card">
-                                <div className="step-number">{index + 1}</div>
-                                <div className="step-icon">{etape.icone}</div>
-                                <h3 className="step-title">{etape.titre}</h3>
-                                <p className="step-description">{etape.description}</p>
+                    <div className="pipeline">
+                        {pipeline.map((step, index) => (
+                            <div key={index} className="pipeline-step">
+                                <div className="pipeline-connector">
+                                    <div className="pipeline-number">{index + 1}</div>
+                                    {index < pipeline.length - 1 && <div className="pipeline-line"></div>}
+                                </div>
+                                <div className="pipeline-content">
+                                    <div className="pipeline-icon">{step.icone}</div>
+                                    <h3 className="pipeline-title">{step.titre}</h3>
+                                    <p className="pipeline-desc">{step.description}</p>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Les 4 Agents */}
-            <section className="section section-alt">
+            {/* SECTION 2 : Architecture des agents (visuel + détails techniques) */}
+            <section className="section-alt agents-architecture">
                 <div className="container">
-                    <h2 className="section-title">Les 4 agents IA</h2>
+                    <h2 className="section-title">Architecture multi-agents</h2>
                     <p className="section-subtitle">
-                        Chaque agent est spécialisé dans une tâche précise
-                        et travaille en pipeline pour produire un CDC de qualité.
+                        Quatre agents IA spécialisés travaillent en orchestration pour garantir la qualité
                     </p>
 
-                    <div className="agents-grid">
-                        {agents.map((agent, index) => (
-                            <div key={index} className="card agent-card">
-                                <div 
-                                    className="agent-number"
-                                    style={{ backgroundColor: agent.couleur }}
-                                >
-                                    {index + 1}
+                    <div className="agents-visual">
+                        <div className="agents-grid-full">
+                            {agents.map((agent, index) => (
+                                <div key={index} className="agent-card-detailed">
+                                    <div className="agent-header">
+                                        <div className="agent-badge" style={{ backgroundColor: agent.couleur }}>
+                                            Agent {index + 1}
+                                        </div>
+                                        <div className="agent-icon">{agent.icone}</div>
+                                    </div>
+                                    <h3 className="agent-name-detailed">{agent.nom}</h3>
+                                    <p className="agent-role-detailed">{agent.role}</p>
+                                    <div className="agent-skills">
+                                        {agent.skills.map((skill, i) => (
+                                            <span key={i} className="agent-skill">{skill}</span>
+                                        ))}
+                                    </div>
                                 </div>
-                                <h3 className="agent-name">{agent.nom}</h3>
-                                <p className="agent-role">{agent.role}</p>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Schéma de communication entre agents */}
+                    <div className="agents-communication">
+                        <div className="comm-title">🔄 Orchestration des agents</div>
+                        <div className="comm-flow">
+                            <span className="comm-node">Collecte</span>
+                            <span className="comm-arrow">→</span>
+                            <span className="comm-node">Analyse</span>
+                            <span className="comm-arrow">→</span>
+                            <span className="comm-node">Génération</span>
+                            <span className="comm-arrow">→</span>
+                            <span className="comm-node">Validation</span>
+                        </div>
+                        <p className="comm-desc">
+                            Pipeline séquentiel avec boucle de rétroaction pour optimisation continue
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            {/* SECTION 3 : Avantages pour les ingénieurs */}
+            <section className="section benefits-section">
+                <div className="container">
+                    <h2 className="section-title">Pourquoi choisir CDCEPS ?</h2>
+                    <p className="section-subtitle">
+                    </p>
+
+                    <div className="benefits-grid">
+                        {benefits.map((benefit, index) => (
+                            <div key={index} className="benefit-card">
+                                <div className="benefit-icon">{benefit.icone}</div>
+                                <h3 className="benefit-title">{benefit.titre}</h3>
+                                <p className="benefit-desc">{benefit.description}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* SECTION 4 : Témoignages / Cas d'usage */}
+            <section className="section-alt testimonial-section">
+                <div className="container">
+                    <h2 className="section-title">Ils nous font confiance</h2>
+                    <p className="section-subtitle">
+                        Des entreprises qui ont optimisé leur processus de spécification
+                    </p>
+
+                    <div className="testimonials-grid">
+                        {testimonials.map((testimonial, index) => (
+                            <div key={index} className="testimonial-card">
+                                <div className="testimonial-quote">“</div>
+                                <p className="testimonial-text">{testimonial.text}</p>
+                                <div className="testimonial-author">
+                                    <div className="testimonial-avatar">{testimonial.avatar}</div>
+                                    <div>
+                                        <div className="testimonial-name">{testimonial.name}</div>
+                                        <div className="testimonial-role">{testimonial.role}</div>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -123,9 +190,9 @@ function LandingPage() {
                 <div className="container">
                     <div className="cta-content">
                         <div className="cta-text">
-                            <h2 className="cta-title">Prêt à générer votre premier CDC ?</h2>
+                            <h2 className="cta-title">Prêt à automatiser vos cahiers des charges ?</h2>
                             <p className="cta-description">
-                                Rejoignez les centaines d'entreprises qui utilisent CDCEPS
+                                Gagnez du temps et améliorez la qualité de vos spécifications
                             </p>
                         </div>
                         <Link to="/nouveau-projet" className="btn btn-primary cta-button">
@@ -139,50 +206,105 @@ function LandingPage() {
     );
 }
 
-// Données
-const etapes = [
+// Données du pipeline (remplace les anciennes étapes)
+const pipeline = [
     {
         icone: '📝',
-        titre: 'Décrivez votre projet',
-        description: 'Remplissez le formulaire avec les informations de base de votre projet client.'
+        titre: 'Saisie intuitive',
+        description: 'Remplissez un formulaire simple avec la description de votre projet et vos contraintes.'
     },
     {
-        icone: '🤖',
-        titre: 'Les agents analysent',
-        description: '4 agents IA spécialisés analysent, structurent et enrichissent vos besoins.'
+        icone: '🧠',
+        titre: 'Analyse sémantique',
+        description: 'L\'IA extrait les besoins, les contraintes et les objectifs de votre description.'
+    },
+    {
+        icone: '🤝',
+        titre: 'Orchestration agents',
+        description: 'Les 4 agents travaillent en synergie pour structurer et enrichir le contenu.'
     },
     {
         icone: '📄',
-        titre: 'CDC généré',
-        description: 'Un cahier des charges complet et professionnel est généré en quelques minutes.'
-    },
-    {
-        icone: '⬇️',
-        titre: 'Exportez',
-        description: 'Téléchargez votre CDC en PDF ou Markdown, prêt à soumettre au client.'
+        titre: 'Génération finale',
+        description: 'Production d\'un cahier des charges professionnel prêt à être exporté.'
     }
 ];
 
+// Données des agents (version enrichie)
 const agents = [
     {
+        icone: '🔍',
         nom: 'Agent Collecte',
         role: 'Extrait et structure les besoins depuis la description brute du client.',
-        couleur: '#3b82f6'
+        couleur: '#3b82f6',
+        skills: ['NLP', 'Extraction', 'Structuration']
     },
     {
+        icone: '📊',
         nom: 'Agent Analyse',
         role: 'Classifie les besoins par priorité et identifie les risques du projet.',
-        couleur: '#8b5cf6'
+        couleur: '#8b5cf6',
+        skills: ['Priorisation', 'Risques', 'Dépendances']
     },
     {
+        icone: '✍️',
         nom: 'Agent Génération',
         role: 'Génère le CDC complet en Markdown en s\'appuyant sur les anciens CDC.',
-        couleur: '#10b981'
+        couleur: '#10b981',
+        skills: ['Markdown', 'Templates RAG', 'Contenu']
     },
     {
+        icone: '✅',
         nom: 'Agent Validation',
         role: 'Vérifie la cohérence du CDC et calcule un score de complétude.',
-        couleur: '#f59e0b'
+        couleur: '#f59e0b',
+        skills: ['Validation', 'Score', 'Cohérence']
+    }
+];
+
+// Données des avantages
+const benefits = [
+    {
+        icone: '⚡',
+        titre: 'Gain de temps',
+        description: 'Rédigez vos cahiers des charges en 10 minutes au lieu de plusieurs jours.'
+    },
+    {
+        icone: '🎯',
+        titre: 'Précision améliorée',
+        description: 'Réduction des oublis et des incohérences grâce à l\'analyse structurée.'
+    },
+    {
+        icone: '🔄',
+        titre: 'Standardisation',
+        description: 'Homogénéisez la qualité de tous vos documents projets.'
+    },
+    {
+        icone: '📈',
+        titre: 'Traçabilité',
+        description: 'Gardez l\'historique de tous vos CDC avec versionnement.'
+    }
+];
+
+// Données des témoignages
+const testimonials = [
+    {
+        text: 'CDCEPS nous a fait gagner un temps précieux sur la rédaction des spécifications. La qualité est constante et professionnelle.',
+        name: 'Ahmed Benali',
+        role: 'Chef de projet technique',
+        avatar: 'AB'
+    },
+    {
+        text: 'Les agents IA sont impressionnants. L\'analyse des risques nous a permis d\'anticiper des problèmes majeurs sur nos projets.',
+        name: 'Sarah Mansouri',
+        role: 'Directrice technique',
+        avatar: 'SM'
+    },
+    {
+        text: 'Un outil indispensable pour toute équipe qui veut standardiser ses processus de spécification.',
+        name: 'Karim Hadj',
+        role: 'Consultant IT',
+        avatar: 'KH'
     }
 ];
 
