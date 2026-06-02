@@ -56,7 +56,7 @@ function LandingPage() {
             </section>
 
             {/*  Les 4 Agents  */}
-            <section style={{ ...styles.section, backgroundColor: '#f1f5f9' }}>
+            <section style={{ ...styles.section}}>
                 <div className="container">
                     <h2 style={styles.sectionTitre}>Les 4 agents IA</h2>
                     <p style={styles.sectionDesc}>
