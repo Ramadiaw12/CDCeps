@@ -202,7 +202,7 @@ function LandingPage() {
                 <div className="container">
                     <div className="cta-engineering-card">
                         <div className="cta-engineering-badge">
-                            <span className="badge-icon">🧠</span>
+                            <span className="badge-icon"></span>
                             <span>Testez en moins de 2 minutes</span>
                         </div>
                         
