@@ -160,33 +160,50 @@ function LandingPage() {
             </section>
 
             {/* SECTION : KPIs après déploiement */}
-            <section className="section-alt kpi-section">
+            // Version plus simple avec animation CSS uniquement
+            <section className="kpi-section">
                 <div className="container">
-                    <h2 className="section-title">Impact mesuré</h2>
-                    <p className="section-subtitle">
-                        Résultats observés après 3 mois d'utilisation en interne
-                    </p>
+                    <div className="kpi-header">
+                        <h2 className="kpi-title">Impact mesuré</h2>
+                        <p className="kpi-subtitle">
+                            Résultats observés après 3 mois d'utilisation en interne
+                        </p>
+                    </div>
 
                     <div className="kpi-grid">
                         <div className="kpi-card">
+                            <div className="kpi-icon">⏱️</div>
                             <div className="kpi-value">-65%</div>
                             <div className="kpi-label">Temps de rédaction</div>
                             <div className="kpi-desc">Comparé à la méthode manuelle</div>
                         </div>
+
                         <div className="kpi-card">
+                            <div className="kpi-icon">📋</div>
                             <div className="kpi-value">+40%</div>
                             <div className="kpi-label">Complétude des CDC</div>
                             <div className="kpi-desc">Moins d'oublis dans les spécifications</div>
                         </div>
+
                         <div className="kpi-card">
+                            <div className="kpi-icon">🚀</div>
                             <div className="kpi-value">12</div>
                             <div className="kpi-label">Projets traités</div>
                             <div className="kpi-desc">Depuis le lancement du pilote</div>
                         </div>
+
                         <div className="kpi-card">
+                            <div className="kpi-icon">⭐</div>
                             <div className="kpi-value">100%</div>
                             <div className="kpi-label">Satisfaction interne</div>
                             <div className="kpi-desc">Des équipes utilisatrices</div>
+                        </div>
+                    </div>
+
+                    <div className="kpi-badge">
+                        <div className="period-badge">
+                            <div className="period-dot"></div>
+                            <span>📊 Données basées sur 3 mois de production</span>
                         </div>
                     </div>
                 </div>
