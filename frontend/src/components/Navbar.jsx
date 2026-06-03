@@ -44,8 +44,8 @@ function Navbar() {
     }, [isMenuOpen]);
 
     const navLinks = [
-        { path: '/', label: 'Accueil', icon: '🏠' },
-        { path: '/nouveau-projet', label: 'Nouveau projet', icon: '✨' },
+        { path: '/', label: 'Accueil', icon: '' },
+        { path: '/nouveau-projet', label: 'Nouveau projet', icon: '' },
     ];
 
     const isActive = (path) => location.pathname === path;
@@ -75,10 +75,10 @@ function Navbar() {
                             </Link>
                         ))}
                         
-                        <Link to="/nouveau-projet" className="nav-cta">
+                        {/* <Link to="/nouveau-projet" className="nav-cta">
                             <span>+</span>
                             <span>Générer un CDC</span>
-                        </Link>
+                        </Link> */}
 
                         <button onClick={toggleTheme} className="nav-theme-toggle">
                             {theme === 'dark' ? '☀️' : '🌙'}
