@@ -44,7 +44,7 @@ function AgentProgressBar({ agents, agentActif, messages }) {
 
     return (
         <div style={styles.container}>
-            {/* ── Pipeline des agents ──────────────────────── */}
+            {/*  Pipeline des agents  */}
             <div style={styles.pipeline}>
                 {agentsConfig.map((agent, index) => {
                     const statut = getStatut(agent.id);

@@ -9,7 +9,7 @@ import { createContext, useContext, useState, useEffect } from 'react';
 // Crée le contexte
 const ThemeContext = createContext();
 
-// Provider — enveloppe toute l'application
+// Provider  enveloppe toute l'application
 export function ThemeProvider({ children }) {
     // Récupère le thème sauvegardé ou utilise 'light' par défaut
     const [theme, setTheme] = useState(() => {

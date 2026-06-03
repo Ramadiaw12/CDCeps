@@ -31,7 +31,7 @@ function App() {
                         <Route path="/nouveau-projet" element={<FormulairePage />} />
                         {/* Page de génération en temps réel */}
                         {/* :projetId = l'id du projet créé */}
-                        <Route path="/generation/:projetId" element={<GenerationPage />} />
+                        {/* <Route path="/generation/:projetId" element={<GenerationPage />} /> */}
                         {/* Page de résultat avec le CDC généré */}
                         {/* :cdcId = l'id du CDC généré */}
                         <Route path="/resultat/:cdcId" element={<ResultatPage />} />
