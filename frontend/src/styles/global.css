@@ -206,12 +206,11 @@ body {
 }
 
 /* Page wrapper  */
- .page {
+.page {
+    min-height: calc(100vh - 64px);
     padding: 40px 0;
     background-color: var(--bg);
     transition: background-color 0.3s;
-    min-height: auto;  /* ← Changé de 'calc(100vh - 64px)' à 'auto' */
-    overflow-x: hidden;
 }
 
 /* ============================================
@@ -4263,7 +4262,6 @@ img, video, iframe {
         font-size: 12px;
     }
 }
-
 /* ============================================
    CORRECTION DU SCROLL SUR LE FORMULAIRE
    ============================================ */
