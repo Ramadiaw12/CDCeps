@@ -3,7 +3,7 @@
 // ============================================================
 
 import { Link } from 'react-router-dom';
-import { useState } from 'react';  // ← IMPORTANT : décommentez cette ligne
+import { useState } from 'react';  
 import Documentation from "../components/Documentation";
 
 function LandingPage() {
