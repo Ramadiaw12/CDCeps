@@ -4319,19 +4319,20 @@ body {
     overflow-y: auto;
 }
 
+
+
 /* ============================================
-   SUPPRESSION DOUBLE SCROLL - FORMULAIRE
+   CORRECTION DOUBLE SCROLL - FORMULAIRE
    ============================================ */
 
-/* Force un seul scroll sur toute la page */
+/* Reset des overflows problématiques */
 html, body {
     overflow-x: hidden;
     overflow-y: auto !important;
     height: auto !important;
-    min-height: 100vh;
 }
 
-/* Supprime le scroll forcé sur la page formulaire */
+/* Page formulaire - suppression du double scroll */
 .formulaire-page {
     overflow: visible !important;
     overflow-x: hidden !important;
@@ -4340,7 +4341,7 @@ html, body {
     padding: 20px 0 40px 0;
 }
 
-/* Le wrapper ne doit pas scroller */
+/* Le wrapper ne doit pas créer de scroll */
 .formulaire-wrapper {
     overflow: visible !important;
     height: auto !important;
@@ -4354,20 +4355,33 @@ html, body {
     margin-bottom: 0;
 }
 
-/* Supprime tout overflow auto sur les conteneurs */
-.container, .page, .formulaire-page, .formulaire-wrapper, .formulaire-card {
-    overflow-y: visible !important;
-}
-
-/* Empêche le body de bloquer le scroll */
-body {
-    overflow-y: auto !important;
-    position: relative;
+/* Le contenu des étapes */
+.formulaire-step-content {
+    overflow: visible !important;
     height: auto !important;
 }
 
-/* Supprime les min-height problématiques */
+/* Conteneurs généraux */
+.container, .page {
+    overflow: visible !important;
+    min-height: auto !important;
+}
+
+/* Suppression des min-height forcées */
 .page {
     min-height: auto !important;
-    padding: 20px 0 40px 0;
+    padding: 0 0 40px 0;
+}
+
+/* Garder le scroll uniquement pour les textarea */
+textarea {
+    overflow-y: auto !important;
+}
+
+/* Les orbes décoratives ne doivent pas créer de scroll */
+.formulaire-orb-1,
+.formulaire-orb-2 {
+    overflow: hidden !important;
+    pointer-events: none;
+    position: fixed !important; /* Changé de absolute à fixed */
 }
