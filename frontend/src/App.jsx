@@ -1,6 +1,5 @@
 // ============================================================
-// App.jsx
-// Routeur principal de l'application React
+// App.jsx - VERSION CORRIGÉE
 // ============================================================
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -17,7 +16,7 @@ function App() {
         <ThemeProvider>
             <BrowserRouter>
                 <Routes>
-                    {/* Layout contient déjà Navbar et Footer */}
+                    {/* Layout contient déjà la Navbar et le Footer */}
                     <Route path="/" element={<Layout />}>
                         <Route index element={<LandingPage />} />
                         <Route path="nouveau-projet" element={<FormulairePage />} />
