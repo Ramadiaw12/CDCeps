@@ -194,7 +194,7 @@ function Documentation({ isOpen, onClose }) {
                     {/* Agents IA */}
                     {activeTab === 'agents' && (
                         <div className="doc-section">
-                            <h3>🤖 Les 4 agents IA</h3>
+                            <h3> Les 4 agents IA</h3>
                             
                             <div className="agents-doc-grid">
                                 {agentsDoc.map((agent, idx) => (
