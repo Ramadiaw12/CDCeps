@@ -3844,7 +3844,7 @@ body {
    ============================================ */
 
 /* Reset complet */
-html, body, #root {
+/* html, body, #root {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -3858,7 +3858,7 @@ body {
     line-height: 1.6;
     transition: background-color 0.3s, color 0.3s;
     overflow-x: hidden;
-}
+} */
 
 /* Layout principal */
 .layout {
@@ -3886,13 +3886,13 @@ body {
 }
 
 /* Container responsive */
-.container {
+/* .container {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
     padding: 0 24px;
     box-sizing: border-box;
-}
+} */
 
 /* Hero section corrigée */
 .hero {
@@ -3909,7 +3909,7 @@ body {
 }
 
 /* Correction du menu mobile */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
     .layout-main {
         padding-top: 64px;
     }
@@ -3921,7 +3921,7 @@ body {
     .hero {
         min-height: calc(100vh - 64px);
     }
-}
+} */
 
 /* S'assurer que rien ne dépasse */
 img, video, iframe {
