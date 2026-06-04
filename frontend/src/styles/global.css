@@ -3788,11 +3788,10 @@ body {
 /* ============================================
    CORRECTION DU PADDING POUR NAVBAR FIXE
    ============================================ */
-
-/* Ajustement du body pour éviter que le contenu soit caché sous la navbar */
-body {
-    padding-top: 74px; /* Hauteur de la navbar */
-}
+/* Hauteur de la navbar */
+/* body {
+    padding-top: 60px; 
+} */
 
 /* Pour mobile, la navbar est plus petite */
 @media (max-width: 768px) {
@@ -3844,7 +3843,7 @@ body {
    ============================================ */
 
 /* Reset complet */
-/* html, body, #root {
+html, body, #root {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -3858,7 +3857,7 @@ body {
     line-height: 1.6;
     transition: background-color 0.3s, color 0.3s;
     overflow-x: hidden;
-} */
+}
 
 /* Layout principal */
 .layout {
@@ -3886,13 +3885,13 @@ body {
 }
 
 /* Container responsive */
-/* .container {
+.container {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
     padding: 0 24px;
     box-sizing: border-box;
-} */
+}
 
 /* Hero section corrigée */
 .hero {
