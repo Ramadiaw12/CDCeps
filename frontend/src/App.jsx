@@ -9,7 +9,7 @@ import { ThemeProvider } from './context/ThemeContext.jsx';
 import LandingPage     from './pages/LandingPage.jsx';
 import Layout from './components/Layout';
 import FormulairePage  from './pages/FormulairePage.jsx';
-// import GenerationPage  from './pages/GenerationPage.jsx';
+import GenerationPage  from './pages/GenerationPage.jsx';
 import ResultatPage    from './pages/ResultatPage.jsx';
 import Navbar          from './components/Navbar.jsx';
 import Footer         from './components/Footer.jsx';
@@ -31,7 +31,7 @@ function App() {
                         <Route path="/nouveau-projet" element={<FormulairePage />} />
                         {/* Page de génération en temps réel */}
                         {/* :projetId = l'id du projet créé */}
-                        {/* <Route path="/generation/:projetId" element={<GenerationPage />} /> */}
+                        <Route path="/generation/:projetId" element={<GenerationPage />} />
                         {/* Page de résultat avec le CDC généré */}
                         {/* :cdcId = l'id du CDC généré */}
                         <Route path="/resultat/:cdcId" element={<ResultatPage />} />
