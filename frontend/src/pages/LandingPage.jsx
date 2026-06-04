@@ -69,31 +69,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* SECTION 1 : Pipeline de traitement */}
-            <section className="section pipeline-section">
-                <div className="container">
-                    <h2 className="section-title">Comment ça fonctionne ?</h2>
-                    <p className="section-subtitle">
-                        Un pipeline intelligent en 4 étapes qui transforme votre description en CDC professionnel
-                    </p>
-
-                    <div className="pipeline">
-                        {pipeline.map((step, index) => (
-                            <div key={index} className="pipeline-step">
-                                <div className="pipeline-connector">
-                                    <div className="pipeline-number">{index + 1}</div>
-                                    {index < pipeline.length - 1 && <div className="pipeline-line"></div>}
-                                </div>
-                                <div className="pipeline-content">
-                                    <div className="pipeline-icon">{step.icone}</div>
-                                    <h3 className="pipeline-title">{step.titre}</h3>
-                                    <p className="pipeline-desc">{step.description}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            
 
             {/* SECTION 2 : Architecture des agents */}
             <section className="section-alt agents-architecture">
