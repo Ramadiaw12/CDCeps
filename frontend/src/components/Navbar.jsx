@@ -125,11 +125,11 @@ function Navbar() {
                             </Link>
                         ))}
                         
-                        <Link to="/nouveau-projet" className="mobile-cta" onClick={() => setIsMenuOpen(false)}>
+                        {/* <Link to="/nouveau-projet" className="mobile-cta" onClick={() => setIsMenuOpen(false)}>
                             <span>✨</span>
                             Générer un cahier des charges
                             <span className="mobile-cta-arrow">→</span>
-                        </Link>
+                        </Link> */}
 
                         <div className="mobile-theme">
                             <span className="mobile-theme-label">
