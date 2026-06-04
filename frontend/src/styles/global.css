@@ -4262,63 +4262,6 @@ img, video, iframe {
         font-size: 12px;
     }
 }
-/* ============================================
-   CORRECTION DU SCROLL SUR LE FORMULAIRE
-   ============================================ */
-
-/* Suppression du scroll inutile sur la page formulaire */
-.formulaire-page {
-    overflow-y: auto;
-    overflow-x: hidden;
-    min-height: auto;
-    height: auto;
-}
-
-/* Le wrapper du formulaire ne doit pas créer de scroll supplémentaire */
-.formulaire-wrapper {
-    overflow: visible;
-    height: auto;
-    min-height: auto;
-}
-
-/* La carte formulaire s'adapte à son contenu */
-.formulaire-card {
-    overflow: visible;
-    height: auto;
-    margin-bottom: 0;
-}
-
-/* Le contenu de l'étape ne doit pas scroller */
-.formulaire-step-content {
-    overflow: visible;
-    height: auto;
-}
-
-/* Suppression des hauteurs fixes qui créent du scroll */
-.page {
-    min-height: auto;
-    padding: 0 0 40px 0;
-    overflow-x: hidden;
-}
-
-/* La page formulaire ne doit pas avoir de min-height forcée */
-.formulaire-page.page {
-    min-height: auto;
-    padding-bottom: 40px;
-}
-
-/* Container principal */
-.container {
-    overflow: visible;
-    height: auto;
-}
-
-/* Ajustement du body pour éviter les doubles scroll */
-body {
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
 
 
 /* ============================================
