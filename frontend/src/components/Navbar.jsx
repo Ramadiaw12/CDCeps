@@ -1,4 +1,4 @@
-// components/Navbar.jsx
+// components/Navbar.jsx - Version corrigée
 import { Link, useLocation } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext.jsx';
 
@@ -26,9 +26,8 @@ function Navbar() {
                     <Link to="/nouveau-projet" className={`nav-link ${location.pathname === '/nouveau-projet' ? 'active' : ''}`}>
                         Nouveau projet
                     </Link>
-                    <Link to="/nouveau-projet" className="nav-cta">
-                        ✨ Générer un CDC
-                    </Link>
+                    
+                    {/* Bouton Générer un CDC - SUPPRIMÉ */}
                     
                     {/* Dark/Light Mode Toggle */}
                     <button onClick={toggleTheme} className="nav-theme-toggle">

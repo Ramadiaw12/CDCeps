@@ -5332,3 +5332,90 @@ textarea {
         flex-direction: row !important;
     }
 }
+
+
+/* ============================================
+   NAVBAR - RÉDUCTION ET SUPPRESSION BOUTON
+   ============================================ */
+
+/* Navbar plus petite */
+.navbar {
+    height: 45px !important;
+}
+
+.navbar-container {
+    height: 45px !important;
+    padding: 0 20px !important;
+}
+
+/* Logo plus petit */
+.logo-icon {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 12px !important;
+}
+
+.logo-text {
+    font-size: 14px !important;
+}
+
+/* Navigation links plus compacts */
+.navbar-links {
+    gap: 4px !important;
+}
+
+.nav-link {
+    padding: 4px 10px !important;
+    font-size: 12px !important;
+}
+
+/* Suppression du bouton "Générer un CDC" - CACHÉ */
+.nav-cta {
+    display: none !important;
+}
+
+/* Bouton thème plus petit */
+.nav-theme-toggle {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 12px !important;
+}
+
+/* Ajustement du body pour la nouvelle hauteur */
+body {
+    padding-top: 45px !important;
+}
+
+.layout-main {
+    padding-top: 0 !important;
+}
+
+/* Hero section ajustée */
+.hero {
+    min-height: 35vh !important;
+}
+
+/* Responsive mobile */
+@media (max-width: 768px) {
+    .navbar {
+        height: 40px !important;
+    }
+    
+    body {
+        padding-top: 40px !important;
+    }
+    
+    .logo-icon {
+        width: 22px !important;
+        height: 22px !important;
+    }
+    
+    .logo-text {
+        font-size: 13px !important;
+    }
+    
+    .burger-line {
+        width: 18px !important;
+        height: 1.5px !important;
+    }
+}
