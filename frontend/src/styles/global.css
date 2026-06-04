@@ -4763,3 +4763,572 @@ textarea {
         display: flex !important;
     }
 }
+
+/* ============================================
+   PETITS CARRÉS MIGNONS - COMPACT
+   ============================================ */
+
+/* Réduction des sections */
+.section, .section-alt {
+    padding: 15px 0 !important;
+}
+
+/* Titres des sections */
+.section-title {
+    font-size: 18px !important;
+    margin-bottom: 4px !important;
+}
+
+.section-subtitle {
+    font-size: 11px !important;
+    margin-bottom: 12px !important;
+}
+
+/* ============================================
+   BENEFITS - PETITS CARRÉS
+   ============================================ */
+.benefits-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+}
+
+.benefit-card {
+    padding: 12px 8px !important;
+    border-radius: 16px !important;
+    background: var(--surface) !important;
+    border: 1px solid var(--border) !important;
+    transition: all 0.2s ease !important;
+}
+
+.benefit-card:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important;
+    border-color: var(--primary) !important;
+}
+
+.benefit-icon-wrapper {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 10px !important;
+    margin-bottom: 6px !important;
+    background: var(--primary-light) !important;
+}
+
+.benefit-icon {
+    font-size: 16px !important;
+}
+
+.benefit-card h3 {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    margin-bottom: 4px !important;
+    color: var(--text) !important;
+}
+
+.benefit-card p {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    color: var(--text-muted) !important;
+    margin-bottom: 0 !important;
+}
+
+/* ============================================
+   AGENTS - PETITS CARRÉS
+   ============================================ */
+.agents-grid-full {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+}
+
+.agent-card-detailed {
+    padding: 10px !important;
+    border-radius: 14px !important;
+}
+
+.agent-header {
+    margin-bottom: 6px !important;
+}
+
+.agent-icon {
+    font-size: 18px !important;
+}
+
+.agent-badge {
+    font-size: 7px !important;
+    padding: 2px 6px !important;
+}
+
+.agent-name-detailed {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    margin-bottom: 3px !important;
+}
+
+.agent-role-detailed {
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    margin-bottom: 6px !important;
+}
+
+.agent-skill {
+    font-size: 7px !important;
+    padding: 1px 4px !important;
+    border-radius: 8px !important;
+}
+
+/* ============================================
+   KPI - PETITS CARRÉS
+   ============================================ */
+.kpi-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+}
+
+.kpi-card {
+    padding: 12px 8px !important;
+    border-radius: 16px !important;
+}
+
+.kpi-icon {
+    font-size: 18px !important;
+    margin-bottom: 4px !important;
+}
+
+.kpi-value {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    margin-bottom: 2px !important;
+}
+
+.kpi-label {
+    font-size: 10px !important;
+    font-weight: 500 !important;
+    margin-bottom: 2px !important;
+}
+
+.kpi-desc {
+    font-size: 8px !important;
+    line-height: 1.2 !important;
+}
+
+/* ============================================
+   ORCHESTRATION - PETIT
+   ============================================ */
+.agents-communication {
+    padding: 10px !important;
+    border-radius: 14px !important;
+}
+
+.comm-title {
+    font-size: 10px !important;
+    margin-bottom: 8px !important;
+}
+
+.comm-flow {
+    gap: 8px !important;
+}
+
+.comm-node {
+    padding: 4px 10px !important;
+    font-size: 9px !important;
+    border-radius: 20px !important;
+}
+
+.comm-arrow {
+    font-size: 10px !important;
+}
+
+.comm-desc {
+    font-size: 8px !important;
+}
+
+/* ============================================
+   HERO SECTION - COMPACT
+   ============================================ */
+.hero {
+    min-height: 40vh !important;
+    padding: 8px 0 !important;
+}
+
+.hero-title {
+    font-size: 26px !important;
+    margin-bottom: 6px !important;
+}
+
+.hero-description {
+    font-size: 11px !important;
+    margin-bottom: 10px !important;
+    max-width: 450px !important;
+}
+
+.hero-badge {
+    font-size: 9px !important;
+    padding: 3px 10px !important;
+    margin-bottom: 8px !important;
+}
+
+.hero-buttons {
+    margin-bottom: 12px !important;
+}
+
+.hero-btn-primary, .hero-btn-secondary {
+    padding: 4px 12px !important;
+    font-size: 10px !important;
+}
+
+.hero-stats {
+    gap: 16px !important;
+}
+
+.hero-stat-number {
+    font-size: 14px !important;
+}
+
+.hero-stat-label {
+    font-size: 8px !important;
+}
+
+/* ============================================
+   CTA - PETIT CARRÉ
+   ============================================ */
+.cta-engineering-section {
+    padding: 15px 0 !important;
+}
+
+.cta-engineering-card {
+    padding: 12px !important;
+    border-radius: 20px !important;
+}
+
+.cta-engineering-title {
+    font-size: 16px !important;
+    margin-bottom: 4px !important;
+}
+
+.cta-engineering-description {
+    font-size: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.cta-primary-btn, .cta-secondary-btn {
+    padding: 4px 12px !important;
+    font-size: 10px !important;
+    border-radius: 25px !important;
+}
+
+.cta-engineering-features {
+    padding-top: 8px !important;
+    gap: 12px !important;
+}
+
+.feature-item {
+    font-size: 9px !important;
+}
+
+.feature-check {
+    width: 12px !important;
+    height: 12px !important;
+    font-size: 8px !important;
+}
+
+/* ============================================
+   HEADER BADGE
+   ============================================ */
+.benefits-header, .kpi-header {
+    margin-bottom: 12px !important;
+}
+
+.benefits-badge, .kpi-badge {
+    font-size: 9px !important;
+    padding: 3px 10px !important;
+    margin-bottom: 6px !important;
+}
+
+.benefits-title, .kpi-title {
+    font-size: 18px !important;
+    margin-bottom: 2px !important;
+}
+
+.benefits-subtitle, .kpi-subtitle {
+    font-size: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Responsive mobile - 2 colonnes */
+@media (max-width: 768px) {
+    .benefits-grid,
+    .agents-grid-full,
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .benefits-grid,
+    .agents-grid-full,
+    .kpi-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+/* ============================================
+   FOOTER MODERNE & MIGNON - TRÈS COMPACT
+   ============================================ */
+
+.footer-responsive {
+    background: var(--surface) !important;
+    border-top: 1px solid var(--border) !important;
+    padding: 12px 0 !important;
+    margin-top: 20px !important;
+}
+
+.footer-container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 20px !important;
+}
+
+/* Grille footer - 4 colonnes compactes */
+.footer-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 15px !important;
+    margin-bottom: 10px !important;
+}
+
+/* Brand */
+.footer-brand {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+
+.footer-logo {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+}
+
+.footer-logo-cdc {
+    color: var(--text) !important;
+}
+
+.footer-logo-eps {
+    color: var(--primary) !important;
+}
+
+.footer-tagline {
+    font-size: 8px !important;
+    color: var(--text-muted) !important;
+    line-height: 1.2 !important;
+    max-width: 180px !important;
+}
+
+.footer-status {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    background: var(--surface-hover) !important;
+    padding: 2px 8px !important;
+    border-radius: 20px !important;
+    width: fit-content !important;
+}
+
+.footer-status-dot {
+    width: 6px !important;
+    height: 6px !important;
+    border-radius: 50% !important;
+}
+
+.footer-status-text {
+    font-size: 8px !important;
+    font-weight: 500 !important;
+}
+
+/* Metrics */
+.footer-metrics {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.footer-title {
+    font-size: 9px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    color: var(--primary) !important;
+    margin-bottom: 6px !important;
+}
+
+.footer-metrics-grid {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.footer-metric {
+    background: var(--surface-hover) !important;
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+    text-align: center !important;
+    flex: 1 !important;
+}
+
+.footer-metric-value {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: var(--primary) !important;
+    line-height: 1 !important;
+}
+
+.footer-metric-label {
+    font-size: 7px !important;
+    color: var(--text-muted) !important;
+}
+
+/* Actions */
+.footer-actions-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+}
+
+.footer-action {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px 8px !important;
+    background: var(--surface-hover) !important;
+    border-radius: 8px !important;
+    text-decoration: none !important;
+    font-size: 9px !important;
+    color: var(--text) !important;
+    transition: all 0.2s !important;
+}
+
+.footer-action:hover {
+    background: var(--primary-light) !important;
+    color: var(--primary) !important;
+}
+
+.footer-action-arrow {
+    margin-left: auto !important;
+    font-size: 10px !important;
+    opacity: 0 !important;
+    transition: opacity 0.2s !important;
+}
+
+.footer-action:hover .footer-action-arrow {
+    opacity: 1 !important;
+}
+
+/* Support */
+.footer-support-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.footer-support-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.footer-support-icon {
+    font-size: 14px !important;
+    width: 24px !important;
+    height: 24px !important;
+    background: var(--surface-hover) !important;
+    border-radius: 8px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.footer-support-label {
+    font-size: 7px !important;
+    color: var(--text-hint) !important;
+}
+
+.footer-support-value {
+    font-size: 8px !important;
+    font-weight: 500 !important;
+    color: var(--text) !important;
+}
+
+/* Bottom section */
+.footer-bottom {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid var(--border) !important;
+}
+
+.footer-copyright {
+    font-size: 7px !important;
+    color: var(--text-hint) !important;
+}
+
+.footer-version {
+    font-size: 7px !important;
+    color: var(--text-hint) !important;
+    font-family: monospace !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+    }
+    
+    .footer-metrics-grid {
+        flex-direction: column !important;
+        gap: 6px !important;
+    }
+    
+    .footer-metric {
+        padding: 4px 6px !important;
+    }
+    
+    .footer-metric-value {
+        font-size: 12px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+    
+    .footer-responsive {
+        padding: 10px 0 !important;
+    }
+    
+    .footer-brand {
+        align-items: center !important;
+        text-align: center !important;
+    }
+    
+    .footer-tagline {
+        max-width: 100% !important;
+    }
+    
+    .footer-status {
+        margin: 0 auto !important;
+    }
+    
+    .footer-title {
+        text-align: center !important;
+    }
+    
+    .footer-metrics-grid {
+        flex-direction: row !important;
+    }
+}
