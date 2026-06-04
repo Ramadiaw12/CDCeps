@@ -69,23 +69,7 @@ function Footer() {
                     </div>
 
                     {/* Actions rapides */}
-                    <div className="footer-actions">
-                        <h4 className="footer-title">⚡ Actions rapides</h4>
-                        <div className="footer-actions-list">
-                            <a href="http://localhost:8080" target="_blank" className="footer-action">
-                                <span>⚙️</span> Admin PHP
-                                <span className="footer-action-arrow">→</span>
-                            </a>
-                            <a href="http://localhost:3001/api/health" target="_blank" className="footer-action">
-                                <span>📡</span> API Status
-                                <span className="footer-action-arrow">→</span>
-                            </a>
-                            <Link to="/nouveau-projet" className="footer-action">
-                                <span>✨</span> Nouveau CDC
-                                <span className="footer-action-arrow">→</span>
-                            </Link>
-                        </div>
-                    </div>
+                    {/*  */}
 
                     {/* Support */}
                     <div className="footer-support">
