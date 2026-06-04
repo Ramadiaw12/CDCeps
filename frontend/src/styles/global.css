@@ -755,7 +755,7 @@ body {
     font-size: 16px;
 }
 
-/* Steps indicateur (Formulaire) */
+/* Steps indicateur */
 .formulaire-steps {
     display: flex;
     align-items: center;
@@ -1140,7 +1140,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Suppression de la double scrollbar sur la page formulaire */
+/* Suppression de la double scrollbar */
 .formulaire-page {
     position: relative;
     overflow-x: hidden;
