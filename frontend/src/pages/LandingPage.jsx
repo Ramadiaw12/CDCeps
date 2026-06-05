@@ -295,28 +295,28 @@ const pipeline = [
 // Données des agents
 const agents = [
     {
-        icone: '🔍',
+        icone: '',
         nom: 'Agent Collecte',
         role: 'Extrait et structure les besoins depuis la description brute du client.',
         couleur: '#3b82f6',
         skills: ['NLP', 'Extraction', 'Structuration']
     },
     {
-        icone: '📊',
+        icone: '',
         nom: 'Agent Analyse',
         role: 'Classifie les besoins par priorité et identifie les risques du projet.',
         couleur: '#8b5cf6',
         skills: ['Priorisation', 'Risques', 'Dépendances']
     },
     {
-        icone: '✍️',
+        icone: '',
         nom: 'Agent Génération',
         role: 'Génère le CDC complet en Markdown en s\'appuyant sur les anciens CDC.',
         couleur: '#10b981',
         skills: ['Markdown', 'Templates RAG', 'Contenu']
     },
     {
-        icone: '✅',
+        icone: '',
         nom: 'Agent Validation',
         role: 'Vérifie la cohérence du CDC et calcule un score de complétude.',
         couleur: '#f59e0b',
