@@ -4,7 +4,7 @@
 # Build en deux étapes : build puis serve
 # ============================================================
 
-# ── Étape 1 : Build de l'application React ──────────────────
+#  Étape 1 : Build de l'application React 
 FROM node:20-alpine AS builder
 
 RUN npm install -g pnpm

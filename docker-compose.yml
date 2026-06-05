@@ -8,7 +8,7 @@ version: '3.8'
 
 services:
 
-  # ── Base de données MySQL ──────────────────────────────────
+  # Base de données MySQL
   mysql:
     image: mysql:8.0
     container_name: cdceps_mysql
@@ -34,7 +34,7 @@ services:
       timeout: 5s
       retries: 5
 
-  # ── Backend Node.js ───────────────────────────────────────
+  # Backend Node.js
   backend:
     build:
       context: ./backend
@@ -60,7 +60,7 @@ services:
     networks:
       - cdceps_network
 
-  # ── Frontend React ────────────────────────────────────────
+  # Frontend React
   frontend:
     build:
       context: ./frontend
@@ -74,7 +74,7 @@ services:
     networks:
       - cdceps_network
 
-  # ── PHP Admin ─────────────────────────────────────────────
+  # PHP Admin 
   php_admin:
     build:
       context: ./php-admin
@@ -94,12 +94,12 @@ services:
     networks:
       - cdceps_network
 
-# ── Volumes persistants ───────────────────────────────────────
+# Volumes persistants 
 volumes:
   mysql_data:
     driver: local
 
-# ── Réseau interne ────────────────────────────────────────────
+# Réseau interne
 networks:
   cdceps_network:
     driver: bridge
