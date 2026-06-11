@@ -20,7 +20,7 @@ COPY . .
 # Build la version de production
 RUN pnpm build
 
-# ── Étape 2 : Serveur nginx pour servir les fichiers ─────────
+#  Étape 2 : Serveur nginx pour servir les fichiers 
 FROM nginx:alpine
 
 # Copie les fichiers buildés vers nginx
