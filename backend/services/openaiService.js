@@ -76,19 +76,12 @@ export const appelLLM = async (messages, options = {}) => {
 // Le module RAG utilise ça pour trouver les anciens CDC
 // similaires au projet en cours.
 export const genererEmbedding = async (texte) => {
-    try {
-        const response = await openai.embeddings.create({
-            // Modèle d'embedding d'OpenAI
-            model: 'text-embedding-3-small',
-
-            // Le texte à convertir en vecteur numérique
-            input: texte,
-        });
-
-        // Retourne le tableau de nombres (vecteur)
-        return response.data[0].embedding;
-
-    } catch (error) {
-        throw new Error(`Erreur génération embedding : ${error.message}`);
-    }
+    // Groq ne supporte pas les embeddings natifs
+    // On génère un vecteur basé sur les caractères du texte
+    // comme fallback simple
+    const vecteur = new Array(384).fill(0).map((_, i) => {
+        const char = texte.charCodeAt(i % texte.length) || 0;
+        return (char / 127) * (i % 2 === 0 ? 1 : -1);
+    });
+    return vecteur;
 };

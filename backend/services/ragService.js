@@ -8,7 +8,7 @@
 import pool from '../database/mysql.js';
 import { genererEmbedding } from './openaiService.js';
 
-// ── Fonction principale du RAG ───────────────────────────────
+//  Fonction principale du RAG 
 
 // Prend la description d'un projet et retourne les anciens
 // CDC les plus similaires depuis la base de données
