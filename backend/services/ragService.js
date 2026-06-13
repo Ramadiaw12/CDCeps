@@ -32,7 +32,7 @@ export const rechercherDocumentsSimilaires = async (description, typeProjet, nbR
 
         // Si aucun document trouvé, retourne un tableau vide
         if (documents.length === 0) {
-            console.log('⚠️ Aucun document RAG disponible en base');
+            console.log('Aucun document RAG disponible en base');
             return [];
         }
 
@@ -69,7 +69,7 @@ export const rechercherDocumentsSimilaires = async (description, typeProjet, nbR
         return meilleurs;
 
     } catch (error) {
-        // Le RAG est optionnel — si ça échoue on continue sans lui
+        // Le RAG est optionnel, si ça échoue on continue sans lui
         console.error('Erreur RAG :', error.message);
         return [];
     }

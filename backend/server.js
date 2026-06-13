@@ -17,7 +17,7 @@ import routesDocuments  from './routes/documents.js';
 
 dotenv.config();
 
-// ── Initialisation ───────────────────────────────────────────
+// Initialisation 
 const app = express();
 const httpServer = createServer(app);
 
@@ -42,17 +42,17 @@ app.use(express.urlencoded({ extended: true }));
 
 //  Socket.io 
 io.on('connection', (socket) => {
-    console.log(`🔌 Client connecté : ${socket.id}`);
+    console.log(`Client connecté : ${socket.id}`);
 
     // Le frontend envoie le sessionUuid pour s'abonner
     // aux événements de SA session uniquement
     socket.on('rejoindre_session', (sessionUuid) => {
         socket.join(sessionUuid);
-        console.log(`📎 Session rejointe : ${sessionUuid}`);
+        console.log(`Session rejointe : ${sessionUuid}`);
     });
 
     socket.on('disconnect', () => {
-        console.log(`🔌 Client déconnecté : ${socket.id}`);
+        console.log(`Client déconnecté : ${socket.id}`);
     });
 });
 
@@ -97,9 +97,9 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 3001;
 
 httpServer.listen(PORT, async () => {
-    console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
+    console.log(`Serveur démarré sur http://localhost:${PORT}`);
     await testConnection();
-    console.log(`📡 Routes disponibles :`);
+    console.log(`Routes disponibles :`);
     console.log(`   GET  /api/health`);
     console.log(`   POST /api/projets`);
     console.log(`   GET  /api/projets`);

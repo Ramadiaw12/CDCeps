@@ -45,7 +45,7 @@ class Orchestrateur {
             // Notifie le frontend que le pipeline a démarré
             io.to(sessionUuid).emit('pipeline_demarre', {
                 sessionUuid,
-                message: '🚀 Pipeline multi-agents démarré'
+                message: 'Pipeline multi-agents démarré'
             });
 
             // Étape 1 : Agent Collecte 
@@ -153,7 +153,7 @@ class Orchestrateur {
 
             // Notifie le frontend que tout est terminé
             io.to(sessionUuid).emit('pipeline_termine', {
-                message: '🎉 CDC généré avec succès',
+                message: 'CDC généré avec succès',
                 cdcId,
                 score: resultatsValidation.score_completude,
                 verdict: resultatsValidation.verdict
@@ -177,7 +177,7 @@ class Orchestrateur {
             // Notifie le frontend de l'erreur
             if (sessionUuid) {
                 io.to(sessionUuid).emit('pipeline_erreur', {
-                    message: `❌ Erreur : ${error.message}`
+                    message: `Erreur : ${error.message}`
                 });
             }
 
