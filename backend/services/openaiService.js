@@ -4,15 +4,25 @@
 // Tous les agents utilisent ce service pour appeler le LLM
 // ============================================================
 
-import OpenAI from 'openai';
+// import OpenAI from 'openai';
+// import dotenv from 'dotenv';
+// dotenv.config();
+import Groq from 'groq-sdk';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialise le client Grok avec la clé du .env
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
+const openai = new Groq({
+    apiKey: process.env.GROQ_API_KEY
 });
+
+
+
+
+// Initialise le client Grok avec la clé du .env
+// const openai = new OpenAI({
+//     apiKey: process.env.OPENAI_API_KEY
+// });
 
 // Fonction principale
 
