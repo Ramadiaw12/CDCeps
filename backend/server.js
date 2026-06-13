@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
 // Rend io accessible depuis toutes les routes
 app.set('io', io);
 
-// ── Routes ───────────────────────────────────────────────────
+//  Routes 
 
 // Route de santé — teste que le serveur tourne
 app.get('/api/health', (req, res) => {
@@ -71,7 +71,7 @@ app.use('/api/projets',    routesProjets);
 app.use('/api/agents',     routesAgents);
 app.use('/api/documents',  routesDocuments);
 
-// ── Gestion des routes inexistantes ─────────────────────────
+// Gestion des routes inexistantes 
 app.use((req, res) => {
     res.status(404).json({
         succes: false,
@@ -79,7 +79,7 @@ app.use((req, res) => {
     });
 });
 
-// ── Gestion globale des erreurs ──────────────────────────────
+// Gestion globale des erreurs 
 app.use((err, req, res, next) => {
     console.error('Erreur serveur :', err.message);
     res.status(500).json({
@@ -89,7 +89,7 @@ app.use((err, req, res, next) => {
     });
 });
 
-// ── Démarrage ────────────────────────────────────────────────
+// Démarrage
 const PORT = process.env.PORT || 3001;
 
 httpServer.listen(PORT, async () => {

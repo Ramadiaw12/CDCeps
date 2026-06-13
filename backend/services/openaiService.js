@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Initialise le client OpenAI avec la clé du .env
+// Initialise le client Grok avec la clé du .env
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
