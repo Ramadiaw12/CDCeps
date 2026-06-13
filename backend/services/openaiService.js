@@ -47,8 +47,8 @@ export const appelLLM = async (messages, options = {}) => {
             max_tokens: options.maxTokens || 2000,
 
             // Créativité de la réponse (0 = déterministe, 1 = créatif)
-            // Pour les CDC on veut quelque chose de précis : 0.3
-            temperature: options.temperature || 0.3,
+            // Pour les CDC on veut quelque chose de précis : 0.8
+            temperature: options.temperature || 0.8,
         });
 
         // Extrait le texte de la réponse
