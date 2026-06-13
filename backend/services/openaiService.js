@@ -56,13 +56,13 @@ export const appelLLM = async (messages, options = {}) => {
 
     } catch (error) {
         if (error.status === 401) {
-            throw new Error('Clé API Groq invalide — vérifiez votre .env');
+            throw new Error('Clé API Groq invalide - vérifiez votre .env');
         }
         if (error.status === 429) {
-            throw new Error('Quota Groq dépassé — attendez avant de réessayer');
+            throw new Error('Quota Groq dépassé - attendez avant de réessayer');
         }
         if (error.status === 500) {
-            throw new Error('Erreur serveur Groq — réessayez dans quelques instants');
+            throw new Error('Erreur serveur Groq - réessayez dans quelques instants');
         }
         throw new Error(`Erreur Groq : ${error.message}`);
     }
