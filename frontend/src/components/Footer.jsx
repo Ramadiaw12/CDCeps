@@ -93,7 +93,7 @@ function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom section - Copyright et version */}
+                {/* Bottom section Copyright et version */}
                 <div className="footer-bottom">
                     <div className="footer-copyright">
                         © {currentYear} CDCEPS — EPS SARL | Projet ingénieur

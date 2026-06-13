@@ -99,7 +99,7 @@ function Navbar() {
                         <div className="mobile-divider"></div>
                         
                         <Link to="/nouveau-projet" className="mobile-cta" onClick={() => setIsMenuOpen(false)}>
-                            <span>✨</span>
+                            <span></span>
                             Générer un cahier des charges
                             <span className="mobile-cta-arrow">→</span>
                         </Link>

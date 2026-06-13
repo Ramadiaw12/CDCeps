@@ -38,22 +38,22 @@ function Documentation({ isOpen, onClose }) {
                 {/* Tabs */}
                 <div className="doc-tabs">
                     <button className={`doc-tab ${activeTab === 'apercu' ? 'active' : ''}`} onClick={() => setActiveTab('apercu')}>
-                        📖 Aperçu général
+                         Aperçu général
                     </button>
                     <button className={`doc-tab ${activeTab === 'architecture' ? 'active' : ''}`} onClick={() => setActiveTab('architecture')}>
-                        🏗️ Architecture
+                        Architecture
                     </button>
                     <button className={`doc-tab ${activeTab === 'agents' ? 'active' : ''}`} onClick={() => setActiveTab('agents')}>
-                        🤖 Agents IA
+                        Agents IA
                     </button>
                     <button className={`doc-tab ${activeTab === 'api' ? 'active' : ''}`} onClick={() => setActiveTab('api')}>
-                        🔌 API & Endpoints
+                        API & Endpoints
                     </button>
                     <button className={`doc-tab ${activeTab === 'deploiement' ? 'active' : ''}`} onClick={() => setActiveTab('deploiement')}>
-                        🚀 Déploiement
+                         Déploiement
                     </button>
                     <button className={`doc-tab ${activeTab === 'securite' ? 'active' : ''}`} onClick={() => setActiveTab('securite')}>
-                        🔒 Sécurité
+                         Sécurité
                     </button>
                 </div>
 

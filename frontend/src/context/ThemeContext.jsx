@@ -11,7 +11,7 @@ const ThemeContext = createContext();
 
 // Provider  enveloppe toute l'application
 export function ThemeProvider({ children }) {
-    // Récupère le thème sauvegardé ou utilise 'light' par défaut
+    // le thème 'light' par défaut
     const [theme, setTheme] = useState(() => {
         return localStorage.getItem('cdceps-theme') || 'light';
     });
