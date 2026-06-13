@@ -33,7 +33,7 @@ export const appelLLM = async (messages, options = {}) => {
     try {
         const response = await openai.chat.completions.create({
             // Le modèle à utiliser
-            model: options.model || 'gpt-4o-mini',
+            model: options.model || 'llama-3.3-70b-versatile',
 
             // Les messages de la conversation
             // Chaque message a un "role" : system, user, ou assistant
