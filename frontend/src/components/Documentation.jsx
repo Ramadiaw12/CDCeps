@@ -62,7 +62,7 @@ function Documentation({ isOpen, onClose }) {
                     {/* Aperçu général */}
                     {activeTab === 'apercu' && (
                         <div className="doc-section">
-                            <h3>📖 Présentation du projet</h3>
+                            <h3>Présentation du projet</h3>
                             <p>
                                 CDCEPS (Cahier Des Charges Électronique Professionnel Sécurisé) est un système 
                                 multi-agents basé sur l'intelligence artificielle permettant la génération 
@@ -114,17 +114,17 @@ function Documentation({ isOpen, onClose }) {
                             </div>
 
                             <div className="doc-graph">
-                                <h4>📈 Flow utilisateur</h4>
+                                <h4>low utilisateur</h4>
                                 <div className="graph-flow">
-                                    <div className="flow-node">📝 Formulaire</div>
+                                    <div className="flow-node">Formulaire</div>
                                     <div className="flow-arrow">→</div>
-                                    <div className="flow-node">🤖 Agents IA</div>
+                                    <div className="flow-node">Agents IA</div>
                                     <div className="flow-arrow">→</div>
-                                    <div className="flow-node">📄 Génération</div>
+                                    <div className="flow-node">Génération</div>
                                     <div className="flow-arrow">→</div>
-                                    <div className="flow-node">✅ Validation</div>
+                                    <div className="flow-node">Validation</div>
                                     <div className="flow-arrow">→</div>
-                                    <div className="flow-node">📥 Export</div>
+                                    <div className="flow-node">Export</div>
                                 </div>
                             </div>
                         </div>
@@ -133,7 +133,7 @@ function Documentation({ isOpen, onClose }) {
                     {/* Architecture */}
                     {activeTab === 'architecture' && (
                         <div className="doc-section">
-                            <h3>🏗️ Architecture système</h3>
+                            <h3>Architecture système</h3>
                             
                             <div className="arch-diagram">
                                 <div className="arch-layer">
@@ -176,7 +176,7 @@ function Documentation({ isOpen, onClose }) {
                             </div>
 
                             <div className="doc-table-wrapper">
-                                <h4>📊 Composants et responsabilités</h4>
+                                <h4>Composants et responsabilités</h4>
                                 <table className="doc-table">
                                     <thead><tr><th>Composant</th><th>Responsabilité</th><th>Port</th></tr></thead>
                                     <tbody>
@@ -219,15 +219,15 @@ function Documentation({ isOpen, onClose }) {
                             </div>
 
                             <div className="doc-graph">
-                                <h4>🔄 Pipeline séquentiel</h4>
+                                <h4>Pipeline séquentiel</h4>
                                 <div className="pipeline-visual">
                                     <div className="pipeline-step done">Collecte <span>✓</span></div>
                                     <div className="pipeline-connector">→</div>
                                     <div className="pipeline-step active">Analyse <span>⚡</span></div>
                                     <div className="pipeline-connector">→</div>
-                                    <div className="pipeline-step">Génération <span>⏳</span></div>
+                                    <div className="pipeline-step">Génération <span></span></div>
                                     <div className="pipeline-connector">→</div>
-                                    <div className="pipeline-step">Validation <span>⏳</span></div>
+                                    <div className="pipeline-step">Validation <span></span></div>
                                 </div>
                                 <p className="graph-caption">Pipeline séquentiel avec boucle de rétroaction</p>
                             </div>
@@ -237,7 +237,7 @@ function Documentation({ isOpen, onClose }) {
                     {/* API & Endpoints */}
                     {activeTab === 'api' && (
                         <div className="doc-section">
-                            <h3>🔌 API REST - Endpoints</h3>
+                            <h3>API REST - Endpoints</h3>
                             
                             <div className="doc-table-wrapper">
                                 <table className="doc-table">
