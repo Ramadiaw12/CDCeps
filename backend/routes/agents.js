@@ -56,7 +56,7 @@ router.post('/generer/:projetId', async (req, res) => {
         };
 
         // IMPORTANT : On répond immédiatement au frontend
-        // avec le sessionUuid AVANT de lancer le pipeline
+        // avec la sessionUuid AVANT de lancer le pipeline
         // Le pipeline tourne en arrière-plan
         // Le frontend suit la progression via Socket.io
         
@@ -78,7 +78,7 @@ router.post('/generer/:projetId', async (req, res) => {
         });
 
         // Récupère le sessionUuid créé par l'orchestrateur
-        // On attend juste la création de la session (rapide)
+        // On attend juste la création de la session 
         // puis on répond au frontend
         const [sessions] = await pool.execute(
             `SELECT session_uuid FROM sessions_agents

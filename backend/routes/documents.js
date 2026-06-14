@@ -2,12 +2,12 @@
 // routes/documents.js
 // Endpoints pour la gestion des CDC générés
 //
-// GET  /api/documents/cdc/:id          → Récupère un CDC
-// GET  /api/documents/cdc              → Liste tous les CDC
-// GET  /api/documents/cdc/:id/markdown → Télécharge en .md
-// GET  /api/documents/cdc/:id/pdf      → Télécharge en PDF
-// POST /api/documents/rag              → Indexe un document RAG
-// GET  /api/documents/rag              → Liste documents RAG
+// GET  /api/documents/cdc/:id           Récupère un CDC
+// GET  /api/documents/cdc               Liste tous les CDC
+// GET  /api/documents/cdc/:id/markdown  Télécharge en .md
+// GET  /api/documents/cdc/:id/pdf       Télécharge en PDF
+// POST /api/documents/rag               Indexe un document RAG
+// GET  /api/documents/rag               Liste documents RAG
 // ============================================================
 
 import express from 'express';
