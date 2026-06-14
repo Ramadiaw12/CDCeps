@@ -63,7 +63,7 @@ class AgentValidation extends BaseAgent {
         try {
             this.notifierProgression(
                 io, sessionUuid,
-                '🔍 Validation et contrôle qualité du CDC...'
+                'Validation et contrôle qualité du CDC...'
             );
 
             await this.mettreAJourStatut(sessionId, 'running');
@@ -114,7 +114,7 @@ class AgentValidation extends BaseAgent {
             // Notifie avec le score obtenu
             this.notifierProgression(
                 io, sessionUuid,
-                `✅ Validation terminée — score : ${resultat.score_completude}/100 — ${resultat.verdict}`
+                `Validation terminée — score : ${resultat.score_completude}/100 — ${resultat.verdict}`
             );
 
             await this.mettreAJourStatut(sessionId, 'done');

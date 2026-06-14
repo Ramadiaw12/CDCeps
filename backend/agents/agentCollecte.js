@@ -104,7 +104,7 @@ class AgentCollecte extends BaseAgent {
             // Notifie le frontend que l'agent a terminé
             this.notifierProgression(
                 io, sessionUuid,
-                `✅ Collecte terminée — ${resultat.besoins_fonctionnels?.length || 0} besoins identifiés`
+                `Collecte terminée — ${resultat.besoins_fonctionnels?.length || 0} besoins identifiés`
             );
 
             // Met à jour le statut en base : "done"
