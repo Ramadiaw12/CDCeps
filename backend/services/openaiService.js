@@ -42,42 +42,48 @@ export const appelLLM = async (messages, options = {}) => {
         const response = await ai.models.generateContent({
             model: options.model || "gemoni-2.5-flash",
             contents: prompt, 
-        })
-        const response = await openai.chat.completions.create({
+        });
+
+        return response.text;
+
+        // const response = await openai.chat.completions.create({
             // Le modèle à utiliser
-            model: options.model || 'llama-3.3-70b-versatile',
+            // model: options.model || 'llama-3.3-70b-versatile',
 
             // Les messages de la conversation
             // Chaque message a un "role" : system, user, ou assistant
             // - system  : instructions de comportement de l'agent
             // - user    : ce que l'utilisateur envoie
             // - assistant : réponse précédente du LLM (pour le contexte)
-            messages: messages,
+            // messages: messages,
 
             // Longueur maximale de la réponse en tokens
             // 1 token ≈ 0.75 mot en français
-            max_tokens: options.maxTokens || 2000,
+            // max_tokens: options.maxTokens || 2000,
 
             // Créativité de la réponse (0 = déterministe, 1 = créatif)
             // Pour les CDC on veut quelque chose de précis : 0.8
-            temperature: options.temperature || 0.8,
-        });
+            // temperature: options.temperature || 0.8,
+        // });
 
         // Extrait le texte de la réponse
-        return response.choices[0].message.content;
+        // return response.choices[0].message.content;
 
     } catch (error) {
-        if (error.status === 401) {
-            throw new Error('Clé API Groq invalide - vérifiez votre .env');
-        }
-        if (error.status === 429) {
-            throw new Error('Quota Groq dépassé - attendez avant de réessayer');
-        }
-        if (error.status === 500) {
-            throw new Error('Erreur serveur Groq - réessayez dans quelques instants');
-        }
-        throw new Error(`Erreur Groq : ${error.message}`);
+        throw new Error(`Erreur Gemini : ${error.message}`);
     }
+    // catch (error) {
+    //     if (error.status === 401) {
+    //         throw new Error('Clé API Groq invalide - vérifiez votre .env');
+    //     }
+    //     if (error.status === 429) {
+    //         throw new Error('Quota Groq dépassé - attendez avant de réessayer');
+    //     }
+    //     if (error.status === 500) {
+    //         throw new Error('Erreur serveur Groq - réessayez dans quelques instants');
+    //     }
+    //     throw new Error(`Erreur Groq : ${error.message}`);
+    
 };
 
 // Fonction pour générer les embeddings 
