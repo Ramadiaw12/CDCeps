@@ -3,130 +3,230 @@
 // Module RAG (Retrieval Augmented Generation)
 // Recherche les anciens CDC similaires pour enrichir
 // la génération de nouveaux CDC
+// 
+// MIGRATION : MySQL → PostgreSQL avec pgvector
+// MIGRATION : OpenAI → Google Gemini
 // ============================================================
 
-import pool from '../database/mysql.js';
-import { genererEmbedding } from './openaiService.js';
+import pool from '../database/postgres.js';
+import { generateEmbedding } from './gemini.js';
 
-//  Fonction principale du RAG 
+// ============================================================
+// 1. FONCTION PRINCIPALE DU RAG
+// ============================================================
 
-// Prend la description d'un projet et retourne les anciens
-// CDC les plus similaires depuis la base de données
-export const rechercherDocumentsSimilaires = async (description, typeProjet, nbResultats = 3) => {
+/**
+ * Recherche les documents les plus similaires à une description
+ * @param {string} description - Description du projet
+ * @param {string} typeProjet - Type de projet (ex: 'web', 'mobile')
+ * @param {number} nbResultats - Nombre de résultats à retourner
+ * @param {number} seuilSimilarite - Seuil minimum de similarité (0-1)
+ * @returns {Promise<Array>} Liste des documents similaires
+ */
+export const rechercherDocumentsSimilaires = async (
+    description, 
+    typeProjet = null, 
+    nbResultats = 3,
+    seuilSimilarite = 0.5
+) => {
     try {
-        // Étape 1 : Convertir la description en vecteur numérique
-        // Ex: "application web de gestion RH" devient
-        // [0.023, -0.156, 0.891, ...] (1536 nombres)
-        const embeddingRequete = await genererEmbedding(description);
-
-        // Étape 2 : Récupérer tous les documents RAG de la base
-        // On filtre par type de projet si possible pour
-        // avoir des résultats plus pertinents
-        const [documents] = await pool.execute(
-            `SELECT id, titre, contenu, type_projet, mots_cles, embedding
-             FROM documents_rag
-             WHERE actif = TRUE
-             AND (type_projet = ? OR type_projet = 'autre')`,
-            [typeProjet]
-        );
-
-        // Si aucun document trouvé, retourne un tableau vide
-        if (documents.length === 0) {
-            console.log('Aucun document RAG disponible en base');
+        console.log(`🔍 RAG : Recherche de documents similaires...`);
+        
+        // Étape 1 : Convertir la description en vecteur avec Gemini
+        const embeddingRequete = await generateEmbedding(description);
+        
+        if (!embeddingRequete) {
+            console.warn('⚠️ RAG : Impossible de générer l\'embedding');
             return [];
         }
 
-        // Étape 3 : Calculer la similarité entre la requête
-        // et chaque document de la base
-        const documentsAvecScore = documents
-            .filter(doc => doc.embedding) // Ignore les docs sans embedding
-            .map(doc => {
-                // Parse le JSON de l'embedding stocké en base
-                const embeddingDoc = JSON.parse(doc.embedding);
+        console.log(`✅ Embedding généré (${embeddingRequete.length} dimensions)`);
 
-                // Calcule la similarité cosinus entre les deux vecteurs
-                // Score entre 0 et 1 : plus c'est proche de 1,
-                // plus les deux textes sont similaires
-                const score = similariteCosinus(embeddingRequete, embeddingDoc);
+        // Étape 2 : Construire la requête SQL avec pgvector
+        // pgvector calcule directement la similarité cosinus avec <=>
+        let sql = `
+            SELECT 
+                d.id,
+                d.titre,
+                d.contenu,
+                d.type_projet,
+                d.secteur,
+                d.mots_cles,
+                d.metadata,
+                d.created_at,
+                1 - (de.embedding <=> $1::vector) AS score_similarite
+            FROM document_embeddings de
+            JOIN documents d ON d.id = de.document_id
+            WHERE d.actif = TRUE
+        `;
 
-                return {
-                    id: doc.id,
-                    titre: doc.titre,
-                    contenu: doc.contenu,
-                    type_projet: doc.type_projet,
-                    score: score
-                };
-            });
+        const params = [JSON.stringify(embeddingRequete)];
 
-        // Étape 4 : Trier par score décroissant et prendre les N meilleurs
-        const meilleurs = documentsAvecScore
-            .sort((a, b) => b.score - a.score)
+        // Filtrer par type de projet si spécifié
+        if (typeProjet) {
+            sql += ` AND (d.type_projet = $2 OR d.type_projet = 'autre')`;
+            params.push(typeProjet);
+        }
+
+        // Trier par similarité et limiter les résultats
+        sql += `
+            ORDER BY de.embedding <=> $1::vector
+            LIMIT $${params.length + 1}
+        `;
+        params.push(nbResultats * 2); // On prend plus pour filtrer après
+
+        // Exécuter la requête
+        const result = await pool.query(sql, params);
+        
+        // Filtrer par seuil de similarité
+        const documents = result.rows
+            .filter(doc => doc.score_similarite >= seuilSimilarite)
             .slice(0, nbResultats)
-            .filter(doc => doc.score > 0.5); // Seuil minimum de similarité
+            .map(doc => ({
+                id: doc.id,
+                titre: doc.titre,
+                contenu: doc.contenu,
+                type_projet: doc.type_projet,
+                secteur: doc.secteur,
+                mots_cles: doc.mots_cles,
+                metadata: doc.metadata,
+                score: parseFloat(doc.score_similarite)
+            }));
 
-        console.log(`📚 RAG : ${meilleurs.length} document(s) similaire(s) trouvé(s)`);
+        console.log(`📚 RAG : ${documents.length} document(s) similaire(s) trouvé(s)`);
+        
+        if (documents.length > 0) {
+            console.log(`   Meilleur score : ${(documents[0].score * 100).toFixed(1)}%`);
+        }
 
-        return meilleurs;
+        return documents;
 
     } catch (error) {
-        // Le RAG est optionnel, si ça échoue on continue sans lui
-        console.error('Erreur RAG :', error.message);
+        console.error('❌ Erreur RAG :', error.message);
+        // Le RAG est optionnel, on retourne un tableau vide
         return [];
     }
 };
 
-// Indexation d'un nouveau document
+// ============================================================
+// 2. INDEXATION D'UN NOUVEAU DOCUMENT
+// ============================================================
 
-// Quand on ajoute un ancien CDC en base,
-// on génère et stocke son embedding pour les futures recherches
-export const indexerDocument = async (titre, contenu, typeProjet, secteur, motsCles) => {
+/**
+ * Indexe un nouveau document dans la base pour le RAG
+ * @param {Object} document - Document à indexer
+ * @param {string} document.titre - Titre du document
+ * @param {string} document.contenu - Contenu du document
+ * @param {string} document.type_projet - Type de projet
+ * @param {string} document.secteur - Secteur d'activité
+ * @param {Array} document.mots_cles - Mots-clés
+ * @param {Object} document.metadata - Métadonnées additionnelles
+ * @returns {Promise<number>} ID du document inséré
+ */
+export const indexerDocument = async ({
+    titre,
+    contenu,
+    type_projet = 'autre',
+    secteur = null,
+    mots_cles = [],
+    metadata = {}
+}) => {
+    const client = await pool.connect();
+    
     try {
-        // Génère l'embedding du contenu du document
-        // On tronque à 8000 caractères pour ne pas dépasser
-        // la limite de tokens d'OpenAI
-        const contenuTronque = contenu.substring(0, 8000);
-        const embedding = await genererEmbedding(contenuTronque);
+        console.log(`📝 Indexation du document : ${titre}`);
+        
+        // Vérifier que le contenu n'est pas vide
+        if (!contenu || contenu.length < 10) {
+            throw new Error('Le contenu du document est trop court');
+        }
 
-        // Stocke le document avec son embedding en base
-        const [result] = await pool.execute(
-            `INSERT INTO documents_rag 
-             (titre, contenu, type_projet, secteur, mots_cles, embedding)
-             VALUES (?, ?, ?, ?, ?, ?)`,
+        // Générer l'embedding du contenu
+        // On tronque à 8000 caractères pour Gemini
+        const contenuTronque = contenu.substring(0, 8000);
+        const embedding = await generateEmbedding(contenuTronque);
+        
+        if (!embedding) {
+            throw new Error('Impossible de générer l\'embedding');
+        }
+
+        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
+
+        await client.query('BEGIN');
+
+        // Insérer le document dans la table principale
+        const docResult = await client.query(
+            `INSERT INTO documents (
+                titre, 
+                contenu, 
+                type_projet, 
+                secteur, 
+                mots_cles, 
+                metadata,
+                actif
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+            RETURNING id`,
             [
                 titre,
                 contenu,
-                typeProjet,
+                type_projet,
                 secteur,
-                JSON.stringify(motsCles),
-                JSON.stringify(embedding)  // Stocke le vecteur en JSON
+                JSON.stringify(mots_cles),
+                JSON.stringify(metadata),
+                true
             ]
         );
 
-        console.log(`Document indexé avec succès : ${titre}`);
-        return result.insertId;
+        const documentId = docResult.rows[0].id;
+
+        // Insérer l'embedding dans la table vectorielle
+        await client.query(
+            `INSERT INTO document_embeddings (document_id, embedding)
+             VALUES ($1, $2)`,
+            [documentId, JSON.stringify(embedding)]
+        );
+
+        await client.query('COMMIT');
+        
+        console.log(`✅ Document indexé avec succès : ${titre} (ID: ${documentId})`);
+        return documentId;
 
     } catch (error) {
+        await client.query('ROLLBACK');
+        console.error(`❌ Erreur indexation : ${error.message}`);
         throw new Error(`Erreur indexation document : ${error.message}`);
+    } finally {
+        client.release();
     }
 };
 
-// Formater le contexte RAG pour le prompt
+// ============================================================
+// 3. FORMATAGE DU CONTEXTE RAG POUR LE PROMPT
+// ============================================================
 
-// Prend les documents trouvés et les formate en texte
-// pour les injecter dans le prompt des agents
-export const formaterContexteRAG = (documents) => {
-    if (documents.length === 0) {
-        return ''; // Pas de contexte RAG disponible
+/**
+ * Formate les documents trouvés en contexte pour le LLM
+ * @param {Array} documents - Documents similaires
+ * @param {number} maxCaracteres - Nombre max de caractères par document
+ * @returns {string} Contexte formaté
+ */
+export const formaterContexteRAG = (documents, maxCaracteres = 1500) => {
+    if (!documents || documents.length === 0) {
+        return '';
     }
 
     let contexte = '=== ANCIENS CDC SIMILAIRES (référence) ===\n\n';
 
     documents.forEach((doc, index) => {
-        contexte += `--- Document ${index + 1} : ${doc.titre} ---\n`;
-
-        // On ne prend que les 1500 premiers caractères de chaque doc
-        // pour ne pas dépasser la fenêtre de contexte du LLM
-        contexte += doc.contenu.substring(0, 1500);
+        const score = doc.score ? ` (similarité: ${(doc.score * 100).toFixed(1)}%)` : '';
+        contexte += `--- Document ${index + 1} : ${doc.titre}${score} ---\n`;
+        
+        // Tronquer le contenu si nécessaire
+        const contenuTronque = doc.contenu.length > maxCaracteres 
+            ? doc.contenu.substring(0, maxCaracteres) + '...'
+            : doc.contenu;
+        
+        contexte += contenuTronque;
         contexte += '\n\n';
     });
 
@@ -135,30 +235,127 @@ export const formaterContexteRAG = (documents) => {
     return contexte;
 };
 
-// Algorithme de similarité cosinus
+// ============================================================
+// 4. FONCTIONS UTILITAIRES
+// ============================================================
 
-// Mesure la similarité entre deux vecteurs
-// C'est la formule mathématique de base du RAG
-// Résultat entre -1 et 1 (on obtient généralement entre 0 et 1)
-const similariteCosinus = (vecteurA, vecteurB) => {
-    // Vérifie que les deux vecteurs ont la même dimension
-    if (vecteurA.length !== vecteurB.length) {
-        return 0;
+/**
+ * Récupère un document par son ID
+ * @param {number} id - ID du document
+ * @returns {Promise<Object|null>} Document ou null
+ */
+export const getDocumentById = async (id) => {
+    try {
+        const result = await pool.query(
+            `SELECT 
+                d.id,
+                d.titre,
+                d.contenu,
+                d.type_projet,
+                d.secteur,
+                d.mots_cles,
+                d.metadata,
+                d.created_at,
+                d.updated_at
+             FROM documents d
+             WHERE d.id = $1 AND d.actif = TRUE`,
+            [id]
+        );
+        
+        if (result.rows.length === 0) return null;
+        
+        const doc = result.rows[0];
+        return {
+            ...doc,
+            mots_cles: doc.mots_cles || [],
+            metadata: doc.metadata || {}
+        };
+    } catch (error) {
+        console.error('Erreur getDocumentById:', error.message);
+        return null;
     }
+};
 
-    // Calcule le produit scalaire (numérateur)
-    let produitScalaire = 0;
-    for (let i = 0; i < vecteurA.length; i++) {
-        produitScalaire += vecteurA[i] * vecteurB[i];
+/**
+ * Supprime un document (soft delete)
+ * @param {number} id - ID du document
+ * @returns {Promise<boolean>} Succès ou non
+ */
+export const supprimerDocument = async (id) => {
+    try {
+        await pool.query(
+            'UPDATE documents SET actif = FALSE, updated_at = CURRENT_TIMESTAMP WHERE id = $1',
+            [id]
+        );
+        console.log(`✅ Document ${id} supprimé (soft delete)`);
+        return true;
+    } catch (error) {
+        console.error('Erreur supprimerDocument:', error.message);
+        return false;
     }
+};
 
-    // Calcule la norme de chaque vecteur (dénominateur)
-    const normeA = Math.sqrt(vecteurA.reduce((sum, val) => sum + val * val, 0));
-    const normeB = Math.sqrt(vecteurB.reduce((sum, val) => sum + val * val, 0));
+/**
+ * Récupère tous les documents indexés
+ * @param {Object} filters - Filtres (type_projet, secteur, etc.)
+ * @returns {Promise<Array>} Liste des documents
+ */
+export const listerDocuments = async (filters = {}) => {
+    try {
+        let sql = `
+            SELECT 
+                d.id,
+                d.titre,
+                d.type_projet,
+                d.secteur,
+                d.mots_cles,
+                d.metadata,
+                d.created_at,
+                d.updated_at,
+                LENGTH(d.contenu) AS taille_contenu
+            FROM documents d
+            WHERE d.actif = TRUE
+        `;
+        
+        const params = [];
+        let paramCount = 1;
+        
+        if (filters.type_projet) {
+            sql += ` AND d.type_projet = $${paramCount}`;
+            params.push(filters.type_projet);
+            paramCount++;
+        }
+        
+        if (filters.secteur) {
+            sql += ` AND d.secteur = $${paramCount}`;
+            params.push(filters.secteur);
+            paramCount++;
+        }
+        
+        sql += ` ORDER BY d.created_at DESC`;
+        
+        const result = await pool.query(sql, params);
+        
+        return result.rows.map(doc => ({
+            ...doc,
+            mots_cles: doc.mots_cles || [],
+            metadata: doc.metadata || {}
+        }));
+    } catch (error) {
+        console.error('Erreur listerDocuments:', error.message);
+        return [];
+    }
+};
 
-    // Évite la division par zéro
-    if (normeA === 0 || normeB === 0) return 0;
+// ============================================================
+// 5. EXPORT
+// ============================================================
 
-    // Retourne le cosinus de l'angle entre les deux vecteurs
-    return produitScalaire / (normeA * normeB);
+export default {
+    rechercherDocumentsSimilaires,
+    indexerDocument,
+    formaterContexteRAG,
+    getDocumentById,
+    supprimerDocument,
+    listerDocuments
 };

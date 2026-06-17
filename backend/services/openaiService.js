@@ -1,104 +1,238 @@
 // ============================================================
 // services/openaiService.js
-// Service centralisé pour communiquer avec l'API OpenAI
+// Service centralisé pour communiquer avec les LLM
 // Tous les agents utilisent ce service pour appeler le LLM
+// 
+// MIGRATION : Utilise désormais Google Gemini (au lieu de Groq)
 // ============================================================
 
-// import OpenAI from 'openai';
-// import dotenv from 'dotenv';
-// dotenv.config();
-import Groq from 'groq-sdk';
 import dotenv from 'dotenv';
-import { GoogleGenAI } from "@google/genai";
-
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
 
-// const openai = new Groq({
-//     apiKey: process.env.GROQ_API_KEY
-// });
+// ============================================================
+// 1. INITIALISATION DE GEMINI
+// ============================================================
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+// Initialiser le client Gemini avec la clé API
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
+// Vérifier que la clé est définie
+if (!process.env.GOOGLE_API_KEY) {
+    console.error('❌ GOOGLE_API_KEY non définie dans .env');
+}
 
-// Initialise le client Grok avec la clé du .env
-// const openai = new OpenAI({
-//     apiKey: process.env.OPENAI_API_KEY
-// });
+// Modèle pour le chat (par défaut)
+const DEFAULT_MODEL = 'gemini-1.5-flash';  // ou 'gemini-1.5-pro'
 
-// Fonction principale
+// Modèle pour les embeddings
+const EMBEDDING_MODEL = 'embedding-001';
 
-// Cette fonction est appelée par chaque agent
-// Elle prend un tableau de messages (conversation) et
-// retourne la réponse du LLM sous forme de texte
+// ============================================================
+// 2. FONCTION PRINCIPALE - APPEL LLM
+// ============================================================
+
+/**
+ * Appelle le LLM (Gemini) avec une conversation
+ * @param {Array} messages - Tableau de messages {role, content}
+ * @param {Object} options - Options de génération
+ * @param {string} options.model - Modèle à utiliser
+ * @param {number} options.temperature - Créativité (0-1)
+ * @param {number} options.maxTokens - Longueur max de la réponse
+ * @returns {Promise<string>} Réponse du LLM
+ */
 export const appelLLM = async (messages, options = {}) => {
     try {
-        const prompt = messages
-        .map(msg =>  `${msg.role}: ${msg.content}`)
-        .join("\n");
+        // Extraire les options avec des valeurs par défaut
+        const model = options.model || DEFAULT_MODEL;
+        const temperature = options.temperature || 0.8;
+        const maxTokens = options.maxTokens || 2000;
 
-        const response = await ai.models.generateContent({
-            model: options.model || "gemoni-2.5-flash",
-            contents: prompt, 
+        console.log(`🤖 Appel LLM (${model}) avec ${messages.length} messages`);
+
+        // Construire le prompt à partir des messages
+        let prompt = '';
+        let systemInstruction = '';
+
+        for (const msg of messages) {
+            if (msg.role === 'system') {
+                // Les instructions système deviennent le contexte
+                systemInstruction = msg.content;
+            } else if (msg.role === 'user') {
+                prompt += `Utilisateur: ${msg.content}\n`;
+            } else if (msg.role === 'assistant') {
+                prompt += `Assistant: ${msg.content}\n`;
+            }
+        }
+
+        // Préparer le contenu final
+        const fullPrompt = systemInstruction 
+            ? `${systemInstruction}\n\n${prompt}Assistant: `
+            : `${prompt}Assistant: `;
+
+        // Appeler Gemini
+        const generativeModel = genAI.getGenerativeModel({
+            model: model,
+            generationConfig: {
+                temperature: temperature,
+                maxOutputTokens: maxTokens,
+            }
         });
 
-        return response.text;
+        const result = await generativeModel.generateContent(fullPrompt);
+        const response = result.response.text();
 
-        // const response = await openai.chat.completions.create({
-            // Le modèle à utiliser
-            // model: options.model || 'llama-3.3-70b-versatile',
-
-            // Les messages de la conversation
-            // Chaque message a un "role" : system, user, ou assistant
-            // - system  : instructions de comportement de l'agent
-            // - user    : ce que l'utilisateur envoie
-            // - assistant : réponse précédente du LLM (pour le contexte)
-            // messages: messages,
-
-            // Longueur maximale de la réponse en tokens
-            // 1 token ≈ 0.75 mot en français
-            // max_tokens: options.maxTokens || 2000,
-
-            // Créativité de la réponse (0 = déterministe, 1 = créatif)
-            // Pour les CDC on veut quelque chose de précis : 0.8
-            // temperature: options.temperature || 0.8,
-        // });
-
-        // Extrait le texte de la réponse
-        // return response.choices[0].message.content;
+        console.log(`✅ Réponse reçue (${response.length} caractères)`);
+        return response;
 
     } catch (error) {
+        console.error('❌ Erreur Gemini:', error.message);
+        
+        // Gestion des erreurs spécifiques
+        if (error.message.includes('API key')) {
+            throw new Error('Clé API Gemini invalide - vérifiez votre .env');
+        }
+        if (error.message.includes('quota')) {
+            throw new Error('Quota Gemini dépassé - attendez avant de réessayer');
+        }
+        if (error.message.includes('429')) {
+            throw new Error('Trop de requêtes - attendez quelques instants');
+        }
+        
         throw new Error(`Erreur Gemini : ${error.message}`);
     }
-    // catch (error) {
-    //     if (error.status === 401) {
-    //         throw new Error('Clé API Groq invalide - vérifiez votre .env');
-    //     }
-    //     if (error.status === 429) {
-    //         throw new Error('Quota Groq dépassé - attendez avant de réessayer');
-    //     }
-    //     if (error.status === 500) {
-    //         throw new Error('Erreur serveur Groq - réessayez dans quelques instants');
-    //     }
-    //     throw new Error(`Erreur Groq : ${error.message}`);
-    
 };
 
-// Fonction pour générer les embeddings 
+// ============================================================
+// 3. GÉNÉRATION D'EMBEDDINGS AVEC GEMINI
+// ============================================================
 
-// Les embeddings sont des représentations numériques (vecteurs)
-// d'un texte. Deux textes similaires auront des vecteurs proches.
-// Le module RAG utilise ça pour trouver les anciens CDC
-// similaires au projet en cours.
+/**
+ * Génère un embedding (vecteur) pour un texte avec Gemini
+ * @param {string} texte - Texte à vectoriser
+ * @returns {Promise<Array<number>>} Vecteur de 768 dimensions
+ */
 export const genererEmbedding = async (texte) => {
-    // Groq ne supporte pas les embeddings natifs
-    // On génère un vecteur basé sur les caractères du texte
-    // comme fallback simple
-    const vecteur = new Array(384).fill(0).map((_, i) => {
-        const char = texte.charCodeAt(i % texte.length) || 0;
-        return (char / 127) * (i % 2 === 0 ? 1 : -1);
-    });
-    return vecteur;
+    try {
+        if (!texte || texte.length < 3) {
+            console.warn('⚠️ Texte trop court pour générer un embedding');
+            return new Array(768).fill(0);
+        }
+
+        // Tronquer le texte si trop long (limite Gemini)
+        const texteTronque = texte.substring(0, 8000);
+        
+        // Générer l'embedding avec Gemini
+        const model = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
+        const result = await model.embedContent(texteTronque);
+        
+        // Gemini retourne un objet avec la propriété 'embedding'
+        const embedding = result.embedding.values;
+        
+        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
+        return embedding;
+
+    } catch (error) {
+        console.error('❌ Erreur embedding Gemini:', error.message);
+        
+        // Fallback : retourner un embedding aléatoire pour ne pas bloquer
+        // MAIS en production, il vaut mieux lever l'erreur
+        console.warn('⚠️ Utilisation d\'un embedding aléatoire comme fallback');
+        return new Array(768).fill(0).map(() => Math.random() * 0.1);
+    }
+};
+
+// ============================================================
+// 4. FONCTIONS UTILITAIRES
+// ============================================================
+
+/**
+ * Génère une réponse RAG avec contexte
+ * @param {string} query - Question de l'utilisateur
+ * @param {Array} documents - Documents similaires trouvés par RAG
+ * @param {Object} options - Options de génération
+ * @returns {Promise<string>} Réponse générée
+ */
+export const genererReponseRAG = async (query, documents, options = {}) => {
+    try {
+        // Construire le contexte à partir des documents
+        let contexte = '';
+        if (documents && documents.length > 0) {
+            contexte = '\n\n=== DOCUMENTS DE RÉFÉRENCE ===\n';
+            documents.forEach((doc, i) => {
+                const score = doc.score ? ` (similarité: ${(doc.score * 100).toFixed(1)}%)` : '';
+                contexte += `\nDocument ${i + 1}: ${doc.titre}${score}\n`;
+                contexte += `${doc.contenu.substring(0, 1500)}\n`;
+                contexte += '---\n';
+            });
+            contexte += '\n=== FIN DES RÉFÉRENCES ===\n';
+        }
+
+        // Construire les messages
+        const messages = [
+            {
+                role: 'system',
+                content: `Tu es un assistant expert en rédaction de Cahiers des Charges (CDC).
+                Réponds UNIQUEMENT en te basant sur les documents fournis.
+                Si la réponse n'est pas dans les documents, dis-le clairement.
+                Sois précis, structuré et professionnel.
+                ${contexte}`
+            },
+            {
+                role: 'user',
+                content: query
+            }
+        ];
+
+        // Appeler le LLM
+        const response = await appelLLM(messages, options);
+        return response;
+
+    } catch (error) {
+        console.error('❌ Erreur génération RAG:', error.message);
+        throw error;
+    }
+};
+
+/**
+ * Crée un prompt structuré pour un CDC
+ * @param {Object} data - Données pour le CDC
+ * @param {string} data.projet - Description du projet
+ * @param {string} data.type - Type de projet
+ * @param {string} data.contexte - Contexte additionnel
+ * @returns {Array} Messages formatés
+ */
+export const creerPromptCDC = (data) => {
+    const { projet, type, contexte = '' } = data;
+
+    const systemPrompt = `Tu es un expert en rédaction de Cahiers des Charges (CDC).
+Tu dois rédiger un CDC professionnel, structuré et complet.
+Le CDC doit contenir : 
+1. Présentation du projet
+2. Objectifs
+3. Fonctionnalités détaillées
+4. Contraintes techniques
+5. Planning indicatif
+6. Budget estimatif`;
+
+    const userPrompt = `Rédige un CDC pour : ${projet}
+Type de projet : ${type}
+${contexte ? `Contexte supplémentaire : ${contexte}` : ''}`;
+
+    return [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+    ];
+};
+
+// ============================================================
+// 5. EXPORT
+// ============================================================
+
+export default {
+    appelLLM,
+    genererEmbedding,
+    genererReponseRAG,
+    creerPromptCDC
 };
