@@ -21,11 +21,11 @@ export const rechercherDocumentsSimilaires = async (
         const embeddingRequete = await genererEmbedding(description);
         
         if (!embeddingRequete) {
-            console.warn('⚠️ RAG : Impossible de générer l\'embedding');
+            console.warn(' RAG : Impossible de générer l\'embedding');
             return [];
         }
 
-        console.log(`✅ Embedding généré (${embeddingRequete.length} dimensions)`);
+        console.log(` Embedding généré (${embeddingRequete.length} dimensions)`);
 
         let sql = `
             SELECT 
@@ -72,12 +72,12 @@ export const rechercherDocumentsSimilaires = async (
                 score: parseFloat(doc.score_similarite)
             }));
 
-        console.log(`📚 RAG : ${documents.length} document(s) similaire(s) trouvé(s)`);
+        console.log(` RAG : ${documents.length} document(s) similaire(s) trouvé(s)`);
         
         return documents;
 
     } catch (error) {
-        console.error('❌ Erreur RAG :', error.message);
+        console.error(' Erreur RAG :', error.message);
         return [];
     }
 };
@@ -93,7 +93,7 @@ export const indexerDocument = async ({
     const client = await pool.connect();
     
     try {
-        console.log(`📝 Indexation du document : ${titre}`);
+        console.log(` Indexation du document : ${titre}`);
         
         if (!contenu || contenu.length < 10) {
             throw new Error('Le contenu du document est trop court');
@@ -106,11 +106,11 @@ export const indexerDocument = async ({
             throw new Error('Impossible de générer l\'embedding');
         }
 
-        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
+        console.log(` Embedding généré (${embedding.length} dimensions)`);
 
         await client.query('BEGIN');
 
-        // ✅ Utiliser "title" et "content" au lieu de "titre" et "contenu"
+        // Utiliser "title" et "content" au lieu de "titre" et "contenu"
         const docResult = await client.query(
             `INSERT INTO documents (
                 title, 
@@ -143,12 +143,12 @@ export const indexerDocument = async ({
 
         await client.query('COMMIT');
         
-        console.log(`✅ Document indexé avec succès : ${titre} (ID: ${documentId})`);
+        console.log(` Document indexé avec succès : ${titre} (ID: ${documentId})`);
         return documentId;
 
     } catch (error) {
         await client.query('ROLLBACK');
-        console.error(`❌ Erreur indexation : ${error.message}`);
+        console.error(` Erreur indexation : ${error.message}`);
         throw new Error(`Erreur indexation document : ${error.message}`);
     } finally {
         client.release();
@@ -217,7 +217,7 @@ export const supprimerDocument = async (id) => {
             'UPDATE documents SET actif = FALSE, updated_at = CURRENT_TIMESTAMP WHERE id = $1',
             [id]
         );
-        console.log(`✅ Document ${id} supprimé (soft delete)`);
+        console.log(`Document ${id} supprimé (soft delete)`);
         return true;
     } catch (error) {
         console.error('Erreur supprimerDocument:', error.message);

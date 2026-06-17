@@ -28,13 +28,13 @@ function readPDF(pdfPath) {
                     if (!page.Texts) return '';
                     return page.Texts.map(textItem => {
                         try {
-                            // ✅ Gérer les erreurs de décodage
+                            // Gérer les erreurs de décodage
                             if (textItem.R && textItem.R[0] && textItem.R[0].T) {
                                 return decodeURIComponent(textItem.R[0].T);
                             }
                             return '';
                         } catch (e) {
-                            // ✅ Si le décodage échoue, retourner le texte brut
+                            // Si le décodage échoue, je retourne le texte brut
                             if (textItem.R && textItem.R[0] && textItem.R[0].T) {
                                 return textItem.R[0].T;
                             }
@@ -55,36 +55,36 @@ async function processPDF(pdfPath) {
     console.log('='.repeat(50));
     
     if (!fs.existsSync(pdfPath)) {
-        console.error(`❌ Fichier non trouvé: ${pdfPath}`);
+        console.error(` Fichier non trouvé: ${pdfPath}`);
         return;
     }
     
     try {
-        console.log('📄 Lecture du PDF...');
+        console.log(' Lecture du PDF...');
         const text = await readPDF(pdfPath);
         
         if (!text || text.length < 10) {
-            console.error('❌ Impossible de lire le PDF ou texte trop court');
-            console.log('📝 Texte extrait:', text ? text.substring(0, 200) : 'vide');
+            console.error(' Impossible de lire le PDF ou texte trop court');
+            console.log(' Texte extrait:', text ? text.substring(0, 200) : 'vide');
             return;
         }
         
-        console.log(`✅ PDF lu: ${text.length} caractères`);
-        console.log(`📝 Aperçu: ${text.substring(0, 200)}...`);
+        console.log(`PDF lu: ${text.length} caractères`);
+        console.log(`Aperçu: ${text.substring(0, 200)}...`);
         
         // Nettoyer le texte
         const cleanText = text.replace(/\s+/g, ' ').trim();
         const fileName = path.basename(pdfPath, '.pdf');
         const title = fileName;
         
-        console.log(`📝 Titre: ${title}`);
-        console.log('🔄 Génération de l\'embedding...');
+        console.log(`Titre: ${title}`);
+        console.log('Génération de l\'embedding...');
         
         const embedding = await genererEmbedding(cleanText);
         
         if (!embedding || embedding.length === 0) {
-            console.error('❌ Impossible de générer l\'embedding');
-            console.log('💡 Utilisation d\'un embedding aléatoire de secours...');
+            console.error('Impossible de générer l\'embedding');
+            console.log('Utilisation d\'un embedding aléatoire de secours...');
             const fallbackEmbedding = new Array(768).fill(0).map(() => Math.random() * 0.1);
             
             try {
@@ -100,15 +100,15 @@ async function processPDF(pdfPath) {
                         embedding_used: 'fallback'
                     }
                 });
-                console.log(`✅ Document indexé avec ID: ${id} (fallback)`);
+                console.log(`Document indexé avec ID: ${id} (fallback)`);
             } catch (error) {
-                console.error('❌ Erreur indexation:', error.message);
+                console.error('Erreur indexation:', error.message);
             }
             return;
         }
         
-        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
-        console.log('📥 Indexation du document...');
+        console.log(`Embedding généré (${embedding.length} dimensions)`);
+        console.log('Indexation du document...');
         
         const id = await indexerDocument({
             titre: title,
@@ -121,10 +121,10 @@ async function processPDF(pdfPath) {
                 processedAt: new Date().toISOString()
             }
         });
-        console.log(`✅ Document indexé avec succès! ID: ${id}`);
+        console.log(`Document indexé avec succès! ID: ${id}`);
         
     } catch (error) {
-        console.error('❌ Erreur:', error.message);
+        console.error('Erreur:', error.message);
         if (error.stack) console.error(error.stack);
     }
 }
@@ -132,17 +132,17 @@ async function processPDF(pdfPath) {
 const pdfPath = process.argv[2];
 
 if (!pdfPath) {
-    console.error('❌ Usage: node scripts/process-pdf.js <chemin_vers_le_pdf>');
+    console.error('Usage: node scripts/process-pdf.js <chemin_vers_le_pdf>');
     console.log('   Exemple: node scripts/process-pdf.js ./pdfs/mon-document.pdf');
     process.exit(1);
 }
 
 processPDF(pdfPath)
     .then(() => {
-        console.log('\n✅ Traitement terminé');
+        console.log('\nTraitement terminé');
         process.exit(0);
     })
     .catch(error => {
-        console.error('❌ Erreur:', error);
+        console.error('Erreur:', error);
         process.exit(1);
     });

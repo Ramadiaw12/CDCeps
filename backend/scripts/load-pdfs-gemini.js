@@ -17,11 +17,11 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 // Vérifier la clé API (GOOGLE_API_KEY)
 if (!process.env.GOOGLE_API_KEY) {
-    console.error('❌ GOOGLE_API_KEY non définie dans .env');
+    console.error('GOOGLE_API_KEY non définie dans .env');
     process.exit(1);
 }
 
-console.log('🔑 GOOGLE_API_KEY chargée');
+console.log('GOOGLE_API_KEY chargée');
 
 // Fonction pour lire un PDF
 async function readPDF(filePath) {
@@ -30,7 +30,7 @@ async function readPDF(filePath) {
         const data = await pdf(dataBuffer);
         return data.text;
     } catch (error) {
-        console.error(`❌ Erreur lecture ${filePath}:`, error.message);
+        console.error(`Erreur lecture ${filePath}:`, error.message);
         return null;
     }
 }
@@ -63,7 +63,7 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
     
     // Vérifier que le dossier existe
     if (!fs.existsSync(pdfFolder)) {
-        console.error(`❌ Le dossier ${pdfFolder} n'existe pas`);
+        console.error(`Le dossier ${pdfFolder} n'existe pas`);
         return;
     }
     
@@ -72,11 +72,11 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
         .filter(file => file.toLowerCase().endsWith('.pdf'));
     
     if (files.length === 0) {
-        console.log(`⚠️  Aucun fichier PDF trouvé dans ${pdfFolder}`);
+        console.log(`Aucun fichier PDF trouvé dans ${pdfFolder}`);
         return;
     }
     
-    console.log(`📄 ${files.length} fichiers PDF trouvés\n`);
+    console.log(`${files.length} fichiers PDF trouvés\n`);
     
     let successCount = 0;
     let failCount = 0;
@@ -84,7 +84,7 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
     // Traiter chaque PDF
     for (const file of files) {
         const filePath = path.join(pdfFolder, file);
-        console.log(`📖 Traitement: ${file}`);
+        console.log(`Traitement: ${file}`);
         
         const text = await readPDF(filePath);
         
@@ -94,7 +94,7 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
                 .replace(/\s+/g, ' ')
                 .trim();
             
-            console.log(`   📝 ${cleanText.length} caractères`);
+            console.log(`${cleanText.length} caractères`);
             
             try {
                 // Gemini a une limite de tokens, on découpe si besoin
@@ -104,13 +104,13 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
                     const chunk = chunks[i];
                     const isFirstChunk = i === 0;
                     
-                    console.log(`   🔄 Génération embedding (chunk ${i + 1}/${chunks.length})...`);
+                    console.log(` Génération embedding (chunk ${i + 1}/${chunks.length})...`);
                     
                     // Générer l'embedding avec Gemini
                     const embedding = await generateEmbedding(chunk);
                     
                     if (!embedding) {
-                        console.log(`   ❌ Échec de l'embedding pour ${file}`);
+                        console.log(` Échec de l'embedding pour ${file}`);
                         failCount++;
                         continue;
                     }
@@ -134,11 +134,11 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
                         }
                     );
                     
-                    console.log(`   ✅ Inséré avec l'ID: ${id}`);
+                    console.log(` Inséré avec l'ID: ${id}`);
                     successCount++;
                 }
             } catch (error) {
-                console.error(`   ❌ Erreur: ${error.message}`);
+                console.error(` Erreur: ${error.message}`);
                 failCount++;
             }
         } else {
@@ -150,20 +150,20 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
     
     // Résumé
     console.log('=' .repeat(50));
-    console.log(`📊 Résumé:`);
-    console.log(`   ✅ Succès: ${successCount}`);
-    console.log(`   ❌ Échecs: ${failCount}`);
-    console.log(`   📄 Total: ${files.length}`);
+    console.log(`Résumé:`);
+    console.log(`Succès: ${successCount}`);
+    console.log(`Échecs: ${failCount}`);
+    console.log(`Total: ${files.length}`);
 }
 
 // Exécuter
 const pdfFolder = process.argv[2] || './pdfs';
 loadAllPDFs(pdfFolder)
     .then(() => {
-        console.log('\n✅ Chargement terminé');
+        console.log('\n Chargement terminé');
         process.exit(0);
     })
     .catch(error => {
-        console.error('❌ Erreur fatale:', error);
+        console.error('Erreur fatale:', error);
         process.exit(1);
     });

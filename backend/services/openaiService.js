@@ -20,10 +20,10 @@ const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
 // Vérifier que la clé est définie
 if (!process.env.GOOGLE_API_KEY) {
-    console.error('❌ GOOGLE_API_KEY non définie dans .env');
+    console.error(' GOOGLE_API_KEY non définie dans .env');
 }
 
-// ✅ MODÈLES GEMINI CORRECTS
+// MODÈLES GEMINI CORRECTS
 const DEFAULT_MODEL = 'gemini-1.5-flash';    // Modèle rapide
 // Alternative : 'gemini-1.5-pro' pour plus de précision
 // Alternative : 'gemini-2.0-flash-exp' (si disponible)
@@ -50,7 +50,7 @@ export const appelLLM = async (messages, options = {}) => {
         const temperature = options.temperature || 0.8;
         const maxTokens = options.maxTokens || 2000;
 
-        console.log(`🤖 Appel LLM (${model}) avec ${messages.length} messages`);
+        console.log(` Appel LLM (${model}) avec ${messages.length} messages`);
 
         // Construire le prompt à partir des messages
         let prompt = '';
@@ -83,11 +83,11 @@ export const appelLLM = async (messages, options = {}) => {
         const result = await generativeModel.generateContent(fullPrompt);
         const response = result.response.text();
 
-        console.log(`✅ Réponse reçue (${response.length} caractères)`);
+        console.log(`Réponse reçue (${response.length} caractères)`);
         return response;
 
     } catch (error) {
-        console.error('❌ Erreur Gemini:', error.message);
+        console.error(' Erreur Gemini:', error.message);
         
         // Gestion des erreurs spécifiques
         if (error.message.includes('API key')) {
@@ -116,7 +116,7 @@ export const appelLLM = async (messages, options = {}) => {
 export const genererEmbedding = async (texte) => {
     try {
         if (!texte || texte.length < 3) {
-            console.warn('⚠️ Texte trop court pour générer un embedding');
+            console.warn(' Texte trop court pour générer un embedding');
             return new Array(768).fill(0);
         }
 
@@ -130,14 +130,14 @@ export const genererEmbedding = async (texte) => {
         // Gemini retourne un objet avec la propriété 'embedding'
         const embedding = result.embedding.values;
         
-        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
+        console.log(`Embedding généré (${embedding.length} dimensions)`);
         return embedding;
 
     } catch (error) {
-        console.error('❌ Erreur embedding Gemini:', error.message);
+        console.error(' Erreur embedding Gemini:', error.message);
         
         // Fallback : retourner un embedding aléatoire pour ne pas bloquer
-        console.warn('⚠️ Utilisation d\'un embedding aléatoire comme fallback');
+        console.warn(' Utilisation d\'un embedding aléatoire comme fallback');
         return new Array(768).fill(0).map(() => Math.random() * 0.1);
     }
 };

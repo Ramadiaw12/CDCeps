@@ -11,7 +11,7 @@ async function testService() {
     // 1. Tester l'embedding
     console.log('\n 1. Test embedding...');
     const embedding = await genererEmbedding('Bonjour, ceci est un test');
-    console.log(`✅ Embedding: ${embedding.length} dimensions`);
+    console.log(` Embedding: ${embedding.length} dimensions`);
     console.log(`   Premières valeurs: ${embedding.slice(0, 5).join(', ')}`);
     
     // 2. Tester le chat simple
@@ -19,7 +19,7 @@ async function testService() {
     const response = await appelLLM([
         { role: 'user', content: 'Dis-moi bonjour en français' }
     ]);
-    console.log(`✅ Réponse: "${response}"`);
+    console.log(`Réponse: "${response}"`);
     
     // 3. Tester le RAG
     console.log('\n 3. Test génération RAG...');
@@ -34,15 +34,15 @@ async function testService() {
         'Quelles fonctionnalités doit contenir une application RH ?',
         documents
     );
-    console.log(`✅ Réponse RAG: "${ragResponse.substring(0, 200)}..."`);
+    console.log(` Réponse RAG: "${ragResponse.substring(0, 200)}..."`);
     
     console.log('\n' + '=' .repeat(50));
-    console.log('✅ Tests terminés');
+    console.log(' Tests terminés');
 }
 
 testService()
     .then(() => process.exit(0))
     .catch(error => {
-        console.error('❌ Erreur:', error);
+        console.error(' Erreur:', error);
         process.exit(1);
     });

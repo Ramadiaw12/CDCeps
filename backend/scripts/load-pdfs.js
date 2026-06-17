@@ -32,11 +32,11 @@ function generateMockEmbedding(text) {
 
 // Charger tous les PDFs d'un dossier
 async function loadAllPDFs(pdfFolder = './pdfs') {
-    console.log(`📂 Lecture du dossier: ${pdfFolder}`);
+    console.log(`Lecture du dossier: ${pdfFolder}`);
     
     // Vérifier que le dossier existe
     if (!fs.existsSync(pdfFolder)) {
-        console.error(`❌ Le dossier ${pdfFolder} n'existe pas`);
+        console.error(`Le dossier ${pdfFolder} n'existe pas`);
         return;
     }
     
@@ -89,7 +89,7 @@ async function loadAllPDFs(pdfFolder = './pdfs') {
                 console.log(`   ${cleanText.length} caractères`);
                 successCount++;
             } catch (error) {
-                console.error(`❌ Erreur insertion: ${error.message}`);
+                console.error(`Erreur insertion: ${error.message}`);
                 failCount++;
             }
         } else {
@@ -115,6 +115,6 @@ loadAllPDFs(pdfFolder)
         process.exit(0);
     })
     .catch(error => {
-        console.error('❌ Erreur:', error);
+        console.error('Erreur:', error);
         process.exit(1);
     });
