@@ -15,11 +15,13 @@ const __dirname = path.dirname(__filename);
 // Charger .env
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-// Vérifier la clé API
-if (!process.env.GEMINI_API_KEY) {
-    console.error('❌ GEMINI_API_KEY non définie dans .env');
+// Vérifier la clé API (GOOGLE_API_KEY)
+if (!process.env.GOOGLE_API_KEY) {
+    console.error('❌ GOOGLE_API_KEY non définie dans .env');
     process.exit(1);
 }
+
+console.log('🔑 GOOGLE_API_KEY chargée');
 
 // Fonction pour lire un PDF
 async function readPDF(filePath) {
