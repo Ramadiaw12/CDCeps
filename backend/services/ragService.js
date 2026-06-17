@@ -31,7 +31,7 @@ export const rechercherDocumentsSimilaires = async (
             SELECT 
                 d.id,
                 d.title as titre,
-                d.contenu,
+                d.content as contenu,
                 d.type_projet,
                 d.secteur,
                 d.mots_cles,
@@ -63,8 +63,8 @@ export const rechercherDocumentsSimilaires = async (
             .slice(0, nbResultats)
             .map(doc => ({
                 id: doc.id,
-                titre: doc.titre,
-                contenu: doc.contenu,
+                titre: doc.titre || doc.title,
+                contenu: doc.contenu || doc.content,
                 type_projet: doc.type_projet,
                 secteur: doc.secteur,
                 mots_cles: doc.mots_cles,
@@ -110,11 +110,11 @@ export const indexerDocument = async ({
 
         await client.query('BEGIN');
 
-        // ✅ Utiliser "title" au lieu de "titre"
+        // ✅ Utiliser "title" et "content" au lieu de "titre" et "contenu"
         const docResult = await client.query(
             `INSERT INTO documents (
                 title, 
-                contenu, 
+                content, 
                 type_projet, 
                 secteur, 
                 mots_cles, 
@@ -185,7 +185,7 @@ export const getDocumentById = async (id) => {
             `SELECT 
                 d.id,
                 d.title as titre,
-                d.contenu,
+                d.content as contenu,
                 d.type_projet,
                 d.secteur,
                 d.mots_cles,
@@ -237,7 +237,7 @@ export const listerDocuments = async (filters = {}) => {
                 d.metadata,
                 d.created_at,
                 d.updated_at,
-                LENGTH(d.contenu) AS taille_contenu
+                LENGTH(d.content) AS taille_contenu
             FROM documents d
             WHERE d.actif = TRUE
         `;
