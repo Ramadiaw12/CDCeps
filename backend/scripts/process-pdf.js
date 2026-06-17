@@ -1,6 +1,4 @@
 // scripts/process-pdf.js
-// Traite un PDF et l'ajoute à la base RAG
-
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -15,16 +13,14 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 
 async function processPDF(pdfPath) {
-    console.log('📖 Traitement du PDF:', pdfPath);
-    console.log('=' .repeat(50));
+    console.log(`📖 Traitement du PDF: ${pdfPath}`);
+    console.log('='.repeat(50));
     
-    // 1. Vérifier que le fichier existe
     if (!fs.existsSync(pdfPath)) {
         console.error(`❌ Fichier non trouvé: ${pdfPath}`);
         return;
     }
     
-    // 2. Lire le PDF
     console.log('📄 Lecture du PDF...');
     const dataBuffer = fs.readFileSync(pdfPath);
     const data = await pdf(dataBuffer);
@@ -32,28 +28,20 @@ async function processPDF(pdfPath) {
     
     console.log(`✅ PDF lu: ${data.numpages} pages, ${text.length} caractères`);
     
-    // 3. Nettoyer le texte
-    const cleanText = text
-        .replace(/\s+/g, ' ')
-        .trim();
-    
-    // 4. Extraire le titre du nom du fichier
+    const cleanText = text.replace(/\s+/g, ' ').trim();
     const fileName = path.basename(pdfPath, '.pdf');
     const title = fileName;
     
     console.log(`📝 Titre: ${title}`);
-    
-    // 5. Générer l'embedding (avec fallback)
     console.log('🔄 Génération de l\'embedding...');
+    
     const embedding = await genererEmbedding(cleanText);
     
     if (!embedding || embedding.length === 0) {
         console.error('❌ Impossible de générer l\'embedding');
         console.log('💡 Utilisation d\'un embedding aléatoire de secours...');
-        // Embedding de secours
         const fallbackEmbedding = new Array(768).fill(0).map(() => Math.random() * 0.1);
         
-        // 6. Indexer le document avec l'embedding de secours
         try {
             const id = await indexerDocument({
                 titre: title,
@@ -69,7 +57,7 @@ async function processPDF(pdfPath) {
                     embedding_used: 'fallback'
                 }
             });
-            console.log(`✅ Document indexé avec ID: ${id} (embedding fallback)`);
+            console.log(`✅ Document indexé avec ID: ${id}`);
         } catch (error) {
             console.error('❌ Erreur indexation:', error.message);
         }
@@ -77,9 +65,8 @@ async function processPDF(pdfPath) {
     }
     
     console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
-    
-    // 6. Indexer le document
     console.log('📥 Indexation du document...');
+    
     try {
         const id = await indexerDocument({
             titre: title,
@@ -100,7 +87,6 @@ async function processPDF(pdfPath) {
     }
 }
 
-// Récupérer le chemin du PDF depuis la ligne de commande
 const pdfPath = process.argv[2];
 
 if (!pdfPath) {
