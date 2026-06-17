@@ -3,7 +3,7 @@
 // Service centralisé pour communiquer avec les LLM
 // Tous les agents utilisent ce service pour appeler le LLM
 // 
-// MIGRATION : Utilise désormais Google Gemini (au lieu de Groq)
+// MIGRATION : Utilise désormais Google Gemini
 // ============================================================
 
 import dotenv from 'dotenv';
@@ -23,11 +23,12 @@ if (!process.env.GOOGLE_API_KEY) {
     console.error('❌ GOOGLE_API_KEY non définie dans .env');
 }
 
-// Modèle pour le chat (par défaut)
-const DEFAULT_MODEL = 'gemini-1.5-flash';  // ou 'gemini-1.5-pro'
+// ✅ BONS MODÈLES GEMINI
+const DEFAULT_MODEL = 'gemini-2.0-flash-exp';  // Modèle rapide et performant
+// Alternative : 'gemini-1.5-pro' pour plus de précision
+// Alternative : 'gemini-2.0-flash-lite' pour plus rapide
 
-// Modèle pour les embeddings
-const EMBEDDING_MODEL = 'embedding-001';
+const EMBEDDING_MODEL = 'text-embedding-004';   // Modèle d'embedding récent
 
 // ============================================================
 // 2. FONCTION PRINCIPALE - APPEL LLM
@@ -49,7 +50,7 @@ export const appelLLM = async (messages, options = {}) => {
         const temperature = options.temperature || 0.8;
         const maxTokens = options.maxTokens || 2000;
 
-        console.log(`Appel LLM (${model}) avec ${messages.length} messages`);
+        console.log(`🤖 Appel LLM (${model}) avec ${messages.length} messages`);
 
         // Construire le prompt à partir des messages
         let prompt = '';
@@ -57,7 +58,6 @@ export const appelLLM = async (messages, options = {}) => {
 
         for (const msg of messages) {
             if (msg.role === 'system') {
-                // Les instructions système deviennent le contexte
                 systemInstruction = msg.content;
             } else if (msg.role === 'user') {
                 prompt += `Utilisateur: ${msg.content}\n`;
@@ -71,7 +71,7 @@ export const appelLLM = async (messages, options = {}) => {
             ? `${systemInstruction}\n\n${prompt}Assistant: `
             : `${prompt}Assistant: `;
 
-        // Appeler Gemini
+        // Appeler Gemini avec le bon modèle
         const generativeModel = genAI.getGenerativeModel({
             model: model,
             generationConfig: {
@@ -123,7 +123,7 @@ export const genererEmbedding = async (texte) => {
         // Tronquer le texte si trop long (limite Gemini)
         const texteTronque = texte.substring(0, 8000);
         
-        // Générer l'embedding avec Gemini
+        // ✅ Utiliser le bon modèle d'embedding
         const model = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
         const result = await model.embedContent(texteTronque);
         
@@ -137,7 +137,6 @@ export const genererEmbedding = async (texte) => {
         console.error('❌ Erreur embedding Gemini:', error.message);
         
         // Fallback : retourner un embedding aléatoire pour ne pas bloquer
-        // MAIS en production, il vaut mieux lever l'erreur
         console.warn('⚠️ Utilisation d\'un embedding aléatoire comme fallback');
         return new Array(768).fill(0).map(() => Math.random() * 0.1);
     }
