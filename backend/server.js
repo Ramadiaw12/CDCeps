@@ -117,3 +117,5 @@ httpServer.listen(PORT, async () => {
     console.log(`   GET  /api/documents/cdc/:id/pdf`);
     console.log(`   GET  /api/documents/cdc/:id/markdown`);
 });
+
+// Au début de server.js, après dotenv.config()
