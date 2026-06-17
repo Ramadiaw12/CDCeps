@@ -9,14 +9,18 @@
 // dotenv.config();
 import Groq from 'groq-sdk';
 import dotenv from 'dotenv';
+import { GoogleGenAI } from "@google/genai";
+
 
 dotenv.config();
 
-const openai = new Groq({
-    apiKey: process.env.GROQ_API_KEY
+// const openai = new Groq({
+//     apiKey: process.env.GROQ_API_KEY
+// });
+
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
 });
-
-
 
 
 // Initialise le client Grok avec la clé du .env
