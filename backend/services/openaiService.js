@@ -23,12 +23,12 @@ if (!process.env.GOOGLE_API_KEY) {
     console.error('❌ GOOGLE_API_KEY non définie dans .env');
 }
 
-// ✅ BONS MODÈLES GEMINI
-const DEFAULT_MODEL = 'gemini-2.0-flash-exp';  // Modèle rapide et performant
+// ✅ MODÈLES GEMINI CORRECTS
+const DEFAULT_MODEL = 'gemini-1.5-flash';    // Modèle rapide
 // Alternative : 'gemini-1.5-pro' pour plus de précision
-// Alternative : 'gemini-2.0-flash-lite' pour plus rapide
+// Alternative : 'gemini-2.0-flash-exp' (si disponible)
 
-const EMBEDDING_MODEL = 'text-embedding-004';   // Modèle d'embedding récent
+const EMBEDDING_MODEL = 'embedding-001';     // Modèle d'embedding
 
 // ============================================================
 // 2. FONCTION PRINCIPALE - APPEL LLM
@@ -123,7 +123,7 @@ export const genererEmbedding = async (texte) => {
         // Tronquer le texte si trop long (limite Gemini)
         const texteTronque = texte.substring(0, 8000);
         
-        // ✅ Utiliser le bon modèle d'embedding
+        // Utiliser le modèle d'embedding
         const model = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
         const result = await model.embedContent(texteTronque);
         
