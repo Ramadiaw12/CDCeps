@@ -49,7 +49,7 @@ export const appelLLM = async (messages, options = {}) => {
         const temperature = options.temperature || 0.8;
         const maxTokens = options.maxTokens || 2000;
 
-        console.log(`🤖 Appel LLM (${model}) avec ${messages.length} messages`);
+        console.log(`Appel LLM (${model}) avec ${messages.length} messages`);
 
         // Construire le prompt à partir des messages
         let prompt = '';

@@ -1,40 +1,46 @@
-// scripts/test-gemini.js
+// scripts/test-openai.js
 import dotenv from 'dotenv';
-import { generateEmbedding, chatWithGemini } from '../services/gemini.js';
+import { appelLLM, genererEmbedding, genererReponseRAG } from '../services/openaiService.js';
 
 dotenv.config();
 
-async function testGemini() {
-    console.log(' Test de Gemini\n');
+async function testService() {
+    console.log('Test du service LLM (Gemini)\n');
     console.log('=' .repeat(50));
     
     // 1. Tester l'embedding
     console.log('\n 1. Test embedding...');
-    const embedding = await generateEmbedding('Bonjour, ceci est un test');
+    const embedding = await genererEmbedding('Bonjour, ceci est un test');
+    console.log(`✅ Embedding: ${embedding.length} dimensions`);
+    console.log(`   Premières valeurs: ${embedding.slice(0, 5).join(', ')}`);
     
-    if (embedding) {
-        console.log(`✅ Embedding généré: ${embedding.length} dimensions`);
-        console.log(`   Premieres valeurs: ${embedding.slice(0, 5).join(', ')}...`);
-    } else {
-        console.log('❌ Échec de l\'embedding');
-    }
+    // 2. Tester le chat simple
+    console.log('\n 2. Test chat simple...');
+    const response = await appelLLM([
+        { role: 'user', content: 'Dis-moi bonjour en français' }
+    ]);
+    console.log(`✅ Réponse: "${response}"`);
     
-    // 2. Tester le chat
-    console.log('\n📌 2. Test chat...');
-    const response = await chatWithGemini('Dis-moi bonjour en français');
-    
-    if (response) {
-        console.log('✅ Réponse reçue:');
-        console.log(`   "${response}"`);
-    } else {
-        console.log('❌ Échec du chat');
-    }
+    // 3. Tester le RAG
+    console.log('\n 3. Test génération RAG...');
+    const documents = [
+        {
+            titre: 'CDC Application Web',
+            contenu: 'Application web de gestion des RH. Fonctionnalités : employés, congés, formations.',
+            score: 0.95
+        }
+    ];
+    const ragResponse = await genererReponseRAG(
+        'Quelles fonctionnalités doit contenir une application RH ?',
+        documents
+    );
+    console.log(`✅ Réponse RAG: "${ragResponse.substring(0, 200)}..."`);
     
     console.log('\n' + '=' .repeat(50));
-    console.log('✅ Test terminé');
+    console.log('✅ Tests terminés');
 }
 
-testGemini()
+testService()
     .then(() => process.exit(0))
     .catch(error => {
         console.error('❌ Erreur:', error);
