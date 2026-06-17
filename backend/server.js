@@ -8,7 +8,8 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { testConnection } from './database/mysql.js';
+// Remplacer mysql par postgres
+import { testConnection } from './database/postgres.js';
 
 // Import des routes
 import routesProjets    from './routes/projets.js';
@@ -98,7 +99,15 @@ const PORT = process.env.PORT || 3001;
 
 httpServer.listen(PORT, async () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
-    await testConnection();
+    
+    // ✅ Test de connexion PostgreSQL
+    const connected = await testConnection();
+    if (connected) {
+        console.log('Base de données PostgreSQL connectée');
+    } else {
+        console.log('Base de données PostgreSQL non disponible');
+    }
+    
     console.log(`Routes disponibles :`);
     console.log(`   GET  /api/health`);
     console.log(`   POST /api/projets`);
