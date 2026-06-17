@@ -39,7 +39,7 @@ const pool = new Pool({
 export const testConnection = async () => {
     try {
         const client = await pool.connect();
-        console.log('✅ Connexion PostgreSQL établie avec succès');
+        console.log('Connexion PostgreSQL établie avec succès');
         
         // Vérifie que pgvector est installé
         const result = await client.query(
@@ -47,15 +47,15 @@ export const testConnection = async () => {
         );
         
         if (result.rows.length === 0) {
-            console.warn('⚠️  pgvector n\'est pas installé !');
+            console.warn('pgvector n\'est pas installé !');
         } else {
-            console.log('✅ pgvector est installé');
+            console.log('pgvector est installé');
         }
         
         client.release();
         return true;
     } catch (error) {
-        console.error('❌ Erreur de connexion PostgreSQL :', error.message);
+        console.error('Erreur de connexion PostgreSQL :', error.message);
         return false;
     }
 };

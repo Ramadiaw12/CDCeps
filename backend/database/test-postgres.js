@@ -6,7 +6,7 @@ import pool, {
 } from './postgres.js';
 
 async function test() {
-    console.log('🚀 Test du module PostgreSQL avec pgvector\n');
+    console.log('Test du module PostgreSQL avec pgvector\n');
     
     // 1. Tester la connexion
     const connected = await testConnection();
