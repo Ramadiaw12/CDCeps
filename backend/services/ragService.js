@@ -5,12 +5,9 @@
 // la génération de nouveaux CDC
 // ============================================================
 
+// services/ragService.js
 import pool from '../database/postgres.js';
-import { genererEmbedding } from './openaiService.js';  // ← Import corrigé
-
-// ============================================================
-// 1. FONCTION PRINCIPALE DU RAG
-// ============================================================
+import { genererEmbedding } from './openaiService.js';
 
 export const rechercherDocumentsSimilaires = async (
     description, 
@@ -21,7 +18,6 @@ export const rechercherDocumentsSimilaires = async (
     try {
         console.log(`🔍 RAG : Recherche de documents similaires...`);
         
-        // Étape 1 : Convertir la description en vecteur avec Gemini
         const embeddingRequete = await genererEmbedding(description);
         
         if (!embeddingRequete) {
@@ -31,11 +27,10 @@ export const rechercherDocumentsSimilaires = async (
 
         console.log(`✅ Embedding généré (${embeddingRequete.length} dimensions)`);
 
-        // Étape 2 : Construire la requête SQL avec pgvector
         let sql = `
             SELECT 
                 d.id,
-                d.titre,
+                d.title as titre,
                 d.contenu,
                 d.type_projet,
                 d.secteur,
@@ -79,10 +74,6 @@ export const rechercherDocumentsSimilaires = async (
 
         console.log(`📚 RAG : ${documents.length} document(s) similaire(s) trouvé(s)`);
         
-        if (documents.length > 0) {
-            console.log(`   Meilleur score : ${(documents[0].score * 100).toFixed(1)}%`);
-        }
-
         return documents;
 
     } catch (error) {
@@ -90,10 +81,6 @@ export const rechercherDocumentsSimilaires = async (
         return [];
     }
 };
-
-// ============================================================
-// 2. INDEXATION D'UN NOUVEAU DOCUMENT
-// ============================================================
 
 export const indexerDocument = async ({
     titre,
@@ -123,9 +110,10 @@ export const indexerDocument = async ({
 
         await client.query('BEGIN');
 
+        // ✅ Utiliser "title" au lieu de "titre"
         const docResult = await client.query(
             `INSERT INTO documents (
-                titre, 
+                title, 
                 contenu, 
                 type_projet, 
                 secteur, 
@@ -167,10 +155,6 @@ export const indexerDocument = async ({
     }
 };
 
-// ============================================================
-// 3. FORMATAGE DU CONTEXTE RAG
-// ============================================================
-
 export const formaterContexteRAG = (documents, maxCaracteres = 1500) => {
     if (!documents || documents.length === 0) {
         return '';
@@ -195,16 +179,12 @@ export const formaterContexteRAG = (documents, maxCaracteres = 1500) => {
     return contexte;
 };
 
-// ============================================================
-// 4. FONCTIONS UTILITAIRES
-// ============================================================
-
 export const getDocumentById = async (id) => {
     try {
         const result = await pool.query(
             `SELECT 
                 d.id,
-                d.titre,
+                d.title as titre,
                 d.contenu,
                 d.type_projet,
                 d.secteur,
@@ -250,7 +230,7 @@ export const listerDocuments = async (filters = {}) => {
         let sql = `
             SELECT 
                 d.id,
-                d.titre,
+                d.title as titre,
                 d.type_projet,
                 d.secteur,
                 d.mots_cles,
@@ -291,10 +271,6 @@ export const listerDocuments = async (filters = {}) => {
         return [];
     }
 };
-
-// ============================================================
-// 5. EXPORT
-// ============================================================
 
 export default {
     rechercherDocumentsSimilaires,
