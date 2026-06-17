@@ -35,6 +35,14 @@ const ai = new GoogleGenAI({
 // retourne la réponse du LLM sous forme de texte
 export const appelLLM = async (messages, options = {}) => {
     try {
+        const prompt = messages
+        .map(msg =>  `${msg.role}: ${msg.content}`)
+        .join("\n");
+
+        const response = await ai.models.generateContent({
+            model: options.model || "gemoni-2.5-flash",
+            contents: prompt, 
+        })
         const response = await openai.chat.completions.create({
             // Le modèle à utiliser
             model: options.model || 'llama-3.3-70b-versatile',
