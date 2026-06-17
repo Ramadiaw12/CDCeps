@@ -15,6 +15,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
 // Crée un pool de connexions PostgreSQL
 const pool = new Pool({
     host: process.env.DB_HOST || 'localhost',
