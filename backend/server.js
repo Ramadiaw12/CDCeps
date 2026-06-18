@@ -25,14 +25,14 @@ const __dirname = path.dirname(__filename);
 
 // Charger .env avec chemin absolu
 const envPath = path.resolve(__dirname, '.env');
-console.log(`📂 Chargement du .env depuis: ${envPath}`);
+console.log(`Chargement du .env depuis: ${envPath}`);
 
 const result = dotenv.config({ path: envPath });
 
 if (result.error) {
     console.error('❌ Erreur chargement .env:', result.error.message);
 } else {
-    console.log('✅ .env chargé avec succès');
+    console.log('.env chargé avec succès');
 }
 dotenv.config();
 
@@ -49,7 +49,6 @@ const io = new Server(httpServer, {
         transports: ['websocket', 'polling'],
         allowedHeaders: ['Content-Type', 'Authorization']
     },
-    // ✅ Ajouter ces options pour plus de stabilité
     transports: ['websocket', 'polling'],
     allowEIO3: true,
     pingTimeout: 60000,
@@ -63,6 +62,15 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
+// Route de test CORS
+app.get('/api/test-cors', (req, res) => {
+    res.json({ 
+        success: true,
+        message: 'CORS OK', 
+        origin: req.headers.origin || 'Aucun',
+        timestamp: new Date().toISOString()
+    });
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -81,7 +89,14 @@ io.on('connection', (socket) => {
         console.log(`Client déconnecté : ${socket.id}`);
     });
 });
-
+// Route de test Socket.IO
+app.get('/api/socket-test', (req, res) => {
+    res.json({
+        success: true,
+        message: 'Socket.IO prêt',
+        socketIO: true
+    });
+});
 // Rend io accessible depuis toutes les routes
 app.set('io', io);
 
