@@ -1,40 +1,40 @@
 <?php
 // ============================================================
 // config/database.php
-// Connexion à la base de données MySQL
+// Connexion à la base de données PosgreSQL
 // Compatible local ET Docker via variables d'environnement
-// ============================================================
+// 
+
+
+// Adaptation pour PostgreSQL
 
 class Database {
     private static $instance = null;
-
-    public static function getInstance(): PDO {
-        if (self::$instance === null) {
-            try {
-                // Lit les variables d'environnement
-                // En local : utilise les valeurs par défaut
-                // Sous Docker : utilise les variables du docker-compose
-                $host = getenv('DB_HOST') ?: 'localhost';
-                $user = getenv('DB_USER') ?: 'cdceps_user';
-                $pass = getenv('DB_PASSWORD') ?: 'cdceps2024';
-                $name = getenv('DB_NAME') ?: 'cdceps';
-
-                $dsn = "mysql:host={$host};dbname={$name};charset=utf8mb4";
-
-                self::$instance = new PDO($dsn, $user, $pass, [
-                    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                    PDO::ATTR_EMULATE_PREPARES   => false,
-                ]);
-
-            } catch (PDOException $e) {
-                die(json_encode([
-                    'erreur' => 'Connexion base de données impossible',
-                    'detail' => $e->getMessage()
-                ]));
-            }
+    private $pdo;
+    
+    private function __construct() {
+        try {
+            // PostgreSQL au lieu de MySQL
+            $this->pdo = new PDO(
+                'pgsql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME,
+                DB_USER,
+                DB_PASSWORD
+            );
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $this->pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die('Erreur de connexion PostgreSQL : ' . $e->getMessage());
         }
-
+    }
+    
+    public static function getInstance() {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
         return self::$instance;
+    }
+    
+    public function getConnection() {
+        return $this->pdo;
     }
 }
