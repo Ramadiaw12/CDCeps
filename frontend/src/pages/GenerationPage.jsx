@@ -1,7 +1,7 @@
 // ============================================================
 // pages/GenerationPage.jsx
-// Page de génération en temps réel avec design moderne
-// Suivi interactif des agents, animations et feedback visuel
+// Page de génération en temps réel
+// Pipeline automatique + suivi Socket.IO
 // ============================================================
 
 import { useState, useEffect, useRef } from 'react';
@@ -12,8 +12,7 @@ import {
     quitterSession,
     ecouterEvenement,
     arreterEcoute,
-    estConnecte,
-    envoyerEvenement
+    estConnecte
 } from '../services/socket.js';
 
 function GenerationPage() {
@@ -22,14 +21,13 @@ function GenerationPage() {
 
     const [projet, setProjet] = useState(null);
     const [sessionUuid, setSessionUuid] = useState(null);
-    const [agentActif, setAgentActif] = useState(null);
     const [messages, setMessages] = useState([]);
-    const [statut, setStatut] = useState('connexion');
+    const [statut, setStatut] = useState('initialisation');
     const [progressionGlobale, setProgressionGlobale] = useState(0);
-    const [tempsEstime, setTempsEstime] = useState(45);
     const [resultatFinal, setResultatFinal] = useState(null);
     const [erreur, setErreur] = useState(null);
-    
+    const [pipelineLance, setPipelineLance] = useState(false);
+
     const [agentsStatuts, setAgentsStatuts] = useState({
         CollecteAgent: { status: 'pending', progress: 0, message: '' },
         AnalyseAgent: { status: 'pending', progress: 0, message: '' },
@@ -46,22 +44,45 @@ function GenerationPage() {
         ValidationAgent: { nom: 'Agent Validation', role: 'Contrôle qualité', icone: '✅', couleur: '#f59e0b', ordre: 4 }
     };
 
-    // Scroll automatique vers les nouveaux messages
+    // ============================================================
+    // SCROLL AUTOMATIQUE
+    // ============================================================
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // Calcul progression globale
+    // ============================================================
+    // CALCUL PROGRESSION GLOBALE
+    // ============================================================
     useEffect(() => {
         const totalProgress = Object.values(agentsStatuts).reduce((acc, agent) => acc + agent.progress, 0);
-        const globalProgress = Math.floor(totalProgress / 4);
-        setProgressionGlobale(globalProgress);
-        
-        if (globalProgress < 100 && globalProgress > 0) {
-            const remaining = Math.max(5, Math.floor(45 * (1 - globalProgress / 100)));
-            setTempsEstime(remaining);
-        }
+        setProgressionGlobale(Math.floor(totalProgress / 4));
     }, [agentsStatuts]);
+
+    // ============================================================
+    // TÉLÉCHARGEMENT DU CDC
+    // ============================================================
+    const telechargerCDC = (cdcId, format) => {
+        const url = `http://localhost:3001/api/documents/cdc/${cdcId}/format?format=${format}`;
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `cdc_${format}.${format === 'markdown' ? 'md' : 'pdf'}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        addMessage(`📥 Téléchargement ${format.toUpperCase()} lancé`, 'info');
+    };
+
+    // ============================================================
+    // AJOUT DE MESSAGE
+    // ============================================================
+    const addMessage = (message, type = 'info') => {
+        setMessages(prev => [...prev, {
+            message,
+            type,
+            timestamp: new Date()
+        }]);
+    };
 
     // ============================================================
     // INITIALISATION
@@ -69,32 +90,80 @@ function GenerationPage() {
     useEffect(() => {
         const initialiser = async () => {
             try {
+                setStatut('connexion');
+                addMessage('🔄 Connexion au serveur...', 'info');
+
                 // 1. Récupérer les infos du projet
                 const reponse = await getProjet(projetId);
                 setProjet(reponse.data);
                 addMessage(`📁 Projet: ${reponse.data.titre}`, 'info');
 
-                // 2. Récupérer la session active
-                const sessionReponse = await fetch(
-                    `http://localhost:3001/api/agents/sessions/${projetId}`
-                );
-                const sessionData = await sessionReponse.json();
+                // 2. Générer un UUID pour la session
+                const uuid = crypto.randomUUID();
+                setSessionUuid(uuid);
 
-                if (sessionData.data && sessionData.data.length > 0) {
-                    const uuid = sessionData.data[0].session_uuid;
-                    setSessionUuid(uuid);
-                    
-                    // 3. Rejoindre la session Socket.IO
-                    rejoindreSession(uuid);
+                // 3. Rejoindre la session Socket.IO
+                rejoindreSession(uuid);
+                addMessage('📡 Connexion Socket.IO en cours...', 'info');
+
+                // 4. Attendre la connexion socket
+                const waitForSocket = () => {
+                    return new Promise((resolve) => {
+                        if (estConnecte()) {
+                            resolve();
+                            return;
+                        }
+                        const checkInterval = setInterval(() => {
+                            if (estConnecte()) {
+                                clearInterval(checkInterval);
+                                resolve();
+                            }
+                        }, 200);
+                        setTimeout(() => clearInterval(checkInterval), 5000);
+                    });
+                };
+
+                await waitForSocket();
+
+                if (estConnecte()) {
+                    addMessage('✅ Socket.IO connecté', 'success');
+                } else {
+                    addMessage('⚠️ Socket.IO non connecté, tentative de reconnexion...', 'warning');
+                    setTimeout(() => {
+                        rejoindreSession(uuid);
+                    }, 2000);
+                }
+
+                // 5. Lancer le pipeline
+                setStatut('lancement');
+                addMessage('🚀 Lancement du pipeline de génération...', 'info');
+
+                const pipelineResponse = await fetch(
+                    `http://localhost:3001/api/agents/generer/${projetId}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sessionUuid: uuid })
+                    }
+                );
+
+                const pipelineData = await pipelineResponse.json();
+
+                if (pipelineData.succes) {
                     setStatut('en_cours');
-                    addMessage('🚀 Pipeline lancé - Génération du cahier des charges en cours', 'info');
+                    setPipelineLance(true);
+                    addMessage('✅ Pipeline démarré avec succès', 'success');
+                    addMessage('⏳ Suivi de la progression en temps réel...', 'info');
                 } else {
                     setStatut('erreur');
-                    addMessage('❌ Aucune session de génération trouvée', 'error');
+                    setErreur(pipelineData.message);
+                    addMessage(`❌ Erreur: ${pipelineData.message}`, 'error');
                 }
+
             } catch (error) {
-                console.error('❌ Erreur initialisation :', error);
+                console.error('❌ Erreur initialisation:', error);
                 setStatut('erreur');
+                setErreur(error.message);
                 addMessage(`❌ Erreur de connexion: ${error.message}`, 'error');
             }
         };
@@ -104,34 +173,24 @@ function GenerationPage() {
         // ============================================================
         // ÉCOUTE DES ÉVÉNEMENTS SOCKET.IO
         // ============================================================
-        
-        // ✅ Événement: agent_etape (le backend envoie ça)
-        ecouterEvenement('agent_etape', (data) => {
-            console.log('📌 agent_etape:', data);
-            addMessage(`🤖 ${data.agent}: ${data.message}`, 'agent');
-            
-            const agentKey = data.agent;
-            if (agentsConfig[agentKey]) {
-                setAgentsStatuts(prev => ({
-                    ...prev,
-                    [agentKey]: {
-                        ...prev[agentKey],
-                        status: 'active',
-                        message: data.message,
-                        progress: Math.min((prev[agentKey]?.progress || 0) + 10, 95)
-                    }
-                }));
-            }
+
+        // Connect confirmation
+        ecouterEvenement('connect_confirme', (data) => {
+            console.log('📩 connect_confirme:', data);
+            addMessage('✅ Connexion Socket.IO confirmée', 'success');
         });
 
-        // ✅ Événement: agent_actif (quand un agent commence)
+        // Pipeline démarré
+        ecouterEvenement('pipeline_demarre', (data) => {
+            console.log('🚀 pipeline_demarre:', data);
+            setStatut('en_cours');
+            addMessage(`🚀 ${data.message || 'Pipeline démarré'}`, 'info');
+        });
+
+        // Agent actif
         ecouterEvenement('agent_actif', (data) => {
             console.log('🤖 agent_actif:', data);
             const agentKey = data.agent;
-            setAgentActif(agentKey);
-            
-            addMessage(`🔍 Démarrage de ${agentsConfig[agentKey]?.nom || agentKey}`, 'info');
-            
             setAgentsStatuts(prev => ({
                 ...prev,
                 [agentKey]: {
@@ -141,24 +200,33 @@ function GenerationPage() {
                     message: 'Démarrage...'
                 }
             }));
+            addMessage(`🤖 ${data.nom || agentKey} commence sa tâche`, 'info');
         });
 
-        // ✅ Événement: pipeline_demarre
-        ecouterEvenement('pipeline_demarre', (data) => {
-            console.log('🚀 pipeline_demarre:', data);
-            setStatut('en_cours');
-            addMessage(`🚀 ${data.message || 'Pipeline démarré'}`, 'info');
+        // Étape agent
+        ecouterEvenement('agent_etape', (data) => {
+            console.log('📌 agent_etape:', data);
+            const agentKey = data.agent;
+            if (agentsConfig[agentKey]) {
+                setAgentsStatuts(prev => ({
+                    ...prev,
+                    [agentKey]: {
+                        ...prev[agentKey],
+                        status: 'active',
+                        message: data.message,
+                        progress: Math.min((prev[agentKey]?.progress || 0) + 15, 95)
+                    }
+                }));
+            }
+            addMessage(`📌 ${data.agent}: ${data.message}`, 'agent');
         });
 
-        // ✅ Événement: pipeline_termine
+        // Pipeline terminé
         ecouterEvenement('pipeline_termine', (data) => {
             console.log('✅ pipeline_termine:', data);
             setStatut('termine');
-            setAgentActif(null);
             setResultatFinal(data);
-            setProgressionGlobale(100);
             
-            // Marquer tous les agents comme complétés
             const completedAgents = {};
             Object.keys(agentsStatuts).forEach(key => {
                 completedAgents[key] = {
@@ -170,13 +238,13 @@ function GenerationPage() {
             });
             setAgentsStatuts(completedAgents);
             
-            addMessage(`🎉 Félicitations ! CDC généré avec succès - Score: ${data.score}/100`, 'success');
+            addMessage(`🎉 CDC généré avec succès - Score: ${data.score}/100`, 'success');
             if (data.verdict) {
                 addMessage(`📊 Verdict: ${data.verdict}`, 'success');
             }
         });
 
-        // ✅ Événement: pipeline_erreur
+        // Pipeline erreur
         ecouterEvenement('pipeline_erreur', (data) => {
             console.log('❌ pipeline_erreur:', data);
             setStatut('erreur');
@@ -184,27 +252,7 @@ function GenerationPage() {
             addMessage(`❌ Erreur: ${data.message}`, 'error');
         });
 
-        // ✅ Événement: progression (si envoyé par le backend)
-        ecouterEvenement('progres', (data) => {
-            console.log('📊 progres:', data);
-            if (data.agent && agentsConfig[data.agent]) {
-                setAgentsStatuts(prev => ({
-                    ...prev,
-                    [data.agent]: {
-                        ...prev[data.agent],
-                        progress: data.pourcentage || Math.min((prev[data.agent]?.progress || 0) + 5, 100)
-                    }
-                }));
-            }
-        });
-
-        // ✅ Événement: connect_confirme (Socket.IO)
-        ecouterEvenement('connect_confirme', (data) => {
-            console.log('📩 connect_confirme:', data);
-            addMessage('✅ Connexion Socket.IO établie', 'success');
-        });
-
-        // ✅ Événement: session_jointe
+        // Session jointe
         ecouterEvenement('session_jointe', (data) => {
             console.log('📌 session_jointe:', data);
             addMessage(`📌 Session rejointe: ${data.sessionUuid}`, 'info');
@@ -214,69 +262,24 @@ function GenerationPage() {
         // NETTOYAGE
         // ============================================================
         return () => {
-            console.log('🧹 Nettoyage des écoutes...');
-            arreterEcoute('agent_etape');
-            arreterEcoute('agent_actif');
-            arreterEcoute('pipeline_demarre');
-            arreterEcoute('pipeline_termine');
-            arreterEcoute('pipeline_erreur');
-            arreterEcoute('progres');
-            arreterEcoute('connect_confirme');
-            arreterEcoute('session_jointe');
+            console.log('🧹 Nettoyage...');
+            ['connect_confirme', 'pipeline_demarre', 'agent_actif', 'agent_etape', 
+             'pipeline_termine', 'pipeline_erreur', 'session_jointe'].forEach(event => {
+                arreterEcoute(event);
+            });
             quitterSession();
         };
     }, [projetId]);
 
     // ============================================================
-    // FONCTIONS UTILITAIRES
-    // ============================================================
-    
-    const addMessage = (message, type = 'info') => {
-        setMessages(prev => [...prev, {
-            message,
-            type,
-            timestamp: new Date(),
-            agent: 'Système'
-        }]);
-    };
-
-    // ✅ Fonction pour lancer le pipeline manuellement
-    const lancerPipeline = () => {
-        if (!sessionUuid) {
-            addMessage('❌ Aucune session disponible', 'error');
-            return;
-        }
-        
-        if (!estConnecte()) {
-            addMessage('❌ Socket non connecté', 'error');
-            return;
-        }
-        
-        addMessage('🚀 Lancement du pipeline...', 'info');
-        envoyerEvenement('lancer_pipeline', { 
-            projetId, 
-            sessionUuid 
-        });
-    };
-
-    const getStatusIcon = (status) => {
-        switch(status) {
-            case 'completed': return '✅';
-            case 'active': return '⚡';
-            case 'error': return '❌';
-            default: return '⏳';
-        }
-    };
-
-    // ============================================================
     // RENDU
     // ============================================================
-    
+
     return (
         <div className="generation-page">
             <div className="container">
                 
-                {/* Header animé */}
+                {/* HEADER */}
                 <div className="gen-header">
                     <div className="gen-header-icon">
                         {statut === 'termine' ? '🎉' : statut === 'erreur' ? '😰' : '🧠'}
@@ -284,7 +287,9 @@ function GenerationPage() {
                     <h1 className="gen-title">
                         {statut === 'termine' && 'CDC généré avec succès !'}
                         {statut === 'erreur' && 'Une erreur est survenue'}
-                        {statut === 'connexion' && 'Connexion au pipeline...'}
+                        {statut === 'initialisation' && 'Initialisation...'}
+                        {statut === 'connexion' && 'Connexion au serveur...'}
+                        {statut === 'lancement' && 'Lancement du pipeline...'}
                         {statut === 'en_cours' && 'Génération en cours...'}
                     </h1>
                     {projet && (
@@ -295,19 +300,24 @@ function GenerationPage() {
                     )}
                 </div>
 
-                {/* Status Socket */}
+                {/* STATUT SOCKET */}
                 <div style={{ 
                     textAlign: 'center', 
                     marginBottom: '20px',
+                    padding: '8px',
+                    borderRadius: '8px',
+                    backgroundColor: estConnecte() ? '#d1fae5' : '#fee2e2',
+                    color: estConnecte() ? '#065f46' : '#991b1b',
                     fontSize: '14px',
-                    color: estConnecte() ? '#10b981' : '#ef4444'
+                    fontWeight: 'bold'
                 }}>
                     {estConnecte() ? '🟢 Socket connecté' : '🔴 Socket déconnecté'}
                     {sessionUuid && ` | Session: ${sessionUuid.substring(0, 8)}...`}
+                    {statut === 'termine' && ' | ✅ Terminé'}
                 </div>
 
-                {/* Barre de progression globale */}
-                {statut === 'en_cours' && (
+                {/* PROGRESSION GLOBALE */}
+                {(statut === 'en_cours' || statut === 'lancement') && (
                     <div className="gen-global-progress">
                         <div className="gen-global-progress-header">
                             <span className="progress-label">Progression globale</span>
@@ -318,13 +328,10 @@ function GenerationPage() {
                                 <div className="progress-glow"></div>
                             </div>
                         </div>
-                        <div className="gen-global-progress-info">
-                            <span className="time-estimate">⏱️ Temps estimé restant: ~{tempsEstime} secondes</span>
-                        </div>
                     </div>
                 )}
 
-                {/* Grille des agents */}
+                {/* AGENTS */}
                 <div className="gen-agents-grid">
                     {Object.entries(agentsConfig).map(([key, config]) => {
                         const agentStatus = agentsStatuts[key];
@@ -344,63 +351,47 @@ function GenerationPage() {
                                         </span>
                                     </div>
                                 </div>
-                                
                                 <h3 className="gen-agent-name">{config.nom}</h3>
                                 <p className="gen-agent-role">{config.role}</p>
-                                
                                 {agentStatus?.status !== 'pending' && (
                                     <div className="gen-agent-progress">
                                         <div className="agent-progress-bar">
-                                            <div 
-                                                className="agent-progress-fill" 
-                                                style={{ 
-                                                    width: `${agentStatus?.progress || 0}%`,
-                                                    backgroundColor: config.couleur
-                                                }}
-                                            />
+                                            <div className="agent-progress-fill" style={{ 
+                                                width: `${agentStatus?.progress || 0}%`,
+                                                backgroundColor: config.couleur
+                                            }} />
                                         </div>
                                         <span className="agent-progress-value">{agentStatus?.progress || 0}%</span>
                                     </div>
                                 )}
-                                
                                 {agentStatus?.message && agentStatus.status === 'active' && (
                                     <p className="gen-agent-message">{agentStatus.message}</p>
                                 )}
-                                
                                 {agentStatus?.status === 'active' && (
-                                    <div className="agent-pulse-wave">
-                                        <div className="wave"></div>
-                                    </div>
+                                    <div className="agent-pulse-wave"><div className="wave"></div></div>
                                 )}
                             </div>
                         );
                     })}
                 </div>
 
-                {/* Console de logs */}
+                {/* LOGS */}
                 <div className="gen-logs-container">
                     <div className="gen-logs-header">
-                        <div className="logs-title">
-                            <span className="logs-icon">📋</span>
-                            <span>Console de suivi temps réel</span>
-                        </div>
-                        <div className="logs-count">{messages.length} événements</div>
+                        <span className="logs-icon">📋</span>
+                        <span>Console de suivi</span>
+                        <span className="logs-count">{messages.length} événements</span>
                     </div>
                     <div className="gen-logs-list">
                         {messages.length === 0 ? (
                             <div className="logs-empty">
-                                <div className="empty-animation">⚡</div>
-                                <p>En attente des événements du pipeline...</p>
+                                <p>En attente des événements...</p>
                             </div>
                         ) : (
                             messages.map((msg, index) => (
                                 <div key={index} className={`gen-log-item ${msg.type}`}>
-                                    <span className="log-time">
-                                        {msg.timestamp.toLocaleTimeString()}
-                                    </span>
-                                    <span className="log-message">
-                                        {msg.message}
-                                    </span>
+                                    <span className="log-time">{msg.timestamp.toLocaleTimeString()}</span>
+                                    <span className="log-message">{msg.message}</span>
                                 </div>
                             ))
                         )}
@@ -408,7 +399,7 @@ function GenerationPage() {
                     </div>
                 </div>
 
-                {/* Résultat final */}
+                {/* RÉSULTAT */}
                 {statut === 'termine' && resultatFinal && (
                     <div className="gen-result-container">
                         <div className="gen-result-card">
@@ -416,49 +407,56 @@ function GenerationPage() {
                                 <span className="result-icon">🏆</span>
                                 <h2>Génération terminée avec succès</h2>
                             </div>
-                            
                             <div className="result-score">
                                 <div className="score-label">Score de complétude</div>
                                 <div className="score-bar-container">
-                                    <div 
-                                        className="score-bar" 
-                                        style={{ 
-                                            width: `${resultatFinal.score}%`,
-                                            background: `linear-gradient(90deg, 
-                                                ${resultatFinal.score >= 80 ? '#10b981' : 
-                                                  resultatFinal.score >= 60 ? '#f59e0b' : '#ef4444'} 0%,
-                                                ${resultatFinal.score >= 80 ? '#34d399' : 
-                                                  resultatFinal.score >= 60 ? '#fbbf24' : '#f87171'} 100%)`
-                                        }}
-                                    />
+                                    <div className="score-bar" style={{ 
+                                        width: `${resultatFinal.score}%`,
+                                        background: `linear-gradient(90deg, 
+                                            ${resultatFinal.score >= 80 ? '#10b981' : resultatFinal.score >= 60 ? '#f59e0b' : '#ef4444'} 0%,
+                                            ${resultatFinal.score >= 80 ? '#34d399' : resultatFinal.score >= 60 ? '#fbbf24' : '#f87171'} 100%)`
+                                    }} />
                                 </div>
                                 <div className="score-value">
                                     <span className="score-number">{resultatFinal.score}</span>
                                     <span className="score-max">/100</span>
                                 </div>
                             </div>
-                            
                             <div className="result-verdict">
                                 <span className="verdict-badge">
                                     {resultatFinal.score >= 80 ? '🌟 Excellent' :
                                      resultatFinal.score >= 60 ? '👍 Satisfaisant' :
                                      '⚠️ À améliorer'}
                                 </span>
-                                <p>{resultatFinal.verdict || 'CDC généré avec succès'}</p>
+                                <p>{resultatFinal.verdict}</p>
                             </div>
                             
+                            {/* BOUTONS D'EXPORT */}
+                            <div className="result-export-section">
+                                <h3>📤 Exporter le CDC</h3>
+                                <div className="export-buttons">
+                                    <button className="btn-export btn-markdown" onClick={() => telechargerCDC(resultatFinal.cdcId, 'markdown')}>
+                                        <span className="export-icon">📝</span>
+                                        <div>
+                                            <span className="export-label">Markdown</span>
+                                            <span className="export-desc">Format éditable</span>
+                                        </div>
+                                    </button>
+                                    <button className="btn-export btn-pdf" onClick={() => telechargerCDC(resultatFinal.cdcId, 'pdf')}>
+                                        <span className="export-icon">📄</span>
+                                        <div>
+                                            <span className="export-label">PDF</span>
+                                            <span className="export-desc">Format final</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="result-actions">
-                                <button
-                                    className="btn-resultat"
-                                    onClick={() => navigate(`/resultat/${resultatFinal.cdcId}`)}
-                                >
-                                    📄 Voir le CDC généré
-                                    <span className="btn-arrow">→</span>
+                                <button className="btn-resultat" onClick={() => navigate(`/resultat/${resultatFinal.cdcId}`)}>
+                                    📄 Voir le CDC
                                 </button>
-                                <button
-                                    className="btn-secondary-resultat"
-                                    onClick={() => navigate('/nouveau-projet')}
-                                >
+                                <button className="btn-secondary-resultat" onClick={() => navigate('/nouveau-projet')}>
                                     ✨ Nouveau projet
                                 </button>
                             </div>
@@ -466,44 +464,23 @@ function GenerationPage() {
                     </div>
                 )}
 
-                {/* Message d'erreur */}
+                {/* ERREUR */}
                 {statut === 'erreur' && (
                     <div className="gen-error-container">
                         <div className="gen-error-card">
-                            <span className="error-icon"></span>
                             <div className="error-content">
-                                <h3>Erreur de génération</h3>
-                                <p>{erreur || 'Une erreur s\'est produite lors de la génération du CDC.'}</p>
-                                <p className="error-hint">Vérifiez votre connexion et votre configuration.</p>
+                                <h3>❌ Erreur</h3>
+                                <p>{erreur || 'Une erreur est survenue'}</p>
                                 <div className="error-actions">
-                                    <button 
-                                        className="btn-retry"
-                                        onClick={() => window.location.reload()}
-                                    >
-                                         Réessayer
+                                    <button className="btn-retry" onClick={() => window.location.reload()}>
+                                        🔄 Réessayer
                                     </button>
-                                    <button 
-                                        className="btn-back"
-                                        onClick={() => navigate('/nouveau-projet')}
-                                    >
-                                        ← Retour au formulaire
+                                    <button className="btn-back" onClick={() => navigate('/nouveau-projet')}>
+                                        ← Retour
                                     </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                )}
-
-                {/* Bouton pour lancer manuellement */}
-                {statut === 'connexion' && (
-                    <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                        <button 
-                            onClick={lancerPipeline}
-                            className="btn-primary"
-                            style={{ padding: '12px 30px', fontSize: '16px' }}
-                        >
-                             Lancer la génération
-                        </button>
                     </div>
                 )}
             </div>

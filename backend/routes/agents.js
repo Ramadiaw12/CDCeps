@@ -7,10 +7,6 @@
 // GET  /api/agents/sessions/:projetId = Historique sessions
 // 
 
-// ============================================================
-// routes/agents.js
-// Endpoints pour le pipeline multi-agents
-// ============================================================
 
 import express from 'express';
 import pool from '../database/postgres.js';
