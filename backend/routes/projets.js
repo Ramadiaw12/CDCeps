@@ -2,20 +2,23 @@
 // routes/projets.js
 // Endpoints REST pour la gestion des projets et clients
 // 
-// POST /api/projets          → Crée un client + projet
-// GET  /api/projets          → Liste tous les projets
-// GET  /api/projets/:id      → Détail d'un projet
-// PUT  /api/projets/:id      → Met à jour un projet
-// ============================================================
+// POST /api/projets          Crée un client + projet
+// GET  /api/projets          Liste tous les projets
+// GET  /api/projets/:id      Détail d'un projet
+// PUT  /api/projets/:id      Met à jour un projet
+// 
 
 import express from 'express';
-import pool from '../database/mysql.js';
+
+import pool from '../database/postgres.js';
 
 const router = express.Router();
 
+// 
 // POST /api/projets
 // Reçoit les données du formulaire React et crée
 // le client + projet en base de données
+// 
 router.post('/', async (req, res) => {
     // Récupère toutes les données du formulaire
     const {
@@ -44,50 +47,44 @@ router.post('/', async (req, res) => {
         });
     }
 
-    // Utilise une connexion dédiée pour la transaction
-    // Une transaction garantit que les deux insertions
-    // (client + projet) réussissent ensemble ou échouent ensemble
-    const connection = await pool.getConnection();
+    // PostgreSQL : On utilise pool.connect() pour les transactions
+    // En PostgreSQL, on utilise un client dédié pour la transaction
+    const client = await pool.connect();
 
     try {
-        // Démarre la transaction
-        await connection.beginTransaction();
+        // PostgreSQL : BEGIN au lieu de beginTransaction()
+        await client.query('BEGIN');
 
         // Étape 1 : Crée ou récupère le client
-        // ON DUPLICATE KEY UPDATE permet de ne pas créer
-        // de doublon si l'email existe déjà
-        const [clientResult] = await connection.execute(
+        // PostgreSQL : ON CONFLICT (email) DO UPDATE au lieu de ON DUPLICATE KEY UPDATE
+        // PostgreSQL : $1, $2... au lieu de ?
+        // PostgreSQL : RETURNING id au lieu de insertId
+        const clientResult = await client.query(
             `INSERT INTO clients 
              (nom, prenom, email, telephone, entreprise, secteur)
-             VALUES (?, ?, ?, ?, ?, ?)
-             ON DUPLICATE KEY UPDATE
-             nom = VALUES(nom),
-             prenom = VALUES(prenom),
-             telephone = VALUES(telephone),
-             entreprise = VALUES(entreprise)`,
+             VALUES ($1, $2, $3, $4, $5, $6)
+             ON CONFLICT (email) DO UPDATE SET
+             nom = EXCLUDED.nom,
+             prenom = EXCLUDED.prenom,
+             telephone = EXCLUDED.telephone,
+             entreprise = EXCLUDED.entreprise
+             RETURNING id`,
             [nom, prenom, email, telephone || null,
              entreprise || null, secteur || 'autre']
         );
 
-        // Récupère l'id du client créé ou existant
-        let clientId;
-        if (clientResult.insertId > 0) {
-            clientId = clientResult.insertId;
-        } else {
-            // L'email existait déjà — récupère son id
-            const [existing] = await connection.execute(
-                'SELECT id FROM clients WHERE email = ?',
-                [email]
-            );
-            clientId = existing[0].id;
-        }
+        // PostgreSQL : Le résultat est dans clientResult.rows[0].id
+        let clientId = clientResult.rows[0].id;
 
         // Étape 2 : Crée le projet
-        const [projetResult] = await connection.execute(
+        // PostgreSQL : $1, $2... au lieu de ?
+        // PostgreSQL : RETURNING id au lieu de insertId
+        const projetResult = await client.query(
             `INSERT INTO projets
              (client_id, titre, description_brute, type_projet,
               budget_estime, delai_souhaite, technologies_souhaitees)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+             VALUES ($1, $2, $3, $4, $5, $6, $7)
+             RETURNING id`,
             [
                 clientId,
                 titre,
@@ -99,12 +96,11 @@ router.post('/', async (req, res) => {
             ]
         );
 
-        const projetId = projetResult.insertId;
+        const projetId = projetResult.rows[0].id;
 
-        // Valide la transaction — tout s'est bien passé
-        await connection.commit();
+        // PostgreSQL : COMMIT au lieu de commit()
+        await client.query('COMMIT');
 
-        // Retourne les IDs créés au frontend
         return res.status(201).json({
             succes: true,
             message: 'Projet créé avec succès',
@@ -115,8 +111,8 @@ router.post('/', async (req, res) => {
         });
 
     } catch (error) {
-        // Annule tout si une erreur survient
-        await connection.rollback();
+        // PostgreSQL : ROLLBACK au lieu de rollback()
+        await client.query('ROLLBACK');
 
         console.error('Erreur création projet :', error.message);
 
@@ -127,36 +123,41 @@ router.post('/', async (req, res) => {
         });
 
     } finally {
-        // Libère toujours la connexion
-        connection.release();
+        // PostgreSQL : release() au lieu de release()
+        client.release();
     }
 });
 
+// 
 // GET /api/projets 
 // Retourne la liste de tous les projets avec
 // les infos client associées
+// 
 router.get('/', async (req, res) => {
     try {
-        const [projets] = await pool.execute(
+        // PostgreSQL : pool.query() au lieu de pool.execute()
+        // PostgreSQL : $1, $2... au lieu de ?
+        // PostgreSQL : result.rows au lieu de [rows]
+        const result = await pool.query(
             `SELECT p.id, p.titre, p.type_projet, p.statut,
                     p.budget_estime, p.delai_souhaite,
                     p.created_at,
                     c.nom, c.prenom, c.email, c.entreprise,
-                    -- Vérifie si un CDC a été généré pour ce projet
                     COUNT(cdc.id) as nb_cdc
              FROM projets p
              JOIN clients c ON p.client_id = c.id
              LEFT JOIN cahiers_des_charges cdc ON p.id = cdc.projet_id
-             GROUP BY p.id
+             GROUP BY p.id, c.id
              ORDER BY p.created_at DESC`
         );
 
         return res.json({
             succes: true,
-            data: projets
+            data: result.rows
         });
 
     } catch (error) {
+        console.error('Erreur récupération projets:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur récupération projets',
@@ -165,21 +166,24 @@ router.get('/', async (req, res) => {
     }
 });
 
+// 
 // GET /api/projets/:id 
 // Retourne le détail complet d'un projet
+// 
 router.get('/:id', async (req, res) => {
     try {
-        const [rows] = await pool.execute(
+        // PostgreSQL : $1 au lieu de ?
+        const result = await pool.query(
             `SELECT p.*,
                     c.nom, c.prenom, c.email,
                     c.telephone, c.entreprise, c.secteur
              FROM projets p
              JOIN clients c ON p.client_id = c.id
-             WHERE p.id = ?`,
+             WHERE p.id = $1`,
             [req.params.id]
         );
 
-        if (rows.length === 0) {
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 succes: false,
                 message: 'Projet introuvable'
@@ -188,10 +192,11 @@ router.get('/:id', async (req, res) => {
 
         return res.json({
             succes: true,
-            data: rows[0]
+            data: result.rows[0]
         });
 
     } catch (error) {
+        console.error('Erreur récupération projet:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur récupération projet',
@@ -200,21 +205,34 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// 
 // PUT /api/projets/:id
 // Met à jour le statut ou les infos d'un projet
+// 
 router.put('/:id', async (req, res) => {
     try {
         const { statut, titre, description_brute } = req.body;
 
-        await pool.execute(
+        // PostgreSQL : $1, $2... au lieu de ?
+        // PostgreSQL : COALESCE fonctionne pareil
+        // PostgreSQL : result.rows pour vérifier si mis à jour
+        const result = await pool.query(
             `UPDATE projets 
-             SET statut = COALESCE(?, statut),
-                 titre = COALESCE(?, titre),
-                 description_brute = COALESCE(?, description_brute)
-             WHERE id = ?`,
+             SET statut = COALESCE($1, statut),
+                 titre = COALESCE($2, titre),
+                 description_brute = COALESCE($3, description_brute)
+             WHERE id = $4
+             RETURNING id`,
             [statut || null, titre || null,
              description_brute || null, req.params.id]
         );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                succes: false,
+                message: 'Projet introuvable'
+            });
+        }
 
         return res.json({
             succes: true,
@@ -222,6 +240,7 @@ router.put('/:id', async (req, res) => {
         });
 
     } catch (error) {
+        console.error('Erreur mise à jour projet:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur mise à jour projet',
