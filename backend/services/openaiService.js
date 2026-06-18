@@ -27,8 +27,7 @@ if (!process.env.GOOGLE_API_KEY) {
 const DEFAULT_MODEL = 'gemini-1.5-flash';    // Modèle rapide
 // Alternative : 'gemini-1.5-pro' pour plus de précision
 // Alternative : 'gemini-2.0-flash-exp' (si disponible)
-
-const EMBEDDING_MODEL = 'text-embedding-004';     // Modèle d'embedding
+const EMBEDDING_MODEL = 'embedding-001';     // Modèle d'embedding
 
 // 
 // 2. FONCTION PRINCIPALE - APPEL LLM
