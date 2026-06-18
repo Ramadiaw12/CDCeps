@@ -36,18 +36,24 @@ if (result.error) {
 }
 dotenv.config();
 
-
+    
 // Initialisation 
 const app = express();
 const httpServer = createServer(app);
 
 const io = new Server(httpServer, {
     cors: {
-        origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
-        methods: ['GET', 'POST'],
-        credentials: true
+        origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        credentials: true,
+        transports: ['websocket', 'polling'],
+        allowedHeaders: ['Content-Type', 'Authorization']
     },
-    transports: ['websocket', 'polling']
+    // ✅ Ajouter ces options pour plus de stabilité
+    transports: ['websocket', 'polling'],
+    allowEIO3: true,
+    pingTimeout: 60000,
+    pingInterval: 25000,
 });
 
 // Middlewares
