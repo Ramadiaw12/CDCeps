@@ -3,7 +3,7 @@
 // Module RAG (Retrieval Augmented Generation)
 // Recherche les anciens CDC similaires pour enrichir
 // la génération de nouveaux CDC
-// ============================================================
+// 
 
 // services/ragService.js
 import pool from '../database/postgres.js';

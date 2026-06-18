@@ -1,7 +1,7 @@
 // ============================================================
 // server.js
 // Point d'entrée principal du backend Node.js
-// ============================================================
+// 
 
 import express from 'express';
 import { createServer } from 'http';
@@ -100,7 +100,7 @@ const PORT = process.env.PORT || 3001;
 httpServer.listen(PORT, async () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
     
-    // ✅ Test de connexion PostgreSQL
+    // Test de connexion PostgreSQL
     const connected = await testConnection();
     if (connected) {
         console.log('Base de données PostgreSQL connectée');

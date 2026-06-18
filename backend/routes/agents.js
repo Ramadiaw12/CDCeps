@@ -5,7 +5,7 @@
 // POST /api/agents/generer/:projetId = Lance le pipeline
 // GET  /api/agents/session/:uuid     = Statut d'une session
 // GET  /api/agents/sessions/:projetId = Historique sessions
-// ============================================================
+// 
 
 import express from 'express';
 import pool from '../database/postgres.js';

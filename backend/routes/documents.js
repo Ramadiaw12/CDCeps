@@ -8,7 +8,7 @@
 // GET  /api/documents/cdc/:id/pdf       Télécharge en PDF
 // POST /api/documents/rag               Indexe un document RAG
 // GET  /api/documents/rag               Liste documents RAG
-// ============================================================
+// 
 
 import express from 'express';
 // On importe le pool PostgreSQL au lieu de MySQL
