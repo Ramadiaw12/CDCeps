@@ -1,14 +1,13 @@
 // ============================================================
 // server.js
 // Point d'entrée principal du backend Node.js
-// 
+// ============================================================
 
 import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// Remplacer mysql par postgres
 import { testConnection } from './database/postgres.js';
 
 // Import des routes
@@ -16,38 +15,35 @@ import routesProjets    from './routes/projets.js';
 import routesAgents     from './routes/agents.js';
 import routesDocuments  from './routes/documents.js';
 
-
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Charger .env avec chemin absolu
-const envPath = path.resolve(__dirname, '.env');
-console.log(`Chargement du .env depuis: ${envPath}`);
-
-const result = dotenv.config({ path: envPath });
-
-if (result.error) {
-    console.error('❌ Erreur chargement .env:', result.error.message);
-} else {
-    console.log('.env chargé avec succès');
-}
 dotenv.config();
 
-    
 // Initialisation 
 const app = express();
 const httpServer = createServer(app);
 
+// CORS CORRECTEMENT CONFIGURÉ (sans app.options)
+const corsOptions = {
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+    optionsSuccessStatus: 200
+};
+
+// Appliquer CORS à toutes les routes
+app.use(cors(corsOptions));
+
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// SOCKET.IO AVEC BONNE CONFIGURATION
 const io = new Server(httpServer, {
     cors: {
-        origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'http://localhost:3000'],
-        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+        methods: ['GET', 'POST'],
         credentials: true,
-        transports: ['websocket', 'polling'],
-        allowedHeaders: ['Content-Type', 'Authorization']
+        transports: ['websocket', 'polling']
     },
     transports: ['websocket', 'polling'],
     allowEIO3: true,
@@ -55,54 +51,60 @@ const io = new Server(httpServer, {
     pingInterval: 25000,
 });
 
-// Middlewares
-app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-}));
-// Route de test CORS
-app.get('/api/test-cors', (req, res) => {
-    res.json({ 
-        success: true,
-        message: 'CORS OK', 
-        origin: req.headers.origin || 'Aucun',
-        timestamp: new Date().toISOString()
-    });
-});
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-//  Socket.io 
+// GESTION DES CONNEXIONS SOCKET.IO
 io.on('connection', (socket) => {
     console.log(`Client connecté : ${socket.id}`);
 
-    // Le frontend envoie le sessionUuid pour s'abonner
-    // aux événements de SA session uniquement
-    socket.on('rejoindre_session', (sessionUuid) => {
-        socket.join(sessionUuid);
-        console.log(`Session rejointe : ${sessionUuid}`);
+    // 1. Envoyer une confirmation immédiate
+    socket.emit('connect_confirme', { 
+        message: 'Connexion Socket.IO établie',
+        socketId: socket.id,
+        timestamp: new Date().toISOString()
     });
 
+    // 2. Rejoindre une session
+    socket.on('rejoindre_session', (sessionUuid) => {
+        if (!sessionUuid) {
+            console.warn('Tentative de rejoindre une session sans UUID');
+            socket.emit('erreur', { message: 'Session UUID manquant' });
+            return;
+        }
+        
+        socket.join(sessionUuid);
+        console.log(`Session rejointe : ${sessionUuid} par ${socket.id}`);
+        
+        socket.emit('session_jointe', { 
+            sessionUuid, 
+            status: 'ok',
+            message: 'Session rejointe avec succès'
+        });
+    });
+
+    // 3. Lancer le pipeline (si besoin)
+    socket.on('lancer_pipeline', async (data) => {
+        console.log(`Lancement du pipeline pour projet ${data.projetId}`);
+        // Ici vous pouvez appeler l'orchestrateur
+    });
+
+    // 4. Déconnexion
     socket.on('disconnect', () => {
-        console.log(`Client déconnecté : ${socket.id}`);
+        console.log(`❌ Client déconnecté : ${socket.id}`);
+    });
+
+    // 5. Gestion des erreurs
+    socket.on('error', (error) => {
+        console.error(`❌ Erreur socket ${socket.id}:`, error);
     });
 });
-// Route de test Socket.IO
-app.get('/api/socket-test', (req, res) => {
-    res.json({
-        success: true,
-        message: 'Socket.IO prêt',
-        socketIO: true
-    });
-});
+
 // Rend io accessible depuis toutes les routes
 app.set('io', io);
 
-//  Routes 
+// ============================================================
+// ROUTES
+// ============================================================
 
-// Route de santé — teste que le serveur tourne
+// Route de santé
 app.get('/api/health', (req, res) => {
     res.json({
         statut: 'ok',
@@ -112,11 +114,11 @@ app.get('/api/health', (req, res) => {
 });
 
 // Routes métier
-app.use('/api/projets',    routesProjets);
-app.use('/api/agents',     routesAgents);
-app.use('/api/documents',  routesDocuments);
+app.use('/api/projets', routesProjets);
+app.use('/api/agents', routesAgents);
+app.use('/api/documents', routesDocuments);
 
-// Gestion des routes inexistantes 
+// Gestion des routes inexistantes
 app.use((req, res) => {
     res.status(404).json({
         succes: false,
@@ -124,9 +126,9 @@ app.use((req, res) => {
     });
 });
 
-// Gestion globale des erreurs 
+// Gestion globale des erreurs
 app.use((err, req, res, next) => {
-    console.error('Erreur serveur :', err.message);
+    console.error('❌ Erreur serveur :', err.message);
     res.status(500).json({
         succes: false,
         message: 'Erreur interne du serveur',
@@ -134,27 +136,33 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Démarrage
+// ============================================================
+// DÉMARRAGE
+// ============================================================
+
 const PORT = process.env.PORT || 3001;
 
 httpServer.listen(PORT, async () => {
+    console.log('=' .repeat(50));
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
+    console.log(`Socket.IO prêt sur http://localhost:${PORT}`);
+    console.log('=' .repeat(50));
     
     // Test de connexion PostgreSQL
     const connected = await testConnection();
     if (connected) {
-        console.log('Base de données PostgreSQL connectée');
+        console.log('✅ Base de données PostgreSQL connectée');
     } else {
-        console.log('Base de données PostgreSQL non disponible');
+        console.log('⚠️ Base de données PostgreSQL non disponible');
     }
     
-    console.log(`Routes disponibles :`);
-    console.log(`   GET  /api/health`);
-    console.log(`   POST /api/projets`);
-    console.log(`   GET  /api/projets`);
-    console.log(`   POST /api/agents/generer/:projetId`);
-    console.log(`   GET  /api/documents/cdc`);
-    console.log(`   GET  /api/documents/cdc/:id/pdf`);
-    console.log(`   GET  /api/documents/cdc/:id/markdown`);
+    console.log('\n Routes disponibles :');
+    console.log(`   GET  http://localhost:${PORT}/api/health`);
+    console.log(`   POST http://localhost:${PORT}/api/projets`);
+    console.log(`   GET  http://localhost:${PORT}/api/projets`);
+    console.log(`   POST http://localhost:${PORT}/api/agents/generer/:projetId`);
+    console.log(`   GET  http://localhost:${PORT}/api/documents/cdc`);
+    console.log(`   GET  http://localhost:${PORT}/api/documents/cdc/:id/pdf`);
+    console.log(`   GET  http://localhost:${PORT}/api/documents/cdc/:id/markdown`);
+    console.log('=' .repeat(50));
 });
-
