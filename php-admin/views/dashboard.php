@@ -5,7 +5,7 @@
 // ============================================================
 ?>
 
-<!-- ── Statistiques principales ─────────────────────────── -->
+<!--  Statistiques principales  -->
 <div class="stats-grid">
     <div class="stat-card">
         <div class="stat-icone" style="background:#dbeafe;">📁</div>
@@ -16,7 +16,7 @@
     </div>
 
     <div class="stat-card">
-        <div class="stat-icone" style="background:#dcfce7;">📄</div>
+        <div class="stat-icone" style="background:#dcfce7;"></div>
         <div class="stat-info">
             <div class="valeur"><?= $stats['cdc']['total'] ?></div>
             <div class="label">CDC générés</div>
@@ -32,7 +32,7 @@
     </div>
 
     <div class="stat-card">
-        <div class="stat-icone" style="background:#f3e8ff;">📚</div>
+        <div class="stat-icone" style="background:#f3e8ff;"></div>
         <div class="stat-info">
             <div class="valeur"><?= $stats['rag']['actifs'] ?></div>
             <div class="label">Documents RAG actifs</div>
@@ -48,12 +48,12 @@
     </div>
 </div>
 
-<!-- ── Grille principale ─────────────────────────────────── -->
+<!--  Grille principale  -->
 <div class="grid-2" style="margin-bottom:24px;">
 
     <!-- Derniers projets -->
     <div class="card">
-        <div class="card-title">📁 Derniers projets</div>
+        <div class="card-title">Derniers projets</div>
         <table>
             <thead>
                 <tr>

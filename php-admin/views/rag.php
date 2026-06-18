@@ -10,12 +10,12 @@
 <?php include 'layout.php'; ?>
 
 <div class="container mt-4">
-    <h1>📚 Gestion des Documents RAG</h1>
+    <h1>Gestion des Documents RAG</h1>
     
     <!-- Formulaire d'upload -->
     <div class="card mb-4">
         <div class="card-header">
-            <h5>📤 Ajouter un document</h5>
+            <h5>Ajouter un document</h5>
         </div>
         <div class="card-body">
             <form action="index.php?controller=rag&action=upload" method="POST" enctype="multipart/form-data">
@@ -39,7 +39,7 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">📤 Indexer le document</button>
+                <button type="submit" class="btn btn-primary">Indexer le document</button>
             </form>
         </div>
     </div>
@@ -47,7 +47,7 @@
     <!-- Liste des documents -->
     <div class="card">
         <div class="card-header">
-            <h5>📄 Documents indexés</h5>
+            <h5> Documents indexés</h5>
         </div>
         <div class="card-body">
             <table class="table table-striped">
@@ -73,7 +73,7 @@
                             <a href="index.php?controller=rag&action=delete&id=<?= $doc['id'] ?>" 
                                class="btn btn-danger btn-sm" 
                                onclick="return confirm('Supprimer ce document ?')">
-                                🗑️
+                                
                             </a>
                         </td>
                     </tr>

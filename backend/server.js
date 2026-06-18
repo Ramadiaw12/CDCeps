@@ -16,7 +16,26 @@ import routesProjets    from './routes/projets.js';
 import routesAgents     from './routes/agents.js';
 import routesDocuments  from './routes/documents.js';
 
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Charger .env avec chemin absolu
+const envPath = path.resolve(__dirname, '.env');
+console.log(`📂 Chargement du .env depuis: ${envPath}`);
+
+const result = dotenv.config({ path: envPath });
+
+if (result.error) {
+    console.error('❌ Erreur chargement .env:', result.error.message);
+} else {
+    console.log('✅ .env chargé avec succès');
+}
 dotenv.config();
+
 
 // Initialisation 
 const app = express();
@@ -118,4 +137,3 @@ httpServer.listen(PORT, async () => {
     console.log(`   GET  /api/documents/cdc/:id/markdown`);
 });
 
-// Au début de server.js, après dotenv.config()
