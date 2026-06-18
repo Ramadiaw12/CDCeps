@@ -7,24 +7,28 @@
 // GET  /api/agents/sessions/:projetId = Historique sessions
 // 
 
+// ============================================================
+// routes/agents.js
+// Endpoints pour le pipeline multi-agents
+// ============================================================
+
 import express from 'express';
 import pool from '../database/postgres.js';
 import Orchestrateur from '../services/orchestrateur.js';
 
 const router = express.Router();
 
-// Instance unique de l'orchestrateur
-const orchestrateur = new Orchestrateur();
-
-// 
+// ============================================================
 // POST /api/agents/generer/:projetId
-// 
+// Lance le pipeline complet
+// ============================================================
 router.post('/generer/:projetId', async (req, res) => {
     const { projetId } = req.params;
+    const { sessionUuid: clientSessionUuid } = req.body;
 
     try {
-        // PostgreSQL : $1 au lieu de ?, result.rows au lieu de [rows]
-        const result = await pool.query(
+        // 1. Vérifier que le projet existe
+        const projetResult = await pool.query(
             `SELECT p.*, c.nom, c.prenom, c.email, c.entreprise
              FROM projets p
              JOIN clients c ON p.client_id = c.id
@@ -32,70 +36,68 @@ router.post('/generer/:projetId', async (req, res) => {
             [projetId]
         );
 
-        if (result.rows.length === 0) {
+        if (projetResult.rows.length === 0) {
             return res.status(404).json({
                 succes: false,
                 message: 'Projet introuvable'
             });
         }
 
-        const projet = result.rows[0];
-
+        const projet = projetResult.rows[0];
         const io = req.app.get('io');
 
+        // 2. Générer un UUID de session si non fourni
+        const sessionUuid = clientSessionUuid || crypto.randomUUID();
+
+        // 3. Créer la session en base
+        const sessionResult = await pool.query(
+            `INSERT INTO sessions_agents 
+             (projet_id, session_uuid, statut_global)
+             VALUES ($1, $2, 'en_cours')
+             RETURNING id`,
+            [projetId, sessionUuid]
+        );
+        const sessionId = sessionResult.rows[0].id;
+
+        // 4. Préparer les données du projet
         const donneesProjet = {
-            description_brute:        projet.description_brute,
-            type_projet:              projet.type_projet,
-            budget_estime:            projet.budget_estime,
-            delai_souhaite:           projet.delai_souhaite,
-            technologies_souhaitees:  projet.technologies_souhaitees
+            description_brute: projet.description_brute,
+            type_projet: projet.type_projet,
+            budget_estime: projet.budget_estime,
+            delai_souhaite: projet.delai_souhaite,
+            technologies_souhaitees: projet.technologies_souhaitees
         };
 
-        // Lance le pipeline en arrière-plan
-        const pipelinePromise = orchestrateur.lancerPipeline(
+        // 5. Lancer le pipeline en arrière-plan (async)
+        const orchestrateur = new Orchestrateur();
+        
+        // Ne pas attendre la fin du pipeline pour répondre
+        orchestrateur.lancerPipeline(
             projetId,
+            sessionId,
+            sessionUuid,
             donneesProjet,
             io
-        );
-
-        pipelinePromise.then(resultat => {
-            console.log(`Pipeline terminé - CDC ID: ${resultat.cdcId}`);
-        }).catch(error => {
-            console.error('Erreur pipeline :', error.message);
+        ).catch(error => {
+            console.error('❌ Erreur pipeline:', error.message);
+            io.to(sessionUuid).emit('pipeline_erreur', {
+                message: error.message
+            });
         });
 
-        //  PostgreSQL : $1, result.rows
-        const sessionsResult = await pool.query(
-            `SELECT session_uuid FROM sessions_agents
-             WHERE projet_id = $1
-             ORDER BY started_at DESC
-             LIMIT 1`,
-            [projetId]
-        );
-
-        // Petite attente pour que la session soit créée
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        const sessionsApresResult = await pool.query(
-            `SELECT session_uuid FROM sessions_agents
-             WHERE projet_id = $1
-             ORDER BY started_at DESC
-             LIMIT 1`,
-            [projetId]
-        );
-
+        // 6. Répondre immédiatement avec la session UUID
         return res.status(202).json({
             succes: true,
-            message: 'Pipeline démarré - suivez la progression via Socket.io',
+            message: 'Pipeline démarré avec succès',
             data: {
+                sessionUuid,
                 projetId: parseInt(projetId),
                 statut: 'en_cours'
             }
         });
 
     } catch (error) {
-        console.error('Erreur démarrage pipeline :', error.message);
-
+        console.error('❌ Erreur démarrage pipeline:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur démarrage pipeline',
@@ -104,12 +106,12 @@ router.post('/generer/:projetId', async (req, res) => {
     }
 });
 
-// 
+// ============================================================
 // GET /api/agents/session/:uuid
-// 
+// Récupère le statut d'une session
+// ============================================================
 router.get('/session/:uuid', async (req, res) => {
     try {
-        // PostgreSQL : $1 au lieu de ?
         const result = await pool.query(
             `SELECT sa.*,
                     cdc.id as cdc_id,
@@ -142,12 +144,12 @@ router.get('/session/:uuid', async (req, res) => {
     }
 });
 
-// 
+// ============================================================
 // GET /api/agents/sessions/:projetId
-// 
+// Récupère l'historique des sessions
+// ============================================================
 router.get('/sessions/:projetId', async (req, res) => {
     try {
-        // PostgreSQL : $1 au lieu de ?
         const result = await pool.query(
             `SELECT sa.*,
                     cdc.id as cdc_id,

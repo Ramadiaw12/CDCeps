@@ -118,7 +118,7 @@ function FormulairePage() {
                     {/* Erreur globale */}
                     {erreurs.global && (
                         <div className="formulaire-error-global">
-                            <span>⚠️</span> {erreurs.global}
+                            <span></span> {erreurs.global}
                         </div>
                     )}
 
