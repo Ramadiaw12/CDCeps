@@ -11,18 +11,24 @@
 // ============================================================
 
 import express from 'express';
-import pool from '../database/mysql.js';
+// On importe le pool PostgreSQL au lieu de MySQL
+import pool from '../database/postgres.js';
 import { marked } from 'marked';
 import puppeteer from 'puppeteer';
 import { indexerDocument } from '../services/ragService.js';
 
 const router = express.Router();
 
+// 
 // GET /api/documents/cdc 
 // Liste tous les CDC générés avec leurs métadonnées
+// 
 router.get('/cdc', async (req, res) => {
     try {
-        const [cdcs] = await pool.execute(
+        // PostgreSQL : On utilise pool.query() au lieu de pool.execute()
+        // Les paramètres sont $1, $2... au lieu de ?
+        // Le résultat est dans result.rows au lieu de [rows]
+        const result = await pool.query(
             `SELECT cdc.id, cdc.score_completude, cdc.statut,
                     cdc.version, cdc.created_at,
                     p.titre as projet_titre, p.type_projet,
@@ -33,12 +39,14 @@ router.get('/cdc', async (req, res) => {
              ORDER BY cdc.created_at DESC`
         );
 
+        // result.rows contient les données
         return res.json({
             succes: true,
-            data: cdcs
+            data: result.rows
         });
 
     } catch (error) {
+        console.error('Erreur récupération CDC:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur récupération CDC',
@@ -47,11 +55,14 @@ router.get('/cdc', async (req, res) => {
     }
 });
 
+// 
 // GET /api/documents/cdc/:id 
 // Retourne le contenu complet d'un CDC
+// 
 router.get('/cdc/:id', async (req, res) => {
     try {
-        const [rows] = await pool.execute(
+        // PostgreSQL : $1 au lieu de ?
+        const result = await pool.query(
             `SELECT cdc.*,
                     p.titre as projet_titre,
                     p.type_projet, p.description_brute,
@@ -59,22 +70,34 @@ router.get('/cdc/:id', async (req, res) => {
              FROM cahiers_des_charges cdc
              JOIN projets p ON cdc.projet_id = p.id
              JOIN clients c ON p.client_id = c.id
-             WHERE cdc.id = ?`,
+             WHERE cdc.id = $1`,
             [req.params.id]
         );
 
-        if (rows.length === 0) {
+        // result.rows au lieu de rows
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 succes: false,
                 message: 'CDC introuvable'
             });
         }
 
+        // On récupère le premier résultat
+        const cdc = result.rows[0];
+        
         // Parse les sections manquantes stockées en JSON
-        const cdc = rows[0];
-        cdc.sections_manquantes = cdc.sections_manquantes
-            ? JSON.parse(cdc.sections_manquantes)
-            : [];
+        // PostgreSQL stocke déjà en JSONB, mais on parse si c'est une string
+        if (cdc.sections_manquantes) {
+            try {
+                cdc.sections_manquantes = typeof cdc.sections_manquantes === 'string'
+                    ? JSON.parse(cdc.sections_manquantes)
+                    : cdc.sections_manquantes;
+            } catch (e) {
+                cdc.sections_manquantes = [];
+            }
+        } else {
+            cdc.sections_manquantes = [];
+        }
 
         return res.json({
             succes: true,
@@ -82,6 +105,7 @@ router.get('/cdc/:id', async (req, res) => {
         });
 
     } catch (error) {
+        console.error('Erreur récupération CDC:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur récupération CDC',
@@ -90,29 +114,32 @@ router.get('/cdc/:id', async (req, res) => {
     }
 });
 
+// 
 // GET /api/documents/cdc/:id/markdown
 // Télécharge le CDC en fichier Markdown
+// 
 router.get('/cdc/:id/markdown', async (req, res) => {
     try {
-        const [rows] = await pool.execute(
+        // PostgreSQL : $1 au lieu de ?
+        const result = await pool.query(
             `SELECT cdc.contenu_markdown, p.titre
              FROM cahiers_des_charges cdc
              JOIN projets p ON cdc.projet_id = p.id
-             WHERE cdc.id = ?`,
+             WHERE cdc.id = $1`,
             [req.params.id]
         );
 
-        if (rows.length === 0) {
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 succes: false,
                 message: 'CDC introuvable'
             });
         }
 
-        const { contenu_markdown, titre } = rows[0];
+        // result.rows[0] au lieu de rows[0]
+        const { contenu_markdown, titre } = result.rows[0];
 
         // Crée un nom de fichier propre depuis le titre du projet
-        // Remplace les espaces et caractères spéciaux
         const nomFichier = titre
             .toLowerCase()
             .replace(/[^a-z0-9]/g, '_')
@@ -129,6 +156,7 @@ router.get('/cdc/:id/markdown', async (req, res) => {
         return res.send(contenu_markdown);
 
     } catch (error) {
+        console.error('Erreur export Markdown:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur export Markdown',
@@ -137,32 +165,36 @@ router.get('/cdc/:id/markdown', async (req, res) => {
     }
 });
 
+// 
 // GET /api/documents/cdc/:id/pdf
 // Génère et télécharge le CDC en PDF
-// Processus : Markdown → HTML → PDF via Puppeteer
+// Processus : Markdown  HTML  PDF via Puppeteer
+// 
 router.get('/cdc/:id/pdf', async (req, res) => {
     let browser = null;
 
     try {
-        const [rows] = await pool.execute(
+        // PostgreSQL : $1 au lieu de ?
+        const result = await pool.query(
             `SELECT cdc.contenu_markdown, cdc.score_completude,
                     p.titre as projet_titre, p.type_projet,
                     c.nom, c.prenom, c.entreprise
              FROM cahiers_des_charges cdc
              JOIN projets p ON cdc.projet_id = p.id
              JOIN clients c ON p.client_id = c.id
-             WHERE cdc.id = ?`,
+             WHERE cdc.id = $1`,
             [req.params.id]
         );
 
-        if (rows.length === 0) {
+        if (result.rows.length === 0) {
             return res.status(404).json({
                 succes: false,
                 message: 'CDC introuvable'
             });
         }
 
-        const cdc = rows[0];
+        // esult.rows[0] au lieu de rows[0]
+        const cdc = result.rows[0];
 
         // Étape 1 : Convertit le Markdown en HTML
         const contenuHTML = marked(cdc.contenu_markdown);
@@ -174,39 +206,32 @@ router.get('/cdc/:id/pdf', async (req, res) => {
             <head>
                 <meta charset="UTF-8">
                 <style>
-                    /* Style général du document */
                     body {
                         font-family: 'Arial', sans-serif;
                         font-size: 12px;
                         line-height: 1.6;
-                        color: #918e8e;
+                        color: #333;
                         max-width: 800px;
                         margin: 0 auto;
                         padding: 20px;
                     }
-
-                    /* En-tête du document */
                     .header {
-                        border-bottom: 3px solid #000000;
+                        border-bottom: 3px solid #2563eb;
                         padding-bottom: 20px;
                         margin-bottom: 30px;
                     }
-
                     .header h1 {
-                        color: #6082ca;
+                        color: #2563eb;
                         font-size: 22px;
                         margin: 0 0 5px 0;
                     }
-
                     .header .meta {
                         color: #666;
                         font-size: 11px;
                     }
-
-                    /* Badge score de complétude */
                     .score-badge {
                         display: inline-block;
-                        background: #000000;
+                        background: #2563eb;
                         color: white;
                         padding: 4px 12px;
                         border-radius: 20px;
@@ -214,15 +239,11 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                         font-weight: bold;
                         margin-top: 8px;
                     }
-
-                    /* Titres */
-                    h1 { color: #7c99f8; font-size: 20px; }
-                    h2 { color: #2563eb; font-size: 16px;
+                    h1 { color: #2563eb; font-size: 20px; }
+                    h2 { color: #1e40af; font-size: 16px;
                          border-bottom: 1px solid #e5e7eb;
                          padding-bottom: 5px; }
-                    h3 { color: #03193d; font-size: 14px; }
-
-                    /* Tableaux */
+                    h3 { color: #1e3a5f; font-size: 14px; }
                     table {
                         width: 100%;
                         border-collapse: collapse;
@@ -240,20 +261,14 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                         border-bottom: 1px solid #e5e7eb;
                     }
                     tr:nth-child(even) { background: #f8fafc; }
-
-                    /* Listes */
                     ul, ol { padding-left: 20px; }
                     li { margin: 4px 0; }
-
-                    /* Code */
                     code {
                         background: #f1f5f9;
                         padding: 2px 6px;
                         border-radius: 3px;
                         font-size: 11px;
                     }
-
-                    /* Pied de page */
                     .footer {
                         margin-top: 40px;
                         padding-top: 15px;
@@ -262,13 +277,9 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                         color: #999;
                         font-size: 10px;
                     }
-
-                    /* Saut de page avant les grands titres */
-                    h2 { page-break-before: auto; }
                 </style>
             </head>
             <body>
-                <!-- En-tête professionnel EPS SARL -->
                 <div class="header">
                     <h1>EPS SARL — Cahier des Charges Préliminaire</h1>
                     <div class="meta">
@@ -281,11 +292,7 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                         Score de complétude : ${cdc.score_completude}/100
                     </div>
                 </div>
-
-                <!-- Contenu du CDC généré -->
                 ${contenuHTML}
-
-                <!-- Pied de page -->
                 <div class="footer">
                     Document généré automatiquement par le système CDCEPS — EPS SARL
                     — ${new Date().toLocaleDateString('fr-FR')}
@@ -296,19 +303,15 @@ router.get('/cdc/:id/pdf', async (req, res) => {
 
         // Étape 3 : Lance Puppeteer pour générer le PDF
         browser = await puppeteer.launch({
-            // headless: true = pas d'interface graphique
             headless: 'new',
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
         const page = await browser.newPage();
-
-        // Charge le HTML dans la page
         await page.setContent(htmlComplet, {
             waitUntil: 'networkidle0'
         });
 
-        // Génère le PDF avec les options de mise en page
         const pdfBuffer = await page.pdf({
             format: 'A4',
             margin: {
@@ -317,41 +320,36 @@ router.get('/cdc/:id/pdf', async (req, res) => {
                 bottom: '20mm',
                 left: '15mm'
             },
-            // Affiche les en-têtes et pieds de page
             displayHeaderFooter: false,
             printBackground: true
         });
 
         await browser.close();
 
-        // Met à jour le chemin PDF en base
-        await pool.execute(
+        // Mise à jour en PostgreSQL : $1 au lieu de ?
+        await pool.query(
             `UPDATE cahiers_des_charges
              SET fichier_pdf_path = 'generated'
-             WHERE id = ?`,
+             WHERE id = $1`,
             [req.params.id]
         );
 
-        // Nom de fichier pour le téléchargement
         const nomFichier = cdc.projet_titre
             .toLowerCase()
             .replace(/[^a-z0-9]/g, '_')
             .substring(0, 50);
 
-        // Headers pour forcer le téléchargement du PDF
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader(
             'Content-Disposition',
             `attachment; filename="cdc_${nomFichier}.pdf"`
         );
 
-        // Envoie le PDF
         return res.send(pdfBuffer);
 
     } catch (error) {
-        // Ferme le navigateur en cas d'erreur
         if (browser) await browser.close();
-
+        console.error('Erreur génération PDF:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur génération PDF',
@@ -360,10 +358,11 @@ router.get('/cdc/:id/pdf', async (req, res) => {
     }
 });
 
+// 
 // POST /api/documents/rag 
 // Indexe un nouveau document dans la base RAG
-// Utilisé par l'interface admin PHP pour ajouter
-// des anciens CDC comme références
+// Utilisé par l'interface admin pour ajouter des références
+// 
 router.post('/rag', async (req, res) => {
     try {
         const {
@@ -382,13 +381,14 @@ router.post('/rag', async (req, res) => {
         }
 
         // Indexe le document avec génération d'embedding
-        const documentId = await indexerDocument(
+        // La fonction indexerDocument utilise déjà PostgreSQL
+        const documentId = await indexerDocument({
             titre,
             contenu,
             type_projet,
-            secteur || null,
-            mots_cles || []
-        );
+            secteur: secteur || null,
+            mots_cles: mots_cles || []
+        });
 
         return res.status(201).json({
             succes: true,
@@ -397,6 +397,7 @@ router.post('/rag', async (req, res) => {
         });
 
     } catch (error) {
+        console.error('Erreur indexation RAG:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur indexation document RAG',
@@ -405,24 +406,30 @@ router.post('/rag', async (req, res) => {
     }
 });
 
+// 
 // GET /api/documents/rag 
 // Liste tous les documents RAG disponibles
+// 
 router.get('/rag', async (req, res) => {
     try {
-        const [documents] = await pool.execute(
-            `SELECT id, titre, type_projet, secteur,
+        // PostgreSQL : On utilise pool.query()
+        // Note : La table s'appelle "documents" (nouvelle table PostgreSQL)
+        // et non "documents_rag" (ancienne table MySQL)
+        const result = await pool.query(
+            `SELECT id, title as titre, type_projet, secteur,
                     mots_cles, actif, created_at
-             FROM documents_rag
+             FROM documents
              WHERE actif = TRUE
              ORDER BY created_at DESC`
         );
 
         return res.json({
             succes: true,
-            data: documents
+            data: result.rows
         });
 
     } catch (error) {
+        console.error('Erreur récupération documents RAG:', error.message);
         return res.status(500).json({
             succes: false,
             message: 'Erreur récupération documents RAG',
