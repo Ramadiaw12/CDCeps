@@ -4,16 +4,16 @@
 // Tous les agents utilisent ce service pour appeler le LLM
 // 
 // MIGRATION : Utilise désormais Google Gemini
-// ============================================================
+// 
 
 import dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 dotenv.config();
 
-// ============================================================
+// 
 // 1. INITIALISATION DE GEMINI
-// ============================================================
+// 
 
 // Initialiser le client Gemini avec la clé API
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
@@ -30,9 +30,9 @@ const DEFAULT_MODEL = 'gemini-1.5-flash';    // Modèle rapide
 
 const EMBEDDING_MODEL = 'text-embedding-004';     // Modèle d'embedding
 
-// ============================================================
+// 
 // 2. FONCTION PRINCIPALE - APPEL LLM
-// ============================================================
+// 
 
 /**
  * Appelle le LLM (Gemini) avec une conversation
@@ -104,9 +104,9 @@ export const appelLLM = async (messages, options = {}) => {
     }
 };
 
-// ============================================================
+// 
 // 3. GÉNÉRATION D'EMBEDDINGS AVEC GEMINI
-// ============================================================
+// 
 
 /**
  * Génère un embedding (vecteur) pour un texte avec Gemini
@@ -142,9 +142,9 @@ export const genererEmbedding = async (texte) => {
     }
 };
 
-// ============================================================
+// 
 // 4. FONCTIONS UTILITAIRES
-// ============================================================
+// 
 
 /**
  * Génère une réponse RAG avec contexte
@@ -225,9 +225,9 @@ ${contexte ? `Contexte supplémentaire : ${contexte}` : ''}`;
     ];
 };
 
-// ============================================================
+// 
 // 5. EXPORT
-// ============================================================
+// 
 
 export default {
     appelLLM,
