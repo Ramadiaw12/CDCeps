@@ -1,14 +1,10 @@
 // ============================================================
 // routes/agents.js
-// Endpoints pour déclencher et suivre le pipeline multi-agents
-//
-// POST /api/agents/generer/:projetId = Lance le pipeline
-// GET  /api/agents/session/:uuid     = Statut d'une session
-// GET  /api/agents/sessions/:projetId = Historique sessions
-// 
-
+// Endpoints pour le pipeline multi-agents
+// ============================================================
 
 import express from 'express';
+import crypto from 'crypto';
 import pool from '../database/postgres.js';
 import Orchestrateur from '../services/orchestrateur.js';
 
@@ -20,7 +16,13 @@ const router = express.Router();
 // ============================================================
 router.post('/generer/:projetId', async (req, res) => {
     const { projetId } = req.params;
-    const { sessionUuid: clientSessionUuid } = req.body;
+    const { sessionUuid: clientSessionUuid } = req.body || {};
+
+    // ✅ Générer un UUID si non fourni
+    const sessionUuid = clientSessionUuid || crypto.randomUUID();
+
+    console.log(`🚀 Demande de pipeline pour projet ${projetId}`);
+    console.log(`📌 Session UUID: ${sessionUuid}`);
 
     try {
         // 1. Vérifier que le projet existe
@@ -42,10 +44,7 @@ router.post('/generer/:projetId', async (req, res) => {
         const projet = projetResult.rows[0];
         const io = req.app.get('io');
 
-        // 2. Générer un UUID de session si non fourni
-        const sessionUuid = clientSessionUuid || crypto.randomUUID();
-
-        // 3. Créer la session en base
+        // 2. Créer la session en base
         const sessionResult = await pool.query(
             `INSERT INTO sessions_agents 
              (projet_id, session_uuid, statut_global)
@@ -55,7 +54,9 @@ router.post('/generer/:projetId', async (req, res) => {
         );
         const sessionId = sessionResult.rows[0].id;
 
-        // 4. Préparer les données du projet
+        console.log(`✅ Session créée: ${sessionId}`);
+
+        // 3. Préparer les données du projet
         const donneesProjet = {
             description_brute: projet.description_brute,
             type_projet: projet.type_projet,
@@ -64,10 +65,9 @@ router.post('/generer/:projetId', async (req, res) => {
             technologies_souhaitees: projet.technologies_souhaitees
         };
 
-        // 5. Lancer le pipeline en arrière-plan (async)
+        // 4. Lancer le pipeline en arrière-plan
         const orchestrateur = new Orchestrateur();
         
-        // Ne pas attendre la fin du pipeline pour répondre
         orchestrateur.lancerPipeline(
             projetId,
             sessionId,
@@ -81,7 +81,7 @@ router.post('/generer/:projetId', async (req, res) => {
             });
         });
 
-        // 6. Répondre immédiatement avec la session UUID
+        // 5. Répondre immédiatement
         return res.status(202).json({
             succes: true,
             message: 'Pipeline démarré avec succès',
@@ -104,7 +104,6 @@ router.post('/generer/:projetId', async (req, res) => {
 
 // ============================================================
 // GET /api/agents/session/:uuid
-// Récupère le statut d'une session
 // ============================================================
 router.get('/session/:uuid', async (req, res) => {
     try {
@@ -142,7 +141,6 @@ router.get('/session/:uuid', async (req, res) => {
 
 // ============================================================
 // GET /api/agents/sessions/:projetId
-// Récupère l'historique des sessions
 // ============================================================
 router.get('/sessions/:projetId', async (req, res) => {
     try {
