@@ -4,104 +4,144 @@
 // Contrôleur pour la gestion des documents RAG
 // Permet d'ajouter, activer/désactiver et supprimer
 // des documents de la base RAG via l'API Node.js
-// ============================================================
+// 
+
+
+
+require_once __DIR__ . '/../models/DocumentRAG.php';
 
 class RAGController {
-    private DocumentRAG $documentRAG;
-
+    private $documentModel;
+    
     public function __construct() {
-        $this->documentRAG = new DocumentRAG();
+        $this->documentModel = new DocumentRAG();
     }
-
-    // ── Liste tous les documents RAG ─────────────────────────
-    public function index(): void {
-        $documents = $this->documentRAG->getTous();
-        $stats     = $this->documentRAG->getStats();
-        $vue       = 'rag';
-        require_once __DIR__ . '/../views/layout.php';
+    
+    /**
+     * Affiche la page de gestion des documents RAG
+     */
+    public function index() {
+        $documents = $this->documentModel->getAll();
+        $types = $this->getTypesProjet();
+        
+        include __DIR__ . '/../views/rag.php';
     }
-
-    // ── Ajoute un document RAG via l'API Node.js ─────────────
-    // On passe par l'API Node.js pour que l'embedding
-    // soit généré automatiquement par OpenAI
-    public function ajouter(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $titre      = trim($_POST['titre'] ?? '');
-            $contenu    = trim($_POST['contenu'] ?? '');
-            $typeProjet = $_POST['type_projet'] ?? '';
-            $secteur    = $_POST['secteur'] ?? '';
-            $motsCles   = array_filter(
-                array_map('trim', explode(',', $_POST['mots_cles'] ?? ''))
-            );
-
-            if (!$titre || !$contenu || !$typeProjet) {
-                $_SESSION['erreur'] = 'Champs obligatoires manquants';
-                header('Location: index.php?page=rag');
-                exit;
+    
+    /**
+     * API : Liste des documents (JSON)
+     */
+    public function list() {
+        header('Content-Type: application/json');
+        $documents = $this->documentModel->getAll();
+        echo json_encode(['success' => true, 'data' => $documents]);
+        exit;
+    }
+    
+    /**
+     * API : Upload d'un PDF
+     */
+    public function upload() {
+        header('Content-Type: application/json');
+        
+        try {
+            // Vérifier le fichier
+            if (!isset($_FILES['pdf']) || $_FILES['pdf']['error'] !== UPLOAD_ERR_OK) {
+                throw new Exception('Erreur upload du PDF');
             }
-
-            // Appel à l'API Node.js pour indexer le document
-            // Node.js va générer l'embedding via OpenAI
-            $donnees = json_encode([
-                'titre'       => $titre,
-                'contenu'     => $contenu,
-                'type_projet' => $typeProjet,
-                'secteur'     => $secteur,
-                'mots_cles'   => array_values($motsCles)
+            
+            $file = $_FILES['pdf'];
+            $type_projet = $_POST['type_projet'] ?? 'general';
+            
+            // Lire le PDF avec pdftotext
+            $content = $this->extractPDFText($file['tmp_name']);
+            $titre = pathinfo($file['name'], PATHINFO_FILENAME);
+            
+            // Créer le document
+            $documentId = $this->documentModel->create([
+                'title' => $titre,
+                'content' => $content,
+                'type_projet' => $type_projet,
+                'secteur' => $_POST['secteur'] ?? null,
+                'mots_cles' => isset($_POST['mots_cles']) ? explode(',', $_POST['mots_cles']) : []
             ]);
-
-            $ch = curl_init(API_URL . '/documents/rag');
-            curl_setopt_array($ch, [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST           => true,
-                CURLOPT_POSTFIELDS     => $donnees,
-                CURLOPT_HTTPHEADER     => [
-                    'Content-Type: application/json',
-                    'Content-Length: ' . strlen($donnees)
-                ],
-                CURLOPT_TIMEOUT        => 30
+            
+            echo json_encode([
+                'success' => true,
+                'message' => 'Document indexé avec succès',
+                'data' => ['documentId' => $documentId]
             ]);
-
-            $reponse   = curl_exec($ch);
-            $httpCode  = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-
-            if ($httpCode === 201) {
-                $_SESSION['message'] = 'Document indexé avec succès';
-            } else {
-                $_SESSION['erreur'] = 'Erreur indexation — vérifiez que Node.js tourne';
-            }
+            
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
         }
-
-        header('Location: index.php?page=rag');
-        exit;
     }
-
-    // ── Active ou désactive un document ─────────────────────
-    public function toggleActif(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = (int) ($_POST['id'] ?? 0);
-            if ($id > 0) {
-                $this->documentRAG->toggleActif($id);
-                $_SESSION['message'] = 'Statut du document mis à jour';
-            }
+    
+    /**
+     * API : Recherche sémantique
+     */
+    public function search() {
+        header('Content-Type: application/json');
+        
+        $query = $_GET['query'] ?? '';
+        $type_projet = $_GET['type_projet'] ?? null;
+        $limit = $_GET['limit'] ?? 5;
+        
+        if (empty($query)) {
+            echo json_encode(['success' => false, 'message' => 'Requête vide']);
+            exit;
         }
-
-        header('Location: index.php?page=rag');
-        exit;
+        
+        $results = $this->documentModel->search($query, $type_projet, $limit);
+        echo json_encode(['success' => true, 'data' => $results]);
     }
-
-    // Supprime un document
-    public function supprimer(): void {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = (int) ($_POST['id'] ?? 0);
-            if ($id > 0) {
-                $this->documentRAG->supprimer($id);
-                $_SESSION['message'] = 'Document supprimé';
-            }
+    
+    /**
+     * API : Suppression d'un document
+     */
+    public function delete($id) {
+        header('Content-Type: application/json');
+        
+        $result = $this->documentModel->delete($id);
+        echo json_encode([
+            'success' => $result,
+            'message' => $result ? 'Document supprimé' : 'Erreur suppression'
+        ]);
+    }
+    
+    /**
+     * Extrait le texte d'un PDF
+     */
+    private function extractPDFText($pdfPath) {
+        // Utiliser pdftotext (Linux)
+        $output = shell_exec("pdftotext '{$pdfPath}' - 2>/dev/null");
+        
+        if ($output) {
+            return $output;
         }
-
-        header('Location: index.php?page=rag');
-        exit;
+        
+        // Fallback : utiliser une librairie PHP
+        // require_once __DIR__ . '/../vendor/autoload.php';
+        // $parser = new \Smalot\PdfParser\Parser();
+        // $pdf = $parser->parseFile($pdfPath);
+        // return $pdf->getText();
+        
+        throw new Exception('Impossible d\'extraire le texte du PDF. Installez pdftotext.');
+    }
+    
+    /**
+     * Récupère les types de projet disponibles
+     */
+    private function getTypesProjet() {
+        $db = Database::getInstance()->getConnection();
+        $stmt = $db->query("
+            SELECT DISTINCT type_projet 
+            FROM documents 
+            WHERE type_projet IS NOT NULL AND type_projet != ''
+            ORDER BY type_projet
+        ");
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
     }
 }
