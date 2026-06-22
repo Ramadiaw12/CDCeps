@@ -6,7 +6,7 @@
 // ============================================================
 
 import BaseAgent from './baseAgent.js';
-import pool from '../database/mysql.js';
+import pool from '../database/postgres.js';
 import { formaterContexteRAG } from '../services/ragService.js';
 
 class AgentGeneration extends BaseAgent {

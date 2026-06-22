@@ -4,7 +4,7 @@
 // Chaque agent hérite de cette classe et implémente sa propre méthode "executer()"
 // ============================================================
 
-import pool from '../database/mysql.js';
+import pool from '../database/postgres.js';
 import { appelLLM } from '../services/openaiService.js';
 
 class BaseAgent {
