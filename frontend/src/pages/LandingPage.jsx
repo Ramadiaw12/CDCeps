@@ -271,22 +271,22 @@ function LandingPage() {
 // Données du pipeline
 const pipeline = [
     {
-        icone: '📝',
+        icone: '',
         titre: 'Saisie intuitive',
         description: 'Remplissez un formulaire simple avec la description de votre projet et vos contraintes.'
     },
     {
-        icone: '🧠',
+        icone: '',
         titre: 'Analyse sémantique',
         description: 'L\'IA extrait les besoins, les contraintes et les objectifs de votre description.'
     },
     {
-        icone: '🤝',
+        icone: '',
         titre: 'Orchestration agents',
         description: 'Les 4 agents travaillent en synergie pour structurer et enrichir le contenu.'
     },
     {
-        icone: '📄',
+        icone: '',
         titre: 'Génération finale',
         description: 'Production d\'un cahier des charges professionnel prêt à être exporté.'
     }

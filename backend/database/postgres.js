@@ -60,9 +60,9 @@ export const testConnection = async () => {
     }
 };
 
-// ============================================================
+// 
 // FONCTIONS POUR LE RAG
-// ============================================================
+// 
 
 // 1. Insérer un document avec son embedding
 export const insertDocumentWithEmbedding = async (title, content, embedding, metadata = {}) => {
