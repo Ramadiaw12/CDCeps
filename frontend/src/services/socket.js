@@ -44,7 +44,7 @@ socket.on('connect_confirme', (data) => {
 socket.on('disconnect', (reason) => {
     console.log(`❌ Socket.IO déconnecté: ${reason}`);
     if (reason === 'io server disconnect' || reason === 'transport close') {
-        console.log('🔄 Tentative de reconnexion...');
+        console.log('Tentative de reconnexion...');
         setTimeout(() => {
             if (!socket.connected) {
                 socket.connect();
@@ -115,7 +115,7 @@ export const quitterSession = () => {
  */
 export const ecouterEvenement = (evenement, callback) => {
     if (!evenement || typeof callback !== 'function') {
-        console.warn('⚠️ Arguments invalides pour ecouterEvenement');
+        console.warn('Arguments invalides pour ecouterEvenement');
         return;
     }
     socket.off(evenement);
@@ -163,8 +163,8 @@ export const envoyerEvenement = (evenement, data) => {
     }
 };
 
-// ============================================================
+// 
 // EXPORT PAR DÉFAUT
-// ============================================================
+// 
 
 export default socket;

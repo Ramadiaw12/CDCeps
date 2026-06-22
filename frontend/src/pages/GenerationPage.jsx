@@ -88,6 +88,101 @@ function GenerationPage() {
     // INITIALISATION
     // 
     useEffect(() => {
+    let annule = false; // garde pour éviter les updates sur composant démonté
+
+    const initialiser = async () => {
+        try {
+            setStatut('connexion');
+            addMessage('🔄 Connexion au serveur...', 'info');
+
+            const reponse = await getProjet(projetId);
+            if (annule) return; // composant démonté entre temps
+            setProjet(reponse.data);
+            addMessage(`📁 Projet: ${reponse.data.titre}`, 'info');
+
+            const uuid = crypto.randomUUID();
+            setSessionUuid(uuid);
+
+            rejoindreSession(uuid);
+            addMessage('Connexion Socket.IO en cours...', 'info');
+
+            const waitForSocket = () => new Promise((resolve) => {
+                if (estConnecte()) { resolve(); return; }
+                const checkInterval = setInterval(() => {
+                    if (estConnecte()) { clearInterval(checkInterval); resolve(); }
+                }, 200);
+                setTimeout(() => clearInterval(checkInterval), 5000);
+            });
+
+            await waitForSocket();
+            if (annule) return;
+
+            if (estConnecte()) {
+                addMessage('Socket.IO connecté', 'success');
+            } else {
+                addMessage('⚠️ Socket.IO non connecté, tentative...', 'warning');
+                setTimeout(() => rejoindreSession(uuid), 2000);
+            }
+
+            setStatut('lancement');
+            addMessage('Lancement du pipeline...', 'info');
+
+            const pipelineResponse = await fetch(
+                `http://localhost:3001/api/agents/generer/${projetId}`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ sessionUuid: uuid })
+                }
+            );
+            if (annule) return;
+
+            const pipelineData = await pipelineResponse.json();
+            if (pipelineData.succes) {
+                setStatut('en_cours');
+                setPipelineLance(true);
+                addMessage('Pipeline démarré avec succès', 'success');
+            } else {
+                setStatut('erreur');
+                setErreur(pipelineData.message);
+                addMessage(`❌ Erreur: ${pipelineData.message}`, 'error');
+            }
+        } catch (error) {
+            if (annule) return;
+            console.error('❌ Erreur initialisation:', error);
+            setStatut('erreur');
+            setErreur(error.message);
+            addMessage(`❌ Erreur: ${error.message}`, 'error');
+        }
+    };
+
+    // Listeners Socket.IO
+    ecouterEvenement('connect_confirme', (data) => {
+        addMessage('Connexion Socket.IO confirmée', 'success');
+    });
+    ecouterEvenement('pipeline_demarre', (data) => {
+        setStatut('en_cours');
+        addMessage(`${data.message || 'Pipeline démarré'}`, 'info');
+    });
+    ecouterEvenement('agent_actif', (data) => {
+        const agentKey = data.agent;
+        setAgentsStatuts(prev => ({
+            ...prev,
+            [agentKey]: { ...prev[agentKey], status: 'active', progress: 10, message: 'Démarrage...' }
+        }));
+        addMessage(`${data.nom || agentKey} commence`, 'info');
+    });
+    ecouterEvenement('agent_etape', (data) => {
+        const agentKey = data.agent;
+        if (agentsConfig[agentKey]) {
+            setAgentsStatuts(prev => ({
+                ...prev,
+                [agentKey]: {
+                    ...prev[agentKey],
+                    status: 'active',
+                    message: data.message,
+                    progress: Math.min((prev[agentKey]?.progress || 0) + 15, 95)
+                }useEffect(() => {
         const initialiser = async () => {
             try {
                 setStatut('connexion');
@@ -254,8 +349,8 @@ function GenerationPage() {
 
         // Session jointe
         ecouterEvenement('session_jointe', (data) => {
-            console.log('📌 session_jointe:', data);
-            addMessage(`📌 Session rejointe: ${data.sessionUuid}`, 'info');
+            console.log('session_jointe:', data);
+            addMessage(`Session rejointe: ${data.sessionUuid}`, 'info');
         });
 
         // 
@@ -270,6 +365,40 @@ function GenerationPage() {
             quitterSession();
         };
     }, [projetId]);
+            }));
+        }
+        addMessage(`${data.agent}: ${data.message}`, 'agent');
+    });
+    ecouterEvenement('pipeline_termine', (data) => {
+        setStatut('termine');
+        setResultatFinal(data);
+        setAgentsStatuts(prev => {
+            const updated = {};
+            Object.keys(prev).forEach(key => {
+                updated[key] = { ...prev[key], status: 'completed', progress: 100, message: 'Terminé' };
+            });
+            return updated;
+        });
+        addMessage(`CDC généré - Score: ${data.score}/100`, 'success');
+    });
+    ecouterEvenement('pipeline_erreur', (data) => {
+        setStatut('erreur');
+        setErreur(data.message);
+        addMessage(`❌ Erreur: ${data.message}`, 'error');
+    });
+    ecouterEvenement('session_jointe', (data) => {
+        addMessage(`📌 Session rejointe: ${data.sessionUuid}`, 'info');
+    });
+
+    initialiser();
+
+    return () => {
+        annule = true;
+        ['connect_confirme', 'pipeline_demarre', 'agent_actif', 'agent_etape',
+         'pipeline_termine', 'pipeline_erreur', 'session_jointe'].forEach(arreterEcoute);
+        quitterSession();
+    };
+}, [projetId]);
 
     // 
     // RENDU
