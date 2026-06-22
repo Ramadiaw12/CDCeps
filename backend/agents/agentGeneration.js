@@ -42,11 +42,9 @@ class AgentGeneration extends BaseAgent {
 
             // Récupère les sections standards depuis la base
             // Ces sections définissent la structure du CDC
-            const [sections] = await pool.execute(
-                `SELECT nom, description, prompt_template
-                 FROM sections_cdc
-                 WHERE actif = TRUE
-                 ORDER BY ordre ASC`
+            const sections = await pool.query(
+                `UPDATE sessions_agents SET ...`,
+                [param1, param2]
             );
 
             // Récupère le contexte RAG des agents précédents
@@ -133,7 +131,7 @@ class AgentGeneration extends BaseAgent {
 
             this.notifierProgression(
                 io, sessionUuid,
-                '✅ Cahier des charges généré avec succès'
+                'Cahier des charges généré avec succès'
             );
 
             await this.mettreAJourStatut(sessionId, 'done');

@@ -4,34 +4,45 @@
 // Tous les agents utilisent ce service pour appeler le LLM
 // 
 // MIGRATION : Utilise désormais Google Gemini
-// 
+// ============================================================
 
 import dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+// Charger les variables d'environnement
 dotenv.config();
 
-// 
+// ============================================================
 // 1. INITIALISATION DE GEMINI
-// 
+// ============================================================
 
 // Initialiser le client Gemini avec la clé API
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Vérifier que la clé est définie
 if (!process.env.GEMINI_API_KEY) {
-    console.error('GEMINI_API_KEY non définie dans .env');
+    console.error('❌ GEMINI_API_KEY non définie dans .env');
 }
 
 // MODÈLES GEMINI CORRECTS
-const DEFAULT_MODEL = 'gemini-pro';;    // Modèle rapide
-// Alternative : 'gemini-1.5-pro' pour plus de précision
-// Alternative : 'gemini-2.0-flash-exp' (si disponible)
-const EMBEDDING_MODEL = 'embedding-001';     // Modèle d'embedding
+// gemini-1.5-pro : Le plus récent et le plus performant (recommandé)
+// gemini-2.0-flash-exp : Modèle expérimental rapide
+// gemini-1.5-flash : Modèle rapide et économique
+// gemini-pro : Ancien modèle (peut ne plus être disponible)
+const DEFAULT_MODEL = 'gemini-1.5-pro';    // Modèle par défaut
+const EMBEDDING_MODEL = 'embedding-001';   // Modèle d'embedding
 
-// 
+// Liste des modèles de fallback si le modèle par défaut échoue
+const MODEL_FALLBACKS = [
+    'gemini-1.5-pro',
+    'gemini-2.0-flash-exp',
+    'gemini-1.5-flash',
+    'gemini-pro'
+];
+
+// ============================================================
 // 2. FONCTION PRINCIPALE - APPEL LLM
-// 
+// ============================================================
 
 /**
  * Appelle le LLM (Gemini) avec une conversation
@@ -45,11 +56,34 @@ const EMBEDDING_MODEL = 'embedding-001';     // Modèle d'embedding
 export const appelLLM = async (messages, options = {}) => {
     try {
         // Extraire les options avec des valeurs par défaut
-        const model = options.model || DEFAULT_MODEL;
+        let model = options.model || DEFAULT_MODEL;
         const temperature = options.temperature || 0.8;
         const maxTokens = options.maxTokens || 2000;
 
-        console.log(` Appel LLM (${model}) avec ${messages.length} messages`);
+        console.log(`🔮 Appel LLM (${model}) avec ${messages.length} messages`);
+
+        // Vérifier si le modèle est disponible, sinon utiliser un fallback
+        let modelDisponible = false;
+        for (const fallback of MODEL_FALLBACKS) {
+            try {
+                const testModel = genAI.getGenerativeModel({ model: fallback });
+                // Test rapide pour vérifier si le modèle existe
+                await testModel.generateContent('test');
+                if (fallback !== model) {
+                    console.log(`⚠️ Modèle ${model} non disponible, utilisation de ${fallback} à la place`);
+                    model = fallback;
+                }
+                modelDisponible = true;
+                break;
+            } catch (error) {
+                // Ignorer l'erreur, essayer le modèle suivant
+            }
+        }
+
+        // Si aucun modèle n'est disponible, lancer une erreur
+        if (!modelDisponible) {
+            throw new Error('Aucun modèle Gemini disponible. Vérifiez votre clé API.');
+        }
 
         // Construire le prompt à partir des messages
         let prompt = '';
@@ -79,33 +113,37 @@ export const appelLLM = async (messages, options = {}) => {
             }
         });
 
+        // Générer la réponse
         const result = await generativeModel.generateContent(fullPrompt);
         const response = result.response.text();
 
-        console.log(`Réponse reçue (${response.length} caractères)`);
+        console.log(`✅ Réponse reçue (${response.length} caractères)`);
         return response;
 
     } catch (error) {
-        console.error(' Erreur Gemini:', error.message);
+        console.error('❌ Erreur Gemini:', error.message);
         
         // Gestion des erreurs spécifiques
         if (error.message.includes('API key')) {
-            throw new Error('Clé API Gemini invalide - vérifiez votre .env');
+            throw new Error('❌ Clé API Gemini invalide - vérifiez votre .env');
         }
         if (error.message.includes('quota')) {
-            throw new Error('Quota Gemini dépassé - attendez avant de réessayer');
+            throw new Error('❌ Quota Gemini dépassé - attendez avant de réessayer');
         }
         if (error.message.includes('429')) {
-            throw new Error('Trop de requêtes - attendez quelques instants');
+            throw new Error('❌ Trop de requêtes - attendez quelques instants');
+        }
+        if (error.message.includes('not found')) {
+            throw new Error('❌ Modèle Gemini non disponible - vérifiez le nom du modèle');
         }
         
-        throw new Error(`Erreur Gemini : ${error.message}`);
+        throw new Error(`❌ Erreur Gemini : ${error.message}`);
     }
 };
 
-// 
+// ============================================================
 // 3. GÉNÉRATION D'EMBEDDINGS AVEC GEMINI
-// 
+// ============================================================
 
 /**
  * Génère un embedding (vecteur) pour un texte avec Gemini
@@ -114,8 +152,9 @@ export const appelLLM = async (messages, options = {}) => {
  */
 export const genererEmbedding = async (texte) => {
     try {
+        // Vérifier que le texte est valide
         if (!texte || texte.length < 3) {
-            console.warn(' Texte trop court pour générer un embedding');
+            console.warn('⚠️ Texte trop court pour générer un embedding');
             return new Array(768).fill(0);
         }
 
@@ -129,21 +168,21 @@ export const genererEmbedding = async (texte) => {
         // Gemini retourne un objet avec la propriété 'embedding'
         const embedding = result.embedding.values;
         
-        console.log(`Embedding généré (${embedding.length} dimensions)`);
+        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
         return embedding;
 
     } catch (error) {
-        console.error(' Erreur embedding Gemini:', error.message);
+        console.error('❌ Erreur embedding Gemini:', error.message);
         
         // Fallback : retourner un embedding aléatoire pour ne pas bloquer
-        console.warn(' Utilisation d\'un embedding aléatoire comme fallback');
+        console.warn('⚠️ Utilisation d\'un embedding aléatoire comme fallback');
         return new Array(768).fill(0).map(() => Math.random() * 0.1);
     }
 };
 
-// 
+// ============================================================
 // 4. FONCTIONS UTILITAIRES
-// 
+// ============================================================
 
 /**
  * Génère une réponse RAG avec contexte
@@ -160,8 +199,8 @@ export const genererReponseRAG = async (query, documents, options = {}) => {
             contexte = '\n\n=== DOCUMENTS DE RÉFÉRENCE ===\n';
             documents.forEach((doc, i) => {
                 const score = doc.score ? ` (similarité: ${(doc.score * 100).toFixed(1)}%)` : '';
-                contexte += `\nDocument ${i + 1}: ${doc.titre}${score}\n`;
-                contexte += `${doc.contenu.substring(0, 1500)}\n`;
+                contexte += `\nDocument ${i + 1}: ${doc.titre || 'Sans titre'}${score}\n`;
+                contexte += `${(doc.contenu || '').substring(0, 1500)}\n`;
                 contexte += '---\n';
             });
             contexte += '\n=== FIN DES RÉFÉRENCES ===\n';
@@ -188,7 +227,7 @@ export const genererReponseRAG = async (query, documents, options = {}) => {
         return response;
 
     } catch (error) {
-        console.error(' Erreur génération RAG:', error.message);
+        console.error('❌ Erreur génération RAG:', error.message);
         throw error;
     }
 };
@@ -224,9 +263,9 @@ ${contexte ? `Contexte supplémentaire : ${contexte}` : ''}`;
     ];
 };
 
-// 
+// ============================================================
 // 5. EXPORT
-// 
+// ============================================================
 
 export default {
     appelLLM,

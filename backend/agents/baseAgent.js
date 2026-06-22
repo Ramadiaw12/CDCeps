@@ -42,25 +42,28 @@ class BaseAgent {
     // sessions_agents pour que le frontend puisse
     // afficher la progression en temps réel
     async mettreAJourStatut(sessionId, statut) {
-        // Détermine quelle colonne mettre à jour
-        // selon le nom de l'agent
-        const colonnes = {
-            'CollecteAgent':    'statut_agent_collecte',
-            'AnalyseAgent':     'statut_agent_analyse',
-            'GenerationAgent':  'statut_agent_generation',
-            'ValidationAgent':  'statut_agent_validation'
-        };
+    // Détermine quelle colonne mettre à jour
+    // selon le nom de l'agent
+    const colonnes = {
+        'CollecteAgent':    'statut_agent_collecte',
+        'AnalyseAgent':     'statut_agent_analyse',
+        'GenerationAgent':  'statut_agent_generation',
+        'ValidationAgent':  'statut_agent_validation'
+    };
 
-        const colonne = colonnes[this.nom];
-        if (!colonne) return;
+    const colonne = colonnes[this.nom];
+    if (!colonne) return;
 
+    try {
         await pool.query(
             `UPDATE sessions_agents SET ${colonne} = $1 WHERE id = $2`,
             [statut, sessionId]
         );
-
-        console.log(` ${this.nom} → statut : ${statut}`);
+        console.log(`${this.nom} → statut : ${statut}`);
+    } catch (error) {
+        console.error(`Erreur mise à jour statut ${this.nom}:`, error.message);
     }
+}
 
     // Notification temps réel
     // Envoie une mise à jour au frontend via Socket.io
