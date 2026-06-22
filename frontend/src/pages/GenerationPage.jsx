@@ -51,17 +51,17 @@ function GenerationPage() {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
-    // ============================================================
+    // 
     // CALCUL PROGRESSION GLOBALE
-    // ============================================================
+    // 
     useEffect(() => {
         const totalProgress = Object.values(agentsStatuts).reduce((acc, agent) => acc + agent.progress, 0);
         setProgressionGlobale(Math.floor(totalProgress / 4));
     }, [agentsStatuts]);
 
-    // ============================================================
+    // 
     // TÉLÉCHARGEMENT DU CDC
-    // ============================================================
+    // 
     const telechargerCDC = (cdcId, format) => {
         const url = `http://localhost:3001/api/documents/cdc/${cdcId}/format?format=${format}`;
         const link = document.createElement('a');
@@ -70,12 +70,12 @@ function GenerationPage() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        addMessage(`📥 Téléchargement ${format.toUpperCase()} lancé`, 'info');
+        addMessage(`Téléchargement ${format.toUpperCase()} lancé`, 'info');
     };
 
-    // ============================================================
+    // 
     // AJOUT DE MESSAGE
-    // ============================================================
+    // 
     const addMessage = (message, type = 'info') => {
         setMessages(prev => [...prev, {
             message,
@@ -84,9 +84,9 @@ function GenerationPage() {
         }]);
     };
 
-    // ============================================================
+    // 
     // INITIALISATION
-    // ============================================================
+    // 
     useEffect(() => {
         const initialiser = async () => {
             try {
@@ -104,7 +104,7 @@ function GenerationPage() {
 
                 // 3. Rejoindre la session Socket.IO
                 rejoindreSession(uuid);
-                addMessage('📡 Connexion Socket.IO en cours...', 'info');
+                addMessage('Connexion Socket.IO en cours...', 'info');
 
                 // 4. Attendre la connexion socket
                 const waitForSocket = () => {
@@ -126,9 +126,9 @@ function GenerationPage() {
                 await waitForSocket();
 
                 if (estConnecte()) {
-                    addMessage('✅ Socket.IO connecté', 'success');
+                    addMessage('Socket.IO connecté', 'success');
                 } else {
-                    addMessage('⚠️ Socket.IO non connecté, tentative de reconnexion...', 'warning');
+                    addMessage('Socket.IO non connecté, tentative de reconnexion...', 'warning');
                     setTimeout(() => {
                         rejoindreSession(uuid);
                     }, 2000);
@@ -136,7 +136,7 @@ function GenerationPage() {
 
                 // 5. Lancer le pipeline
                 setStatut('lancement');
-                addMessage('🚀 Lancement du pipeline de génération...', 'info');
+                addMessage('Lancement du pipeline de génération...', 'info');
 
                 const pipelineResponse = await fetch(
                     `http://localhost:3001/api/agents/generer/${projetId}`,
@@ -152,8 +152,8 @@ function GenerationPage() {
                 if (pipelineData.succes) {
                     setStatut('en_cours');
                     setPipelineLance(true);
-                    addMessage('✅ Pipeline démarré avec succès', 'success');
-                    addMessage('⏳ Suivi de la progression en temps réel...', 'info');
+                    addMessage('Pipeline démarré avec succès', 'success');
+                    addMessage('Suivi de la progression en temps réel...', 'info');
                 } else {
                     setStatut('erreur');
                     setErreur(pipelineData.message);
@@ -170,26 +170,26 @@ function GenerationPage() {
 
         initialiser();
 
-        // ============================================================
+        // 
         // ÉCOUTE DES ÉVÉNEMENTS SOCKET.IO
-        // ============================================================
+        // 
 
         // Connect confirmation
         ecouterEvenement('connect_confirme', (data) => {
-            console.log('📩 connect_confirme:', data);
-            addMessage('✅ Connexion Socket.IO confirmée', 'success');
+            console.log('connect_confirme:', data);
+            addMessage('connexion Socket.IO confirmée', 'success');
         });
 
         // Pipeline démarré
         ecouterEvenement('pipeline_demarre', (data) => {
-            console.log('🚀 pipeline_demarre:', data);
+            console.log('pipeline_demarre:', data);
             setStatut('en_cours');
-            addMessage(`🚀 ${data.message || 'Pipeline démarré'}`, 'info');
+            addMessage(`${data.message || 'Pipeline démarré'}`, 'info');
         });
 
         // Agent actif
         ecouterEvenement('agent_actif', (data) => {
-            console.log('🤖 agent_actif:', data);
+            console.log('agent_actif:', data);
             const agentKey = data.agent;
             setAgentsStatuts(prev => ({
                 ...prev,
@@ -200,12 +200,12 @@ function GenerationPage() {
                     message: 'Démarrage...'
                 }
             }));
-            addMessage(`🤖 ${data.nom || agentKey} commence sa tâche`, 'info');
+            addMessage(`${data.nom || agentKey} commence sa tâche`, 'info');
         });
 
         // Étape agent
         ecouterEvenement('agent_etape', (data) => {
-            console.log('📌 agent_etape:', data);
+            console.log('agent_etape:', data);
             const agentKey = data.agent;
             if (agentsConfig[agentKey]) {
                 setAgentsStatuts(prev => ({
@@ -218,12 +218,12 @@ function GenerationPage() {
                     }
                 }));
             }
-            addMessage(`📌 ${data.agent}: ${data.message}`, 'agent');
+            addMessage(`${data.agent}: ${data.message}`, 'agent');
         });
 
         // Pipeline terminé
         ecouterEvenement('pipeline_termine', (data) => {
-            console.log('✅ pipeline_termine:', data);
+            console.log('pipeline_termine:', data);
             setStatut('termine');
             setResultatFinal(data);
             
@@ -233,14 +233,14 @@ function GenerationPage() {
                     ...agentsStatuts[key],
                     status: 'completed',
                     progress: 100,
-                    message: '✅ Terminé'
+                    message: 'Terminé'
                 };
             });
             setAgentsStatuts(completedAgents);
             
-            addMessage(`🎉 CDC généré avec succès - Score: ${data.score}/100`, 'success');
+            addMessage(`DC généré avec succès - Score: ${data.score}/100`, 'success');
             if (data.verdict) {
-                addMessage(`📊 Verdict: ${data.verdict}`, 'success');
+                addMessage(`Verdict: ${data.verdict}`, 'success');
             }
         });
 
@@ -258,11 +258,11 @@ function GenerationPage() {
             addMessage(`📌 Session rejointe: ${data.sessionUuid}`, 'info');
         });
 
-        // ============================================================
+        // 
         // NETTOYAGE
-        // ============================================================
+        // 
         return () => {
-            console.log('🧹 Nettoyage...');
+            console.log('Nettoyage...');
             ['connect_confirme', 'pipeline_demarre', 'agent_actif', 'agent_etape', 
              'pipeline_termine', 'pipeline_erreur', 'session_jointe'].forEach(event => {
                 arreterEcoute(event);
