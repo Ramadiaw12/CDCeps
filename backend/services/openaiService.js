@@ -19,12 +19,12 @@ dotenv.config();
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Vérifier que la clé est définie
-if (!process.env.GEMINI_API_KEY) { {
-    console.error(' GEMINI_API_KEY non définie dans .env');
+if (!process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY non définie dans .env');
 }
 
 // MODÈLES GEMINI CORRECTS
-const DEFAULT_MODEL = 'gemini-1.5-flash';    // Modèle rapide
+const DEFAULT_MODEL = 'gemini-pro';;    // Modèle rapide
 // Alternative : 'gemini-1.5-pro' pour plus de précision
 // Alternative : 'gemini-2.0-flash-exp' (si disponible)
 const EMBEDDING_MODEL = 'embedding-001';     // Modèle d'embedding

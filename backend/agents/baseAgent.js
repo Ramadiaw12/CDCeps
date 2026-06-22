@@ -54,8 +54,8 @@ class BaseAgent {
         const colonne = colonnes[this.nom];
         if (!colonne) return;
 
-        await pool.execute(
-            `UPDATE sessions_agents SET ${colonne} = ? WHERE id = ?`,
+        await pool.query(
+            `UPDATE sessions_agents SET ${colonne} = $1 WHERE id = $2`,
             [statut, sessionId]
         );
 
