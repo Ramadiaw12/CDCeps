@@ -54,7 +54,7 @@ router.post('/generer/:projetId', async (req, res) => {
         );
         const sessionId = sessionResult.rows[0].id;
 
-        console.log(`✅ Session créée: ${sessionId}`);
+        console.log(`Session créée: ${sessionId}`);
 
         // 3. Préparer les données du projet
         const donneesProjet = {
@@ -102,9 +102,9 @@ router.post('/generer/:projetId', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // GET /api/agents/session/:uuid
-// ============================================================
+// 
 router.get('/session/:uuid', async (req, res) => {
     try {
         const result = await pool.query(
@@ -139,9 +139,9 @@ router.get('/session/:uuid', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // GET /api/agents/sessions/:projetId
-// ============================================================
+// 
 router.get('/sessions/:projetId', async (req, res) => {
     try {
         const result = await pool.query(
