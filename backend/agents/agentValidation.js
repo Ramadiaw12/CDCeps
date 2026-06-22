@@ -101,7 +101,7 @@ class AgentValidation extends BaseAgent {
                 // Température plus élevée pour une évaluation
                 // plus nuancée et moins mécanique
                 temperature: 0.4,
-                maxTokens: 2000
+                maxTokens: 4096
             });
 
             const reponseNettoyee = reponse

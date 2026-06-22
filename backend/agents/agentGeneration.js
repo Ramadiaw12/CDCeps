@@ -126,7 +126,7 @@ class AgentGeneration extends BaseAgent {
             // car le document doit être long et complet
             const cdcMarkdown = await this.appelerLLM(messageUtilisateur, {
                 temperature: 0.8,
-                maxTokens: 4000
+                maxTokens: 4096
             });
 
             this.notifierProgression(

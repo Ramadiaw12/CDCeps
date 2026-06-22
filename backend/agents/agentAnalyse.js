@@ -122,7 +122,7 @@ class AgentAnalyse extends BaseAgent {
 
             const reponse = await this.appelerLLM(messageUtilisateur, {
                 temperature: 0.3,
-                maxTokens: 2000
+                maxTokens: 4096
             });
 
             const reponseNettoyee = reponse

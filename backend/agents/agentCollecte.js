@@ -88,7 +88,7 @@ class AgentCollecte extends BaseAgent {
             // Appelle le LLM via la classe parente
             const reponse = await this.appelerLLM(messageUtilisateur, {
                 temperature: 0.2, // Très déterministe pour l'extraction
-                maxTokens: 2000
+                maxTokens: 4096
             });
 
             // Parse la réponse JSON du LLM
