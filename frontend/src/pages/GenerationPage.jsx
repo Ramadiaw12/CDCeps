@@ -271,9 +271,9 @@ function GenerationPage() {
         };
     }, [projetId]);
 
-    // ============================================================
+    // 
     // RENDU
-    // ============================================================
+    // 
 
     return (
         <div className="generation-page">
@@ -294,7 +294,7 @@ function GenerationPage() {
                     </h1>
                     {projet && (
                         <div className="gen-project-badge">
-                            <span className="project-icon">📁</span>
+                            <span className="project-icon"></span>
                             <span className="project-name">{projet.titre}</span>
                         </div>
                     )}
@@ -311,9 +311,9 @@ function GenerationPage() {
                     fontSize: '14px',
                     fontWeight: 'bold'
                 }}>
-                    {estConnecte() ? '🟢 Socket connecté' : '🔴 Socket déconnecté'}
+                    {estConnecte() ? ' Socket connecté' : 'Socket déconnecté'}
                     {sessionUuid && ` | Session: ${sessionUuid.substring(0, 8)}...`}
-                    {statut === 'termine' && ' | ✅ Terminé'}
+                    {statut === 'termine' && ' |  Terminé'}
                 </div>
 
                 {/* PROGRESSION GLOBALE */}
@@ -404,7 +404,7 @@ function GenerationPage() {
                     <div className="gen-result-container">
                         <div className="gen-result-card">
                             <div className="result-header">
-                                <span className="result-icon">🏆</span>
+                                <span className="result-icon"></span>
                                 <h2>Génération terminée avec succès</h2>
                             </div>
                             <div className="result-score">
@@ -424,26 +424,26 @@ function GenerationPage() {
                             </div>
                             <div className="result-verdict">
                                 <span className="verdict-badge">
-                                    {resultatFinal.score >= 80 ? '🌟 Excellent' :
-                                     resultatFinal.score >= 60 ? '👍 Satisfaisant' :
-                                     '⚠️ À améliorer'}
+                                    {resultatFinal.score >= 80 ? 'Excellent' :
+                                     resultatFinal.score >= 60 ? 'Satisfaisant' :
+                                     'À améliorer'}
                                 </span>
                                 <p>{resultatFinal.verdict}</p>
                             </div>
                             
                             {/* BOUTONS D'EXPORT */}
                             <div className="result-export-section">
-                                <h3>📤 Exporter le CDC</h3>
+                                <h3>Exporter le CDC</h3>
                                 <div className="export-buttons">
                                     <button className="btn-export btn-markdown" onClick={() => telechargerCDC(resultatFinal.cdcId, 'markdown')}>
-                                        <span className="export-icon">📝</span>
+                                        <span className="export-icon"></span>
                                         <div>
                                             <span className="export-label">Markdown</span>
                                             <span className="export-desc">Format éditable</span>
                                         </div>
                                     </button>
                                     <button className="btn-export btn-pdf" onClick={() => telechargerCDC(resultatFinal.cdcId, 'pdf')}>
-                                        <span className="export-icon">📄</span>
+                                        <span className="export-icon"></span>
                                         <div>
                                             <span className="export-label">PDF</span>
                                             <span className="export-desc">Format final</span>
@@ -473,7 +473,7 @@ function GenerationPage() {
                                 <p>{erreur || 'Une erreur est survenue'}</p>
                                 <div className="error-actions">
                                     <button className="btn-retry" onClick={() => window.location.reload()}>
-                                        🔄 Réessayer
+                                        Réessayer
                                     </button>
                                     <button className="btn-back" onClick={() => navigate('/nouveau-projet')}>
                                         ← Retour
