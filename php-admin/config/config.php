@@ -1,57 +1,45 @@
 <?php
 // ============================================================
-// config/database.php
-// Configuration de la base de données PostgreSQL
+// config/config.php
+// Configuration générale de l'interface PHP admin
 // ============================================================
 
 // ============================================================
-// INCLUSION DE LA CONFIGURATION GÉNÉRALE
+// 1. BASE DE DONNÉES POSTGRESQL
 // ============================================================
-require_once __DIR__ . '/config.php';
+define('DB_HOST', 'localhost');
+define('DB_PORT', '5432');
+define('DB_NAME', 'rag_db');
+define('DB_USER', 'cdcuser');
+define('DB_PASSWORD', 'cdcEPS26');
 
 // ============================================================
-// DÉFINITION DE LA CLASSE DATABASE UNIQUEMENT SI ELLE N'EXISTE PAS
+// 2. API NODE.JS (pour le RAG)
 // ============================================================
-if (!class_exists('Database')) {
+define('API_URL', 'http://localhost:3001/api');
 
-    class Database {
-        private static $instance = null;
-        private $connection;
-        
-        // ============================================================
-        // CONSTRUCTEUR PRIVÉ (SINGLETON)
-        // Utilise les constantes définies dans config.php
-        // ============================================================
-        private function __construct() {
-            try {
-                $dsn = "pgsql:host=" . DB_HOST . ";port=" . DB_PORT . ";dbname=" . DB_NAME;
-                $this->connection = new PDO($dsn, DB_USER, DB_PASSWORD);
-                $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-                $this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-            } catch (PDOException $e) {
-                die("❌ Erreur de connexion à la base de données : " . $e->getMessage());
-            }
-        }
-        
-        // ============================================================
-        // RÉCUPÈRE L'INSTANCE UNIQUE (SINGLETON)
-        // ============================================================
-        public static function getInstance() {
-            if (self::$instance === null) {
-                self::$instance = new self();
-            }
-            return self::$instance;
-        }
-        
-        // ============================================================
-        // RÉCUPÈRE LA CONNEXION PDO
-        // ============================================================
-        public function getConnection() {
-            return $this->connection;
-        }
-        
-        private function __clone() {}
-        public function __wakeup() {}
-    }
+// ============================================================
+// 3. INFORMATIONS GÉNÉRALES
+// ============================================================
+define('SITE_NAME', 'CDCEPS - Gestion CDC');
+define('APP_NAME', 'CDCEPS');
+define('COMPANY_NAME', 'EPS SARL');
+
+// ============================================================
+// 4. CHEMINS
+// ============================================================
+define('UPLOAD_DIR', __DIR__ . '/../uploads/');
+define('BASE_URL', 'http://localhost:8000');
+
+// ============================================================
+// 5. ENVIRONNEMENT
+// ============================================================
+define('ENVIRONMENT', 'development');
+define('DEBUG_MODE', true);
+
+// ============================================================
+// 6. SESSION
+// ============================================================
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }

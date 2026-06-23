@@ -379,7 +379,7 @@
     </a>
 </nav>
 
-<!-- ── Contenu principal ────────────────────────────────── -->
+<!--  Contenu principal  -->
 <main class="main">
     <!-- Topbar -->
     <div class="topbar">

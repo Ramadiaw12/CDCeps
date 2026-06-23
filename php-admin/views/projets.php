@@ -20,13 +20,13 @@ if (!isset($vue)) {
 }
 ?>
 
-<!-- ============================================================
+<!-- 
      CARTE PRINCIPALE
-     ============================================================ -->
+      -->
 <div class="card">
-    <!-- ============================================================
+    <!-- 
          EN-TÊTE AVEC TITRE ET BOUTON NOUVEAU PROJET
-         ============================================================ -->
+          -->
     <div style="display:flex;justify-content:space-between;
                 align-items:center;margin-bottom:20px;
                 flex-wrap:wrap;gap:10px;">
@@ -49,9 +49,9 @@ if (!isset($vue)) {
         <?php endif; ?>
     </div>
 
-    <!-- ============================================================
+    <!-- 
          VUE CDC - AFFICHE LA LISTE DES CDC
-         ============================================================ -->
+          -->
     <?php if ($vue === 'cdcs'): ?>
     
     <div class="table-responsive">
@@ -155,9 +155,9 @@ if (!isset($vue)) {
         </table>
     </div>
 
-    <!-- ============================================================
+    <!-- 
          VUE PROJETS - AFFICHE LA LISTE DES PROJETS
-         ============================================================ -->
+          -->
     <?php else: ?>
     
     <div class="table-responsive">
