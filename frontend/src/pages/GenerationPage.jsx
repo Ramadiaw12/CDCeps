@@ -83,12 +83,12 @@ function GenerationPage() {
         const initialiser = async () => {
             try {
                 setStatut('connexion');
-                addMessage('🔄 Connexion au serveur...', 'info');
+                addMessage('Connexion au serveur...', 'info');
 
                 const reponse = await getProjet(projetId);
                 if (annule) return;
                 setProjet(reponse.data);
-                addMessage(`📁 Projet: ${reponse.data.titre}`, 'info');
+                addMessage(`Projet: ${reponse.data.titre}`, 'info');
 
                 const uuid = crypto.randomUUID();
                 setSessionUuid(uuid);
@@ -110,7 +110,7 @@ function GenerationPage() {
                 if (estConnecte()) {
                     addMessage('Socket.IO connecté', 'success');
                 } else {
-                    addMessage('⚠️ Socket.IO non connecté, tentative...', 'warning');
+                    addMessage('Socket.IO non connecté, tentative...', 'warning');
                     setTimeout(() => rejoindreSession(uuid), 2000);
                 }
 
@@ -146,7 +146,7 @@ function GenerationPage() {
             }
         };
 
-        // ── Listeners Socket.IO ──────────────────────────────────
+        //  Listeners Socket.IO 
         ecouterEvenement('connect_confirme', (data) => {
             addMessage('Connexion Socket.IO confirmée', 'success');
         });
@@ -202,12 +202,12 @@ function GenerationPage() {
         });
 
         ecouterEvenement('session_jointe', (data) => {
-            addMessage(`📌 Session rejointe: ${data.sessionUuid}`, 'info');
+            addMessage(`Session rejointe: ${data.sessionUuid}`, 'info');
         });
 
         initialiser();
 
-        // ── Nettoyage ────────────────────────────────────────────
+        //  Nettoyage 
         return () => {
             annule = true;
             ['connect_confirme', 'pipeline_demarre', 'agent_actif', 'agent_etape',
@@ -226,7 +226,7 @@ function GenerationPage() {
                 {/* HEADER */}
                 <div className="gen-header">
                     <div className="gen-header-icon">
-                        {statut === 'termine' ? '🎉' : statut === 'erreur' ? '😰' : '🧠'}
+                        {statut === 'termine' ? '' : statut === 'erreur' ? '' : ''}
                     </div>
                     <h1 className="gen-title">
                         {statut === 'termine'       && 'CDC généré avec succès !'}
@@ -255,9 +255,9 @@ function GenerationPage() {
                     fontSize: '14px',
                     fontWeight: 'bold'
                 }}>
-                    {estConnecte() ? '🟢 Socket connecté' : '🔴 Socket déconnecté'}
+                    {estConnecte() ? 'Socket connecté' : 'Socket déconnecté'}
                     {sessionUuid && ` | Session: ${sessionUuid.substring(0, 8)}...`}
-                    {statut === 'termine' && ' | ✅ Terminé'}
+                    {statut === 'termine' && ' | Terminé'}
                 </div>
 
                 {/* PROGRESSION GLOBALE */}
@@ -346,7 +346,7 @@ function GenerationPage() {
                     <div className="gen-result-container">
                         <div className="gen-result-card">
                             <div className="result-header">
-                                <span className="result-icon">🎉</span>
+                                <span className="result-icon"></span>
                                 <h2>Génération terminée avec succès</h2>
                             </div>
                             <div className="result-score">

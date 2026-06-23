@@ -18,11 +18,11 @@ router.post('/generer/:projetId', async (req, res) => {
     const { projetId } = req.params;
     const { sessionUuid: clientSessionUuid } = req.body || {};
 
-    // ✅ Générer un UUID si non fourni
+    // Générer un UUID si non fourni
     const sessionUuid = clientSessionUuid || crypto.randomUUID();
 
-    console.log(`🚀 Demande de pipeline pour projet ${projetId}`);
-    console.log(`📌 Session UUID: ${sessionUuid}`);
+    console.log(`Demande de pipeline pour projet ${projetId}`);
+    console.log(`Session UUID: ${sessionUuid}`);
 
     try {
         // 1. Vérifier que le projet existe

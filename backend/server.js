@@ -151,9 +151,9 @@ httpServer.listen(PORT, async () => {
     // Test de connexion PostgreSQL
     const connected = await testConnection();
     if (connected) {
-        console.log('✅ Base de données PostgreSQL connectée');
+        console.log('Base de données PostgreSQL connectée');
     } else {
-        console.log('⚠️ Base de données PostgreSQL non disponible');
+        console.log('Base de données PostgreSQL non disponible');
     }
     
     console.log('\n Routes disponibles :');
