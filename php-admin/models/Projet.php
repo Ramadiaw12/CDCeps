@@ -5,15 +5,26 @@
 // Toutes les requêtes liées aux projets passent par ici
 // ============================================================
 
+require_once __DIR__ . '/../config/database.php';
+
 class Projet {
     private PDO $db;
 
+    // ============================================================
+    // CONSTRUCTEUR
+    // Initialise la connexion à la base de données
+    // On récupère l'instance PDO via Database::getInstance()->getConnection()
+    // ============================================================
     public function __construct() {
-        $this->db = Database::getInstance();
+        // Récupère la connexion PDO pour interagir avec la base
+        $this->db = Database::getInstance()->getConnection();
     }
 
-    // Récupère tous les projets
+    // ============================================================
+    // RÉCUPÈRE TOUS LES PROJETS AVEC LEURS CLIENTS
+    // ============================================================
     public function getTous(): array {
+        // Requête avec jointure sur clients et count des CDC
         $stmt = $this->db->prepare(
             "SELECT p.id, p.titre, p.type_projet, p.statut,
                     p.budget_estime, p.delai_souhaite,
@@ -23,14 +34,16 @@ class Projet {
              FROM projets p
              JOIN clients c ON p.client_id = c.id
              LEFT JOIN cahiers_des_charges cdc ON p.id = cdc.projet_id
-             GROUP BY p.id
+             GROUP BY p.id, c.id
              ORDER BY p.created_at DESC"
         );
         $stmt->execute();
         return $stmt->fetchAll();
     }
 
-    // Récupère un projet par son ID
+    // ============================================================
+    // RÉCUPÈRE UN PROJET SPÉCIFIQUE PAR SON ID
+    // ============================================================
     public function getById(int $id): array|false {
         $stmt = $this->db->prepare(
             "SELECT p.*, c.nom, c.prenom, c.email,
@@ -43,21 +56,23 @@ class Projet {
         return $stmt->fetch();
     }
 
-    // Statistiques pour le dashboard
+    // ============================================================
+    // STATISTIQUES POUR LE DASHBOARD
+    // ============================================================
     public function getStats(): array {
         // Nombre total de projets
         $total = $this->db->query(
             "SELECT COUNT(*) FROM projets"
         )->fetchColumn();
 
-        // Projets par statut
+        // Répartition des projets par statut
         $parStatut = $this->db->query(
             "SELECT statut, COUNT(*) as total
              FROM projets
              GROUP BY statut"
         )->fetchAll();
 
-        // Projets par type
+        // Répartition des projets par type
         $parType = $this->db->query(
             "SELECT type_projet, COUNT(*) as total
              FROM projets
@@ -65,26 +80,28 @@ class Projet {
              ORDER BY total DESC"
         )->fetchAll();
 
-        // Projets ce mois-ci
+        // Nombre de projets créés ce mois-ci
         $cemois = $this->db->query(
             "SELECT COUNT(*) FROM projets
-             WHERE MONTH(created_at) = MONTH(NOW())
-             AND YEAR(created_at) = YEAR(NOW())"
+             WHERE EXTRACT(MONTH FROM created_at) = EXTRACT(MONTH FROM NOW())
+             AND EXTRACT(YEAR FROM created_at) = EXTRACT(YEAR FROM NOW())"
         )->fetchColumn();
 
         return [
-            'total'      => $total,
+            'total'      => (int)$total,
             'par_statut' => $parStatut,
             'par_type'   => $parType,
-            'ce_mois'    => $cemois
+            'ce_mois'    => (int)$cemois
         ];
     }
 
-    // Met à jour le statut d'un projet
+    // ============================================================
+    // MET À JOUR LE STATUT D'UN PROJET
+    // ============================================================
     public function updateStatut(int $id, string $statut): bool {
         $stmt = $this->db->prepare(
-            "UPDATE projets SET statut = ? WHERE id = ?"
+            "UPDATE projets SET statut = :statut WHERE id = :id"
         );
-        return $stmt->execute([$statut, $id]);
+        return $stmt->execute(['statut' => $statut, 'id' => $id]);
     }
 }
