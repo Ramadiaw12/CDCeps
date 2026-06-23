@@ -139,7 +139,7 @@ body {
 .badge-danger   { background: #fee2e2; color: #991b1b; }
 .badge-primary  { background: var(--primary-light); color: var(--primary); }
 
-/*  Formulaires (version améliorée)  */
+/*  Formulaires   */
 .form-group {
     margin-bottom: 20px;
 }
