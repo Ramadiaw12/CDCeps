@@ -28,8 +28,8 @@ class Orchestrateur {
     // LANCEMENT DU PIPELINE COMPLET
     // ============================================================
     async lancerPipeline(projetId, sessionId, sessionUuid, donneesProjet, io) {
-        console.log(`🚀 Pipeline démarré pour le projet ${projetId}`);
-        console.log(`📌 Session: ${sessionUuid}`);
+        console.log(`Pipeline démarré pour le projet ${projetId}`);
+        console.log(`Session: ${sessionUuid}`);
 
         try {
             // Notifier le début
@@ -173,8 +173,8 @@ class Orchestrateur {
                 verdict: resultatsValidation.verdict || 'CDC généré avec succès'
             });
 
-            console.log(`✅ Pipeline terminé pour le projet ${projetId}`);
-            console.log(`📄 CDC ID: ${cdcId}`);
+            console.log(`Pipeline terminé pour le projet ${projetId}`);
+            console.log(`CDC ID: ${cdcId}`);
 
             return resultatFinal;
 

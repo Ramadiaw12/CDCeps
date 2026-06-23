@@ -16,7 +16,7 @@ export const rechercherDocumentsSimilaires = async (
     seuilSimilarite = 0.5
 ) => {
     try {
-        console.log(`🔍 RAG : Recherche de documents similaires...`);
+        console.log(`RAG : Recherche de documents similaires...`);
         
         const embeddingRequete = await genererEmbedding(description);
         

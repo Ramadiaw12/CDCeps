@@ -58,7 +58,7 @@ function chunkText(text, maxLength = 8000) {
 
 // Charger tous les PDFs
 async function loadAllPDFs(pdfFolder = './pdfs') {
-    console.log('🚀 Chargement des PDFs avec Gemini\n');
+    console.log('Chargement des PDFs avec Gemini\n');
     console.log('=' .repeat(50));
     
     // Vérifier que le dossier existe

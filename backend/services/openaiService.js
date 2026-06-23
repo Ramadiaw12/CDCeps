@@ -188,7 +188,7 @@ export const genererEmbedding = async (texte) => {
     try {
         // Vérifier que le texte est valide
         if (!texte || texte.length < 3) {
-            console.warn('⚠️ Texte trop court pour générer un embedding');
+            console.warn('Texte trop court pour générer un embedding');
             return new Array(768).fill(0);
         }
 
@@ -202,14 +202,14 @@ export const genererEmbedding = async (texte) => {
         // Gemini retourne un objet avec la propriété 'embedding'
         const embedding = result.embedding.values;
         
-        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
+        console.log(`Embedding généré (${embedding.length} dimensions)`);
         return embedding;
 
     } catch (error) {
         console.error('❌ Erreur embedding Gemini:', error.message);
         
         // Fallback : retourner un embedding aléatoire pour ne pas bloquer
-        console.warn('⚠️ Utilisation d\'un embedding aléatoire comme fallback');
+        console.warn('Utilisation d\'un embedding aléatoire comme fallback');
         return new Array(768).fill(0).map(() => Math.random() * 0.1);
     }
 };
