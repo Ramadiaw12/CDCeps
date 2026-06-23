@@ -28,10 +28,11 @@ if (!process.env.GEMINI_API_KEY) {
 // gemini-1.5-pro : Le plus récent et le plus performant
 // gemini-2.0-flash-exp : Modèle expérimental rapide
 // gemini-1.5-flash : Modèle rapide et économique
-const GEMINI_MODELS = [
-  "gemini-2.0-flash",
-  "gemini-2.0-flash-lite",
-  "gemini-2.5-flash",
+const MODELS = [
+    'gemini-1.5-flash',      // Rapide, généralement disponible
+    'gemini-1.5-pro',        // Puissant, bon compromis
+    'gemini-2.0-flash-exp',  // Expérimental
+    'gemini-2.0-flash'       // Attention : souvent saturé
 ];
 
 // Modèle par défaut
@@ -75,7 +76,7 @@ const findAvailableModel = async () => {
 
     console.log('Recherche d\'un modèle Gemini disponible...');
 
-    for (const model of GEMINI_MODELS) {
+    for (const model of MODELS) {
         console.log(`Test de ${model}...`);
         const disponible = await testModel(model);
         if (disponible) {
