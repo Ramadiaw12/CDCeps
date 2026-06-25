@@ -13,6 +13,23 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Charger les variables d'environnement
 dotenv.config();
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
+if (!process.env.OPENAI_API_KEY) {
+    console.error(' OPENAI_API_KEY non définie dans .env');
+}
+
+// Modèles OpenAI disponibles
+const MODELS = [
+    'gpt-4o',           // Le plus récent et performant
+    'gpt-4-turbo',      // Bon compromis
+    'gpt-3.5-turbo',    // Rapide et économique
+];
+
+
+
 
 // 
 // 1. INITIALISATION DE GEMINI
@@ -22,7 +39,7 @@ dotenv.config();
 // const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // Vérifier que la clé est définie
 // if (!process.env.GEMINI_API_KEY) {
-//     console.error('❌ GEMINI_API_KEY non définie dans .env');
+//     console.error(' GEMINI_API_KEY non définie dans .env');
 // }
 // MODÈLES GEMINI - Liste des modèles disponibles (d'après l'API)
 // const MODELS = [
