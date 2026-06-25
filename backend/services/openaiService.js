@@ -36,7 +36,7 @@ const MODELS = [
 ];
 
 // Modèle par défaut
-const DEFAULT_MODEL = 'gemini-2.0-flash';
+const DEFAULT_MODEL = 'gemini-1.5-flash';
 const EMBEDDING_MODEL = 'embedding-001';
 
 // Variable pour stocker le modèle actif (découvert automatiquement)
