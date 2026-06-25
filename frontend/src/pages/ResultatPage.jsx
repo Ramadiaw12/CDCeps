@@ -3,7 +3,7 @@
 // Affiche le CDC généré avec options d'export
 // PDF et Markdown
 // ============================================================
-
+import './ResultatPage.css';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CDCViewer from '../components/CDCViewer.jsx';

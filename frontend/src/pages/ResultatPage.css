@@ -1,0 +1,344 @@
+/* ============================================================
+   ResultatPage.css - Version Compacte et Élégante
+   Mêmes couleurs que la page de génération
+   ============================================================ */
+
+/* ============================================================
+   CONTENEUR PRINCIPAL
+   ============================================================ */
+.resultat-page {
+    padding: 8px 16px !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    background: #f8fafc !important;
+    min-height: 100vh !important;
+}
+
+.resultat-page .container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+}
+
+/* ============================================================
+   HEADER - Compact
+   ============================================================ */
+.resultat-page .resultat-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+    margin-bottom: 16px !important;
+    padding: 8px 0 !important;
+}
+
+.resultat-page .resultat-titre {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    margin: 0 !important;
+}
+
+.resultat-page .resultat-sous-titre {
+    color: #64748b !important;
+    font-size: 12px !important;
+    margin: 2px 0 0 0 !important;
+}
+
+.resultat-page .resultat-sous-titre strong {
+    color: #0f172a !important;
+}
+
+/* ============================================================
+   ACTIONS - Boutons d'export
+   ============================================================ */
+.resultat-page .resultat-actions {
+    display: flex !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+/* ============================================================
+   BOUTONS - Style unifié avec la page de génération
+   ============================================================ */
+.resultat-page .btn {
+    padding: 6px 16px !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    text-decoration: none !important;
+}
+
+.resultat-page .btn-secondary {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+.resultat-page .btn-secondary:hover {
+    background: #e2e8f0 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+}
+
+.resultat-page .btn-primary {
+    background: #4f46e5 !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25) !important;
+}
+
+.resultat-page .btn-primary:hover {
+    background: #4338ca !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.35) !important;
+}
+
+.resultat-page .btn-primary:disabled {
+    opacity: 0.6 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+}
+
+/* ============================================================
+   MÉTADONNÉES - Grille compacte
+   ============================================================ */
+.resultat-page .resultat-meta-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+    gap: 10px !important;
+    margin-bottom: 16px !important;
+}
+
+.resultat-page .resultat-meta-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    text-align: center !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+
+.resultat-page .resultat-meta-label {
+    font-size: 10px !important;
+    color: #64748b !important;
+    margin-bottom: 4px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+.resultat-page .resultat-meta-valeur {
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: #0f172a !important;
+}
+
+.resultat-page .resultat-meta-valeur .score-nombre {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+}
+
+.resultat-page .resultat-meta-valeur .score-max {
+    color: #94a3b8 !important;
+    font-weight: 400 !important;
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+.resultat-page .badge {
+    display: inline-block !important;
+    padding: 3px 10px !important;
+    border-radius: 20px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+}
+
+.resultat-page .badge-primary {
+    background: #dbeafe !important;
+    color: #1e40af !important;
+}
+
+.resultat-page .badge-success {
+    background: #dcfce7 !important;
+    color: #166534 !important;
+}
+
+.resultat-page .badge-warning {
+    background: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+/* ============================================================
+   AVERTISSEMENT - Sections manquantes
+   ============================================================ */
+.resultat-page .resultat-avertissement {
+    background: #fef3c7 !important;
+    border: 1px solid #fcd34d !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    margin-bottom: 16px !important;
+    font-size: 12px !important;
+    color: #92400e !important;
+}
+
+.resultat-page .resultat-avertissement strong {
+    display: block !important;
+    margin-bottom: 4px !important;
+}
+
+.resultat-page .resultat-avertissement ul {
+    margin: 4px 0 0 0 !important;
+    padding-left: 18px !important;
+}
+
+.resultat-page .resultat-avertissement li {
+    font-size: 12px !important;
+    color: #92400e !important;
+}
+
+/* ============================================================
+   CONTENU CDC - Card
+   ============================================================ */
+.resultat-page .resultat-cdc-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 20px 24px !important;
+    margin-bottom: 16px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04) !important;
+}
+
+/* ============================================================
+   ACTIONS BAS DE PAGE
+   ============================================================ */
+.resultat-page .resultat-actions-bottom {
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    margin-bottom: 24px !important;
+}
+
+/* ============================================================
+   SPINNER
+   ============================================================ */
+.resultat-page .spinner {
+    width: 16px !important;
+    height: 16px !important;
+    border: 2px solid rgba(255,255,255,0.3) !important;
+    border-top-color: white !important;
+    border-radius: 50% !important;
+    animation: resultat-spin 0.8s linear infinite !important;
+    display: inline-block !important;
+}
+
+@keyframes resultat-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   ÉTATS - Chargement / Erreur
+   ============================================================ */
+.resultat-page .resultat-centrer {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 200px !important;
+    padding: 40px 0 !important;
+}
+
+.resultat-page .resultat-centrer p {
+    margin-top: 12px !important;
+    color: #64748b !important;
+    font-size: 14px !important;
+}
+
+.resultat-page .resultat-erreur {
+    background: #fef2f2 !important;
+    border: 1px solid #fca5a5 !important;
+    border-radius: 10px !important;
+    padding: 24px !important;
+    text-align: center !important;
+    color: #991b1b !important;
+}
+
+.resultat-page .resultat-erreur h3 {
+    margin: 0 0 8px 0 !important;
+    font-size: 18px !important;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .resultat-page {
+        padding: 6px 12px !important;
+    }
+
+    .resultat-page .resultat-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+
+    .resultat-page .resultat-titre {
+        font-size: 17px !important;
+    }
+
+    .resultat-page .resultat-meta-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    .resultat-page .resultat-cdc-card {
+        padding: 14px 16px !important;
+    }
+
+    .resultat-page .resultat-actions-bottom {
+        flex-direction: column !important;
+    }
+
+    .resultat-page .resultat-actions-bottom .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .resultat-page .resultat-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+
+    .resultat-page .resultat-actions .btn {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}
+
+@media (max-width: 400px) {
+    .resultat-page .resultat-meta-grid {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+    }
+
+    .resultat-page .resultat-meta-card {
+        padding: 8px !important;
+    }
+
+    .resultat-page .resultat-meta-valeur {
+        font-size: 12px !important;
+    }
+
+    .resultat-page .resultat-meta-valeur .score-nombre {
+        font-size: 16px !important;
+    }
+}
