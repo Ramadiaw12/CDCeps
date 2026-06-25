@@ -1,118 +1,78 @@
 // ============================================================
 // services/openaiService.js
-// Service centralisé pour communiquer avec les LLM
+// Service centralisé pour communiquer avec OpenAI
 // Tous les agents utilisent ce service pour appeler le LLM
-// 
-// MIGRATION : Utilise désormais Google Gemini
 // ============================================================
 
 import dotenv from 'dotenv';
 import OpenAI from 'openai';
-// import dotenv from 'dotenv';
-import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Charger les variables d'environnement
 dotenv.config();
+
+// ============================================================
+// 1. INITIALISATION D'OPENAI
+// ============================================================
+
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 });
 
 if (!process.env.OPENAI_API_KEY) {
-    console.error(' OPENAI_API_KEY non définie dans .env');
+    console.error('❌ OPENAI_API_KEY non définie dans .env');
 }
 
 // Modèles OpenAI disponibles
 const MODELS = [
-    'gpt-4o',           // Le plus récent et performant
-    'gpt-4-turbo',      // Bon compromis
-    'gpt-3.5-turbo',    // Rapide et économique
+    'gpt-4o',           // ✅ Le plus récent et performant
+    'gpt-4-turbo',      // ✅ Bon compromis
+    'gpt-3.5-turbo',    // ✅ Rapide et économique
 ];
 
-
-
-
-// 
-// 1. INITIALISATION DE GEMINI
-// 
-
-// Initialiser le client Gemini avec la clé API
-// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-// Vérifier que la clé est définie
-// if (!process.env.GEMINI_API_KEY) {
-//     console.error(' GEMINI_API_KEY non définie dans .env');
-// }
-// MODÈLES GEMINI - Liste des modèles disponibles (d'après l'API)
-// const MODELS = [
-//     'gemini-2.5-flash',      // Le plus récent et rapide
-//     'gemini-2.5-pro',        // Très puissant
-//     'gemini-2.0-flash',      // Stable
-//     'gemini-2.0-flash-lite', // Léger
-//     'gemini-pro-latest',     // Ancien mais stable
-// ];
-
 // Modèle par défaut
-// const DEFAULT_MODEL = 'gemini-2.5-flash';
-// const EMBEDDING_MODEL = 'embedding-001';
-// Variable pour stocker le modèle actif (découvert automatiquement)
-// let activeModel = null;
+const DEFAULT_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
+const EMBEDDING_MODEL = 'text-embedding-3-small';
 
-// 
+// Variable pour stocker le modèle actif
+let activeModel = null;
+
+// ============================================================
 // 2. FONCTION POUR TROUVER UN MODÈLE DISPONIBLE
-// 
+// ============================================================
 
-/**
- * Teste un modèle Gemini pour vérifier s'il est disponible
- * @param {string} modelName - Nom du modèle à tester
- * @returns {Promise<boolean>} true si disponible
- */
-const testModel = async (modelName) => {
-    try {
-        const model = genAI.getGenerativeModel({ model: modelName });
-        // Test simple avec un petit prompt
-        const result = await model.generateContent('Test');
-        // Si on arrive ici, le modèle fonctionne
-        return true;
-    } catch (error) {
-        // Le modèle n'est pas disponible
-        return false;
-    }
-};
-
-/**
- * Trouve le premier modèle disponible dans la liste
- * @returns {Promise<string>} Nom du modèle disponible
- */
 const findAvailableModel = async () => {
-    // Si on a déjà un modèle actif, le réutiliser
-    if (activeModel) {
-        return activeModel;
-    }
+    if (activeModel) return activeModel;
 
-    console.log('Recherche d\'un modèle Gemini disponible...');
+    console.log('🔍 Recherche d\'un modèle OpenAI disponible...');
 
     for (const model of MODELS) {
-        console.log(`Test de ${model}...`);
-        const disponible = await testModel(model);
-        if (disponible) {
-            console.log(`Modèle ${model} disponible et fonctionnel !`);
-            activeModel = model;
-            return model;
+        try {
+            console.log(`📌 Test de ${model}...`);
+            const response = await openai.chat.completions.create({
+                model: model,
+                messages: [{ role: 'user', content: 'Test' }],
+                max_tokens: 5,
+            });
+            if (response.choices && response.choices.length > 0) {
+                console.log(`✅ Modèle ${model} disponible !`);
+                activeModel = model;
+                return model;
+            }
+        } catch (error) {
+            console.log(`❌ ${model} non disponible: ${error.message}`);
         }
-        console.log(`❌ ${model} non disponible`);
     }
 
-    // Si aucun modèle n'est trouvé, retourner le modèle par défaut
-    // Le SDK gérera l'erreur
-    console.warn('Aucun modèle trouvé, utilisation du modèle par défaut');
+    console.warn('⚠️ Aucun modèle trouvé, utilisation du modèle par défaut');
     return DEFAULT_MODEL;
 };
 
-// 
+// ============================================================
 // 3. FONCTION PRINCIPALE - APPEL LLM
-// 
+// ============================================================
 
 /**
- * Appelle le LLM (Gemini) avec une conversation
+ * Appelle le LLM (OpenAI) avec une conversation
  * @param {Array} messages - Tableau de messages {role, content}
  * @param {Object} options - Options de génération
  * @param {string} options.model - Modèle à utiliser (optionnel)
@@ -121,110 +81,84 @@ const findAvailableModel = async () => {
  * @returns {Promise<string>} Réponse du LLM
  */
 export const appelLLM = async (messages, options = {}) => {
-    try {
-        // Extraire les options avec des valeurs par défaut
-        const temperature = options.temperature || 0.8;
-        const maxTokens = options.maxTokens || 2000;
+    const maxRetries = 3;
+    let retryCount = 0;
+    let retryDelay = 2000;
 
-        // Trouver un modèle disponible
-        const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
+    while (retryCount <= maxRetries) {
+        try {
+            const temperature = options.temperature || 0.8;
+            const maxTokens = options.maxTokens || 4096;
 
-        console.log(`Appel LLM (${modelName}) avec ${messages.length} messages`);
+            const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-        // Construire le prompt à partir des messages
-        let prompt = '';
-        let systemInstruction = '';
+            console.log(`🔮 Appel OpenAI (${modelName}) avec ${messages.length} messages`);
 
-        for (const msg of messages) {
-            if (msg.role === 'system') {
-                systemInstruction = msg.content;
-            } else if (msg.role === 'user') {
-                prompt += `Utilisateur: ${msg.content}\n`;
-            } else if (msg.role === 'assistant') {
-                prompt += `Assistant: ${msg.content}\n`;
-            }
-        }
-
-        // Préparer le contenu final
-        const fullPrompt = systemInstruction 
-            ? `${systemInstruction}\n\n${prompt}Assistant: `
-            : `${prompt}Assistant: `;
-
-        // Appeler Gemini avec le bon modèle
-        const generativeModel = genAI.getGenerativeModel({
-            model: modelName,
-            generationConfig: {
+            const response = await openai.chat.completions.create({
+                model: modelName,
+                messages: messages,
                 temperature: temperature,
-                maxOutputTokens: maxTokens,
+                max_tokens: maxTokens,
+            });
+
+            const content = response.choices[0]?.message?.content || '';
+            console.log(`✅ Réponse reçue (${content.length} caractères)`);
+            return content;
+
+        } catch (error) {
+            console.error(`❌ Erreur OpenAI (tentative ${retryCount + 1}):`, error.message);
+
+            // Gestion des erreurs de quota
+            if (error.message.includes('quota') || error.message.includes('429') || error.message.includes('rate_limit')) {
+                retryCount++;
+                if (retryCount <= maxRetries) {
+                    const waitTime = retryDelay * Math.pow(2, retryCount - 1);
+                    console.log(`⏳ Quota atteint, attente de ${waitTime/1000}s...`);
+                    await new Promise(resolve => setTimeout(resolve, waitTime));
+                    activeModel = null;
+                    continue;
+                }
+                throw new Error('❌ Quota OpenAI dépassé - attendez avant de réessayer');
             }
-        });
 
-        // Générer la réponse
-        const result = await generativeModel.generateContent(fullPrompt);
-        const response = result.response.text();
+            // Gestion des erreurs de clé API
+            if (error.message.includes('API key') || error.message.includes('authentication')) {
+                throw new Error('❌ Clé API OpenAI invalide - vérifiez votre .env');
+            }
 
-        console.log(`Réponse reçue (${response.length} caractères)`);
-        return response;
-
-    } catch (error) {
-        console.error('❌ Erreur Gemini:', error.message);
-        
-        // Gestion des erreurs spécifiques
-        if (error.message.includes('API key') || error.message.includes('API_KEY')) {
-            throw new Error('❌ Clé API Gemini invalide - vérifiez votre .env');
+            throw new Error(`❌ Erreur OpenAI : ${error.message}`);
         }
-        if (error.message.includes('quota')) {
-            throw new Error('❌ Quota Gemini dépassé - attendez avant de réessayer');
-        }
-        if (error.message.includes('429')) {
-            throw new Error('❌ Trop de requêtes - attendez quelques instants');
-        }
-        if (error.message.includes('not found') || error.message.includes('404')) {
-            // Réinitialiser le modèle actif pour qu'il soit re-testé
-            activeModel = null;
-            throw new Error('❌ Modèle Gemini non disponible - recherche d\'un autre modèle...');
-        }
-        
-        throw new Error(`❌ Erreur Gemini : ${error.message}`);
     }
 };
 
-// 
-// 4. GÉNÉRATION D'EMBEDDINGS AVEC GEMINI
-// 
+// ============================================================
+// 4. GÉNÉRATION D'EMBEDDINGS
+// ============================================================
 
 /**
- * Génère un embedding (vecteur) pour un texte avec Gemini
+ * Génère un embedding (vecteur) pour un texte avec OpenAI
  * @param {string} texte - Texte à vectoriser
- * @returns {Promise<Array<number>>} Vecteur de 768 dimensions
+ * @returns {Promise<Array<number>>} Vecteur de 1536 dimensions
  */
 export const genererEmbedding = async (texte) => {
     try {
-        // Vérifier que le texte est valide
         if (!texte || texte.length < 3) {
-            console.warn('Texte trop court pour générer un embedding');
-            return new Array(768).fill(0);
+            console.warn('⚠️ Texte trop court pour générer un embedding');
+            return new Array(1536).fill(0);
         }
 
-        // Tronquer le texte si trop long (limite Gemini)
-        const texteTronque = texte.substring(0, 8000);
-        
-        // Utiliser le modèle d'embedding
-        const model = genAI.getGenerativeModel({ model: EMBEDDING_MODEL });
-        const result = await model.embedContent(texteTronque);
-        
-        // Gemini retourne un objet avec la propriété 'embedding'
-        const embedding = result.embedding.values;
-        
-        console.log(`Embedding généré (${embedding.length} dimensions)`);
+        const response = await openai.embeddings.create({
+            model: EMBEDDING_MODEL,
+            input: texte.substring(0, 8000),
+        });
+
+        const embedding = response.data[0].embedding;
+        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
         return embedding;
 
     } catch (error) {
-        console.error('❌ Erreur embedding Gemini:', error.message);
-        
-        // Fallback : retourner un embedding aléatoire pour ne pas bloquer
-        console.warn('Utilisation d\'un embedding aléatoire comme fallback');
-        return new Array(768).fill(0).map(() => Math.random() * 0.1);
+        console.error('❌ Erreur embedding OpenAI:', error.message);
+        return new Array(1536).fill(0).map(() => Math.random() * 0.1);
     }
 };
 
@@ -241,7 +175,6 @@ export const genererEmbedding = async (texte) => {
  */
 export const genererReponseRAG = async (query, documents, options = {}) => {
     try {
-        // Construire le contexte à partir des documents
         let contexte = '';
         if (documents && documents.length > 0) {
             contexte = '\n\n=== DOCUMENTS DE RÉFÉRENCE ===\n';
@@ -254,7 +187,6 @@ export const genererReponseRAG = async (query, documents, options = {}) => {
             contexte += '\n=== FIN DES RÉFÉRENCES ===\n';
         }
 
-        // Construire les messages
         const messages = [
             {
                 role: 'system',
@@ -270,7 +202,6 @@ export const genererReponseRAG = async (query, documents, options = {}) => {
             }
         ];
 
-        // Appeler le LLM
         const response = await appelLLM(messages, options);
         return response;
 
