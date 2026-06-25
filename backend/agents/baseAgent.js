@@ -5,7 +5,8 @@
 // ============================================================
 
 import pool from '../database/postgres.js';
-import { appelLLM } from '../services/openaiService.js';
+// import { appelLLM } from '../services/openaiService.js';
+import { appelLLM } from '../services/groqService.js';
 
 class BaseAgent {
     // Constructeur
