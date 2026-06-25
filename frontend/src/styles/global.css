@@ -6113,4 +6113,4 @@ body {
   cursor: pointer;
   transition: background 0.15s;
 }
-.btn-secondary-resultat:hover { background: #f9fafb; }
+.btn-secondary-resultat:hover { background: var(--color-background-secondary); }
