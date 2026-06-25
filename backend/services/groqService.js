@@ -141,7 +141,8 @@ export const appelLLM = async (messages, options = {}) => {
  */
 export const genererEmbedding = async (texte) => {
     console.warn('⚠️ Groq ne fournit pas d\'embedding, utilisation d\'un mock');
-    return new Array(768).fill(0).map(() => Math.random() * 0.1);
+    // Retourne un vecteur aléatoire de 1536 dimensions
+    return new Array(1536).fill(0).map(() => (Math.random() * 2) - 1);
 };
 
 // ============================================================
