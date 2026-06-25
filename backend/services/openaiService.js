@@ -7,6 +7,8 @@
 // ============================================================
 
 import dotenv from 'dotenv';
+import OpenAI from 'openai';
+// import dotenv from 'dotenv';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Charger les variables d'environnement
@@ -17,30 +19,25 @@ dotenv.config();
 // 
 
 // Initialiser le client Gemini avec la clé API
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // Vérifier que la clé est définie
-if (!process.env.GEMINI_API_KEY) {
-    console.error('❌ GEMINI_API_KEY non définie dans .env');
-}
-
-// MODÈLES GEMINI - Liste des modèles disponibles
-// gemini-1.5-pro : Le plus récent et le plus performant
-// gemini-2.0-flash-exp : Modèle expérimental rapide
-// gemini-1.5-flash : Modèle rapide et économique
-const MODELS = [
-    'gemini-1.5-flash',      // Rapide, généralement disponible
-    'gemini-1.5-pro',        // Puissant, bon compromis
-    'gemini-2.0-flash-exp',  // Expérimental
-    'gemini-2.0-flash'       // Attention : souvent saturé
-];
+// if (!process.env.GEMINI_API_KEY) {
+//     console.error('❌ GEMINI_API_KEY non définie dans .env');
+// }
+// MODÈLES GEMINI - Liste des modèles disponibles (d'après l'API)
+// const MODELS = [
+//     'gemini-2.5-flash',      // Le plus récent et rapide
+//     'gemini-2.5-pro',        // Très puissant
+//     'gemini-2.0-flash',      // Stable
+//     'gemini-2.0-flash-lite', // Léger
+//     'gemini-pro-latest',     // Ancien mais stable
+// ];
 
 // Modèle par défaut
-const DEFAULT_MODEL = 'gemini-1.5-flash';
-const EMBEDDING_MODEL = 'embedding-001';
-
+// const DEFAULT_MODEL = 'gemini-2.5-flash';
+// const EMBEDDING_MODEL = 'embedding-001';
 // Variable pour stocker le modèle actif (découvert automatiquement)
-let activeModel = null;
+// let activeModel = null;
 
 // 
 // 2. FONCTION POUR TROUVER UN MODÈLE DISPONIBLE
