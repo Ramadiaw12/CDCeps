@@ -1,6 +1,7 @@
 // ============================================================
 // services/groqService.js
 // Service LLM utilisant Groq Cloud (Llama gratuit)
+// Ultra-rapide et 100% gratuit
 // ============================================================
 
 import dotenv from 'dotenv';
@@ -23,13 +24,14 @@ if (!process.env.GROQ_API_KEY) {
 
 // Modèles Groq disponibles (tous gratuits)
 const MODELS = [
+    'llama-3.1-70b-versatile',   // ✅ Le plus puissant (gratuit)
     'llama-3.1-8b-instant',      // ✅ Rapide (gratuit)
     'mixtral-8x7b-32768',        // ✅ Bon compromis (gratuit)
     'gemma2-9b-it',              // ✅ Léger (gratuit)
 ];
 
 // Modèle par défaut
-const DEFAULT_MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
+const DEFAULT_MODEL = process.env.GROQ_MODEL || 'llama-3.1-70b-versatile';
 
 let activeModel = null;
 
@@ -68,6 +70,15 @@ const findAvailableModel = async () => {
 // 3. FONCTION PRINCIPALE - APPEL LLM
 // ============================================================
 
+/**
+ * Appelle le LLM (Groq/Llama) avec une conversation
+ * @param {Array} messages - Tableau de messages {role, content}
+ * @param {Object} options - Options de génération
+ * @param {string} options.model - Modèle à utiliser (optionnel)
+ * @param {number} options.temperature - Créativité (0-1)
+ * @param {number} options.maxTokens - Longueur max de la réponse
+ * @returns {Promise<string>} Réponse du LLM
+ */
 export const appelLLM = async (messages, options = {}) => {
     const maxRetries = 3;
     let retryCount = 0;
@@ -96,6 +107,7 @@ export const appelLLM = async (messages, options = {}) => {
         } catch (error) {
             console.error(`❌ Erreur Groq (tentative ${retryCount + 1}):`, error.message);
 
+            // Gestion des erreurs de quota/rate limit
             if (error.message.includes('quota') || error.message.includes('429') || error.message.includes('rate_limit')) {
                 retryCount++;
                 if (retryCount <= maxRetries) {
@@ -108,6 +120,7 @@ export const appelLLM = async (messages, options = {}) => {
                 throw new Error('❌ Limite Groq dépassée - attendez avant de réessayer');
             }
 
+            // Gestion des erreurs de clé API
             if (error.message.includes('API key') || error.message.includes('authentication')) {
                 throw new Error('❌ Clé API Groq invalide - vérifiez votre .env');
             }
@@ -118,18 +131,31 @@ export const appelLLM = async (messages, options = {}) => {
 };
 
 // ============================================================
-// 4. GÉNÉRATION D'EMBEDDING (Mock - Groq ne fournit pas d'embedding)
+// 4. GÉNÉRATION D'EMBEDDING (Mock pour l'instant)
 // ============================================================
 
+/**
+ * Génère un embedding (vecteur) - Mock car Groq ne fournit pas d'embedding
+ * @param {string} texte - Texte à vectoriser
+ * @returns {Promise<Array<number>>} Vecteur de 768 dimensions
+ */
 export const genererEmbedding = async (texte) => {
-    console.warn('⚠️ Embedding simulé (Groq ne fournit pas d\'embedding)');
-    return new Array(1536).fill(0).map(() => Math.random() * 0.1);
+    console.warn('⚠️ Groq ne fournit pas d\'embedding, utilisation d\'un mock');
+    // Retourne un vecteur aléatoire de 1536 dimensions
+    return new Array(1536).fill(0).map(() => (Math.random() * 2) - 1);
 };
 
 // ============================================================
 // 5. FONCTIONS UTILITAIRES
 // ============================================================
 
+/**
+ * Génère une réponse RAG avec contexte
+ * @param {string} query - Question de l'utilisateur
+ * @param {Array} documents - Documents similaires trouvés par RAG
+ * @param {Object} options - Options de génération
+ * @returns {Promise<string>} Réponse générée
+ */
 export const genererReponseRAG = async (query, documents, options = {}) => {
     try {
         let contexte = '';
@@ -159,6 +185,14 @@ export const genererReponseRAG = async (query, documents, options = {}) => {
     }
 };
 
+/**
+ * Crée un prompt structuré pour un CDC
+ * @param {Object} data - Données pour le CDC
+ * @param {string} data.projet - Description du projet
+ * @param {string} data.type - Type de projet
+ * @param {string} data.contexte - Contexte additionnel
+ * @returns {Array} Messages formatés
+ */
 export const creerPromptCDC = (data) => {
     const { projet, type, contexte = '' } = data;
     return [
