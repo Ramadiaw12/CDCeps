@@ -11,51 +11,18 @@ class AgentValidation extends BaseAgent {
     constructor() {
         super(
             'ValidationAgent',
-            `Tu es un directeur qualité chez EPS SARL,
-            responsable de la validation des cahiers des charges.
-            
-            Ton rôle est d'analyser un CDC généré et de :
-            1. Vérifier que toutes les sections obligatoires sont présentes
-            2. Évaluer la qualité et la complétude de chaque section
-            3. Détecter les incohérences ou contradictions
-            4. Calculer un score de complétude global
-            5. Suggérer des améliorations concrètes
-            
-            Tu dois TOUJOURS répondre en JSON valide et rien d'autre.
-            
-            Structure de ta réponse :
-            {
-                "score_completude": 85,
-                "validation_sections": [
-                    {
-                        "section": "nom de la section",
-                        "presente": true,
-                        "qualite": "bonne|moyenne|insuffisante",
-                        "commentaire": "commentaire sur cette section"
-                    }
-                ],
-                "incoherences": [
-                    "description de l'incohérence détectée"
-                ],
-                "sections_manquantes": [
-                    "section manquante 1"
-                ],
-                "suggestions_amelioration": [
-                    "suggestion concrète 1"
-                ],
-                "points_forts": [
-                    "point fort du CDC"
-                ],
-                "verdict": "approuvé|à réviser|insuffisant",
-                "commentaire_global": "commentaire général sur le CDC"
-            }
-            
-            Calcul du score_completude :
-            - 90-100 : CDC excellent, prêt à soumettre
-            - 70-89  : CDC bon, quelques améliorations mineures
-            - 50-69  : CDC moyen, révisions nécessaires
-            - 0-49   : CDC insuffisant, refaire
-            `
+            `Tu es un expert en validation de CDC. Analyse la qualité du CDC généré et retourne UNIQUEMENT du JSON valide.
+
+        Structure JSON :
+        {
+            "score_completude": 85,
+            "sections_manquantes": ["section1"],
+            "verdict": "CDC de bonne qualité",
+            "recommandations": ["recommandation1"],
+            "qualite_globale": "bon"
+        }
+
+        Sois CONCIS dans tes commentaires.`
         );
     }
 

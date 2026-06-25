@@ -7,10 +7,7 @@
 
 // services/ragService.js
 import pool from '../database/postgres.js';
-// import { genererEmbedding } from './openaiService.js';
-
-const embeddingRequete = await genererEmbedding(description);
-
+import { genererEmbedding } from './openaiService.js';
 
 export const rechercherDocumentsSimilaires = async (
     description, 
