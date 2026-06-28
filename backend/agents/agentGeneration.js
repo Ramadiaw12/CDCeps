@@ -1,234 +1,56 @@
 // ============================================================
 // agents/agentGeneration.js
-// Agent 3 : Génération du cahier des charges
+// Agent 3 : Génération du CDC
+// Version optimisée pour réduire les tokens
 // ============================================================
 
 import BaseAgent from './baseAgent.js';
-import { formaterContexteRAG } from '../services/ragService.js';
+import pool from '../database/postgres.js';
 
 class AgentGeneration extends BaseAgent {
     constructor() {
         super(
             'GenerationAgent',
-    `Tu es un expert en rédaction de CDC. Rédige un CDC structuré avec : 
-    1. Présentation, 2. Objectifs, 3. Fonctionnalités, 
-    4. Contraintes, 5. Planning, 6. Budget.
-    Sois CONCIS et précis.`
+            `Rédige un CDC structuré en Markdown avec :
+            1. Présentation
+            2. Objectifs
+            3. Fonctionnalités
+            4. Contraintes
+            5. Planning
+            6. Budget
+            Sois CONCIS et professionnel.`
         );
     }
 
     async executer(donnees, sessionId, io, sessionUuid) {
         try {
-            this.notifierProgression(
-                io,
-                sessionUuid,
-                'Génération du cahier des charges en cours...'
-            );
-
+            this.notifierProgression(io, sessionUuid, 'Rédaction du CDC en cours...');
             await this.mettreAJourStatut(sessionId, 'running');
 
-            console.log('=== DONNEES RECUES PAR GENERATION AGENT ===');
-            console.log(JSON.stringify(donnees, null, 2));
-
-            // Sections standards du CDC
-            const sections = [
-                { nom: 'Introduction' },
-                { nom: 'Contexte du projet' },
-                { nom: 'Objectifs du projet' },
-                { nom: 'Périmètre fonctionnel' },
-                { nom: 'Exigences fonctionnelles' },
-                { nom: 'Exigences non fonctionnelles' },
-                { nom: 'Architecture technique' },
-                { nom: 'Planning prévisionnel' },
-                { nom: 'Risques et contraintes' },
-                { nom: 'Critères de validation' },
-                { nom: 'Livrables attendus' }
-            ];
-
-            const contexteRAG = formaterContexteRAG(
-                donnees?.analyse?.documents_rag || []
-            );
-
+            // ⚠️ Résumer les données (max 3000 caractères)
             const messageUtilisateur = `
-${contexteRAG}
+            Génère un CDC avec ces données (résumé) :
+            Collecte: ${JSON.stringify(donnees.collecte).substring(0, 1500)}
+            Analyse: ${JSON.stringify(donnees.analyse).substring(0, 1500)}
+            `;
 
-Génère un cahier des charges préliminaire COMPLET
-en Markdown pour ce projet.
+            const reponse = await this.appelerLLM(messageUtilisateur, {
+                temperature: 0.7,
+                maxTokens: 4096  // ✅ Limité à 4096 tokens
+            });
 
-═══════════════════════════════════════
-INFORMATIONS CLIENT
-═══════════════════════════════════════
-
-Titre du projet :
-${donnees?.collecte?.titre_projet || 'Non renseigné'}
-
-Type :
-${donnees?.collecte?.type_projet || 'Non renseigné'}
-
-Secteur :
-${donnees?.collecte?.secteur_activite || 'Non renseigné'}
-
-Objectif principal :
-${donnees?.collecte?.objectif_principal || 'Non renseigné'}
-
-Budget :
-${donnees?.collecte?.budget_detecte || 'À définir'}
-
-Délai :
-${donnees?.collecte?.delai_detecte || 'À définir'}
-
-═══════════════════════════════════════
-BESOINS IDENTIFIÉS
-═══════════════════════════════════════
-
-Besoins critiques :
-
-${
-    donnees?.analyse?.analyse_besoins?.besoins_critiques?.join('\n')
-    || 'Aucun besoin critique identifié'
-}
-
-Besoins importants :
-
-${
-    donnees?.analyse?.analyse_besoins?.besoins_importants?.join('\n')
-    || 'Aucun besoin important identifié'
-}
-
-Besoins optionnels :
-
-${
-    donnees?.analyse?.analyse_besoins?.besoins_optionnels?.join('\n')
-    || 'Aucun besoin optionnel identifié'
-}
-
-Besoins non fonctionnels :
-
-${
-    donnees?.collecte?.besoins_non_fonctionnels?.join('\n')
-    || 'Aucun besoin non fonctionnel renseigné'
-}
-
-═══════════════════════════════════════
-ANALYSE TECHNIQUE
-═══════════════════════════════════════
-
-Architecture recommandée :
-${donnees?.analyse?.architecture_recommandee?.type || 'À définir'}
-
-Justification :
-${donnees?.analyse?.architecture_recommandee?.justification || 'À définir'}
-
-Complexité :
-${donnees?.analyse?.estimations?.complexite || 'À définir'}
-
-Durée estimée :
-${donnees?.analyse?.estimations?.duree_estimee || 'À définir'}
-
-Équipe recommandée :
-
-${
-    donnees?.analyse?.estimations?.equipe_recommandee?.join(', ')
-    || 'À définir'
-}
-
-═══════════════════════════════════════
-RISQUES IDENTIFIÉS
-═══════════════════════════════════════
-
-${
-    donnees?.analyse?.risques_identifies?.length
-        ? donnees.analyse.risques_identifies
-            .map(
-                r =>
-                    `- ${r.risque || 'Risque'} (niveau : ${
-                        r.niveau || 'inconnu'
-                    })`
-            )
-            .join('\n')
-        : 'Aucun risque identifié'
-}
-
-═══════════════════════════════════════
-CONTRAINTES
-═══════════════════════════════════════
-
-${
-    donnees?.collecte?.contraintes?.join('\n')
-    || 'Aucune contrainte renseignée'
-}
-
-═══════════════════════════════════════
-TECHNOLOGIES SOUHAITÉES
-═══════════════════════════════════════
-
-${
-    donnees?.collecte?.technologies_mentionnees?.join(', ')
-    || 'Non spécifiées'
-}
-
-═══════════════════════════════════════
-SECTIONS OBLIGATOIRES
-═══════════════════════════════════════
-
-${sections.map(s => `- ${s.nom}`).join('\n')}
-
-═══════════════════════════════════════
-FORMAT ATTENDU
-═══════════════════════════════════════
-
-Commence directement par :
-
-# Cahier des Charges Préliminaire
-
-## ${donnees?.collecte?.titre_projet || 'Projet'}
-
-Le document doit :
-
-- être rédigé en Markdown
-- être professionnel
-- inclure toutes les sections demandées
-- utiliser des tableaux lorsque pertinent
-- dépasser 1000 mots
-`;
-
-            const cdcMarkdown = await this.appelerLLM(
-                messageUtilisateur,
-                {
-                    temperature: 0.8,
-                    maxTokens: 4096
-                }
-            );
-
-            this.notifierProgression(
-                io,
-                sessionUuid,
-                'Cahier des charges généré avec succès'
-            );
+            // Nettoyer la réponse
+            const contenu = reponse.replace(/```markdown/g, '').replace(/```/g, '').trim();
 
             await this.mettreAJourStatut(sessionId, 'done');
+            this.notifierProgression(io, sessionUuid, 'CDC généré avec succès');
 
-            return {
-                contenu_markdown: cdcMarkdown,
-                sections_generees: sections.map(s => s.nom)
-            };
+            return { contenu_markdown: contenu };
+
         } catch (error) {
-            console.error('ERREUR GENERATION AGENT :', error);
-
-            await this.mettreAJourStatut(
-                sessionId,
-                'error'
-            );
-
-            this.notifierProgression(
-                io,
-                sessionUuid,
-                `Erreur génération : ${error.message}`
-            );
-
-            throw new Error(
-                `AgentGeneration : ${error.message}`
-            );
+            await this.mettreAJourStatut(sessionId, 'error');
+            this.notifierProgression(io, sessionUuid, `❌ Erreur génération : ${error.message}`);
+            throw new Error(`AgentGeneration : ${error.message}`);
         }
     }
 }

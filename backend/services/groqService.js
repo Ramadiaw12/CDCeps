@@ -1,6 +1,7 @@
 // ============================================================
 // services/groqService.js
-// Service LLM utilisant Groq Cloud (Llama gratuit)
+// Service LLM utilisant Groq Cloud
+// Modèles disponibles : juin 2026
 // ============================================================
 
 import dotenv from 'dotenv';
@@ -17,15 +18,14 @@ if (!process.env.GROQ_API_KEY) {
     console.error('❌ GROQ_API_KEY non définie dans .env');
 }
 
-// Modèles Groq disponibles (tous gratuits)
-const MODELS = [ 'gemma2-9b-it', 'gemma2-9b-it',
-    'gemma2-9b-it',              // ✅ Léger (premier choix)
-    'mixtral-8x7b-32768',        // Bon compromis
-    'llama-3.1-8b-instant',      // Lourd (dernier recours)
+// ✅ Modèles Groq actuellement disponibles
+const MODELS = [
+    'llama-3.3-70b-versatile',     // ✅ Très performant
+    'llama-3.1-8b-instant',        // ✅ Rapide
+    'mixtral-8x7b-32768',          // ✅ Bon compromis
 ];
 
-const DEFAULT_MODEL = 'gemma2-9b-it';  // Changement crucial
-
+const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
 let activeModel = null;
 
 // ============================================================
@@ -35,11 +35,11 @@ let activeModel = null;
 const findAvailableModel = async () => {
     if (activeModel) return activeModel;
 
-    console.log('Recherche d\'un modèle Groq disponible...');
+    console.log('🔍 Recherche d\'un modèle Groq disponible...');
 
     for (const model of MODELS) {
         try {
-            console.log(`Test de ${model}...`);
+            console.log(`📌 Test de ${model}...`);
             const response = await fetch(GROQ_API_URL, {
                 method: 'POST',
                 headers: {
@@ -54,19 +54,16 @@ const findAvailableModel = async () => {
             });
             
             if (response.ok) {
-                console.log(`Modèle ${model} disponible !`);
+                console.log(`✅ Modèle ${model} disponible !`);
                 activeModel = model;
                 return model;
             }
-            
-            const error = await response.json();
-            console.log(`❌ ${model} non disponible: ${error.error?.message || response.statusText}`);
         } catch (error) {
             console.log(`❌ ${model} non disponible: ${error.message}`);
         }
     }
 
-    console.warn('Aucun modèle trouvé, utilisation du modèle par défaut');
+    console.warn('⚠️ Aucun modèle trouvé, utilisation du modèle par défaut');
     return DEFAULT_MODEL;
 };
 
@@ -82,11 +79,11 @@ export const appelLLM = async (messages, options = {}) => {
     while (retryCount <= maxRetries) {
         try {
             const temperature = options.temperature || 0.8;
-            const maxTokens = options.maxTokens || 4096;
+            const maxTokens = Math.min(options.maxTokens || 4096, 8192);
 
             const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-            console.log(`Appel Groq (${modelName}) avec ${messages.length} messages`);
+            console.log(`🦙 Appel Groq (${modelName}) avec ${messages.length} messages`);
 
             const response = await fetch(GROQ_API_URL, {
                 method: 'POST',
@@ -109,7 +106,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const data = await response.json();
             const content = data.choices[0]?.message?.content || '';
-            console.log(`Réponse reçue (${content.length} caractères)`);
+            console.log(`✅ Réponse reçue (${content.length} caractères)`);
             return content;
 
         } catch (error) {
@@ -137,11 +134,11 @@ export const appelLLM = async (messages, options = {}) => {
 };
 
 // ============================================================
-// 4. GÉNÉRATION D'EMBEDDING (Mock - Groq ne fournit pas d'embedding)
+// 4. GÉNÉRATION D'EMBEDDING (Mock)
 // ============================================================
 
 export const genererEmbedding = async (texte) => {
-    console.warn('Embedding simulé (Groq ne fournit pas d\'embedding)');
+    console.warn('⚠️ Embedding simulé');
     return new Array(1536).fill(0).map(() => Math.random() * 0.1);
 };
 
