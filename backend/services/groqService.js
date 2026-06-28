@@ -19,9 +19,9 @@ if (!process.env.GROQ_API_KEY) {
 
 // Modèles Groq disponibles (tous gratuits)
 const MODELS = [
-    'llama-3.1-8b-instant',      // ✅ Rapide (gratuit)
-    'mixtral-8x7b-32768',        // ✅ Bon compromis (gratuit)
-    'gemma2-9b-it',              // ✅ Léger (gratuit)
+    'llama-3.1-8b-instant',      // Rapide (gratuit)
+    'mixtral-8x7b-32768',        // Bon compromis (gratuit)
+    'gemma2-9b-it',              // Léger (gratuit)
 ];
 
 // Modèle par défaut
@@ -36,11 +36,11 @@ let activeModel = null;
 const findAvailableModel = async () => {
     if (activeModel) return activeModel;
 
-    console.log('🔍 Recherche d\'un modèle Groq disponible...');
+    console.log('Recherche d\'un modèle Groq disponible...');
 
     for (const model of MODELS) {
         try {
-            console.log(`📌 Test de ${model}...`);
+            console.log(`Test de ${model}...`);
             const response = await fetch(GROQ_API_URL, {
                 method: 'POST',
                 headers: {
@@ -55,7 +55,7 @@ const findAvailableModel = async () => {
             });
             
             if (response.ok) {
-                console.log(`✅ Modèle ${model} disponible !`);
+                console.log(`Modèle ${model} disponible !`);
                 activeModel = model;
                 return model;
             }
@@ -67,7 +67,7 @@ const findAvailableModel = async () => {
         }
     }
 
-    console.warn('⚠️ Aucun modèle trouvé, utilisation du modèle par défaut');
+    console.warn('Aucun modèle trouvé, utilisation du modèle par défaut');
     return DEFAULT_MODEL;
 };
 
@@ -87,7 +87,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-            console.log(`🦙 Appel Groq (${modelName}) avec ${messages.length} messages`);
+            console.log(`Appel Groq (${modelName}) avec ${messages.length} messages`);
 
             const response = await fetch(GROQ_API_URL, {
                 method: 'POST',
@@ -110,7 +110,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const data = await response.json();
             const content = data.choices[0]?.message?.content || '';
-            console.log(`✅ Réponse reçue (${content.length} caractères)`);
+            console.log(`Réponse reçue (${content.length} caractères)`);
             return content;
 
         } catch (error) {
@@ -142,7 +142,7 @@ export const appelLLM = async (messages, options = {}) => {
 // ============================================================
 
 export const genererEmbedding = async (texte) => {
-    console.warn('⚠️ Embedding simulé (Groq ne fournit pas d\'embedding)');
+    console.warn('Embedding simulé (Groq ne fournit pas d\'embedding)');
     return new Array(1536).fill(0).map(() => Math.random() * 0.1);
 };
 
