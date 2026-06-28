@@ -10,19 +10,10 @@ class AgentGeneration extends BaseAgent {
     constructor() {
         super(
             'GenerationAgent',
-            `Tu es un expert en rédaction de cahiers des charges
-chez EPS SARL.
-
-Ton rôle est de générer des cahiers des charges
-préliminaires professionnels, complets et structurés.
-
-Règles importantes :
-- Utilise un langage professionnel et précis
-- Structure le document avec des titres Markdown clairs
-- Chaque section doit être détaillée et exploitable
-- Adapte le contenu au contexte spécifique du projet
-- Ne laisse aucune section vide
-- Le document doit être directement utilisable par EPS SARL`
+    `Tu es un expert en rédaction de CDC. Rédige un CDC structuré avec : 
+    1. Présentation, 2. Objectifs, 3. Fonctionnalités, 
+    4. Contraintes, 5. Planning, 6. Budget.
+    Sois CONCIS et précis.`
         );
     }
 

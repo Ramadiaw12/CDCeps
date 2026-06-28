@@ -56,7 +56,8 @@ class Orchestrateur {
             );
 
             await this.sauvegarderResultat(sessionId, 'collecte', resultatsCollecte);
-
+            // Pause pour éviter le rate limit
+            await new Promise(resolve => setTimeout(resolve, 3000));
             // 
             // ÉTAPE 2 : AGENT ANALYSE (avec RAG)
             // 
