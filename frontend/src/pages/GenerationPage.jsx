@@ -243,7 +243,7 @@ function GenerationPage() {
                 </div>
 
                 <div className={`socket-status ${estConnecte() ? 'connected' : 'disconnected'}`}>
-                    {estConnecte() ? '🟢 Socket connecté' : '🔴 Socket déconnecté'}
+                    {estConnecte() ? 'Socket connecté' : '🔴 Socket déconnecté'}
                     {sessionUuid && ` | Session: ${sessionUuid.substring(0, 8)}...`}
                 </div>
 
