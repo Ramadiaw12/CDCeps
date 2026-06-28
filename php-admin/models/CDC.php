@@ -4,14 +4,23 @@
 // Modèle pour la gestion des cahiers des charges
 // ============================================================
 
+require_once __DIR__ . '/../config/database.php';
+
 class CDC {
     private PDO $db;
 
+    // 
+    // CONSTRUCTEUR
+    // Initialise la connexion PDO
+    // 
     public function __construct() {
-        $this->db = Database::getInstance();
+        // Récupère la connexion PDO via Database::getInstance()->getConnection()
+        $this->db = Database::getInstance()->getConnection();
     }
 
-    // Récupère tous les CDC
+    // 
+    // RÉCUPÈRE TOUS LES CDC
+    // 
     public function getTous(): array {
         $stmt = $this->db->prepare(
             "SELECT cdc.id, cdc.score_completude, cdc.statut,
@@ -27,7 +36,9 @@ class CDC {
         return $stmt->fetchAll();
     }
 
-    // Récupère un CDC complet
+    // 
+    // RÉCUPÈRE UN CDC COMPLET
+    // 
     public function getById(int $id): array|false {
         $stmt = $this->db->prepare(
             "SELECT cdc.*,
@@ -53,7 +64,9 @@ class CDC {
         return $cdc;
     }
 
-    // Statistiques CDC
+    // 
+    // STATISTIQUES CDC
+    // 
     public function getStats(): array {
         // Total CDC générés
         $total = $this->db->query(
@@ -74,13 +87,15 @@ class CDC {
         )->fetchAll();
 
         return [
-            'total'       => $total,
-            'score_moyen' => $scoreMoyen ?? 0,
+            'total'       => (int)$total,
+            'score_moyen' => (float)($scoreMoyen ?? 0),
             'par_statut'  => $parStatut
         ];
     }
 
-    // Finalise un CDC
+    // ============================================================
+    // FINALISE UN CDC
+    // ============================================================
     public function finaliser(int $id): bool {
         $stmt = $this->db->prepare(
             "UPDATE cahiers_des_charges
