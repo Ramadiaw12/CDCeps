@@ -11,18 +11,13 @@ class AgentValidation extends BaseAgent {
     constructor() {
         super(
             'ValidationAgent',
-            `Tu es un expert en validation de CDC. Analyse la qualité du CDC généré et retourne UNIQUEMENT du JSON valide.
-
-        Structure JSON :
-        {
-            "score_completude": 85,
-            "sections_manquantes": ["section1"],
-            "verdict": "CDC de bonne qualité",
-            "recommandations": ["recommandation1"],
-            "qualite_globale": "bon"
-        }
-
-        Sois CONCIS dans tes commentaires.`
+            `Valide le CDC. Réponds UNIQUEMENT en JSON.
+            {
+                "score": 0-100,
+                "manquant": ["section"],
+                "verdict": "phrase courte",
+                "recos": ["reco"]
+            }`
         );
     }
 

@@ -228,6 +228,7 @@ router.get('/cdc/:id/pdf', async (req, res) => {
 
         browser = await puppeteer.launch({
             headless: 'new',
+            executablePath: '/usr/bin/chromium-browser',  // ou google-chrome-stable
             args: ['--no-sandbox', '--disable-setuid-sandbox']
         });
 
