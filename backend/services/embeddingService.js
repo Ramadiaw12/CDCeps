@@ -4,14 +4,14 @@ let extractor = null;
 
 async function getExtractor() {
     if (!extractor) {
-        console.log('📥 Chargement du modèle BGE-M3...');
+        console.log('Chargement du modèle BGE-M3...');
 
         extractor = await pipeline(
             'feature-extraction',
             'Xenova/bge-m3'
         );
 
-        console.log('✅ Modèle chargé');
+        console.log('Modèle chargé');
     }
 
     return extractor;

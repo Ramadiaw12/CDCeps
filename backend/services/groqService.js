@@ -8,9 +8,9 @@ import OpenAI from 'openai';
 
 dotenv.config();
 
-// ============================================================
+// 
 // 1. INITIALISATION GROQ
-// ============================================================
+// 
 
 const groq = new OpenAI({
     baseURL: "https://api.groq.com/openai/v1",
@@ -23,9 +23,9 @@ if (!process.env.GROQ_API_KEY) {
 
 // Modèles Groq disponibles (tous gratuits)
 const MODELS = [
-    'llama-3.1-8b-instant',      // ✅ Rapide (gratuit)
-    'mixtral-8x7b-32768',        // ✅ Bon compromis (gratuit)
-    'gemma2-9b-it',              // ✅ Léger (gratuit)
+    'llama-3.1-8b-instant',      // Rapide (gratuit)
+    'mixtral-8x7b-32768',        // Bon compromis (gratuit)
+    'gemma2-9b-it',              // Léger (gratuit)
 ];
 
 // Modèle par défaut
