@@ -24,10 +24,10 @@ if (!process.env.GROQ_API_KEY) {
 
 // Modèles Groq disponibles (tous gratuits)
 const MODELS = [
-    'llama-3.1-70b-versatile',   // ✅ Le plus puissant (gratuit)
-    'llama-3.1-8b-instant',      // ✅ Rapide (gratuit)
-    'mixtral-8x7b-32768',        // ✅ Bon compromis (gratuit)
-    'gemma2-9b-it',              // ✅ Léger (gratuit)
+    'llama-3.1-70b-versatile',   // Le plus puissant (gratuit)
+    'llama-3.1-8b-instant',      // Rapide (gratuit)
+    'mixtral-8x7b-32768',        // Bon compromis (gratuit)
+    'gemma2-9b-it',              // Léger (gratuit)
 ];
 
 // Modèle par défaut
@@ -46,14 +46,14 @@ const findAvailableModel = async () => {
 
     for (const model of MODELS) {
         try {
-            console.log(`📌 Test de ${model}...`);
+            console.log(`Test de ${model}...`);
             const response = await groq.chat.completions.create({
                 model: model,
                 messages: [{ role: 'user', content: 'Test' }],
                 max_tokens: 5,
             });
             if (response.choices && response.choices.length > 0) {
-                console.log(`✅ Modèle ${model} disponible !`);
+                console.log(`Modèle ${model} disponible !`);
                 activeModel = model;
                 return model;
             }
@@ -62,13 +62,13 @@ const findAvailableModel = async () => {
         }
     }
 
-    console.warn('⚠️ Aucun modèle trouvé, utilisation du modèle par défaut');
+    console.warn('Aucun modèle trouvé, utilisation du modèle par défaut');
     return DEFAULT_MODEL;
 };
 
-// ============================================================
+// 
 // 3. FONCTION PRINCIPALE - APPEL LLM
-// ============================================================
+// 
 
 /**
  * Appelle le LLM (Groq/Llama) avec une conversation
@@ -91,7 +91,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-            console.log(`🦙 Appel Groq (${modelName}) avec ${messages.length} messages`);
+            console.log(`Appel Groq (${modelName}) avec ${messages.length} messages`);
 
             const response = await groq.chat.completions.create({
                 model: modelName,
@@ -101,7 +101,7 @@ export const appelLLM = async (messages, options = {}) => {
             });
 
             const content = response.choices[0]?.message?.content || '';
-            console.log(`✅ Réponse reçue (${content.length} caractères)`);
+            console.log(`Réponse reçue (${content.length} caractères)`);
             return content;
 
         } catch (error) {
@@ -112,7 +112,7 @@ export const appelLLM = async (messages, options = {}) => {
                 retryCount++;
                 if (retryCount <= maxRetries) {
                     const waitTime = retryDelay * Math.pow(2, retryCount - 1);
-                    console.log(`⏳ Limite atteinte, attente de ${waitTime/1000}s...`);
+                    console.log(`Limite atteinte, attente de ${waitTime/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, waitTime));
                     activeModel = null;
                     continue;
@@ -130,9 +130,9 @@ export const appelLLM = async (messages, options = {}) => {
     }
 };
 
-// ============================================================
+// 
 // 4. GÉNÉRATION D'EMBEDDING (Mock pour l'instant)
-// ============================================================
+// 
 
 /**
  * Génère un embedding (vecteur) - Mock car Groq ne fournit pas d'embedding
@@ -140,14 +140,14 @@ export const appelLLM = async (messages, options = {}) => {
  * @returns {Promise<Array<number>>} Vecteur de 768 dimensions
  */
 export const genererEmbedding = async (texte) => {
-    console.warn('⚠️ Groq ne fournit pas d\'embedding, utilisation d\'un mock');
+    console.warn('Groq ne fournit pas d\'embedding, utilisation d\'un mock');
     // Retourne un vecteur aléatoire de 1536 dimensions
     return new Array(1536).fill(0).map(() => (Math.random() * 2) - 1);
 };
 
-// ============================================================
+// 
 // 5. FONCTIONS UTILITAIRES
-// ============================================================
+// 
 
 /**
  * Génère une réponse RAG avec contexte
@@ -201,9 +201,9 @@ export const creerPromptCDC = (data) => {
     ];
 };
 
-// ============================================================
+// 
 // 6. EXPORT
-// ============================================================
+// 
 
 export default {
     appelLLM,

@@ -80,7 +80,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-            console.log(`🦙 Appel Groq (${modelName}) avec ${messages.length} messages`);
+            console.log(`Appel Groq (${modelName}) avec ${messages.length} messages`);
 
             const response = await groq.chat.completions.create({
                 model: modelName,
