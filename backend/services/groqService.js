@@ -4,18 +4,14 @@
 // ============================================================
 
 import dotenv from 'dotenv';
-import OpenAI from 'openai';
 
 dotenv.config();
 
-// 
-// 1. INITIALISATION GROQ
-// 
+// ============================================================
+// 1. CONFIGURATION GROQ
+// ============================================================
 
-const groq = new OpenAI({
-    baseURL: "https://api.groq.com/openai/v1",
-    apiKey: process.env.GROQ_API_KEY,
-});
+const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
 if (!process.env.GROQ_API_KEY) {
     console.error('❌ GROQ_API_KEY non définie dans .env');
@@ -23,9 +19,9 @@ if (!process.env.GROQ_API_KEY) {
 
 // Modèles Groq disponibles (tous gratuits)
 const MODELS = [
-    'llama-3.1-8b-instant',      // Rapide (gratuit)
-    'mixtral-8x7b-32768',        // Bon compromis (gratuit)
-    'gemma2-9b-it',              // Léger (gratuit)
+    'llama-3.1-8b-instant',      // ✅ Rapide (gratuit)
+    'mixtral-8x7b-32768',        // ✅ Bon compromis (gratuit)
+    'gemma2-9b-it',              // ✅ Léger (gratuit)
 ];
 
 // Modèle par défaut
@@ -33,40 +29,51 @@ const DEFAULT_MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
 
 let activeModel = null;
 
-// 
+// ============================================================
 // 2. FONCTION POUR TROUVER UN MODÈLE DISPONIBLE
-// 
+// ============================================================
 
 const findAvailableModel = async () => {
     if (activeModel) return activeModel;
 
-    console.log('Recherche d\'un modèle Groq disponible...');
+    console.log('🔍 Recherche d\'un modèle Groq disponible...');
 
     for (const model of MODELS) {
         try {
-            console.log(`Test de ${model}...`);
-            const response = await groq.chat.completions.create({
-                model: model,
-                messages: [{ role: 'user', content: 'Test' }],
-                max_tokens: 5,
+            console.log(`📌 Test de ${model}...`);
+            const response = await fetch(GROQ_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model: model,
+                    messages: [{ role: 'user', content: 'Test' }],
+                    max_tokens: 5,
+                }),
             });
-            if (response.choices && response.choices.length > 0) {
-                console.log(`Modèle ${model} disponible !`);
+            
+            if (response.ok) {
+                console.log(`✅ Modèle ${model} disponible !`);
                 activeModel = model;
                 return model;
             }
+            
+            const error = await response.json();
+            console.log(`❌ ${model} non disponible: ${error.error?.message || response.statusText}`);
         } catch (error) {
             console.log(`❌ ${model} non disponible: ${error.message}`);
         }
     }
 
-    console.warn('Aucun modèle trouvé, utilisation du modèle par défaut');
+    console.warn('⚠️ Aucun modèle trouvé, utilisation du modèle par défaut');
     return DEFAULT_MODEL;
 };
 
-// 
+// ============================================================
 // 3. FONCTION PRINCIPALE - APPEL LLM
-// 
+// ============================================================
 
 export const appelLLM = async (messages, options = {}) => {
     const maxRetries = 3;
@@ -80,27 +87,40 @@ export const appelLLM = async (messages, options = {}) => {
 
             const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-            console.log(`Appel Groq (${modelName}) avec ${messages.length} messages`);
+            console.log(`🦙 Appel Groq (${modelName}) avec ${messages.length} messages`);
 
-            const response = await groq.chat.completions.create({
-                model: modelName,
-                messages: messages,
-                temperature: temperature,
-                max_tokens: maxTokens,
+            const response = await fetch(GROQ_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    model: modelName,
+                    messages: messages,
+                    temperature: temperature,
+                    max_tokens: maxTokens,
+                }),
             });
 
-            const content = response.choices[0]?.message?.content || '';
-            console.log(`Réponse reçue (${content.length} caractères)`);
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error?.message || `Erreur HTTP ${response.status}`);
+            }
+
+            const data = await response.json();
+            const content = data.choices[0]?.message?.content || '';
+            console.log(`✅ Réponse reçue (${content.length} caractères)`);
             return content;
 
         } catch (error) {
             console.error(`❌ Erreur Groq (tentative ${retryCount + 1}):`, error.message);
 
-            if (error.message.includes('quota') || error.message.includes('429') || error.message.includes('rate_limit')) {
+            if (error.message.includes('quota') || error.message.includes('429') || error.message.includes('rate')) {
                 retryCount++;
                 if (retryCount <= maxRetries) {
                     const waitTime = retryDelay * Math.pow(2, retryCount - 1);
-                    console.log(`Limite atteinte, attente de ${waitTime/1000}s...`);
+                    console.log(`⏳ Limite atteinte, attente de ${waitTime/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, waitTime));
                     activeModel = null;
                     continue;
@@ -117,18 +137,18 @@ export const appelLLM = async (messages, options = {}) => {
     }
 };
 
-// 
+// ============================================================
 // 4. GÉNÉRATION D'EMBEDDING (Mock - Groq ne fournit pas d'embedding)
-// 
+// ============================================================
 
 export const genererEmbedding = async (texte) => {
-    console.warn('Embedding simulé (Groq ne fournit pas d\'embedding)');
+    console.warn('⚠️ Embedding simulé (Groq ne fournit pas d\'embedding)');
     return new Array(1536).fill(0).map(() => Math.random() * 0.1);
 };
 
-// 
+// ============================================================
 // 5. FONCTIONS UTILITAIRES
-// 
+// ============================================================
 
 export const genererReponseRAG = async (query, documents, options = {}) => {
     try {
@@ -167,9 +187,9 @@ export const creerPromptCDC = (data) => {
     ];
 };
 
-// 
+// ============================================================
 // 6. EXPORT
-// 
+// ============================================================
 
 export default {
     appelLLM,
