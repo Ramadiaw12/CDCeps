@@ -56,6 +56,8 @@ class Orchestrateur {
             );
 
             await this.sauvegarderResultat(sessionId, 'collecte', resultatsCollecte);
+    // Pause pour éviter le rate limit
+    await new Promise(resolve => setTimeout(resolve, 5000));
             // Pause pour éviter le rate limit
             await new Promise(resolve => setTimeout(resolve, 3000));
             // 
@@ -75,6 +77,8 @@ class Orchestrateur {
             );
 
             await this.sauvegarderResultat(sessionId, 'analyse', resultatsAnalyse);
+    // Pause pour éviter le rate limit
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
             // 
             // ÉTAPE 3 : AGENT GÉNÉRATION
@@ -96,6 +100,8 @@ class Orchestrateur {
             );
 
             await this.sauvegarderResultat(sessionId, 'generation', resultatsGeneration);
+    // Pause pour éviter le rate limit
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
             // 
             // ÉTAPE 4 : AGENT VALIDATION
@@ -118,6 +124,8 @@ class Orchestrateur {
             );
 
             await this.sauvegarderResultat(sessionId, 'validation', resultatsValidation);
+    // Pause pour éviter le rate limit
+    await new Promise(resolve => setTimeout(resolve, 5000));
 
             // 
             // SAUVEGARDE DU CDC

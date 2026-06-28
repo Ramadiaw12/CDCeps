@@ -18,14 +18,13 @@ if (!process.env.GROQ_API_KEY) {
 }
 
 // Modèles Groq disponibles (tous gratuits)
-const MODELS = [
-    'llama-3.1-8b-instant',      // Rapide (gratuit)
-    'mixtral-8x7b-32768',        // Bon compromis (gratuit)
-    'gemma2-9b-it',              // Léger (gratuit)
+const MODELS = [ 'gemma2-9b-it',
+    'gemma2-9b-it',              // ✅ Léger (premier choix)
+    'mixtral-8x7b-32768',        // Bon compromis
+    'llama-3.1-8b-instant',      // Lourd (dernier recours)
 ];
 
-// Modèle par défaut
-const DEFAULT_MODEL = process.env.GROQ_MODEL || 'llama-3.1-8b-instant';
+const DEFAULT_MODEL = 'gemma2-9b-it';  // Changement crucial
 
 let activeModel = null;
 
