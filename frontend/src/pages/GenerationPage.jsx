@@ -5,8 +5,6 @@
 // ============================================================
 
 import { useState, useEffect, useRef } from 'react';
-    // Scroll en haut au chargement de la page
-    window.scrollTo(0, 0);
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProjet } from '../services/api.js';
 import {
@@ -16,6 +14,8 @@ import {
     arreterEcoute,
     estConnecte
 } from '../services/socket.js';
+
+import './GenerationPage.css';
 
 function GenerationPage() {
     const { projetId } = useParams();
@@ -46,24 +46,28 @@ function GenerationPage() {
         ValidationAgent: { nom: 'Agent Validation',  role: 'Contrôle qualité',       icone: '✅', couleur: '#f59e0b', ordre: 4 }
     };
 
-    // ============================================================
-    // SCROLL AUTOMATIQUE
-    // ============================================================
+    // Scroll en haut au chargement
     useEffect(() => {
-    // Scroll en haut au chargement de la page
-    window.scrollTo(0, 0);
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+        window.scrollTo(0, 0);
+    }, []);
+
+    // Scroll automatique des logs
+    useEffect(() => {
+        const container = document.querySelector('.gen-logs-list');
+        if (container) {
+            const isNearBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 100;
+            if (isNearBottom) {
+                messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
     }, [messages]);
 
-    // CALCUL PROGRESSION GLOBALE
+    // Calcul progression globale
     useEffect(() => {
-    // Scroll en haut au chargement de la page
-    window.scrollTo(0, 0);
         const totalProgress = Object.values(agentsStatuts).reduce((acc, agent) => acc + agent.progress, 0);
         setProgressionGlobale(Math.floor(totalProgress / 4));
     }, [agentsStatuts]);
 
-    // TÉLÉCHARGEMENT DU CDC
     const telechargerCDC = (cdcId, format) => {
         const url = `http://localhost:3001/api/documents/cdc/${cdcId}/format?format=${format}`;
         const link = document.createElement('a');
@@ -75,17 +79,12 @@ function GenerationPage() {
         addMessage(`Téléchargement ${format.toUpperCase()} lancé`, 'info');
     };
 
-    // AJOUT DE MESSAGE
     const addMessage = (message, type = 'info') => {
         setMessages(prev => [...prev, { message, type, timestamp: new Date() }]);
     };
 
-    // ============================================================
-    // INITIALISATION + SOCKET
-    // ============================================================
+    // Initialisation + Socket
     useEffect(() => {
-    // Scroll en haut au chargement de la page
-    window.scrollTo(0, 0);
         let annule = false;
 
         const initialiser = async () => {
@@ -154,7 +153,7 @@ function GenerationPage() {
             }
         };
 
-        //  Listeners Socket.IO 
+        // Listeners Socket.IO
         ecouterEvenement('connect_confirme', (data) => {
             addMessage('Connexion Socket.IO confirmée', 'success');
         });
@@ -215,7 +214,6 @@ function GenerationPage() {
 
         initialiser();
 
-        //  Nettoyage 
         return () => {
             annule = true;
             ['connect_confirme', 'pipeline_demarre', 'agent_actif', 'agent_etape',
@@ -224,87 +222,56 @@ function GenerationPage() {
         };
     }, [projetId]);
 
-    // ============================================================
-    // RENDU
-    // ============================================================
+    // Rendu
     return (
         <div className="generation-page">
             <div className="container">
-
-                {/* HEADER */}
                 <div className="gen-header">
-                    <div className="gen-header-icon">
-                        {statut === 'termine' ? '' : statut === 'erreur' ? '' : ''}
-                    </div>
                     <h1 className="gen-title">
-                        {statut === 'termine'       && 'CDC généré avec succès !'}
-                        {statut === 'erreur'        && 'Une erreur est survenue'}
-                        {statut === 'initialisation'&& 'Initialisation...'}
-                        {statut === 'connexion'     && 'Connexion au serveur...'}
-                        {statut === 'lancement'     && 'Lancement du pipeline...'}
-                        {statut === 'en_cours'      && 'Génération en cours...'}
+                        {statut === 'termine' && '✅ CDC généré avec succès !'}
+                        {statut === 'erreur' && '❌ Une erreur est survenue'}
+                        {statut === 'initialisation' && '⏳ Initialisation...'}
+                        {statut === 'connexion' && '🔄 Connexion au serveur...'}
+                        {statut === 'lancement' && '🚀 Lancement du pipeline...'}
+                        {statut === 'en_cours' && '⚙️ Génération en cours...'}
                     </h1>
                     {projet && (
                         <div className="gen-project-badge">
-                            <span className="project-icon"></span>
-                            <span className="project-name">{projet.titre}</span>
+                            📁 {projet.titre}
                         </div>
                     )}
                 </div>
 
-                {/* STATUT SOCKET */}
-                <div style={{
-                    textAlign: 'center',
-                    marginBottom: '20px',
-                    padding: '8px',
-                    borderRadius: '8px',
-                    backgroundColor: estConnecte() ? '#d1fae5' : '#fee2e2',
-                    color: estConnecte() ? '#065f46' : '#991b1b',
-                    fontSize: '14px',
-                    fontWeight: 'bold'
-                }}>
-                    {estConnecte() ? 'Socket connecté' : 'Socket déconnecté'}
+                <div className={`socket-status ${estConnecte() ? 'connected' : 'disconnected'}`}>
+                    {estConnecte() ? '🟢 Socket connecté' : '🔴 Socket déconnecté'}
                     {sessionUuid && ` | Session: ${sessionUuid.substring(0, 8)}...`}
-                    {statut === 'termine' && ' | Terminé'}
                 </div>
 
-                {/* PROGRESSION GLOBALE */}
                 {(statut === 'en_cours' || statut === 'lancement') && (
                     <div className="gen-global-progress">
                         <div className="gen-global-progress-header">
-                            <span className="progress-label">Progression globale</span>
-                            <span className="progress-percent">{progressionGlobale}%</span>
+                            <span>Progression globale</span>
+                            <span>{progressionGlobale}%</span>
                         </div>
                         <div className="gen-global-progress-bar">
-                            <div className="gen-global-progress-fill" style={{ width: `${progressionGlobale}%` }}>
-                                <div className="progress-glow"></div>
-                            </div>
+                            <div className="gen-global-progress-fill" style={{ width: `${progressionGlobale}%` }} />
                         </div>
                     </div>
                 )}
 
-                {/* AGENTS */}
                 <div className="gen-agents-grid">
                     {Object.entries(agentsConfig).map(([key, config]) => {
                         const agentStatus = agentsStatuts[key];
                         return (
                             <div key={key} className={`gen-agent-card ${agentStatus?.status || 'pending'}`}>
                                 <div className="gen-agent-header">
-                                    <div className="gen-agent-icon" style={{ backgroundColor: `${config.couleur}15` }}>
-                                        <span>{config.icone}</span>
+                                    <span className="gen-agent-icon">{config.icone}</span>
+                                    <div className="gen-agent-info">
+                                        <h3 className="gen-agent-name">{config.nom}</h3>
+                                        <p className="gen-agent-role">{config.role}</p>
                                     </div>
-                                    <div className="gen-agent-status">
-                                        <span className={`status-dot ${agentStatus?.status}`}></span>
-                                        <span className="status-text">
-                                            {agentStatus?.status === 'completed' && 'Terminé'}
-                                            {agentStatus?.status === 'active'    && 'En cours'}
-                                            {agentStatus?.status === 'error'     && 'Erreur'}
-                                            {agentStatus?.status === 'pending'   && 'En attente'}
-                                        </span>
-                                    </div>
+                                    <span className={`status-dot ${agentStatus?.status}`} />
                                 </div>
-                                <h3 className="gen-agent-name">{config.nom}</h3>
-                                <p className="gen-agent-role">{config.role}</p>
                                 {agentStatus?.status !== 'pending' && (
                                     <div className="gen-agent-progress">
                                         <div className="agent-progress-bar">
@@ -319,24 +286,25 @@ function GenerationPage() {
                                 {agentStatus?.message && agentStatus.status === 'active' && (
                                     <p className="gen-agent-message">{agentStatus.message}</p>
                                 )}
-                                {agentStatus?.status === 'active' && (
-                                    <div className="agent-pulse-wave"><div className="wave"></div></div>
-                                )}
+                                <span className="agent-status-label">
+                                    {agentStatus?.status === 'completed' && '✅ Terminé'}
+                                    {agentStatus?.status === 'active' && '⏳ En cours...'}
+                                    {agentStatus?.status === 'error' && '❌ Erreur'}
+                                    {agentStatus?.status === 'pending' && '⏸ En attente'}
+                                </span>
                             </div>
                         );
                     })}
                 </div>
 
-                {/* LOGS */}
                 <div className="gen-logs-container">
                     <div className="gen-logs-header">
-                        <span className="logs-icon">📋</span>
-                        <span>Console de suivi</span>
+                        <span>📋 Console de suivi</span>
                         <span className="logs-count">{messages.length} événements</span>
                     </div>
                     <div className="gen-logs-list">
                         {messages.length === 0 ? (
-                            <div className="logs-empty"><p>En attente des événements...</p></div>
+                            <div className="logs-empty">En attente des événements...</div>
                         ) : (
                             messages.map((msg, index) => (
                                 <div key={index} className={`gen-log-item ${msg.type}`}>
@@ -349,58 +317,39 @@ function GenerationPage() {
                     </div>
                 </div>
 
-                {/* RÉSULTAT */}
                 {statut === 'termine' && resultatFinal && (
                     <div className="gen-result-container">
                         <div className="gen-result-card">
-                            <div className="result-header">
-                                <span className="result-icon"></span>
-                                <h2>Génération terminée avec succès</h2>
-                            </div>
+                            <h2>✅ Génération terminée</h2>
                             <div className="result-score">
-                                <div className="score-label">Score de complétude</div>
+                                <span>Score de complétude</span>
                                 <div className="score-bar-container">
                                     <div className="score-bar" style={{
                                         width: `${resultatFinal.score}%`,
-                                        background: `linear-gradient(90deg,
-                                            ${resultatFinal.score >= 80 ? '#10b981' : resultatFinal.score >= 60 ? '#f59e0b' : '#ef4444'} 0%,
-                                            ${resultatFinal.score >= 80 ? '#34d399' : resultatFinal.score >= 60 ? '#fbbf24' : '#f87171'} 100%)`
+                                        background: resultatFinal.score >= 80 ? '#10b981' : 
+                                                     resultatFinal.score >= 60 ? '#f59e0b' : '#ef4444'
                                     }} />
                                 </div>
-                                <div className="score-value">
-                                    <span className="score-number">{resultatFinal.score}</span>
-                                    <span className="score-max">/100</span>
-                                </div>
+                                <span className="score-value">{resultatFinal.score}/100</span>
                             </div>
                             <div className="result-verdict">
                                 <span className="verdict-badge">
-                                    {resultatFinal.score >= 80 ? 'Excellent' :
-                                     resultatFinal.score >= 60 ? 'Satisfaisant' : 'À améliorer'}
+                                    {resultatFinal.score >= 80 ? '🏆 Excellent' :
+                                     resultatFinal.score >= 60 ? '👍 Satisfaisant' : '📝 À améliorer'}
                                 </span>
                                 <p>{resultatFinal.verdict}</p>
                             </div>
-
-                            {/* EXPORT */}
                             <div className="result-export-section">
-                                <h3>Exporter le CDC</h3>
+                                <h3>📥 Exporter le CDC</h3>
                                 <div className="export-buttons">
                                     <button className="btn-export btn-markdown" onClick={() => telechargerCDC(resultatFinal.cdcId, 'markdown')}>
-                                        <span className="export-icon">📝</span>
-                                        <div>
-                                            <span className="export-label">Markdown</span>
-                                            <span className="export-desc">Format éditable</span>
-                                        </div>
+                                        📝 Markdown
                                     </button>
                                     <button className="btn-export btn-pdf" onClick={() => telechargerCDC(resultatFinal.cdcId, 'pdf')}>
-                                        <span className="export-icon">📄</span>
-                                        <div>
-                                            <span className="export-label">PDF</span>
-                                            <span className="export-desc">Format final</span>
-                                        </div>
+                                        📄 PDF
                                     </button>
                                 </div>
                             </div>
-
                             <div className="result-actions">
                                 <button className="btn-resultat" onClick={() => navigate(`/resultat/${resultatFinal.cdcId}`)}>
                                     📄 Voir le CDC
@@ -413,26 +362,22 @@ function GenerationPage() {
                     </div>
                 )}
 
-                {/* ERREUR */}
                 {statut === 'erreur' && (
                     <div className="gen-error-container">
                         <div className="gen-error-card">
-                            <div className="error-content">
-                                <h3>❌ Erreur</h3>
-                                <p>{erreur || 'Une erreur est survenue'}</p>
-                                <div className="error-actions">
-                                    <button className="btn-retry" onClick={() => window.location.reload()}>
-                                        Réessayer
-                                    </button>
-                                    <button className="btn-back" onClick={() => navigate('/nouveau-projet')}>
-                                        ← Retour
-                                    </button>
-                                </div>
+                            <h3>❌ Erreur</h3>
+                            <p>{erreur || 'Une erreur est survenue'}</p>
+                            <div className="error-actions">
+                                <button className="btn-retry" onClick={() => window.location.reload()}>
+                                    🔄 Réessayer
+                                </button>
+                                <button className="btn-back" onClick={() => navigate('/nouveau-projet')}>
+                                    ← Retour
+                                </button>
                             </div>
                         </div>
                     </div>
                 )}
-
             </div>
         </div>
     );

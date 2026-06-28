@@ -1,0 +1,909 @@
+/* ============================================================
+   GenerationPage.css - Design Moderne et Animé
+   Version élégante avec animations fluides
+   ============================================================ */
+
+/* ============================================================
+   1. CONTENEUR PRINCIPAL
+   ============================================================ */
+.generation-page {
+    padding: 20px 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    background: #f8fafc;
+    scroll-behavior: smooth;
+}
+
+.generation-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* ============================================================
+   2. HEADER - Titre et statut
+   ============================================================ */
+.generation-page .gen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    border: 1px solid #eef2f6;
+    animation: slideDown 0.5s ease forwards;
+}
+
+.generation-page .gen-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.generation-page .gen-title .title-icon {
+    font-size: 28px;
+}
+
+.generation-page .gen-project-badge {
+    background: #eef2ff;
+    color: #4f46e5;
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.generation-page .gen-project-badge:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.15);
+}
+
+/* ============================================================
+   3. SOCKET STATUS
+   ============================================================ */
+.generation-page .socket-status {
+    text-align: center;
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.6s ease forwards;
+}
+
+.generation-page .socket-status.connected {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #86efac;
+}
+
+.generation-page .socket-status.connected::before {
+    content: "● ";
+    animation: pulseDot 1.5s infinite;
+}
+
+.generation-page .socket-status.disconnected {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* ============================================================
+   4. PROGRESSION GLOBALE
+   ============================================================ */
+.generation-page .gen-global-progress {
+    background: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    border: 1px solid #eef2f6;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    animation: slideUp 0.5s ease forwards;
+}
+
+.generation-page .gen-global-progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+}
+
+.generation-page .gen-global-progress-header .progress-percent {
+    color: #4f46e5;
+    font-weight: 700;
+}
+
+.generation-page .gen-global-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.generation-page .gen-global-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed, #10b981);
+    border-radius: 4px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.generation-page .gen-global-progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ============================================================
+   5. AGENTS GRID - Design moderne
+   ============================================================ */
+.generation-page .gen-agents-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.generation-page .gen-agent-card {
+    background: white;
+    border: 1px solid #eef2f6;
+    border-radius: 14px;
+    padding: 16px 18px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    animation: fadeInUp 0.4s ease forwards;
+    opacity: 0;
+}
+
+.generation-page .gen-agent-card:nth-child(1) { animation-delay: 0.05s; }
+.generation-page .gen-agent-card:nth-child(2) { animation-delay: 0.10s; }
+.generation-page .gen-agent-card:nth-child(3) { animation-delay: 0.15s; }
+.generation-page .gen-agent-card:nth-child(4) { animation-delay: 0.20s; }
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Statut actif */
+.generation-page .gen-agent-card.active {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08), 0 4px 12px rgba(79, 70, 229, 0.06);
+}
+
+.generation-page .gen-agent-card.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #4f46e5, #7c3aed);
+    animation: expandBar 0.6s ease forwards;
+}
+
+@keyframes expandBar {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+/* Statut complété */
+.generation-page .gen-agent-card.completed {
+    border-color: #10b981;
+    background: #f0fdf4;
+}
+
+.generation-page .gen-agent-card.completed::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #10b981;
+}
+
+/* Statut erreur */
+.generation-page .gen-agent-card.error {
+    border-color: #ef4444;
+    background: #fef2f2;
+}
+
+.generation-page .gen-agent-card.error::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #ef4444;
+}
+
+/* Header de l'agent */
+.generation-page .gen-agent-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.generation-page .gen-agent-icon {
+    font-size: 26px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border-radius: 12px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.generation-page .gen-agent-card.active .gen-agent-icon {
+    background: #eef2ff;
+    transform: scale(1.05);
+}
+
+.generation-page .gen-agent-card.completed .gen-agent-icon {
+    background: #d1fae5;
+}
+
+.generation-page .gen-agent-card.error .gen-agent-icon {
+    background: #fee2e2;
+}
+
+.generation-page .gen-agent-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.generation-page .gen-agent-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0;
+    color: #0f172a;
+}
+
+.generation-page .gen-agent-role {
+    font-size: 11px;
+    color: #64748b;
+    margin: 2px 0 0 0;
+}
+
+/* Status dot */
+.generation-page .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.generation-page .status-dot.pending {
+    background: #cbd5e1;
+}
+
+.generation-page .status-dot.active {
+    background: #4f46e5;
+    animation: pulse 1.2s ease-in-out infinite;
+}
+
+.generation-page .status-dot.completed {
+    background: #10b981;
+}
+
+.generation-page .status-dot.error {
+    background: #ef4444;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+/* Progression agent */
+.generation-page .gen-agent-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0 4px 0;
+}
+
+.generation-page .agent-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: #e2e8f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.generation-page .agent-progress-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.generation-page .agent-progress-value {
+    font-size: 11px;
+    font-weight: 600;
+    color: #334155;
+    min-width: 32px;
+    text-align: right;
+}
+
+/* Message agent */
+.generation-page .gen-agent-message {
+    font-size: 11px;
+    color: #475569;
+    margin: 4px 0 0 0;
+    padding: 4px 8px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    animation: fadeIn 0.3s ease forwards;
+}
+
+/* Status label */
+.generation-page .agent-status-label {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    margin-top: 6px;
+    padding: 2px 10px;
+    border-radius: 100px;
+    background: #f1f5f9;
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.generation-page .gen-agent-card.active .agent-status-label {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.generation-page .gen-agent-card.completed .agent-status-label {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.generation-page .gen-agent-card.error .agent-status-label {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* ============================================================
+   6. LOGS - Console élégante
+   ============================================================ */
+.generation-page .gen-logs-container {
+    background: #0f172a;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    border: 1px solid #1e293b;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.generation-page .gen-logs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    background: #1e293b;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #334155;
+}
+
+.generation-page .gen-logs-header .logs-icon {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.generation-page .logs-count {
+    font-size: 11px;
+    background: #334155;
+    padding: 2px 12px;
+    border-radius: 100px;
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+.generation-page .gen-logs-list {
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 6px 0;
+    scroll-behavior: smooth;
+}
+
+/* Logs items */
+.generation-page .gen-log-item {
+    display: flex;
+    gap: 12px;
+    padding: 4px 18px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    color: #e2e8f0;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.generation-page .gen-log-item:hover {
+    background: #1e293b;
+}
+
+.generation-page .gen-log-item.info {
+    border-left-color: #4f46e5;
+}
+
+.generation-page .gen-log-item.success {
+    border-left-color: #10b981;
+    color: #86efac;
+}
+
+.generation-page .gen-log-item.error {
+    border-left-color: #ef4444;
+    color: #fca5a5;
+}
+
+.generation-page .gen-log-item.warning {
+    border-left-color: #f59e0b;
+    color: #fcd34d;
+}
+
+.generation-page .gen-log-item.agent {
+    border-left-color: #8b5cf6;
+    color: #c4b5fd;
+}
+
+.generation-page .log-time {
+    color: #64748b;
+    font-size: 10px;
+    min-width: 70px;
+    flex-shrink: 0;
+}
+
+.generation-page .log-message {
+    word-break: break-word;
+}
+
+/* Logs empty state */
+.generation-page .logs-empty {
+    color: #64748b;
+    text-align: center;
+    padding: 30px 0;
+    font-size: 13px;
+}
+
+/* Scrollbar personnalisée */
+.generation-page .gen-logs-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.generation-page .gen-logs-list::-webkit-scrollbar-track {
+    background: #1e293b;
+}
+
+.generation-page .gen-logs-list::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.generation-page .gen-logs-list::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+}
+
+/* ============================================================
+   7. RÉSULTAT - Carte élégante
+   ============================================================ */
+.generation-page .gen-result-container {
+    animation: slideUp 0.6s ease forwards;
+}
+
+.generation-page .gen-result-card {
+    background: white;
+    border: 1px solid #eef2f6;
+    border-radius: 16px;
+    padding: 24px 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+}
+
+.generation-page .gen-result-card h2 {
+    font-size: 20px;
+    margin: 0 0 16px 0;
+    color: #0f172a;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Score */
+.generation-page .result-score {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.generation-page .result-score > span:first-child {
+    font-weight: 600;
+    color: #334155;
+    font-size: 14px;
+}
+
+.generation-page .score-bar-container {
+    flex: 1;
+    min-width: 100px;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.generation-page .score-bar {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.generation-page .score-value {
+    font-weight: 700;
+    font-size: 22px;
+    color: #0f172a;
+    min-width: 70px;
+}
+
+/* Verdict */
+.generation-page .result-verdict {
+    background: #f8fafc;
+    padding: 12px 18px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #eef2f6;
+}
+
+.generation-page .verdict-badge {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.generation-page .result-verdict p {
+    margin: 0;
+    color: #334155;
+    font-size: 14px;
+}
+
+/* Export */
+.generation-page .result-export-section {
+    margin: 16px 0;
+}
+
+.generation-page .result-export-section h3 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    color: #334155;
+    font-weight: 600;
+}
+
+.generation-page .export-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.generation-page .btn-export {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.generation-page .btn-markdown {
+    background: #eef2ff;
+    color: #4f46e5;
+    border: 1px solid #c7d2fe;
+}
+
+.generation-page .btn-markdown:hover {
+    background: #e0e7ff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15);
+}
+
+.generation-page .btn-pdf {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fca5a5;
+}
+
+.generation-page .btn-pdf:hover {
+    background: #fee2e2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(220, 38, 38, 0.15);
+}
+
+/* Actions */
+.generation-page .result-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+}
+
+.generation-page .btn-resultat {
+    padding: 10px 28px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+}
+
+.generation-page .btn-resultat:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(79, 70, 229, 0.3);
+}
+
+.generation-page .btn-secondary-resultat {
+    padding: 10px 28px;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.generation-page .btn-secondary-resultat:hover {
+    background: #e2e8f0;
+    transform: translateY(-2px);
+}
+
+/* ============================================================
+   8. ERREUR
+   ============================================================ */
+.generation-page .gen-error-container {
+    animation: shake 0.5s ease forwards;
+}
+
+.generation-page .gen-error-card {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 14px;
+    padding: 24px 28px;
+    text-align: center;
+}
+
+.generation-page .gen-error-card h3 {
+    margin: 0 0 8px 0;
+    color: #dc2626;
+    font-size: 18px;
+}
+
+.generation-page .gen-error-card p {
+    color: #475569;
+    margin: 0 0 16px 0;
+    font-size: 14px;
+}
+
+.generation-page .error-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.generation-page .btn-retry {
+    padding: 10px 28px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.generation-page .btn-retry:hover {
+    background: #4338ca;
+    transform: scale(1.02);
+}
+
+.generation-page .btn-back {
+    padding: 10px 28px;
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.generation-page .btn-back:hover {
+    background: #e2e8f0;
+}
+
+/* ============================================================
+   9. ANIMATIONS GLOBALES
+   ============================================================ */
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+    20%, 40%, 60%, 80% { transform: translateX(6px); }
+}
+
+/* ============================================================
+   10. RESPONSIVE
+   ============================================================ */
+@media (max-width: 1024px) {
+    .generation-page .gen-agents-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .generation-page {
+        padding: 12px 14px;
+    }
+
+    .generation-page .gen-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 14px 16px;
+    }
+
+    .generation-page .gen-title {
+        font-size: 18px;
+    }
+
+    .generation-page .gen-agents-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .generation-page .gen-agent-card {
+        padding: 12px 14px;
+    }
+
+    .generation-page .gen-agent-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 20px;
+    }
+
+    .generation-page .gen-agent-name {
+        font-size: 12px;
+    }
+
+    .generation-page .gen-logs-list {
+        max-height: 180px;
+    }
+
+    .generation-page .gen-log-item {
+        font-size: 10px;
+        padding: 3px 14px;
+    }
+
+    .generation-page .log-time {
+        font-size: 9px;
+        min-width: 55px;
+    }
+
+    .generation-page .gen-result-card {
+        padding: 16px 18px;
+    }
+
+    .generation-page .result-actions {
+        flex-direction: column;
+    }
+
+    .generation-page .btn-resultat,
+    .generation-page .btn-secondary-resultat {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .generation-page .export-buttons {
+        flex-direction: column;
+    }
+
+    .generation-page .btn-export {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .generation-page .gen-agents-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .generation-page .gen-title {
+        font-size: 16px;
+    }
+
+    .generation-page .gen-header {
+        padding: 10px 12px;
+    }
+
+    .generation-page .gen-agent-card {
+        padding: 10px 12px;
+    }
+
+    .generation-page .gen-logs-list {
+        max-height: 140px;
+    }
+}
