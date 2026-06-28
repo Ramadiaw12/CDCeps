@@ -24,9 +24,9 @@ class Orchestrateur {
         this.agentValidation = new AgentValidation();
     }
 
-    // ============================================================
+    // 
     // LANCEMENT DU PIPELINE COMPLET
-    // ============================================================
+    // 
     async lancerPipeline(projetId, sessionId, sessionUuid, donneesProjet, io) {
         console.log(`Pipeline démarré pour le projet ${projetId}`);
         console.log(`Session: ${sessionUuid}`);
@@ -39,9 +39,9 @@ class Orchestrateur {
                 sessionUuid
             });
 
-            // ============================================================
+            // 
             // ÉTAPE 1 : AGENT COLLECTE
-            // ============================================================
+            // 
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'CollecteAgent',
                 numero: 1,
@@ -57,9 +57,9 @@ class Orchestrateur {
 
             await this.sauvegarderResultat(sessionId, 'collecte', resultatsCollecte);
 
-            // ============================================================
+            // 
             // ÉTAPE 2 : AGENT ANALYSE (avec RAG)
-            // ============================================================
+            // 
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'AnalyseAgent',
                 numero: 2,
@@ -75,9 +75,9 @@ class Orchestrateur {
 
             await this.sauvegarderResultat(sessionId, 'analyse', resultatsAnalyse);
 
-            // ============================================================
+            // 
             // ÉTAPE 3 : AGENT GÉNÉRATION
-            // ============================================================
+            // 
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'GenerationAgent',
                 numero: 3,
@@ -96,9 +96,9 @@ class Orchestrateur {
 
             await this.sauvegarderResultat(sessionId, 'generation', resultatsGeneration);
 
-            // ============================================================
+            // 
             // ÉTAPE 4 : AGENT VALIDATION
-            // ============================================================
+            // 
             io.to(sessionUuid).emit('agent_actif', {
                 agent: 'ValidationAgent',
                 numero: 4,
@@ -118,9 +118,9 @@ class Orchestrateur {
 
             await this.sauvegarderResultat(sessionId, 'validation', resultatsValidation);
 
-            // ============================================================
+            // 
             // SAUVEGARDE DU CDC
-            // ============================================================
+            // 
             const cdcResult = await pool.query(
                 `INSERT INTO cahiers_des_charges
                  (projet_id, session_id, contenu_markdown, 
@@ -152,9 +152,9 @@ class Orchestrateur {
                 [sessionId]
             );
 
-            // ============================================================
+            // 
             // NOTIFICATION FINALE
-            // ============================================================
+            // 
             const resultatFinal = {
                 cdcId,
                 sessionUuid,
@@ -199,9 +199,9 @@ class Orchestrateur {
         }
     }
 
-    // ============================================================
+    // 
     // SAUVEGARDE DES RÉSULTATS
-    // ============================================================
+    // 
     async sauvegarderResultat(sessionId, etape, resultat) {
         const colonne = `resultats_${etape}`;
         await pool.query(

@@ -24,9 +24,9 @@ if (!process.env.OPENAI_API_KEY) {
 
 // Modèles OpenAI disponibles
 const MODELS = [
-    'gpt-4o',           // ✅ Le plus récent et performant
-    'gpt-4-turbo',      // ✅ Bon compromis
-    'gpt-3.5-turbo',    // ✅ Rapide et économique
+    'gpt-4o',           // Le plus récent et performant
+    'gpt-4-turbo',      // Bon compromis
+    'gpt-3.5-turbo',    // Rapide et économique
 ];
 
 // Modèle par défaut
@@ -36,25 +36,25 @@ const EMBEDDING_MODEL = 'text-embedding-3-small';
 // Variable pour stocker le modèle actif
 let activeModel = null;
 
-// ============================================================
+// 
 // 2. FONCTION POUR TROUVER UN MODÈLE DISPONIBLE
-// ============================================================
+// 
 
 const findAvailableModel = async () => {
     if (activeModel) return activeModel;
 
-    console.log('🔍 Recherche d\'un modèle OpenAI disponible...');
+    console.log('Recherche d\'un modèle OpenAI disponible...');
 
     for (const model of MODELS) {
         try {
-            console.log(`📌 Test de ${model}...`);
+            console.log(`Test de ${model}...`);
             const response = await openai.chat.completions.create({
                 model: model,
                 messages: [{ role: 'user', content: 'Test' }],
                 max_tokens: 5,
             });
             if (response.choices && response.choices.length > 0) {
-                console.log(`✅ Modèle ${model} disponible !`);
+                console.log(`Modèle ${model} disponible !`);
                 activeModel = model;
                 return model;
             }
@@ -63,13 +63,13 @@ const findAvailableModel = async () => {
         }
     }
 
-    console.warn('⚠️ Aucun modèle trouvé, utilisation du modèle par défaut');
+    console.warn('Aucun modèle trouvé, utilisation du modèle par défaut');
     return DEFAULT_MODEL;
 };
 
-// ============================================================
+// 
 // 3. FONCTION PRINCIPALE - APPEL LLM
-// ============================================================
+// 
 
 /**
  * Appelle le LLM (OpenAI) avec une conversation
@@ -92,7 +92,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-            console.log(`🔮 Appel OpenAI (${modelName}) avec ${messages.length} messages`);
+            console.log(`Appel OpenAI (${modelName}) avec ${messages.length} messages`);
 
             const response = await openai.chat.completions.create({
                 model: modelName,
@@ -102,7 +102,7 @@ export const appelLLM = async (messages, options = {}) => {
             });
 
             const content = response.choices[0]?.message?.content || '';
-            console.log(`✅ Réponse reçue (${content.length} caractères)`);
+            console.log(`Réponse reçue (${content.length} caractères)`);
             return content;
 
         } catch (error) {
@@ -113,7 +113,7 @@ export const appelLLM = async (messages, options = {}) => {
                 retryCount++;
                 if (retryCount <= maxRetries) {
                     const waitTime = retryDelay * Math.pow(2, retryCount - 1);
-                    console.log(`⏳ Quota atteint, attente de ${waitTime/1000}s...`);
+                    console.log(`Quota atteint, attente de ${waitTime/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, waitTime));
                     activeModel = null;
                     continue;
@@ -131,9 +131,9 @@ export const appelLLM = async (messages, options = {}) => {
     }
 };
 
-// ============================================================
+// 
 // 4. GÉNÉRATION D'EMBEDDINGS
-// ============================================================
+// 
 
 /**
  * Génère un embedding (vecteur) pour un texte avec OpenAI
@@ -143,7 +143,7 @@ export const appelLLM = async (messages, options = {}) => {
 export const genererEmbedding = async (texte) => {
     try {
         if (!texte || texte.length < 3) {
-            console.warn('⚠️ Texte trop court pour générer un embedding');
+            console.warn('Texte trop court pour générer un embedding');
             return new Array(1536).fill(0);
         }
 
@@ -153,7 +153,7 @@ export const genererEmbedding = async (texte) => {
         });
 
         const embedding = response.data[0].embedding;
-        console.log(`✅ Embedding généré (${embedding.length} dimensions)`);
+        console.log(`Embedding généré (${embedding.length} dimensions)`);
         return embedding;
 
     } catch (error) {
@@ -162,9 +162,9 @@ export const genererEmbedding = async (texte) => {
     }
 };
 
-// ============================================================
+// 
 // 5. FONCTIONS UTILITAIRES
-// ============================================================
+// 
 
 /**
  * Génère une réponse RAG avec contexte
@@ -242,9 +242,9 @@ ${contexte ? `Contexte supplémentaire : ${contexte}` : ''}`;
     ];
 };
 
-// ============================================================
+// 
 // 6. EXPORT
-// ============================================================
+// 
 
 export default {
     appelLLM,
