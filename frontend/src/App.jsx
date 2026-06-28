@@ -1,3 +1,4 @@
+import ScrollToTop from './components/ScrollToTop';
 // ============================================================
 // App.jsx - VERSION CORRIGÉE
 // ============================================================
@@ -15,6 +16,7 @@ function App() {
     return (
         <ThemeProvider>
             <BrowserRouter>
+    <ScrollToTop />
                 <Routes>
                     {/* Layout contient déjà la Navbar et le Footer */}
                     <Route path="/" element={<Layout />}>

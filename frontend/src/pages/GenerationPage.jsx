@@ -5,6 +5,8 @@
 // ============================================================
 
 import { useState, useEffect, useRef } from 'react';
+    // Scroll en haut au chargement de la page
+    window.scrollTo(0, 0);
 import { useParams, useNavigate } from 'react-router-dom';
 import { getProjet } from '../services/api.js';
 import {
@@ -48,11 +50,15 @@ function GenerationPage() {
     // SCROLL AUTOMATIQUE
     // ============================================================
     useEffect(() => {
+    // Scroll en haut au chargement de la page
+    window.scrollTo(0, 0);
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, [messages]);
 
     // CALCUL PROGRESSION GLOBALE
     useEffect(() => {
+    // Scroll en haut au chargement de la page
+    window.scrollTo(0, 0);
         const totalProgress = Object.values(agentsStatuts).reduce((acc, agent) => acc + agent.progress, 0);
         setProgressionGlobale(Math.floor(totalProgress / 4));
     }, [agentsStatuts]);
@@ -78,6 +84,8 @@ function GenerationPage() {
     // INITIALISATION + SOCKET
     // ============================================================
     useEffect(() => {
+    // Scroll en haut au chargement de la page
+    window.scrollTo(0, 0);
         let annule = false;
 
         const initialiser = async () => {

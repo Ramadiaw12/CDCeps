@@ -5,6 +5,8 @@
 // ============================================================
 import './ResultatPage.css';
 import { useState, useEffect } from 'react';
+    // Scroll en haut au chargement de la page
+    window.scrollTo(0, 0);
 import { useParams, useNavigate } from 'react-router-dom';
 import CDCViewer from '../components/CDCViewer.jsx';
 import {
@@ -24,6 +26,8 @@ function ResultatPage() {
 
     //  Chargement du CDC 
     useEffect(() => {
+    // Scroll en haut au chargement de la page
+    window.scrollTo(0, 0);
         const chargerCDC = async () => {
             try {
                 const reponse = await getCDC(cdcId);

@@ -18,7 +18,7 @@ if (!process.env.GROQ_API_KEY) {
 }
 
 // Modèles Groq disponibles (tous gratuits)
-const MODELS = [ 'gemma2-9b-it',
+const MODELS = [ 'gemma2-9b-it', 'gemma2-9b-it',
     'gemma2-9b-it',              // ✅ Léger (premier choix)
     'mixtral-8x7b-32768',        // Bon compromis
     'llama-3.1-8b-instant',      // Lourd (dernier recours)
