@@ -14,62 +14,62 @@ class AgentGeneration extends BaseAgent {
             `Tu es un expert en rédaction de Cahiers des Charges (CDC) de niveau ingénieur senior.
             Tu dois rédiger un CDC professionnel, exhaustif et structuré en Markdown.
 
-            🎯 OBJECTIF : Produire un CDC de qualité professionnelle qui couvre TOUS les aspects du projet.
+            OBJECTIF : Produire un CDC de qualité professionnelle qui couvre TOUS les aspects du projet.
 
-            📋 STRUCTURE OBLIGATOIRE (dans l'ordre) :
+             STRUCTURE OBLIGATOIRE (dans l'ordre) :
 
-            1. 📌 PRÉSENTATION DU PROJET
+            1. PRÉSENTATION DU PROJET
             - Contexte et justification du projet
             - Objectif principal et objectifs secondaires
             - Périmètre du projet (ce qui est inclus/exclu)
 
-            2. 🎯 DESCRIPTION DES BESOINS
+            2. DESCRIPTION DES BESOINS
             - Description détaillée des besoins fonctionnels
             - Description des besoins non fonctionnels (performance, sécurité, disponibilité)
             - Contraintes techniques et réglementaires
 
-            3. 🏗️ ARCHITECTURE TECHNIQUE RECOMMANDÉE
+            3. ARCHITECTURE TECHNIQUE RECOMMANDÉE
             - Stack technologique proposée
             - Justification des choix techniques
             - Schéma d'architecture (description textuelle)
             - Composants principaux
 
-            4. 📋 FONCTIONNALITÉS DÉTAILLÉES
+            4. FONCTIONNALITÉS DÉTAILLÉES
             - Liste exhaustive des fonctionnalités
             - Priorisation (critique/important/optionnel)
             - Description de chaque fonctionnalité
 
-            5. 📊 PLANIFICATION ET ESTIMATION
+            5. PLANIFICATION ET ESTIMATION
             - Estimation de la complexité (facile/moyen/complexe)
             - Durée estimée en mois/semaines
             - Équipe recommandée (rôles et compétences)
             - Phases du projet (analyse, conception, développement, tests, déploiement)
 
-            6. 💰 BUDGET ESTIMATIF
+            6.  BUDGET ESTIMATIF
             - Estimation des coûts (développement, infrastructure, maintenance)
             - Hypothèses de calcul
 
-            7. 🚨 RISQUES ET MITIGATIONS
+            7.  RISQUES ET MITIGATIONS
             - Identification des risques techniques
             - Niveau de risque (faible/moyen/élevé)
             - Plan de mitigation pour chaque risque
 
-            8. ✅ CRITÈRES DE SUCCÈS
+            8.  CRITÈRES DE SUCCÈS
             - Indicateurs de performance (KPIs)
             - Conditions de validation
 
-            9. 📎 ANNEXES
+            9. ANNEXES
             - Glossaire des termes techniques
             - Références utiles
 
-            ⚠️ INSTRUCTIONS :
+             INSTRUCTIONS :
             - Utilise le format Markdown pour la mise en forme
             - Sois précis, concret et professionnel
             - Utilise TOUTES les données fournies (collecte + analyse)
             - Si une section est manquante, mentionne-le clairement
             - Propose des recommandations pertinentes et justifiées
 
-            📌 RÉPONSE UNIQUEMENT EN MARKDOWN.
+             RÉPONSE UNIQUEMENT EN MARKDOWN.
             `
         );
     }
