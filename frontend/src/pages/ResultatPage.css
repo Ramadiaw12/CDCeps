@@ -3,20 +3,20 @@
    Design system : dark/light mode, animations, typographie
    ============================================================ */
 
-/* ── Tokens light ─────────────────────────────────────────── */
+/*  Tokens light  */
 :root {
     --rp-bg:           #f8fafc;
     --rp-surface:      #ffffff;
     --rp-surface-low:  #f1f5f9;
-    --rp-border:       rgba(0, 0, 0, 0.08);
-    --rp-border-med:   rgba(0, 0, 0, 0.14);
+    --rp-border:       rgb(255, 254, 254);
+    --rp-border-med:   rgba(255, 245, 245, 0.94);
 
-    --rp-text-primary:   #0f172a;
-    --rp-text-secondary: #475569;
-    --rp-text-muted:     #94a3b8;
+    --rp-text-primary:   #e0e0e0;
+    --rp-text-secondary: #e8ebf0;
+    --rp-text-muted:     #dde6f1;
 
-    --rp-accent:        #6366f1;
-    --rp-accent-hover:  #4f46e5;
+    --rp-accent:        #63c4f1;
+    --rp-accent-hover:  #4678e5;
     --rp-accent-bg:     #eef2ff;
     --rp-accent-text:   #4338ca;
 
@@ -47,8 +47,8 @@
         --rp-border-med:   rgba(255, 255, 255, 0.14);
 
         --rp-text-primary:   #f1f5f9;
-        --rp-text-secondary: #94a3b8;
-        --rp-text-muted:     #64748b;
+        --rp-text-secondary: #f5f7fa;
+        --rp-text-muted:     #fdfeff;
 
         --rp-accent:        #818cf8;
         --rp-accent-hover:  #6366f1;
@@ -70,20 +70,20 @@
     }
 }
 
-/* Support class-based dark mode (ex: class="dark" sur <html>) */
+/* Support class-based dark mode */
 .dark {
     --rp-bg:           #0b1120;
     --rp-surface:      #131e2e;
-    --rp-surface-low:  #0d1626;
-    --rp-border:       rgba(255, 255, 255, 0.08);
-    --rp-border-med:   rgba(255, 255, 255, 0.14);
+    --rp-surface-low:  #f7f7f7;
+    --rp-border:       rgb(255, 255, 255);
+    --rp-border-med:   rgba(255, 255, 255, 0.99);
     --rp-text-primary:   #f1f5f9;
     --rp-text-secondary: #f1f1f1;
     --rp-text-muted:     #fafafa;
-    --rp-accent:        #818cf8;
+    --rp-accent:        #ffffff;
     --rp-accent-hover:  #6366f1;
     --rp-accent-bg:     rgba(99, 102, 241, 0.15);
-    --rp-accent-text:   #a5b4fc;
+    --rp-accent-text:   #fcfcfc;
     --rp-success:       #34d399;
     --rp-success-bg:    rgba(16, 185, 129, 0.12);
     --rp-success-text:  #6ee7b7;
@@ -91,7 +91,7 @@
     --rp-warning-text:  #fcd34d;
     --rp-warning-border:rgba(251, 191, 36, 0.30);
     --rp-danger:        #f87171;
-    --rp-shadow:        0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+    --rp-shadow:        0 1px 3px rgba(255, 250, 250, 0.4), 0 1px 2px rgba(0,0,0,0.3);
     --rp-shadow-hover:  0 4px 16px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
 }
 
