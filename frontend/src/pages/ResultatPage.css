@@ -78,7 +78,7 @@
     --rp-border:       rgba(255, 255, 255, 0.08);
     --rp-border-med:   rgba(255, 255, 255, 0.14);
     --rp-text-primary:   #f1f5f9;
-    --rp-text-secondary: #94a3b8;
+    --rp-text-secondary: #f1f1f1;
     --rp-text-muted:     #64748b;
     --rp-accent:        #818cf8;
     --rp-accent-hover:  #6366f1;
@@ -118,7 +118,7 @@
     .rp-anim-1, .rp-anim-2, .rp-anim-3, .rp-anim-4, .rp-anim-5 { animation: none; }
 }
 
-/* ── Layout ───────────────────────────────────────────────── */
+/*  Layout  */
 .rp-page {
     min-height: 100vh;
     background: var(--rp-bg);
@@ -139,7 +139,7 @@
     gap: 16px;
 }
 
-/* ── Hero ─────────────────────────────────────────────────── */
+/*  Hero  */
 .rp-hero {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -205,7 +205,7 @@
     font-weight: 500;
 }
 
-/* ── Boutons ─────────────────────────────────────────────── */
+/* Boutons  */
 .rp-actions {
     display: flex;
     gap: 10px;
@@ -247,7 +247,7 @@
     box-shadow: 0 0 0 3px var(--rp-accent-bg);
 }
 
-/* ── Stats grid ──────────────────────────────────────────── */
+/*  Stats grid  */
 .rp-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -288,7 +288,7 @@
     color: var(--rp-text-primary);
 }
 
-/* ── Score arc ───────────────────────────────────────────── */
+/*  Score arc  */
 .rp-score-wrap {
     position: relative;
     width: 80px; height: 80px;
@@ -332,7 +332,7 @@
     letter-spacing: 0.04em;
 }
 
-/* ── Badges ──────────────────────────────────────────────── */
+/*  Badges  */
 .rp-badge {
     display: inline-flex;
     align-items: center;
@@ -346,7 +346,7 @@
 .rp-badge-success { background: var(--rp-success-bg); color: var(--rp-success-text); }
 .rp-badge-warning { background: var(--rp-warning-bg); color: var(--rp-warning-text); }
 
-/* ── Avertissement ───────────────────────────────────────── */
+/* Avertissement  */
 .rp-warn {
     display: flex;
     gap: 14px;
@@ -363,7 +363,7 @@
 .rp-warn-list  { padding-left: 18px; margin: 0; }
 .rp-warn-list li { margin-bottom: 3px; }
 
-/* ── Document ────────────────────────────────────────────── */
+/*  Document  */
 .rp-doc {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -396,7 +396,7 @@
 
 .rp-doc-content { padding: 36px 40px; }
 
-/* ── Footer ──────────────────────────────────────────────── */
+/*  Footer  */
 .rp-footer {
     display: flex;
     justify-content: space-between;
@@ -439,7 +439,7 @@
     margin: 0;
 }
 
-/* ── Erreur ──────────────────────────────────────────────── */
+/*  Erreur  */
 .rp-error-card {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -452,7 +452,7 @@
 .rp-error-title { font-size: 18px; font-weight: 600; color: var(--rp-text-primary); margin: 0 0 6px; }
 .rp-error-body  { font-size: 14px; color: var(--rp-text-muted); margin: 0 0 20px; }
 
-/* ── Responsive ──────────────────────────────────────────── */
+/*  Responsive  */
 @media (max-width: 640px) {
     .rp-page      { padding: 24px 0 40px; }
     .rp-hero      { padding: 24px 20px 20px; }
