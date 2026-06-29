@@ -1,19 +1,59 @@
 // ============================================================
 // pages/ResultatPage.jsx
-// Affiche le CDC généré avec options d'export
-// PDF et Markdown
+// Affiche le CDC généré avec options d'export PDF et Markdown
+// Design repensé : animations, dark/light mode, score animé
 // ============================================================
 import './ResultatPage.css';
-import { useState, useEffect } from 'react';
-    // Scroll en haut au chargement de la page
-    window.scrollTo(0, 0);
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CDCViewer from '../components/CDCViewer.jsx';
-import {
-    getCDC,
-    telechargerMarkdown,
-    telechargerPDF
-} from '../services/api.js';
+import { getCDC, telechargerMarkdown, telechargerPDF } from '../services/api.js';
+
+// Composant arc animé pour le score
+function ScoreArc({ score }) {
+    const circumference = 220;
+    const [displayed, setDisplayed] = useState(0);
+    const [offset, setOffset] = useState(circumference);
+
+    const color =
+        score >= 80 ? 'var(--fill-success)' :
+        score >= 60 ? 'var(--fill-warning)' :
+                      'var(--fill-danger)';
+
+    useEffect(() => {
+        const target = circumference - (score / 100) * circumference;
+        const timer = setTimeout(() => setOffset(target), 100);
+
+        let start = null;
+        const duration = 1200;
+        const animate = (ts) => {
+            if (!start) start = ts;
+            const progress = Math.min((ts - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setDisplayed(Math.round(eased * score));
+            if (progress < 1) requestAnimationFrame(animate);
+        };
+        const animTimer = setTimeout(() => requestAnimationFrame(animate), 150);
+        return () => { clearTimeout(timer); clearTimeout(animTimer); };
+    }, [score]);
+
+    return (
+        <div className="rp-score-wrap">
+            <svg className="rp-score-svg" width="80" height="80" viewBox="0 0 80 80">
+                <circle className="rp-score-track" cx="40" cy="40" r="35" />
+                <circle
+                    className="rp-score-bar"
+                    cx="40" cy="40" r="35"
+                    style={{ stroke: color, strokeDashoffset: offset }}
+                />
+            </svg>
+            <div className="rp-score-num">
+                <span>{displayed}</span>
+                <span className="rp-score-label">/ 100</span>
+            </div>
+        </div>
+    );
+}
 
 function ResultatPage() {
     const { cdcId }  = useParams();
@@ -24,61 +64,49 @@ function ResultatPage() {
     const [erreur, setErreur]         = useState(null);
     const [exportPDF, setExportPDF]   = useState(false);
 
-    //  Chargement du CDC 
     useEffect(() => {
-    // Scroll en haut au chargement de la page
-    window.scrollTo(0, 0);
+        window.scrollTo(0, 0);
         const chargerCDC = async () => {
             try {
                 const reponse = await getCDC(cdcId);
                 setCdc(reponse.data);
-            } catch (error) {
+            } catch {
                 setErreur('CDC introuvable');
             } finally {
                 setChargement(false);
             }
         };
-
         chargerCDC();
     }, [cdcId]);
 
-    // Export PDF
     const handleExportPDF = async () => {
         setExportPDF(true);
-        try {
-            telechargerPDF(cdcId);
-        } finally {
-            // Laisse le temps au téléchargement de démarrer
-            setTimeout(() => setExportPDF(false), 2000);
-        }
+        try { telechargerPDF(cdcId); }
+        finally { setTimeout(() => setExportPDF(false), 2000); }
     };
 
-    // Chargement
+    // ── Chargement ────────────────────────────────────────────
     if (chargement) {
         return (
-            <div className="page">
-                <div className="container" style={styles.centrer}>
-                    <div className="spinner" style={{ width: 40, height: 40 }} />
-                    <p style={{ marginTop: 16, color: '#64748b' }}>
-                        Chargement du CDC...
-                    </p>
+            <div className="rp-page">
+                <div className="rp-container rp-center">
+                    <div className="rp-spinner" />
+                    <p className="rp-loading-text">Chargement du CDC…</p>
                 </div>
             </div>
         );
     }
 
-    // Erreur 
+    // ── Erreur ────────────────────────────────────────────────
     if (erreur || !cdc) {
         return (
-            <div className="page">
-                <div className="container">
-                    <div style={styles.erreur}>
-                        <h3> {erreur || 'CDC introuvable'}</h3>
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => navigate('/')}
-                            style={{ marginTop: 16 }}
-                        >
+            <div className="rp-page">
+                <div className="rp-container">
+                    <div className="rp-error-card">
+                        <i className="rp-error-icon">⚠️</i>
+                        <h3 className="rp-error-title">{erreur || 'CDC introuvable'}</h3>
+                        <p className="rp-error-body">Ce document n'existe pas ou a été supprimé.</p>
+                        <button className="rp-btn" onClick={() => navigate('/')}>
                             ← Retour à l'accueil
                         </button>
                     </div>
@@ -87,217 +115,141 @@ function ResultatPage() {
         );
     }
 
-    // Rendu principal 
+    const statutClass = cdc.statut === 'finalise' ? 'success' : 'warning';
+
+    // ── Rendu principal ───────────────────────────────────────
     return (
-        <div className="page">
-            <div className="container">
+        <div className="rp-page">
+            <div className="rp-container">
 
-                {/*  En-tête avec actions  */}
-                <div style={styles.header}>
-                    <div>
-                        <h1 style={styles.titre}>
-                            📄 {cdc.projet_titre}
-                        </h1>
-                        <p style={styles.sousTitre}>
-                            Client : <strong>{cdc.prenom} {cdc.nom}</strong>
-                            {cdc.entreprise && ` — ${cdc.entreprise}`}
-                        </p>
-                    </div>
-
-                    {/* Boutons d'export */}
-                    <div style={styles.actions}>
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => telechargerMarkdown(cdcId)}
-                        >
-                            ⬇️ Markdown
-                        </button>
-
-                        <button
-                            className="btn btn-primary"
-                            onClick={handleExportPDF}
-                            disabled={exportPDF}
-                        >
-                            {exportPDF ? (
-                                <>
-                                    <div className="spinner" />
-                                    Génération PDF...
-                                </>
-                            ) : (
-                                '📥 Télécharger PDF'
-                            )}
-                        </button>
+                {/* ── Hero ──────────────────────────────────── */}
+                <div className="rp-hero rp-anim-1">
+                    <div className="rp-hero-bar" />
+                    <div className="rp-hero-top">
+                        <div>
+                            <div className="rp-eyebrow">
+                                <span className="rp-eyebrow-dot" />
+                                Cahier des charges généré
+                            </div>
+                            <h1 className="rp-title">
+                                {cdc.projet_titre}
+                            </h1>
+                            <p className="rp-subtitle">
+                                Client : <strong>{cdc.prenom} {cdc.nom}</strong>
+                                {cdc.entreprise && ` — ${cdc.entreprise}`}
+                            </p>
+                        </div>
+                        <div className="rp-actions">
+                            <button
+                                className="rp-btn"
+                                onClick={() => telechargerMarkdown(cdcId)}
+                            >
+                                ⬇ Markdown
+                            </button>
+                            <button
+                                className="rp-btn rp-btn-primary"
+                                onClick={handleExportPDF}
+                                disabled={exportPDF}
+                            >
+                                {exportPDF ? (
+                                    <><span className="rp-spinner rp-spinner-sm" /> Génération…</>
+                                ) : (
+                                    '📥 Télécharger PDF'
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
 
-                {/*  Métadonnées du CDC  */}
-                <div style={styles.metaGrid}>
-                    <div className="card" style={styles.metaCard}>
-                        <div style={styles.metaLabel}>Score de complétude</div>
-                        <div style={styles.metaValeur}>
-                            <span style={{
-                                color: cdc.score_completude >= 80 ? '#10b981' :
-                                       cdc.score_completude >= 60 ? '#f59e0b' :
-                                       '#ef4444',
-                                fontSize: '24px',
-                                fontWeight: '700'
-                            }}>
-                                {cdc.score_completude}
-                            </span>
-                            <span style={{ color: '#94a3b8' }}>/100</span>
-                        </div>
+                {/* ── Méta-stats ────────────────────────────── */}
+                <div className="rp-stats rp-anim-2">
+                    {/* Score */}
+                    <div className="rp-stat">
+                        <ScoreArc score={cdc.score_completude} />
+                        <span className="rp-stat-label">Complétude</span>
                     </div>
 
-                    <div className="card" style={styles.metaCard}>
-                        <div style={styles.metaLabel}>Type de projet</div>
-                        <div style={styles.metaValeur}>
-                            <span className="badge badge-primary">
-                                {cdc.type_projet?.replace('_', ' ')}
-                            </span>
-                        </div>
+                    {/* Type projet */}
+                    <div className="rp-stat">
+                        <span className="rp-stat-icon">🗂</span>
+                        <span className={`rp-badge rp-badge-accent`}>
+                            {cdc.type_projet?.replace('_', ' ')}
+                        </span>
+                        <span className="rp-stat-label">Type de projet</span>
                     </div>
 
-                    <div className="card" style={styles.metaCard}>
-                        <div style={styles.metaLabel}>Statut</div>
-                        <div style={styles.metaValeur}>
-                            <span className={`badge badge-${
-                                cdc.statut === 'finalise' ? 'success' : 'warning'
-                            }`}>
-                                {cdc.statut}
-                            </span>
-                        </div>
+                    {/* Statut */}
+                    <div className="rp-stat">
+                        <span className="rp-stat-icon">
+                            {cdc.statut === 'finalise' ? '✅' : '⏳'}
+                        </span>
+                        <span className={`rp-badge rp-badge-${statutClass}`}>
+                            {cdc.statut}
+                        </span>
+                        <span className="rp-stat-label">Statut</span>
                     </div>
 
-                    <div className="card" style={styles.metaCard}>
-                        <div style={styles.metaLabel}>Généré le</div>
-                        <div style={styles.metaValeur}>
+                    {/* Date */}
+                    <div className="rp-stat">
+                        <span className="rp-stat-icon">📅</span>
+                        <span className="rp-stat-value">
                             {new Date(cdc.created_at).toLocaleDateString('fr-FR')}
-                        </div>
+                        </span>
+                        <span className="rp-stat-label">Généré le</span>
                     </div>
                 </div>
 
-                {/*  Sections manquantes  */}
+                {/* ── Sections manquantes ───────────────────── */}
                 {cdc.sections_manquantes?.length > 0 && (
-                    <div style={styles.avertissement}>
-                        <strong>Sections à compléter :</strong>
-                        <ul style={{ marginTop: 8, paddingLeft: 20 }}>
-                            {cdc.sections_manquantes.map((section, i) => (
-                                <li key={i} style={{ fontSize: 13 }}>
-                                    {section}
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="rp-warn rp-anim-3">
+                        <div className="rp-warn-icon">⚠️</div>
+                        <div className="rp-warn-body">
+                            <div className="rp-warn-title">Sections à compléter</div>
+                            <ul className="rp-warn-list">
+                                {cdc.sections_manquantes.map((s, i) => (
+                                    <li key={i}>{s}</li>
+                                ))}
+                            </ul>
+                        </div>
                     </div>
                 )}
 
-                {/*  Contenu du CDC */}
-                <div className="card" style={styles.cdcCard}>
-                    <CDCViewer contenu={cdc.contenu_markdown} />
+                {/* ── Document CDC ──────────────────────────── */}
+                <div className="rp-doc rp-anim-4">
+                    <div className="rp-doc-toolbar">
+                        <div className="rp-doc-dots">
+                            <span className="rp-dot rp-dot-red" />
+                            <span className="rp-dot rp-dot-yellow" />
+                            <span className="rp-dot rp-dot-green" />
+                        </div>
+                        <span className="rp-doc-filename">cahier-des-charges.md</span>
+                        <span />
+                    </div>
+                    <div className="rp-doc-content">
+                        <CDCViewer contenu={cdc.contenu_markdown} />
+                    </div>
                 </div>
 
-                {/*  Actions bas de page  */}
-                <div style={styles.actionsBottom}>
+                {/* ── Footer ────────────────────────────────── */}
+                <div className="rp-footer rp-anim-5">
                     <button
-                        className="btn btn-secondary"
+                        className="rp-back-link"
                         onClick={() => navigate('/nouveau-projet')}
                     >
                         + Nouveau projet
                     </button>
-
                     <button
-                        className="btn btn-primary"
+                        className="rp-btn rp-btn-primary"
                         onClick={handleExportPDF}
                         disabled={exportPDF}
                     >
                         📥 Télécharger en PDF
                     </button>
                 </div>
+
             </div>
         </div>
     );
 }
-
-//  Styles 
-const styles = {
-    header: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: '28px',
-        flexWrap: 'wrap',
-        gap: '16px'
-    },
-    titre: {
-        fontSize: '26px',
-        fontWeight: '700',
-        color: '#0f172a'
-    },
-    sousTitre: {
-        color: '#64748b',
-        marginTop: '6px',
-        fontSize: '14px'
-    },
-    actions: {
-        display: 'flex',
-        gap: '12px',
-        flexWrap: 'wrap'
-    },
-    metaGrid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-        gap: '16px',
-        marginBottom: '24px'
-    },
-    metaCard: {
-        padding: '16px',
-        textAlign: 'center'
-    },
-    metaLabel: {
-        fontSize: '12px',
-        color: '#64748b',
-        marginBottom: '8px',
-        fontWeight: '500'
-    },
-    metaValeur: {
-        fontSize: '15px',
-        fontWeight: '600',
-        color: '#0f172a'
-    },
-    avertissement: {
-        backgroundColor: '#fef3c7',
-        border: '1px solid #fcd34d',
-        borderRadius: '8px',
-        padding: '16px',
-        marginBottom: '24px',
-        fontSize: '14px',
-        color: '#92400e'
-    },
-    cdcCard: {
-        padding: '40px',
-        marginBottom: '24px'
-    },
-    actionsBottom: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        flexWrap: 'wrap',
-        gap: '12px',
-        marginBottom: '40px'
-    },
-    erreur: {
-        backgroundColor: '#fef2f2',
-        border: '1px solid #fca5a5',
-        borderRadius: '10px',
-        padding: '32px',
-        textAlign: 'center',
-        color: '#991b1b'
-    },
-    centrer: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        minHeight: '300px'
-    }
-};
 
 export default ResultatPage;
