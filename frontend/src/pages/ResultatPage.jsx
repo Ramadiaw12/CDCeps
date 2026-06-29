@@ -85,7 +85,7 @@ function ResultatPage() {
         finally { setTimeout(() => setExportPDF(false), 2000); }
     };
 
-    // ── Chargement ────────────────────────────────────────────
+    //  Chargement 
     if (chargement) {
         return (
             <div className="rp-page">
@@ -97,7 +97,7 @@ function ResultatPage() {
         );
     }
 
-    // ── Erreur ────────────────────────────────────────────────
+    //  Erreur 
     if (erreur || !cdc) {
         return (
             <div className="rp-page">
@@ -117,12 +117,12 @@ function ResultatPage() {
 
     const statutClass = cdc.statut === 'finalise' ? 'success' : 'warning';
 
-    // ── Rendu principal ───────────────────────────────────────
+    //  Rendu principal 
     return (
         <div className="rp-page">
             <div className="rp-container">
 
-                {/* ── Hero ──────────────────────────────────── */}
+                {/*  Hero  */}
                 <div className="rp-hero rp-anim-1">
                     <div className="rp-hero-bar" />
                     <div className="rp-hero-top">
@@ -161,7 +161,7 @@ function ResultatPage() {
                     </div>
                 </div>
 
-                {/* ── Méta-stats ────────────────────────────── */}
+                {/*  Méta-stats  */}
                 <div className="rp-stats rp-anim-2">
                     {/* Score */}
                     <div className="rp-stat">
@@ -199,7 +199,7 @@ function ResultatPage() {
                     </div>
                 </div>
 
-                {/* ── Sections manquantes ───────────────────── */}
+                {/*  Sections manquantes  */}
                 {cdc.sections_manquantes?.length > 0 && (
                     <div className="rp-warn rp-anim-3">
                         <div className="rp-warn-icon">⚠️</div>
@@ -214,7 +214,7 @@ function ResultatPage() {
                     </div>
                 )}
 
-                {/* ── Document CDC ──────────────────────────── */}
+                {/* Document CDC  */}
                 <div className="rp-doc rp-anim-4">
                     <div className="rp-doc-toolbar">
                         <div className="rp-doc-dots">
@@ -230,7 +230,7 @@ function ResultatPage() {
                     </div>
                 </div>
 
-                {/* ── Footer ────────────────────────────────── */}
+                {/*  Footer  */}
                 <div className="rp-footer rp-anim-5">
                     <button
                         className="rp-back-link"

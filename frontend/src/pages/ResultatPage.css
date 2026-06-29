@@ -37,7 +37,7 @@
     --rp-shadow-hover:  0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
 }
 
-/* ── Tokens dark ──────────────────────────────────────────── */
+/*  Tokens dark  */
 @media (prefers-color-scheme: dark) {
     :root {
         --rp-bg:           #0b1120;
@@ -79,7 +79,7 @@
     --rp-border-med:   rgba(255, 255, 255, 0.14);
     --rp-text-primary:   #f1f5f9;
     --rp-text-secondary: #f1f1f1;
-    --rp-text-muted:     #64748b;
+    --rp-text-muted:     #fafafa;
     --rp-accent:        #818cf8;
     --rp-accent-hover:  #6366f1;
     --rp-accent-bg:     rgba(99, 102, 241, 0.15);
