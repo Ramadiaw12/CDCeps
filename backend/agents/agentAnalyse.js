@@ -65,7 +65,7 @@ class AgentAnalyse extends BaseAgent {
 
             await this.mettreAJourStatut(sessionId, 'running');
 
-            // ── Étape RAG ────────────────────────────────────
+            //  Étape RAG 
             // Recherche les anciens CDC similaires avant
             // de lancer l'analyse — ça enrichit le contexte
             this.notifierProgression(
@@ -138,7 +138,7 @@ class AgentAnalyse extends BaseAgent {
 
             this.notifierProgression(
                 io, sessionUuid,
-                `✅ Analyse terminée — complexité : ${resultat.estimations?.complexite}`
+                `Analyse terminée — complexité : ${resultat.estimations?.complexite}`
             );
 
             await this.mettreAJourStatut(sessionId, 'done');
