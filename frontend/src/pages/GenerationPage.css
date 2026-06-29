@@ -907,3 +907,270 @@
         max-height: 140px;
     }
 }
+
+/* 
+   MODE DARK - Support automatique
+    */
+
+/* Détection du thème sombre du navigateur */
+@media (prefers-color-scheme: dark) {
+    
+    /* Fond de la page */
+    .generation-page {
+        background: #0f172a !important; /* slate-900 */
+    }
+
+    /* Header */
+    .generation-page .gen-header {
+        background: #1e293b !important; /* slate-800 */
+        border-color: #334155 !important;
+    }
+
+    .generation-page .gen-title {
+        color: #f1f5f9 !important; /* slate-100 */
+    }
+
+    .generation-page .gen-project-badge {
+        background: #334155 !important;
+        color: #818cf8 !important; /* indigo-400 */
+    }
+
+    /* Socket status */
+    .generation-page .socket-status.connected {
+        background: #064e3b !important;
+        color: #6ee7b7 !important;
+        border-color: #065f46 !important;
+    }
+
+    .generation-page .socket-status.disconnected {
+        background: #7f1d1d !important;
+        color: #fca5a5 !important;
+        border-color: #991b1b !important;
+    }
+
+    /* Progression globale */
+    .generation-page .gen-global-progress {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    .generation-page .gen-global-progress-header {
+        color: #94a3b8 !important;
+    }
+
+    .generation-page .gen-global-progress-bar {
+        background: #334155 !important;
+    }
+
+    /* Cartes agents */
+    .generation-page .gen-agent-card {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    .generation-page .gen-agent-card.active {
+        border-color: #818cf8 !important;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+    }
+
+    .generation-page .gen-agent-card.completed {
+        border-color: #34d399 !important;
+        background: #064e3b !important;
+    }
+
+    .generation-page .gen-agent-card.error {
+        border-color: #f87171 !important;
+        background: #7f1d1d !important;
+    }
+
+    .generation-page .gen-agent-name {
+        color: #f1f5f9 !important;
+    }
+
+    .generation-page .gen-agent-role {
+        color: #94a3b8 !important;
+    }
+
+    .generation-page .gen-agent-icon {
+        background: #334155 !important;
+    }
+
+    .generation-page .gen-agent-card.active .gen-agent-icon {
+        background: #1e293b !important;
+    }
+
+    .generation-page .gen-agent-card.completed .gen-agent-icon {
+        background: #064e3b !important;
+    }
+
+    .generation-page .gen-agent-card.error .gen-agent-icon {
+        background: #7f1d1d !important;
+    }
+
+    .generation-page .agent-progress-bar {
+        background: #334155 !important;
+    }
+
+    .generation-page .agent-progress-value {
+        color: #94a3b8 !important;
+    }
+
+    .generation-page .gen-agent-message {
+        color: #cbd5e1 !important;
+        background: #334155 !important;
+    }
+
+    .generation-page .agent-status-label {
+        background: #334155 !important;
+        color: #94a3b8 !important;
+    }
+
+    .generation-page .gen-agent-card.active .agent-status-label {
+        background: #1e293b !important;
+        color: #818cf8 !important;
+    }
+
+    .generation-page .gen-agent-card.completed .agent-status-label {
+        background: #064e3b !important;
+        color: #6ee7b7 !important;
+    }
+
+    .generation-page .gen-agent-card.error .agent-status-label {
+        background: #7f1d1d !important;
+        color: #fca5a5 !important;
+    }
+
+    /* Résultat */
+    .generation-page .gen-result-card {
+        background: #1e293b !important;
+        border-color: #334155 !important;
+    }
+
+    .generation-page .gen-result-card h2 {
+        color: #f1f5f9 !important;
+    }
+
+    .generation-page .result-score > span:first-child {
+        color: #94a3b8 !important;
+    }
+
+    .generation-page .score-bar-container {
+        background: #334155 !important;
+    }
+
+    .generation-page .score-value {
+        color: #f1f5f9 !important;
+    }
+
+    .generation-page .result-verdict {
+        background: #0f172a !important;
+        border-color: #334155 !important;
+    }
+
+    .generation-page .result-verdict p {
+        color: #cbd5e1 !important;
+    }
+
+    .generation-page .result-export-section h3 {
+        color: #94a3b8 !important;
+    }
+
+    /* Boutons export */
+    .generation-page .btn-markdown {
+        background: #1e293b !important;
+        color: #818cf8 !important;
+        border-color: #4f46e5 !important;
+    }
+
+    .generation-page .btn-markdown:hover {
+        background: #334155 !important;
+    }
+
+    .generation-page .btn-pdf {
+        background: #1e293b !important;
+        color: #f87171 !important;
+        border-color: #dc2626 !important;
+    }
+
+    .generation-page .btn-pdf:hover {
+        background: #334155 !important;
+    }
+
+    /* Boutons actions */
+    .generation-page .btn-resultat {
+        background: #4f46e5 !important;
+    }
+
+    .generation-page .btn-resultat:hover {
+        background: #6366f1 !important;
+    }
+
+    .generation-page .btn-secondary-resultat {
+        background: #334155 !important;
+        color: #cbd5e1 !important;
+        border-color: #475569 !important;
+    }
+
+    .generation-page .btn-secondary-resultat:hover {
+        background: #475569 !important;
+    }
+
+    /* Erreur */
+    .generation-page .gen-error-card {
+        background: #7f1d1d !important;
+        border-color: #f87171 !important;
+    }
+
+    .generation-page .gen-error-card h3 {
+        color: #fca5a5 !important;
+    }
+
+    .generation-page .gen-error-card p {
+        color: #fecaca !important;
+    }
+
+    /* Logs */
+    .generation-page .gen-logs-container {
+        background: #0f172a !important;
+        border-color: #1e293b !important;
+    }
+
+    .generation-page .gen-logs-header {
+        background: #1e293b !important;
+        color: #94a3b8 !important;
+    }
+
+    .generation-page .logs-count {
+        background: #334155 !important;
+        color: #cbd5e1 !important;
+    }
+
+    .generation-page .gen-log-item {
+        color: #cbd5e1 !important;
+    }
+
+    .generation-page .gen-log-item:hover {
+        background: #1e293b !important;
+    }
+
+    .generation-page .log-time {
+        color: #64748b !important;
+    }
+
+    .generation-page .logs-empty {
+        color: #64748b !important;
+    }
+
+    /* Scrollbar */
+    .generation-page .gen-logs-list::-webkit-scrollbar-track {
+        background: #0f172a !important;
+    }
+
+    .generation-page .gen-logs-list::-webkit-scrollbar-thumb {
+        background: #334155 !important;
+    }
+
+    .generation-page .gen-logs-list::-webkit-scrollbar-thumb:hover {
+        background: #475569 !important;
+    }
+}

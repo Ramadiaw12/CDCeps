@@ -27,7 +27,7 @@ class AgentGeneration extends BaseAgent {
             this.notifierProgression(io, sessionUuid, 'Rédaction du CDC en cours...');
             await this.mettreAJourStatut(sessionId, 'running');
 
-            // ⚠️ Résumer les données (max 3000 caractères)
+            // Résumer les données (max 3000 caractères)
             const messageUtilisateur = `
             Génère un CDC avec ces données (résumé) :
             Collecte: ${JSON.stringify(donnees.collecte).substring(0, 1500)}
@@ -36,7 +36,7 @@ class AgentGeneration extends BaseAgent {
 
             const reponse = await this.appelerLLM(messageUtilisateur, {
                 temperature: 0.7,
-                maxTokens: 4096  // ✅ Limité à 4096 tokens
+                maxTokens: 4096  // Limité à 4096 tokens
             });
 
             // Nettoyer la réponse
