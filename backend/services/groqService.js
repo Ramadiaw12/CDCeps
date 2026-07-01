@@ -106,7 +106,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const data = await response.json();
             const content = data.choices[0]?.message?.content || '';
-            console.log(`✅ Réponse reçue (${content.length} caractères)`);
+            console.log(`Réponse reçue (${content.length} caractères)`);
             return content;
 
         } catch (error) {
@@ -116,7 +116,7 @@ export const appelLLM = async (messages, options = {}) => {
                 retryCount++;
                 if (retryCount <= maxRetries) {
                     const waitTime = retryDelay * Math.pow(2, retryCount - 1);
-                    console.log(`⏳ Limite atteinte, attente de ${waitTime/1000}s...`);
+                    console.log(`Limite atteinte, attente de ${waitTime/1000}s...`);
                     await new Promise(resolve => setTimeout(resolve, waitTime));
                     activeModel = null;
                     continue;
@@ -133,18 +133,18 @@ export const appelLLM = async (messages, options = {}) => {
     }
 };
 
-// ============================================================
+// 
 // 4. GÉNÉRATION D'EMBEDDING (Mock)
-// ============================================================
+// 
 
 export const genererEmbedding = async (texte) => {
-    console.warn('⚠️ Embedding simulé');
+    console.warn('Embedding simulé');
     return new Array(1536).fill(0).map(() => Math.random() * 0.1);
 };
 
-// ============================================================
+// 
 // 5. FONCTIONS UTILITAIRES
-// ============================================================
+// 
 
 export const genererReponseRAG = async (query, documents, options = {}) => {
     try {
@@ -183,9 +183,9 @@ export const creerPromptCDC = (data) => {
     ];
 };
 
-// ============================================================
+// 
 // 6. EXPORT
-// ============================================================
+// 
 
 export default {
     appelLLM,

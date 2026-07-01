@@ -19,10 +19,10 @@ import { indexerDocument } from '../services/ragService.js';
 
 const router = express.Router();
 
-// ============================================================
+// 
 // GET /api/documents/cdc 
 // Liste tous les CDC générés avec leurs métadonnées
-// ============================================================
+// 
 router.get('/cdc', async (req, res) => {
     try {
         const result = await pool.query(
@@ -51,10 +51,10 @@ router.get('/cdc', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // GET /api/documents/cdc/:id 
 // Retourne le contenu complet d'un CDC
-// ============================================================
+// 
 router.get('/cdc/:id', async (req, res) => {
     try {
         const result = await pool.query(
@@ -105,10 +105,10 @@ router.get('/cdc/:id', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // GET /api/documents/cdc/:id/markdown
 // Télécharge le CDC en fichier Markdown
-// ============================================================
+// 
 router.get('/cdc/:id/markdown', async (req, res) => {
     try {
         const result = await pool.query(
@@ -151,10 +151,10 @@ router.get('/cdc/:id/markdown', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // GET /api/documents/cdc/:id/pdf
 // Génère et télécharge le CDC en PDF
-// ============================================================
+// 
 router.get('/cdc/:id/pdf', async (req, res) => {
     let browser = null;
 
@@ -272,12 +272,12 @@ router.get('/cdc/:id/pdf', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // GET /api/documents/cdc/:id/format
 // Télécharge le CDC au format choisi (markdown ou pdf)
 // Utilisation : /api/documents/cdc/1/format?format=markdown
 //              /api/documents/cdc/1/format?format=pdf
-// ============================================================
+// 
 router.get('/cdc/:id/format', async (req, res) => {
     const { id } = req.params;
     const { format } = req.query; // 'markdown' ou 'pdf'
@@ -417,10 +417,10 @@ router.get('/cdc/:id/format', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // POST /api/documents/rag 
 // Indexe un nouveau document dans la base RAG
-// ============================================================
+// 
 router.post('/rag', async (req, res) => {
     try {
         const {
@@ -462,10 +462,10 @@ router.post('/rag', async (req, res) => {
     }
 });
 
-// ============================================================
+// 
 // GET /api/documents/rag 
 // Liste tous les documents RAG disponibles
-// ============================================================
+// 
 router.get('/rag', async (req, res) => {
     try {
         const result = await pool.query(
