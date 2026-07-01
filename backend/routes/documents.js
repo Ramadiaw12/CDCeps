@@ -226,11 +226,10 @@ router.get('/cdc/:id/pdf', async (req, res) => {
             </html>
         `;
 
-        browser = await puppeteer.launch({
-            headless: 'new',
-            executablePath: '/usr/bin/chromium-browser',  // ou google-chrome-stable
-            args: ['--no-sandbox', '--disable-setuid-sandbox']
-        });
+            browser = await puppeteer.launch({
+                headless: 'new',
+                args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+            });
 
         const page = await browser.newPage();
         await page.setContent(htmlComplet, { waitUntil: 'networkidle0' });
