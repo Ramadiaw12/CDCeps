@@ -93,9 +93,9 @@ class CDC {
         ];
     }
 
-    // ============================================================
+    // 
     // FINALISE UN CDC
-    // ============================================================
+    // 
     public function finaliser(int $id): bool {
         $stmt = $this->db->prepare(
             "UPDATE cahiers_des_charges

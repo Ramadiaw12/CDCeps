@@ -22,10 +22,10 @@ class DashboardController {
     private CDC         $cdc;
     private DocumentRAG $documentRAG;
 
-    // ============================================================
+    // 
     // CONSTRUCTEUR
     // Initialise les trois modèles pour récupérer les données
-    // ============================================================
+    // 
     public function __construct() {
         // Instancie les modèles pour interagir avec la base
         $this->projet      = new Projet();
@@ -33,10 +33,10 @@ class DashboardController {
         $this->documentRAG = new DocumentRAG();
     }
 
-    // ============================================================
+    // 
     // PAGE PRINCIPALE DU DASHBOARD
     // Récupère toutes les statistiques et les affiche
-    // ============================================================
+    // 
     public function index(): void {
         // Récupère toutes les statistiques des différents modèles
         $stats = [

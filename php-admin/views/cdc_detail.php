@@ -46,18 +46,18 @@
                   style="display:inline;">
                 <input type="hidden" name="id" value="<?= $cdc['id'] ?>">
                 <button type="submit" class="btn btn-success">
-                    ✅ Finaliser le CDC
+                    Finaliser le CDC
                 </button>
             </form>
         <?php else: ?>
             <span class="badge badge-success" style="padding:8px 16px;">
-                ✅ CDC Finalisé
+                CDC Finalisé
             </span>
         <?php endif; ?>
     </div>
 </div>
 
-<!-- ── Métadonnées ───────────────────────────────────────── -->
+<!-- Métadonnées -->
 <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);
      margin-bottom:24px;">
     <div class="stat-card">
@@ -102,7 +102,7 @@
     </div>
 </div>
 
-<!-- ── Sections manquantes ───────────────────────────────── -->
+<!-- Sections manquantes  -->
 <?php if (!empty($cdc['sections_manquantes'])): ?>
     <div class="alert alert-danger" style="margin-bottom:24px;">
         <strong>⚠️ Sections à compléter :</strong>
@@ -114,7 +114,7 @@
     </div>
 <?php endif; ?>
 
-<!-- ── Contenu du CDC ────────────────────────────────────── -->
+<!-- Contenu du CDC -->
 <div class="card">
     <div class="card-title">📄 Contenu du cahier des charges</div>
 

@@ -10,19 +10,19 @@ require_once __DIR__ . '/../config/database.php';
 class Projet {
     private PDO $db;
 
-    // ============================================================
+    // 
     // CONSTRUCTEUR
     // Initialise la connexion à la base de données
     // On récupère l'instance PDO via Database::getInstance()->getConnection()
-    // ============================================================
+    // 
     public function __construct() {
         // Récupère la connexion PDO pour interagir avec la base
         $this->db = Database::getInstance()->getConnection();
     }
 
-    // ============================================================
+    // 
     // RÉCUPÈRE TOUS LES PROJETS AVEC LEURS CLIENTS
-    // ============================================================
+    // 
     public function getTous(): array {
         // Requête avec jointure sur clients et count des CDC
         $stmt = $this->db->prepare(
@@ -41,9 +41,9 @@ class Projet {
         return $stmt->fetchAll();
     }
 
-    // ============================================================
+    // 
     // RÉCUPÈRE UN PROJET SPÉCIFIQUE PAR SON ID
-    // ============================================================
+    // 
     public function getById(int $id): array|false {
         $stmt = $this->db->prepare(
             "SELECT p.*, c.nom, c.prenom, c.email,
@@ -56,9 +56,9 @@ class Projet {
         return $stmt->fetch();
     }
 
-    // ============================================================
+    // 
     // STATISTIQUES POUR LE DASHBOARD
-    // ============================================================
+    // 
     public function getStats(): array {
         // Nombre total de projets
         $total = $this->db->query(
@@ -95,9 +95,9 @@ class Projet {
         ];
     }
 
-    // ============================================================
+    // 
     // MET À JOUR LE STATUT D'UN PROJET
-    // ============================================================
+    // 
     public function updateStatut(int $id, string $statut): bool {
         $stmt = $this->db->prepare(
             "UPDATE projets SET statut = :statut WHERE id = :id"

@@ -159,9 +159,9 @@ class DocumentRAG {
         ];
     }
     
-    // ============================================================
+    // 
     // SUPPRIME UN DOCUMENT (SOFT DELETE)
-    // ============================================================
+    // 
     public function delete($id) {
         $stmt = $this->db->prepare("
             UPDATE documents SET actif = false, updated_at = CURRENT_TIMESTAMP 
@@ -170,9 +170,9 @@ class DocumentRAG {
         return $stmt->execute([$id]);
     }
     
-    // ============================================================
+    // 
     // MET À JOUR UN DOCUMENT
-    // ============================================================
+    // 
     public function update($id, $data) {
         $fields = [];
         $params = [];

@@ -14,7 +14,7 @@ class Database {
     
     private function __construct() {
         try {
-            // PostgreSQL au lieu de MySQL
+            // PostgreSQL 
             $this->pdo = new PDO(
                 'pgsql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME,
                 DB_USER,
