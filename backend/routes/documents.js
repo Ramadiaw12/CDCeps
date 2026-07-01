@@ -350,7 +350,7 @@ router.get('/cdc/:id/format', async (req, res) => {
             </head>
             <body>
                 <div class="header">
-                    <h1>EPS SARL — Cahier des Charges Préliminaire</h1>
+                    <h1>EPS SARL - Cahier des Charges Préliminaire</h1>
                     <div class="meta">
                         <strong>Projet :</strong> ${cdc.projet_titre} |
                         <strong>Client :</strong> ${cdc.prenom} ${cdc.nom}

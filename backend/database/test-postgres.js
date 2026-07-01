@@ -11,7 +11,7 @@ async function test() {
     // 1. Tester la connexion
     const connected = await testConnection();
     if (!connected) {
-        console.log('❌ Arrêt du test');
+        console.log('Arrêt du test');
         return;
     }
     
@@ -26,36 +26,36 @@ async function test() {
             mockEmbedding,
             { category: 'test', author: 'superrama' }
         );
-        console.log(`✅ Document inséré avec l'ID: ${id}`);
+        console.log(`Document inséré avec l'ID: ${id}`);
     } catch (error) {
-        console.error('❌ Erreur insertion:', error.message);
+        console.error('Erreur insertion:', error.message);
     }
     
     // 4. Recherche sémantique
     try {
         const results = await semanticSearch(mockEmbedding, 5);
-        console.log('\n📊 Résultats de la recherche sémantique:');
+        console.log('\nRésultats de la recherche sémantique:');
         results.forEach((r, i) => {
             console.log(`  ${i+1}. ${r.title} (similarité: ${r.similarity?.toFixed(4) || 'N/A'})`);
         });
     } catch (error) {
-        console.error('❌ Erreur recherche:', error.message);
+        console.error('Erreur recherche:', error.message);
     }
     
     // 5. Lister tous les documents
     try {
         const docs = await getAllDocuments();
-        console.log(`\n📚 Total documents: ${docs.length}`);
+        console.log(`\nTotal documents: ${docs.length}`);
         docs.forEach(d => {
             console.log(`  - ${d.id}: ${d.title}`);
         });
     } catch (error) {
-        console.error('❌ Erreur liste:', error.message);
+        console.error('Erreur liste:', error.message);
     }
     
     // Fermer le pool
     await pool.end();
-    console.log('\n✅ Test terminé');
+    console.log('\nTest terminé');
 }
 
 test();
