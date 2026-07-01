@@ -277,7 +277,7 @@
 
         .form-group textarea { min-height: 120px; resize: vertical; }
 
-        /* ── Alertes ─────────────────────────────────────── */
+        /* Alertes */
         .alert {
             padding: 12px 16px;
             border-radius: 8px;
@@ -297,7 +297,7 @@
             color: #991b1b;
         }
 
-        /* ── Grid ────────────────────────────────────────── */
+        /* Grid */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -325,7 +325,7 @@
             transition: width 0.5s;
         }
 
-        /* ── Lien externe ────────────────────────────────── */
+        /* Lien externe */
         .link {
             color: #2563eb;
             text-decoration: none;
@@ -337,7 +337,7 @@
 </head>
 <body>
 
-<!-- ── Sidebar ──────────────────────────────────────────── -->
+<!-- Sidebar -->
 <nav class="sidebar">
     <div class="sidebar-logo">
         <h1>📋 <?= APP_NAME ?></h1>
