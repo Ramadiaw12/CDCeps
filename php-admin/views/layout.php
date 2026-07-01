@@ -21,7 +21,7 @@
             font-size: 14px;
         }
 
-        /* ── Sidebar ─────────────────────────────────────── */
+        /* Sidebar */
         .sidebar {
             position: fixed;
             left: 0; top: 0;
@@ -81,13 +81,13 @@
             color: #475569;
         }
 
-        /* ── Contenu principal ───────────────────────────── */
+        /* Contenu principal */
         .main {
             margin-left: 240px;
             min-height: 100vh;
         }
 
-        /* ── Topbar ──────────────────────────────────────── */
+        /* Topbar */
         .topbar {
             background: #ffffff;
             border-bottom: 1px solid #e2e8f0;
@@ -109,12 +109,12 @@
             align-items: center;
         }
 
-        /* ── Page content ────────────────────────────────── */
+        /* Page content  */
         .content {
             padding: 28px 32px;
         }
 
-        /* ── Cards ───────────────────────────────────────── */
+        /*  Cards */
         .card {
             background: #ffffff;
             border-radius: 10px;
@@ -132,7 +132,7 @@
             border-bottom: 1px solid #f1f5f9;
         }
 
-        /* ── Stats grid ──────────────────────────────────── */
+        /*  Stats grid  */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -173,7 +173,7 @@
             margin-top: 4px;
         }
 
-        /* ── Tableaux ────────────────────────────────────── */
+        /*  Tableaux  */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -201,7 +201,7 @@
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: #f8fafc; }
 
-        /* ── Badges ──────────────────────────────────────── */
+        /*  Badges  */
         .badge {
             display: inline-block;
             padding: 3px 10px;
@@ -216,7 +216,7 @@
         .badge-primary  { background: #dbeafe; color: #1e40af; }
         .badge-gray     { background: #f1f5f9; color: #475569; }
 
-        /* ── Boutons ─────────────────────────────────────── */
+        /*  Boutons  */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -245,7 +245,7 @@
         .btn-secondary:hover { background: #f8fafc; }
         .btn-sm { padding: 5px 10px; font-size: 12px; }
 
-        /* ── Formulaires ─────────────────────────────────── */
+        /* Formulaires  */
         .form-group { margin-bottom: 16px; }
 
         .form-group label {
@@ -310,7 +310,7 @@
             gap: 20px;
         }
 
-        /* ── Score bar ───────────────────────────────────── */
+        /* Score bar */
         .score-bar {
             height: 8px;
             background: #e2e8f0;
