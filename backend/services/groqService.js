@@ -8,9 +8,9 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// ============================================================
+// 
 // 1. CONFIGURATION GROQ
-// ============================================================
+// 
 
 const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
@@ -18,28 +18,28 @@ if (!process.env.GROQ_API_KEY) {
     console.error('❌ GROQ_API_KEY non définie dans .env');
 }
 
-// ✅ Modèles Groq actuellement disponibles
+// Modèles Groq actuellement disponibles
 const MODELS = [
-    'llama-3.3-70b-versatile',     // ✅ Très performant
-    'llama-3.1-8b-instant',        // ✅ Rapide
-    'mixtral-8x7b-32768',          // ✅ Bon compromis
+    'llama-3.3-70b-versatile',     // Très performant
+    'llama-3.1-8b-instant',        // Rapide
+    'mixtral-8x7b-32768',          // Bon compromis
 ];
 
 const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
 let activeModel = null;
 
-// ============================================================
+// 
 // 2. FONCTION POUR TROUVER UN MODÈLE DISPONIBLE
-// ============================================================
+// 
 
 const findAvailableModel = async () => {
     if (activeModel) return activeModel;
 
-    console.log('🔍 Recherche d\'un modèle Groq disponible...');
+    console.log('Recherche d\'un modèle Groq disponible...');
 
     for (const model of MODELS) {
         try {
-            console.log(`📌 Test de ${model}...`);
+            console.log(`Test de ${model}...`);
             const response = await fetch(GROQ_API_URL, {
                 method: 'POST',
                 headers: {
@@ -54,7 +54,7 @@ const findAvailableModel = async () => {
             });
             
             if (response.ok) {
-                console.log(`✅ Modèle ${model} disponible !`);
+                console.log(`Modèle ${model} disponible !`);
                 activeModel = model;
                 return model;
             }
@@ -63,13 +63,13 @@ const findAvailableModel = async () => {
         }
     }
 
-    console.warn('⚠️ Aucun modèle trouvé, utilisation du modèle par défaut');
+    console.warn('Aucun modèle trouvé, utilisation du modèle par défaut');
     return DEFAULT_MODEL;
 };
 
-// ============================================================
+// 
 // 3. FONCTION PRINCIPALE - APPEL LLM
-// ============================================================
+// 
 
 export const appelLLM = async (messages, options = {}) => {
     const maxRetries = 3;
@@ -83,7 +83,7 @@ export const appelLLM = async (messages, options = {}) => {
 
             const modelName = options.model || await findAvailableModel() || DEFAULT_MODEL;
 
-            console.log(`🦙 Appel Groq (${modelName}) avec ${messages.length} messages`);
+            console.log(`Appel Groq (${modelName}) avec ${messages.length} messages`);
 
             const response = await fetch(GROQ_API_URL, {
                 method: 'POST',
