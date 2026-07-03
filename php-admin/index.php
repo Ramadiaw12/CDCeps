@@ -58,13 +58,13 @@ switch ($controller) {
 // Vérifie si la méthode existe avant de l'appeler
 // ============================================================
 if ($id && method_exists($ctrl, $action)) {
-    // Action avec paramètre ID (ex: voir, modifier, supprimer)
+    // Action avec paramètre ID (exemple: voir, modifier, supprimer)
     $ctrl->$action($id);
 } else if (method_exists($ctrl, $action)) {
-    // Action sans paramètre (ex: index, create, store)
+    // Action sans paramètre (exemple: index, create, store)
     $ctrl->$action();
 } else {
     // Erreur 404 si la méthode n'existe pas
     http_response_code(404);
-    echo "❌ Page non trouvée - Action '$action' introuvable dans le contrôleur '$controller'";
+    echo "Page non trouvée - Action '$action' introuvable dans le contrôleur '$controller'";
 }
