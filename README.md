@@ -347,7 +347,7 @@ Contrôle la complétude, la cohérence et la qualité rédactionnelle du docume
 | 1 | Collecte | `llama-3.3-70b-versatile` | Besoins structurés (JSON) |
 | 2 | Analyse | `llama-3.3-70b-versatile` | Contexte enrichi + risques |
 | 3 | Génération | `llama-3.3-70b-versatile` | Contenu Markdown du CDC |
-| 4 | Validation | `mixtral-8x7b-32768` | Score qualité + feedback |
+| 4 | Validation | `Grok` | Score qualité + feedback |
 
 ---
 
@@ -388,7 +388,7 @@ Contrôle la complétude, la cohérence et la qualité rédactionnelle du docume
 ### Cloner le Projet
 
 ```bash
-git clone https://github.com/votre-org/cdceps.git
+git clone https://github.com/Ramadiaw12/CDCeps.git
 cd cdceps
 ```
 
