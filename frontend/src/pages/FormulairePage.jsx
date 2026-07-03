@@ -30,6 +30,8 @@ function FormulairePage() {
     const [erreurs, setErreurs] = useState({});
     const [chargement, setChargement] = useState(false);
     const [etape, setEtape] = useState(1);
+    const [projetId, setProjetId] = useState(null);
+    const [showUpload, setShowUpload] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -68,16 +70,29 @@ function FormulairePage() {
     const etapePrecedente = () => setEtape(1);
 
     const handleSubmit = async () => {
-        if (!validerEtape2()) return;
-        setChargement(true);
-        try {
+    if (!validerEtape2()) return;
+    setChargement(true);
+
+    try {
+            // 1. Créer le projet
             const reponseProjet = await creerProjet({
                 ...formulaire,
                 budget_estime: formulaire.budget_estime ? parseFloat(formulaire.budget_estime) : null
             });
+
+            // 2. Récupérer l'ID du projet
             const projetId = reponseProjet.data.projetId;
+
+            // 3. Stocker l'ID pour l'upload
+            setProjetId(projetId);
+            setShowUpload(true);
+
+            // 4. Lancer la génération
             await lancerGeneration(projetId);
+
+            // 5. Rediriger
             navigate(`/generation/${projetId}`);
+
         } catch (error) {
             setErreurs({
                 global: error.response?.data?.message || 'Erreur lors de la création du projet'
@@ -228,7 +243,10 @@ function FormulairePage() {
                                     <div className="form-step-header-icon">📋</div>
                                     <h2>Description du projet</h2>
                                 </div>
-
+                                {/* Upload de documents */}
+                                {showUpload && projetId && (
+                                    <UploadDocuments projetId={projetId} />
+                                )}
                                 <div className="form-group animated-group">
                                     <label>Titre du projet *</label>
                                     <input
