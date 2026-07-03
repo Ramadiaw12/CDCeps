@@ -600,14 +600,6 @@ Ce projet est distribué sous licence **MIT**. Voir le fichier `LICENSE` pour pl
 
 ---
 
-## 👨‍💻 Équipe
-
-| Rôle | Contact |
-|---|---|
-| Chef de projet | — |
-| Développeur Backend | — |
-| Développeur Frontend | — |
-| Ingénieur IA / Agents | — |
 
 ---
 
@@ -616,8 +608,8 @@ Ce projet est distribué sous licence **MIT**. Voir le fichier `LICENSE` pour pl
 <div align="center">
   <img src="LIEN_VERS_TON_AVATAR" width="120" style="border-radius:50%" alt="Avatar">
 
-  ### Ton Nom Complet
-  *Ton rôle (ex: Développeur Full-Stack)*
+  ### DIAWANE Ramatoulaye
+  *AI Infrastructure Engineer student*
 
   [![Email](https://img.shields.io/badge/Email-D14836?style=flat-square&logo=gmail&logoColor=white)](mailto:ton.email@example.com)
   [![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/ton-pseudo)
