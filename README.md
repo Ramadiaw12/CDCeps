@@ -451,7 +451,7 @@ pnpm run dev
 ```bash
 cd admin
 php -S localhost:8000
-# → Dashboard disponible sur http://localhost:8000
+#  Dashboard disponible sur http://localhost:8000
 ```
 
 ### Exemple d'Utilisation
@@ -479,7 +479,6 @@ PORT=3001
 DATABASE_URL=postgresql://user:password@localhost:5432/cdceps
 GROQ_API_KEY=your_groq_api_key
 GROQ_MODEL_MAIN=llama-3.3-70b-versatile
-GROQ_MODEL_VALIDATION=mixtral-8x7b-32768
 SOCKET_CORS_ORIGIN=http://localhost:5173
 ```
 
