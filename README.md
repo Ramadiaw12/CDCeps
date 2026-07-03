@@ -434,7 +434,7 @@ psql -d cdceps -f schema.sql
 
 ```bash
 cd backend
-npm run dev
+pnpm dev
 # → API disponible sur http://localhost:3001
 ```
 
@@ -442,7 +442,7 @@ npm run dev
 
 ```bash
 cd frontend
-npm run dev
+pnpm run dev
 # → Interface disponible sur http://localhost:5173
 ```
 
