@@ -490,5 +490,42 @@ router.get('/rag', async (req, res) => {
         });
     }
 });
+// Upload de document
+router.post('/upload', upload.single('document'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({
+                succes: false,
+                message: 'Aucun fichier téléchargé'
+            });
+        }
+
+        const metadata = {
+            type_projet: req.body.type_projet || 'general',
+            secteur: req.body.secteur || null,
+            mots_cles: req.body.mots_cles ? JSON.parse(req.body.mots_cles) : []
+        };
+
+        const result = await uploadDocument(req.file, metadata);
+
+        return res.status(201).json({
+            succes: true,
+            message: 'Document uploadé et indexé avec succès',
+            data: {
+                documentId: result.documentId,
+                filename: result.filename,
+                size: result.size
+            }
+        });
+
+    } catch (error) {
+        console.error('❌ Erreur upload:', error.message);
+        return res.status(500).json({
+            succes: false,
+            message: 'Erreur lors de l\'upload',
+            erreur: error.message
+        });
+    }
+});
 
 export default router;
