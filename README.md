@@ -559,14 +559,14 @@ curl http://localhost:3001/api/projects/{id}/export?format=pdf -o cdc.pdf
 
 ```bash
 cd backend
-npm run test:unit
+pnpm run test:unit
 ```
 
 ### Tests d'Intégration
 
 ```bash
 cd backend
-npm run test:integration
+pnpm run test:integration
 ```
 
 ---
@@ -598,10 +598,7 @@ npm run test:integration
 
 Ce projet est distribué sous licence **MIT**. Voir le fichier `LICENSE` pour plus de détails.
 
----
 
-
----
 
 ## 👨‍💻 Auteur
 
@@ -616,7 +613,7 @@ Ce projet est distribué sous licence **MIT**. Voir le fichier `LICENSE` pour pl
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://linkedin.com/in/ton-profil)
   [![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=flat-square&logo=vercel&logoColor=white)](https://ton-site.com)
 
-  *Une courte phrase de présentation ou bio ici.*
+  *Dev | AI | Infrastructure*
 </div>
 <br>
 
