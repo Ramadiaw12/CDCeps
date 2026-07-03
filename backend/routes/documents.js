@@ -16,7 +16,7 @@ import pool from '../database/postgres.js';
 import { marked } from 'marked';
 import puppeteer from 'puppeteer';
 import { indexerDocument } from '../services/ragService.js';
-
+import { upload, uploadDocument } from '../services/uploadService.js';
 const router = express.Router();
 
 // 
