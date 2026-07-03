@@ -115,15 +115,7 @@ function FormulairePage() {
                             <div className="form-step-label">Description du projet</div>
                         </div>
                     </div>
-                    {/* Upload de documents */}
-                    <div className="form-section">
-                        <UploadDocuments 
-                            projetId={projetId} 
-                            onUploadComplete={() => {
-                                addMessage('Documents indexés avec succès', 'success');
-                            }}
-                        />
-                    </div>
+                    
                     {/* Erreur globale */}
                     {erreurs.global && (
                         <div className="formulaire-error-global">
