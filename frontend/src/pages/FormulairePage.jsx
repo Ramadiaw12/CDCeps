@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { creerProjet, lancerGeneration } from '../services/api.js';
+import UploadDocuments from '../components/UploadDocuments';
 
 function FormulairePage() {
     const navigate = useNavigate();
@@ -114,7 +115,15 @@ function FormulairePage() {
                             <div className="form-step-label">Description du projet</div>
                         </div>
                     </div>
-
+                    {/* Upload de documents */}
+                    <div className="form-section">
+                        <UploadDocuments 
+                            projetId={projetId} 
+                            onUploadComplete={() => {
+                                addMessage('Documents indexés avec succès', 'success');
+                            }}
+                        />
+                    </div>
                     {/* Erreur globale */}
                     {erreurs.global && (
                         <div className="formulaire-error-global">
