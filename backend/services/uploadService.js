@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+        cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 
@@ -33,8 +33,7 @@ const fileFilter = (req, file, cb) => {
         'application/pdf',
         'application/msword',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'text/plain',
-        'application/json'
+        'text/plain'
     ];
     
     if (allowedTypes.includes(file.mimetype)) {
@@ -44,8 +43,8 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-// Configuration multer
-const upload = multer({
+// ✅ Configuration multer (renommé en uploadMiddleware)
+const uploadMiddleware = multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: {
@@ -53,13 +52,11 @@ const upload = multer({
     }
 });
 
-// Service d'upload
-export const uploadDocument = async (file, metadata) => {
+// ✅ Service d'upload (renommé en uploadDocumentService)
+export const uploadDocumentService = async (file, metadata) => {
     try {
-        // Lire le contenu du fichier
         const content = fs.readFileSync(file.path, 'utf8');
         
-        // Indexer dans la base RAG
         const documentId = await indexerDocument({
             titre: file.originalname,
             contenu: content,
@@ -67,21 +64,6 @@ export const uploadDocument = async (file, metadata) => {
             secteur: metadata.secteur || null,
             mots_cles: metadata.mots_cles || []
         });
-
-        // Mettre à jour le statut du fichier
-        await pool.query(
-            `INSERT INTO documents (title, content, type_projet, secteur, mots_cles, actif)
-             VALUES ($1, $2, $3, $4, $5, $6)
-             RETURNING id`,
-            [
-                file.originalname,
-                content,
-                metadata.type_projet || 'general',
-                metadata.secteur || null,
-                JSON.stringify(metadata.mots_cles || []),
-                true
-            ]
-        );
 
         return {
             success: true,
@@ -97,4 +79,5 @@ export const uploadDocument = async (file, metadata) => {
     }
 };
 
-export const upload = upload;
+// ✅ Export
+export { uploadMiddleware };

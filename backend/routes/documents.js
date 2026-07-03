@@ -16,7 +16,8 @@ import pool from '../database/postgres.js';
 import { marked } from 'marked';
 import puppeteer from 'puppeteer';
 import { indexerDocument } from '../services/ragService.js';
-import { upload, uploadDocument } from '../services/uploadService.js';
+import { uploadMiddleware, uploadDocumentService } from '../services/uploadService.js';
+
 const router = express.Router();
 
 // 
@@ -491,7 +492,7 @@ router.get('/rag', async (req, res) => {
     }
 });
 // Upload de document
-router.post('/upload', upload.single('document'), async (req, res) => {
+router.post('/upload', uploadMiddleware.single('document'), async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({
