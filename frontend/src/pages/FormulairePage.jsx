@@ -70,26 +70,23 @@ function FormulairePage() {
     const etapePrecedente = () => setEtape(1);
 
     const handleSubmit = async () => {
-    if (!validerEtape2()) return;
-    setChargement(true);
+        if (!validerEtape2()) return;
+        setChargement(true);
 
-    try {
-        // 1. Créer le projet
-        const reponseProjet = await creerProjet({
-            ...formulaire,
-            budget_estime: formulaire.budget_estime ? parseFloat(formulaire.budget_estime) : null
-        });
+        try {
+            // 1. Créer le projet
+            const reponseProjet = await creerProjet({
+                ...formulaire,
+                budget_estime: formulaire.budget_estime ? parseFloat(formulaire.budget_estime) : null
+            });
 
-        // 2. Récupérer l'ID du projet
-        const projetId = reponseProjet.data.projetId;
+            // 2. Récupérer l'ID du projet
+            const projetId = reponseProjet.data.projetId;
 
-        // 3. Stocker l'ID et afficher l'upload
-        setProjetId(projetId);
-        setShowUpload(true);
-        setChargement(false);
-
-        // await lancerGeneration(projetId);
-        // navigate(`/generation/${projetId}`);
+            // 3. Stocker l'ID et afficher l'upload
+            setProjetId(projetId);
+            setShowUpload(true);
+            setChargement(false);
 
         } catch (error) {
             setErreurs({
@@ -100,17 +97,17 @@ function FormulairePage() {
     };
 
     const handleLancerGeneration = async () => {
-    setChargement(true);
-    try {
-        await lancerGeneration(projetId);
-        navigate(`/generation/${projetId}`);
-    } catch (error) {
-        setErreurs({
-            global: error.response?.data?.message || 'Erreur lors du lancement de la génération'
-        });
-        setChargement(false);
-    }
-};
+        setChargement(true);
+        try {
+            await lancerGeneration(projetId);
+            navigate(`/generation/${projetId}`);
+        } catch (error) {
+            setErreurs({
+                global: error.response?.data?.message || 'Erreur lors du lancement de la génération'
+            });
+            setChargement(false);
+        }
+    };
 
     return (
         <div className="page formulaire-page">
@@ -253,10 +250,8 @@ function FormulairePage() {
                                     <div className="form-step-header-icon">📋</div>
                                     <h2>Description du projet</h2>
                                 </div>
-                                {/* Upload de documents */}
-                                {showUpload && projetId && (
-                                    <UploadDocuments projetId={projetId} />
-                                )}
+
+                                {/* Champs du formulaire */}
                                 <div className="form-group animated-group">
                                     <label>Titre du projet *</label>
                                     <input
@@ -334,23 +329,55 @@ function FormulairePage() {
                                     />
                                 </div>
 
+                                {/* ✅ Upload de documents (optionnel) - apparaît après création du projet */}
+                                {showUpload && projetId && (
+                                    <UploadDocuments projetId={projetId} />
+                                )}
+
+                                {/* ✅ Bouton Continuer vers la génération - apparaît après création du projet */}
+                                {showUpload && projetId && (
+                                    <div style={{ marginTop: '15px' }}>
+                                        <button
+                                            className="btn btn-success"
+                                            onClick={handleLancerGeneration}
+                                            disabled={chargement}
+                                            style={{
+                                                width: '100%',
+                                                padding: '12px',
+                                                background: '#10b981',
+                                                color: 'white',
+                                                border: 'none',
+                                                borderRadius: '8px',
+                                                fontSize: '15px',
+                                                fontWeight: '600',
+                                                cursor: 'pointer'
+                                            }}
+                                        >
+                                            {chargement ? '⏳ Préparation...' : '🚀 Continuer vers la génération du CDC'}
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Boutons de navigation */}
                                 <div className="formulaire-buttons double">
                                     <button className="btn btn-secondary back-btn" onClick={etapePrecedente}>
                                         ← Retour
                                     </button>
-                                    <button className="btn btn-primary submit-btn" onClick={handleSubmit} disabled={chargement}>
-                                        {chargement ? (
-                                            <>
-                                                <div className="spinner"></div>
-                                                Génération en cours...
-                                            </>
-                                        ) : (
-                                            <>
-                                                ✨ Générer le CDC
-                                                <span className="form-btn-arrow">→</span>
-                                            </>
-                                        )}
-                                    </button>
+                                    {!showUpload && (
+                                        <button className="btn btn-primary submit-btn" onClick={handleSubmit} disabled={chargement}>
+                                            {chargement ? (
+                                                <>
+                                                    <div className="spinner"></div>
+                                                    Création en cours...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    ✨ Créer le projet
+                                                    <span className="form-btn-arrow">→</span>
+                                                </>
+                                            )}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         )}
