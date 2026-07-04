@@ -124,6 +124,53 @@
     .rp-anim-1, .rp-anim-2, .rp-anim-3, .rp-anim-4, .rp-anim-5 { animation: none; }
 }
 
+/* ============================================================
+   FORCER L'APPLICATION DES VARIABLES
+   ============================================================ */
+.resultat-page,
+.resultat-page * {
+    color-scheme: light dark;
+}
+
+/* Appliquer les couleurs de base à tous les éléments */
+.rp-page,
+.rp-hero,
+.rp-stat,
+.rp-doc,
+.rp-doc-content,
+.rp-doc-content *,
+.rp-footer,
+.rp-error-card {
+    color: var(--rp-text-primary) !important;
+    background-color: var(--rp-bg) !important;
+    border-color: var(--rp-border) !important;
+}
+
+/* Forcer les couleurs des textes */
+.rp-title,
+.rp-stat-value,
+.rp-score-num,
+.rp-error-title,
+.rp-doc-content h1,
+.rp-doc-content h2,
+.rp-doc-content h3 {
+    color: var(--rp-text-primary) !important;
+}
+
+.rp-subtitle,
+.rp-stat-label,
+.rp-doc-filename,
+.rp-error-body,
+.rp-loading-text,
+.rp-doc-content p,
+.rp-doc-content li {
+    color: var(--rp-text-secondary) !important;
+}
+
+.rp-text-muted,
+.rp-back-link {
+    color: var(--rp-text-muted) !important;
+}
 /*  Layout  */
 .rp-page {
     min-height: 100vh;
