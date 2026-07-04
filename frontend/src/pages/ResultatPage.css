@@ -7,77 +7,120 @@
    TOKENS LIGHT (défaut)
    ============================================================ */
 :root {
-    --rp-bg:           #f8fafc;
-    --rp-surface:      #ffffff;
-    --rp-surface-low:  #f1f5f9;
-    --rp-border:       #e2e8f0;
-    --rp-border-med:   #cbd5e1;
-    --rp-border-strong:#94a3b8;
+    --rp-bg:            #f8fafc;
+    --rp-surface:       #ffffff;
+    --rp-surface-low:   #f1f5f9;
+    --rp-border:        #e2e8f0;
+    --rp-border-med:    #cbd5e1;
+    --rp-border-strong: #94a3b8;
 
     --rp-text-primary:   #0f172a;
     --rp-text-secondary: #334155;
     --rp-text-muted:     #64748b;
+    --rp-text-on-accent: #ffffff;
 
-    --rp-accent:        #5edfff;
-    --rp-accent-hover:  #5edfff;
-    --rp-accent-bg:     #eef2ff;
-    --rp-accent-text:   #5edfff;
+    --rp-accent:       #4f9bff;
+    --rp-accent-hover: #2f7fe6;
+    --rp-accent-bg:    #eef2ff;
+    --rp-accent-text:  #2f5fd0;
 
-    --rp-success:       #10b981;
-    --rp-success-bg:    #ecfdf5;
-    --rp-success-text:  #065f46;
+    --rp-success:      #10b981;
+    --rp-success-bg:   #ecfdf5;
+    --rp-success-text: #065f46;
 
-    --rp-warning-bg:    #fffbeb;
-    --rp-warning-text:  #92400e;
-    --rp-warning-border:#fcd34d;
+    --rp-warning-bg:     #fffbeb;
+    --rp-warning-text:   #92400e;
+    --rp-warning-border: #fcd34d;
 
-    --rp-danger:        #ef4444;
-    --rp-danger-bg:     #fef2f2;
+    --rp-danger:    #ef4444;
+    --rp-danger-bg: #fef2f2;
 
-    --rp-radius:        10px;
-    --rp-radius-lg:     16px;
+    --rp-radius:    10px;
+    --rp-radius-lg: 16px;
 
-    --rp-shadow:        0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
-    --rp-shadow-hover:  0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
+    --rp-shadow:       0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --rp-shadow-hover: 0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
+
+    color-scheme: light;
 }
-/* ============================================================
-   TOKENS DARK (via préférence système)
-   ============================================================ */
+
+
 @media (prefers-color-scheme: dark) {
-    :root {
-        --rp-bg:           #0b1120;
-        --rp-surface:      #131e2e;
-        --rp-surface-low:  #0d1626;
-        --rp-border:       #1e293b;
-        --rp-border-med:   #334155;
-        --rp-border-strong:#475569;
+    :root:not(.light) {
+        --rp-bg:            #0b1120;
+        --rp-surface:       #131e2e;
+        --rp-surface-low:   #0d1626;
+        --rp-border:        #1e293b;
+        --rp-border-med:    #334155;
+        --rp-border-strong: #475569;
 
         --rp-text-primary:   #f1f5f9;
         --rp-text-secondary: #cbd5e1;
         --rp-text-muted:     #94a3b8;
+        --rp-text-on-accent: #ffffff;
 
-        --rp-accent:        #818cf8;
-        --rp-accent-hover:  #6366f1;
-        --rp-accent-bg:     rgba(99, 102, 241, 0.15);
-        --rp-accent-text:   #a5b4fc;
+        --rp-accent:       #818cf8;
+        --rp-accent-hover: #6366f1;
+        --rp-accent-bg:    rgba(99, 102, 241, 0.16);
+        --rp-accent-text:  #a5b4fc;
 
-        --rp-success:       #34d399;
-        --rp-success-bg:    rgba(16, 185, 129, 0.12);
-        --rp-success-text:  #6ee7b7;
+        --rp-success:      #34d399;
+        --rp-success-bg:   rgba(16, 185, 129, 0.12);
+        --rp-success-text: #6ee7b7;
 
-        --rp-warning-bg:    rgba(251, 191, 36, 0.1);
-        --rp-warning-text:  #fcd34d;
-        --rp-warning-border:rgba(251, 191, 36, 0.3);
+        --rp-warning-bg:     rgba(251, 191, 36, 0.10);
+        --rp-warning-text:   #fcd34d;
+        --rp-warning-border: rgba(251, 191, 36, 0.30);
 
-        --rp-danger:        #f87171;
-        --rp-danger-bg:     rgba(239, 68, 68, 0.12);
+        --rp-danger:    #f87171;
+        --rp-danger-bg: rgba(239, 68, 68, 0.12);
 
-        --rp-shadow:        0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-        --rp-shadow-hover:  0 4px 16px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
+        --rp-shadow:       0 1px 3px rgba(0,0,0,0.40), 0 1px 2px rgba(0,0,0,0.30);
+        --rp-shadow-hover: 0 4px 16px rgba(0,0,0,0.50), 0 2px 4px rgba(0,0,0,0.30);
+
+        color-scheme: dark;
     }
 }
 
+.dark {
+    --rp-bg:            #0b1120;
+    --rp-surface:       #131e2e;
+    --rp-surface-low:   #0d1626;
+    --rp-border:        #1e293b;
+    --rp-border-med:    #334155;
+    --rp-border-strong: #475569;
 
+    --rp-text-primary:   #f1f5f9;
+    --rp-text-secondary: #cbd5e1;
+    --rp-text-muted:     #94a3b8;
+    --rp-text-on-accent: #ffffff;
+
+    --rp-accent:       #818cf8;
+    --rp-accent-hover: #6366f1;
+    --rp-accent-bg:    rgba(99, 102, 241, 0.16);
+    --rp-accent-text:  #a5b4fc;
+
+    --rp-success:      #34d399;
+    --rp-success-bg:   rgba(16, 185, 129, 0.12);
+    --rp-success-text: #6ee7b7;
+
+    --rp-warning-bg:     rgba(251, 191, 36, 0.10);
+    --rp-warning-text:   #fcd34d;
+    --rp-warning-border: rgba(251, 191, 36, 0.30);
+
+    --rp-danger:    #f87171;
+    --rp-danger-bg: rgba(239, 68, 68, 0.12);
+
+    --rp-shadow:       0 1px 3px rgba(0,0,0,0.40), 0 1px 2px rgba(0,0,0,0.30);
+    --rp-shadow-hover: 0 4px 16px rgba(0,0,0,0.50), 0 2px 4px rgba(0,0,0,0.30);
+
+    color-scheme: dark;
+}
+
+/* Forcer le clair même si l'OS est en dark */
+.light {
+    color-scheme: light;
+}
 
 /* ============================================================
    ANIMATIONS
@@ -89,11 +132,26 @@
 
 @keyframes rp-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
-    50%       { opacity: 0.4; transform: scale(0.75); }
+    50%      { opacity: 0.4; transform: scale(0.75); }
 }
 
 @keyframes rp-spin {
     to { transform: rotate(360deg); }
+}
+
+@keyframes rp-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes rp-pop-in {
+    0%   { opacity: 0; transform: translateY(10px) scale(0.96); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes rp-btn-fade-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .rp-anim-1 { animation: rp-slide-down 0.45s cubic-bezier(0.16,1,0.3,1) both; }
@@ -103,15 +161,20 @@
 .rp-anim-5 { animation: rp-slide-down 0.45s 0.28s cubic-bezier(0.16,1,0.3,1) both; }
 
 @media (prefers-reduced-motion: reduce) {
-    .rp-anim-1, .rp-anim-2, .rp-anim-3, .rp-anim-4, .rp-anim-5 {
-        animation: none;
-        opacity: 1;
+    *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
     }
 }
 
 /* ============================================================
    LAYOUT PRINCIPAL
    ============================================================ */
+* {
+    box-sizing: border-box;
+}
+
 .rp-page {
     min-height: 100vh;
     background: var(--rp-bg);
@@ -146,7 +209,7 @@
     position: relative;
     overflow: hidden;
     box-shadow: var(--rp-shadow);
-    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.25s ease;
 }
 
 .rp-hero:hover {
@@ -217,59 +280,6 @@
 }
 
 /* ============================================================
-   BOUTONS
-   ============================================================ */
-.rp-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    flex-shrink: 0;
-}
-
-.rp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 18px;
-    border-radius: var(--rp-radius);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--rp-border-med);
-    background: var(--rp-surface);
-    color: var(--rp-text-primary);
-    transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s, color 0.3s ease;
-    white-space: nowrap;
-}
-
-.rp-btn:hover {
-    background: var(--rp-surface-low);
-    border-color: var(--rp-accent);
-    box-shadow: 0 0 0 3px var(--rp-accent-bg);
-}
-
-.rp-btn:active {
-    transform: scale(0.97);
-}
-
-.rp-btn:disabled {
-    opacity: 0.55;
-    cursor: not-allowed;
-}
-
-.rp-btn-primary {
-    background: var(--rp-accent);
-    color: #fff;
-    border-color: transparent;
-}
-
-.rp-btn-primary:hover {
-    background: var(--rp-accent-hover);
-    border-color: transparent;
-    box-shadow: 0 0 0 3px var(--rp-accent-bg);
-}
-
-/* ============================================================
    STATS GRID
    ============================================================ */
 .rp-stats {
@@ -290,7 +300,8 @@
     gap: 10px;
     text-align: center;
     box-shadow: var(--rp-shadow);
-    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s, background 0.3s ease, border-color 0.3s ease;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease,
+                background 0.3s ease;
 }
 
 .rp-stat:hover {
@@ -344,6 +355,7 @@
 
 .rp-score-bar {
     fill: none;
+    stroke: var(--rp-accent);
     stroke-width: 6;
     stroke-linecap: round;
     stroke-dasharray: 220;
@@ -389,20 +401,9 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-.rp-badge-accent {
-    background: var(--rp-accent-bg);
-    color: var(--rp-accent-text);
-}
-
-.rp-badge-success {
-    background: var(--rp-success-bg);
-    color: var(--rp-success-text);
-}
-
-.rp-badge-warning {
-    background: var(--rp-warning-bg);
-    color: var(--rp-warning-text);
-}
+.rp-badge-accent  { background: var(--rp-accent-bg);  color: var(--rp-accent-text); }
+.rp-badge-success { background: var(--rp-success-bg); color: var(--rp-success-text); }
+.rp-badge-warning { background: var(--rp-warning-bg); color: var(--rp-warning-text); }
 
 /* ============================================================
    AVERTISSEMENT
@@ -480,17 +481,9 @@
     border-radius: 50%;
 }
 
-.rp-dot-red {
-    background: #ff5f57;
-}
-
-.rp-dot-yellow {
-    background: #febc2e;
-}
-
-.rp-dot-green {
-    background: #28c840;
-}
+.rp-dot-red    { background: #ff5f57; }
+.rp-dot-yellow { background: #febc2e; }
+.rp-dot-green  { background: #28c840; }
 
 .rp-doc-filename {
     font-size: 12px;
@@ -519,35 +512,6 @@
 }
 
 /* ============================================================
-   FOOTER
-   ============================================================ */
-.rp-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    padding-bottom: 40px;
-}
-
-.rp-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--rp-text-muted);
-    cursor: pointer;
-    border: none;
-    background: none;
-    padding: 8px 0;
-    transition: color 0.15s;
-}
-
-.rp-back-link:hover {
-    color: var(--rp-text-primary);
-}
-
-/* ============================================================
    SPINNER
    ============================================================ */
 .rp-spinner {
@@ -572,6 +536,7 @@
     color: var(--rp-text-muted);
     margin: 0;
     transition: color 0.3s ease;
+    animation: rp-fade-in 0.3s ease both;
 }
 
 /* ============================================================
@@ -585,6 +550,7 @@
     text-align: center;
     box-shadow: var(--rp-shadow);
     transition: background 0.3s ease, border-color 0.3s ease;
+    animation: rp-pop-in 0.4s cubic-bezier(0.16,1,0.3,1) both;
 }
 
 .rp-error-icon {
@@ -606,6 +572,234 @@
     color: var(--rp-text-muted);
     margin: 0 0 20px;
     transition: color 0.3s ease;
+}
+
+/* ============================================================
+   FOOTER + BOUTONS (version unique, sans doublon)
+   ============================================================ */
+.rp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px 0 40px;
+    border-top: 1px solid var(--rp-border);
+    margin-top: 8px;
+    transition: border-color 0.3s ease;
+    animation: rp-slide-down 0.5s ease 0.3s both;
+}
+
+.rp-footer-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* --- Lien "retour / nouveau projet" --- */
+.rp-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rp-text-muted);
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 10px 20px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    transition: color 0.25s ease, transform 0.25s ease;
+    animation: rp-btn-fade-in 0.5s ease 0.3s both;
+}
+
+.rp-back-link::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--rp-accent-bg);
+    border-radius: 10px;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.rp-back-link:hover::before {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.rp-back-link:hover {
+    color: var(--rp-accent);
+    transform: translateX(-4px);
+}
+
+.rp-back-link:active {
+    transform: scale(0.95);
+}
+
+.rp-back-link:focus-visible {
+    outline: 2px solid var(--rp-accent);
+    outline-offset: 2px;
+}
+
+.rp-back-link .link-icon {
+    font-size: 18px;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.25s ease;
+}
+
+.rp-back-link:hover .link-icon {
+    transform: rotate(-15deg) scale(1.1);
+}
+
+.rp-back-link .link-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- Bouton secondaire (ex : "Markdown") --- */
+.rp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--rp-border-med);
+    background: var(--rp-surface);
+    color: var(--rp-text-primary);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: background 0.25s ease, border-color 0.25s ease,
+                transform 0.2s ease, box-shadow 0.25s ease, color 0.3s ease;
+    animation: rp-btn-fade-in 0.5s ease 0.35s both;
+}
+
+.rp-btn:hover {
+    background: var(--rp-surface-low);
+    border-color: var(--rp-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.rp-btn:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.rp-btn:focus-visible {
+    outline: 2px solid var(--rp-accent);
+    outline-offset: 2px;
+}
+
+.rp-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.rp-btn .btn-icon {
+    font-size: 16px;
+    transition: transform 0.25s ease;
+}
+
+.rp-btn:hover .btn-icon {
+    transform: scale(1.2);
+}
+
+/* --- Bouton principal (ex : "Télécharger en PDF") --- */
+.rp-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--rp-accent);
+    color: var(--rp-text-on-accent);
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(79, 155, 255, 0.30);
+    transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+    animation: rp-btn-fade-in 0.5s ease 0.4s both;
+}
+
+.rp-btn-primary::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.rp-btn-primary:hover::before {
+    left: 100%;
+}
+
+.rp-btn-primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.rp-btn-primary:active::after {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.rp-btn-primary:hover {
+    background: var(--rp-accent-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(79, 155, 255, 0.40);
+}
+
+.rp-btn-primary:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.rp-btn-primary:focus-visible {
+    outline: 2px solid var(--rp-text-primary);
+    outline-offset: 2px;
+}
+
+.rp-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.rp-btn-primary .btn-icon {
+    font-size: 18px;
+    transition: transform 0.25s ease;
+}
+
+.rp-btn-primary:hover .btn-icon {
+    transform: translateY(-2px) scale(1.1);
 }
 
 /* ============================================================
@@ -632,27 +826,42 @@
         flex-direction: column;
     }
 
-    .rp-actions {
-        width: 100%;
-    }
-
-    .rp-btn {
-        flex: 1;
-        justify-content: center;
-    }
-
     .rp-stats {
         grid-template-columns: repeat(2, 1fr);
     }
 
     .rp-footer {
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: stretch;
+        gap: 12px;
         text-align: center;
     }
 
+    .rp-footer-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .rp-btn,
+    .rp-btn-primary,
     .rp-back-link {
+        width: 100%;
         justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .rp-back-link {
+        border: 1px solid var(--rp-border);
+        border-radius: 10px;
+    }
+
+    .rp-back-link::before {
+        display: none;
+    }
+
+    .rp-back-link:hover {
+        background: var(--rp-accent-bg);
+        transform: none;
     }
 }
 
@@ -673,422 +882,8 @@
     .rp-hero {
         padding: 16px 14px;
     }
-}
-
-
-/* ============================================================
-   MODE LIGHT (forcé)
-   ============================================================ */
-@media (prefers-color-scheme: light) {
-    .rp-page {
-        background: #f8fafc !important;
-    }
-
-    .rp-hero,
-    .rp-stat,
-    .rp-doc,
-    .rp-error-card {
-        background: #ffffff !important;
-        border-color: #e2e8f0 !important;
-    }
-
-    .rp-doc-toolbar {
-        background: #f1f5f9 !important;
-        border-color: #e2e8f0 !important;
-    }
-
-    .rp-title,
-    .rp-stat-value,
-    .rp-score-num,
-    .rp-error-title,
-    .rp-doc-content h1,
-    .rp-doc-content h2,
-    .rp-doc-content h3 {
-        color: #0f172a !important;
-    }
-
-    .rp-subtitle,
-    .rp-stat-label,
-    .rp-doc-filename,
-    .rp-error-body,
-    .rp-loading-text,
-    .rp-doc-content p,
-    .rp-doc-content li,
-    .rp-score-label {
-        color: #64748b !important;
-    }
-
-    .rp-btn {
-        background: #ffffff !important;
-        color: #0f172a !important;
-        border-color: #cbd5e1 !important;
-    }
-
-    .rp-btn:hover {
-        background: #f1f5f9 !important;
-    }
-
-    .rp-btn-primary {
-        background: #4f46e5 !important;
-        color: #ffffff !important;
-    }
-
-    .rp-btn-primary:hover {
-        background: #4338ca !important;
-    }
-
-    .rp-back-link {
-        color: #64748b !important;
-    }
-
-    .rp-back-link:hover {
-        color: #0f172a !important;
-    }
-
-    .rp-spinner {
-        border-color: #cbd5e1 !important;
-        border-top-color: #4f46e5 !important;
-    }
-
-    .rp-score-track {
-        stroke: #cbd5e1 !important;
-    }
-
-    .rp-warn {
-        background: #fffbeb !important;
-        border-color: #fcd34d !important;
-        color: #92400e !important;
-    }
-
-    .rp-badge-accent {
-        background: #eef2ff !important;
-        color: #4338ca !important;
-    }
-
-    .rp-badge-success {
-        background: #ecfdf5 !important;
-        color: #065f46 !important;
-    }
-
-    .rp-badge-warning {
-        background: #fffbeb !important;
-        color: #92400e !important;
-    }
-
-    .rp-footer {
-        border-top-color: #e2e8f0 !important;
-    }
-}
-
-/* ============================================================
-   BOUTONS DU FOOTER - Animations
-   ============================================================ */
-
-/* Conteneur des boutons du footer */
-.rp-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 20px 0 40px;
-    border-top: 1px solid var(--rp-border, #e2e8f0);
-    margin-top: 8px;
-    animation: rp-slide-down 0.5s ease 0.3s both;
-}
-
-/* Groupe de boutons à droite */
-.rp-footer-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-/* Bouton "Nouveau projet" */
-.rp-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--rp-text-muted, #64748b);
-    cursor: pointer;
-    border: none;
-    background: none;
-    padding: 10px 20px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 10px;
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
-}
-
-/* Effet de fond au survol */
-.rp-back-link::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--rp-accent-bg, #eef2ff);
-    border-radius: 10px;
-    transform: scale(0.8);
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.rp-back-link:hover::before {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.rp-back-link:hover {
-    color: var(--rp-accent, #4f46e5);
-    transform: translateX(-4px);
-}
-
-.rp-back-link:active {
-    transform: scale(0.95);
-}
-
-.rp-back-link .link-icon {
-    font-size: 18px;
-    transition: transform 0.3s ease;
-    position: relative;
-    z-index: 1;
-}
-
-.rp-back-link:hover .link-icon {
-    transform: rotate(-15deg) scale(1.1);
-}
-
-.rp-back-link .link-text {
-    position: relative;
-    z-index: 1;
-}
-
-/* Bouton "Télécharger PDF" */
-.rp-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 24px;
-    background: var(--rp-accent, #4f46e5);
-    color: #ffffff;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
-}
-
-/* Effet de brillance */
-.rp-btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: left 0.6s ease;
-}
-
-.rp-btn-primary:hover::before {
-    left: 100%;
-}
-
-/* Effet d'onde au clic */
-.rp-btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    transform: scale(0);
-    opacity: 0;
-    transition: all 0.4s ease;
-}
-
-.rp-btn-primary:active::after {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.rp-btn-primary:hover {
-    background: var(--rp-accent-hover, #4338ca);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 24px rgba(79, 70, 229, 0.35);
-}
-
-.rp-btn-primary:active {
-    transform: translateY(0px) scale(0.97);
-}
-
-.rp-btn-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-.rp-btn-primary .btn-icon {
-    font-size: 18px;
-    transition: transform 0.3s ease;
-}
-
-.rp-btn-primary:hover .btn-icon {
-    transform: translateY(-2px) scale(1.1);
-}
-
-/* Bouton "Markdown" */
-.rp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    border: 1px solid var(--rp-border-med, #cbd5e1);
-    background: var(--rp-surface, #ffffff);
-    color: var(--rp-text-primary, #0f172a);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.rp-btn:hover {
-    background: var(--rp-surface-low, #f1f5f9);
-    border-color: var(--rp-accent, #4f46e5);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-}
-
-.rp-btn:active {
-    transform: translateY(0px) scale(0.97);
-}
-
-.rp-btn .btn-icon {
-    font-size: 16px;
-    transition: transform 0.3s ease;
-}
-
-.rp-btn:hover .btn-icon {
-    transform: scale(1.2);
-}
-
-/* Animations d'entrée pour les boutons */
-.rp-back-link {
-    animation: rp-btnFadeIn 0.5s ease 0.3s both;
-}
-
-.rp-btn {
-    animation: rp-btnFadeIn 0.5s ease 0.35s both;
-}
-
-.rp-btn-primary {
-    animation: rp-btnFadeIn 0.5s ease 0.4s both;
-}
-
-@keyframes rp-btnFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(12px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* ============================================================
-   MODE DARK pour les boutons
-   ============================================================ */
-@media (prefers-color-scheme: dark) {
-    .rp-btn {
-        background: #131e2e;
-        color: #f1f5f9;
-        border-color: #334155;
-    }
-
-    .rp-btn:hover {
-        background: #1e293b;
-        border-color: #818cf8;
-    }
-
-    .rp-back-link {
-        color: #94a3b8;
-    }
-
-    .rp-back-link::before {
-        background: rgba(99, 102, 241, 0.15);
-    }
-
-    .rp-back-link:hover {
-        color: #818cf8;
-    }
-
-    .rp-btn-primary {
-        background: #818cf8;
-        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-    }
-
-    .rp-btn-primary:hover {
-        background: #6366f1;
-        box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
-    }
-
-    .rp-footer {
-        border-top-color: #1e293b;
-    }
-}
-
-/* ============================================================
-   RESPONSIVE pour les boutons
-   ============================================================ */
-@media (max-width: 640px) {
-    .rp-footer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-    }
 
     .rp-footer-actions {
         flex-direction: column;
-        width: 100%;
-    }
-
-    .rp-btn,
-    .rp-btn-primary,
-    .rp-back-link {
-        width: 100%;
-        justify-content: center;
-        padding: 12px 20px;
-    }
-
-    .rp-back-link {
-        padding: 12px 20px;
-        justify-content: center;
-        border: 1px solid var(--rp-border, #4f9bff);
-        border-radius: 10px;
-    }
-
-    .rp-back-link::before {
-        display: none;
-    }
-
-    .rp-back-link:hover {
-        background: var(--rp-accent-bg, #82bee6);
-        transform: none;
     }
 }
