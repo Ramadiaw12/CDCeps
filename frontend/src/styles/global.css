@@ -6110,3 +6110,281 @@ body {
 .btn-secondary-resultat:hover { background: #f9fafb; }
 
 
+/* ============================================================
+   RESTAURATION LISIBILITÉ — À COLLER TOUT À LA FIN DU FICHIER
+   Ce bloc doit rester APRÈS toutes les sections "compact/petit
+   carré" pour reprendre le dessus (même spécificité + !important
+   + ordre de déclaration = dernier gagne).
+   ============================================================ */
+
+/* ---------- Base ---------- */
+body {
+    font-size: 16px !important;
+}
+
+/* ---------- Sections génériques ---------- */
+.section,
+.section-alt,
+.pipeline-section,
+.agents-architecture,
+.benefits-section,
+.kpi-section,
+.cta-engineering-section {
+    padding: 64px 0 !important;
+}
+
+.section-title {
+    font-size: 28px !important;
+    margin-bottom: 12px !important;
+}
+
+.section-subtitle {
+    font-size: 16px !important;
+    margin-bottom: 40px !important;
+}
+
+/* ---------- Hero ---------- */
+.hero {
+    min-height: 70vh !important;
+    padding: 40px 0 !important;
+}
+
+.hero-title {
+    font-size: clamp(32px, 5vw, 56px) !important;
+    margin-bottom: 20px !important;
+}
+
+.hero-description {
+    font-size: 17px !important;
+    margin-bottom: 32px !important;
+    max-width: 600px !important;
+}
+
+.hero-badge {
+    font-size: 13px !important;
+    padding: 8px 18px !important;
+    margin-bottom: 24px !important;
+}
+
+.hero-buttons {
+    margin-bottom: 40px !important;
+}
+
+.hero-btn-primary, .hero-btn-secondary {
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+}
+
+.hero-stats {
+    gap: 40px !important;
+}
+
+.hero-stat-number {
+    font-size: 28px !important;
+}
+
+.hero-stat-label {
+    font-size: 13px !important;
+}
+
+/* ---------- Grilles Benefits / Agents / KPI (on garde 4 colonnes mais lisibles) ---------- */
+.benefits-grid,
+.agents-grid-full,
+.kpi-grid {
+    gap: 20px !important;
+}
+
+.benefit-card,
+.agent-card-detailed,
+.kpi-card {
+    padding: 24px !important;
+    border-radius: 20px !important;
+}
+
+.benefit-icon-wrapper {
+    width: 56px !important;
+    height: 56px !important;
+    margin-bottom: 14px !important;
+}
+
+.benefit-icon,
+.kpi-icon {
+    font-size: 28px !important;
+}
+
+.benefit-card h3 {
+    font-size: 17px !important;
+    margin-bottom: 8px !important;
+}
+
+.benefit-card p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+
+.agent-icon {
+    font-size: 26px !important;
+}
+
+.agent-badge {
+    font-size: 10px !important;
+    padding: 3px 8px !important;
+}
+
+.agent-name-detailed {
+    font-size: 15px !important;
+    margin-bottom: 6px !important;
+}
+
+.agent-role-detailed {
+    font-size: 12px !important;
+    margin-bottom: 10px !important;
+}
+
+.agent-skill {
+    font-size: 10px !important;
+    padding: 2px 8px !important;
+}
+
+.kpi-value {
+    font-size: 32px !important;
+    margin-bottom: 6px !important;
+}
+
+.kpi-label {
+    font-size: 13px !important;
+}
+
+.kpi-desc {
+    font-size: 11px !important;
+}
+
+.comm-node {
+    font-size: 13px !important;
+    padding: 7px 16px !important;
+}
+
+.comm-title {
+    font-size: 13px !important;
+}
+
+.comm-desc {
+    font-size: 11px !important;
+}
+
+/* ---------- CTA engineering ---------- */
+.cta-engineering-card {
+    padding: 40px !important;
+}
+
+.cta-engineering-title {
+    font-size: 26px !important;
+    margin-bottom: 14px !important;
+}
+
+.cta-engineering-description {
+    font-size: 15px !important;
+    margin-bottom: 24px !important;
+}
+
+.cta-primary-btn, .cta-secondary-btn {
+    padding: 12px 28px !important;
+    font-size: 14px !important;
+}
+
+.feature-item {
+    font-size: 13px !important;
+}
+
+/* ---------- Formulaire ---------- */
+.formulaire-wrapper {
+    max-width: 650px !important;
+}
+
+.formulaire-card {
+    padding: 32px !important;
+}
+
+.formulaire-title {
+    font-size: 28px !important;
+}
+
+.form-step-header h2 {
+    font-size: 20px !important;
+}
+
+.form-group label {
+    font-size: 14px !important;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 11px 14px !important;
+    font-size: 14px !important;
+}
+
+/* ---------- Navbar ---------- */
+.navbar, .navbar-container {
+    height: 64px !important;
+}
+
+body {
+    padding-top: 64px !important;
+}
+
+.logo-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 18px !important;
+}
+
+.logo-text {
+    font-size: 18px !important;
+}
+
+.nav-link {
+    font-size: 14px !important;
+    padding: 8px 14px !important;
+}
+
+/* ---------- Footer ---------- */
+.footer-tagline {
+    font-size: 12px !important;
+}
+
+.footer-metric-value {
+    font-size: 18px !important;
+}
+
+.footer-metric-label {
+    font-size: 10px !important;
+}
+
+.footer-support-value {
+    font-size: 11px !important;
+}
+
+.footer-copyright, .footer-version {
+    font-size: 10px !important;
+}
+
+/* ---------- Responsive : on garde les colonnes réduites sur mobile ---------- */
+@media (max-width: 768px) {
+    .benefits-grid,
+    .agents-grid-full,
+    .kpi-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .hero-title {
+        font-size: 28px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .benefits-grid,
+    .agents-grid-full,
+    .kpi-grid {
+        grid-template-columns: 1fr !important;
+    }
+}

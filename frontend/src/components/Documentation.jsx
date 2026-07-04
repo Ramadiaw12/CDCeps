@@ -342,7 +342,7 @@ socket.on('pipeline_erreur', (data) => {});`}</code></pre>
                                 <table className="doc-table">
                                     <thead><tr><th>Contrainte</th><th>Description</th><th>Solution</th></tr></thead>
                                     <tbody>
-                                        <tr><td>API OpenAI</td><td>Latence variable, coût par token</td><td>Cache RAG, fallback</td></tr>
+                                        <tr><td>API Grok</td><td>Latence variable, coût par token</td><td>Cache RAG, fallback</td></tr>
                                         <tr><td>Taille description</td><td>Max 5000 caractères</td><td>Validation frontend</td></tr>
                                         <tr><td>Sessions</td><td>Timeout 30 minutes</td><td>Keep-alive WebSocket</td></tr>
                                     </tbody>
