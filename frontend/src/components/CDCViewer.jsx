@@ -5,10 +5,6 @@
 // ============================================================
 
 
- // ============================================================
-// components/CDCViewer.jsx
-// Affiche le contenu Markdown du CDC avec mise en forme
-// ============================================================
 
 import { useEffect, useRef } from 'react';
 import { marked } from 'marked';
