@@ -8,7 +8,7 @@
 // ============================================================
 // services/orchestrateur.js
 // Orchestrateur principal du système multi-agents
-// ============================================================
+// 
 
 import pool from '../database/postgres.js';
 import AgentCollecte from '../agents/agentCollecte.js';

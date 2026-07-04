@@ -65,9 +65,9 @@ const getScoreLabel = (score) => {
     return 'À Améliorer';
 };
 
-// ============================================================
+// 
 // FONCTION PRINCIPALE DE GÉNÉRATION PDF
-// ============================================================
+// 
 
 /**
  * Génère un PDF professionnel à partir d'un contenu Markdown
@@ -96,9 +96,9 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
             const stream = fs.createWriteStream(outputPath);
             doc.pipe(stream);
 
-            // ============================================================
+            // 
             // 1. EN-TÊTE PROFESSIONNEL
-            // ============================================================
+            // 
             
             // Logo / En-tête
             doc.rect(50, 30, 495, 80)
@@ -137,9 +137,9 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
 
             let yPosition = 140;
 
-            // ============================================================
+            // 
             // 2. TITRE DU PROJET
-            // ============================================================
+            // 
             
             const titre = metadata.titre || 'Projet';
             
@@ -153,9 +153,9 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
             
             yPosition = doc.y + 20;
 
-            // ============================================================
+            // 
             // 3. INFORMATIONS GÉNÉRALES (si présentes)
-            // ============================================================
+            // 
             
             if (metadata.client || metadata.type || metadata.budget) {
                 doc.fillColor(COLORS.secondary)
@@ -176,9 +176,9 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
                 }
             }
 
-            // ============================================================
+            // 
             // 4. SCORE DE COMPLÉTUDE (si disponible)
-            // ============================================================
+            // 
             
             if (metadata.score !== undefined) {
                 const score = metadata.score;
@@ -211,9 +211,9 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
                 yPosition += scoreHeight + 20;
             }
 
-            // ============================================================
+            // 
             // 5. CONTENU PRINCIPAL (Markdown converti)
-            // ============================================================
+            // 
             
             // Ajouter une ligne de séparation
             doc.strokeColor(COLORS.border)
@@ -323,9 +323,9 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
                 }
             }
 
-            // ============================================================
+            // 
             // 6. PIED DE PAGE
-            // ============================================================
+            // 
             
             // Ligne de séparation
             doc.strokeColor(COLORS.border)
@@ -352,9 +352,9 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
                 });
             }
 
-            // ============================================================
+            // 
             // 7. FINALISATION
-            // ============================================================
+            // 
             
             doc.end();
 
@@ -374,8 +374,8 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
     });
 };
 
-// ============================================================
+// 
 // EXPORT
-// ============================================================
+// 
 
 export default generatePDF;

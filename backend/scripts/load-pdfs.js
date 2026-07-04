@@ -22,7 +22,7 @@ async function readPDF(filePath) {
     }
 }
 
-// Fonction pour générer un embedding (à remplacer par votre méthode)
+// Fonction pour générer un embedding 
 // Pour l'instant, on utilise un embedding aléatoire pour tester
 function generateMockEmbedding(text) {
     // Dans la vraie vie, utilisez un modèle réel
