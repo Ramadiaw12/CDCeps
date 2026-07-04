@@ -318,3 +318,57 @@
         font-size: 12px;
     }
 }
+
+/* ============================================================
+   AGRANDISSEMENT - CDC Viewer
+   ============================================================ */
+
+.cdc-viewer {
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.cdc-viewer h1 {
+    font-size: 28px !important;
+}
+
+.cdc-viewer h2 {
+    font-size: 24px !important;
+}
+
+.cdc-viewer h3 {
+    font-size: 20px !important;
+}
+
+.cdc-viewer h4 {
+    font-size: 18px !important;
+}
+
+.cdc-viewer p {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+.cdc-viewer ul li,
+.cdc-viewer ol li {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+.cdc-viewer table {
+    font-size: 15px !important;
+}
+
+.cdc-viewer th,
+.cdc-viewer td {
+    padding: 10px 14px !important;
+}
+
+.cdc-viewer code {
+    font-size: 15px !important;
+}
+
+.cdc-viewer pre {
+    font-size: 15px !important;
+    padding: 16px 20px !important;
+}

@@ -1260,3 +1260,109 @@
         border-radius: 12px;
     }
 }
+
+
+
+/* ============================================================
+   AGRANDISSEMENT GLOBAL - Résultat Page
+   ============================================================ */
+
+/* Taille de base */
+.rp-page {
+    font-size: 16px;
+}
+
+/* Titre principal */
+.rp-title {
+    font-size: 30px !important;
+    font-weight: 700 !important;
+}
+
+/* Sous-titre */
+.rp-subtitle {
+    font-size: 16px !important;
+}
+
+/* Métadonnées */
+.rp-stat-label {
+    font-size: 13px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.rp-stat-value {
+    font-size: 18px !important;
+}
+
+/* Score */
+.rp-score-num {
+    font-size: 28px !important;
+}
+
+.rp-score-label {
+    font-size: 12px !important;
+}
+
+/* Badges */
+.rp-badge {
+    font-size: 14px !important;
+    padding: 6px 14px !important;
+}
+
+/* Avertissement */
+.rp-warn-body {
+    font-size: 15px !important;
+}
+
+.rp-warn-list li {
+    font-size: 15px !important;
+}
+
+/* Contenu du CDC */
+.rp-doc-content {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+.rp-doc-content h1 {
+    font-size: 28px !important;
+}
+
+.rp-doc-content h2 {
+    font-size: 24px !important;
+}
+
+.rp-doc-content h3 {
+    font-size: 20px !important;
+}
+
+.rp-doc-content p {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+.rp-doc-content li {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+/* Boutons */
+.rp-btn {
+    font-size: 15px !important;
+    padding: 12px 24px !important;
+}
+
+.rp-btn-primary {
+    font-size: 15px !important;
+    padding: 12px 28px !important;
+}
+
+.rp-back-link {
+    font-size: 15px !important;
+    padding: 12px 24px !important;
+}
+
+/* Footer */
+.rp-footer {
+    padding: 20px 24px !important;
+}

@@ -15,7 +15,8 @@
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
+  /* ✅ Taille de police normale */
+  font: 16px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -26,7 +27,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   @media (max-width: 1024px) {
-    font-size: 16px;
+    font-size: 15px;
   }
 }
 
@@ -146,3 +147,87 @@ code {
   0%, 100% { opacity: 0.3; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.05); }
 }
+
+/* ============================================================
+   FIX : Taille de police et lisibilité
+   ============================================================ */
+
+/* Augmenter la taille de base */
+html {
+    font-size: 16px; /* Base : 16px au lieu de 14px */
+}
+
+body {
+    font-size: 16px;
+    line-height: 1.7; /* Meilleure lisibilité */
+}
+
+/* Toutes les pages */
+.page {
+    font-size: 16px;
+}
+
+/* Conteneurs */
+.container {
+    font-size: 16px;
+}
+
+/* Titres */
+h1 { font-size: 28px !important; }
+h2 { font-size: 24px !important; }
+h3 { font-size: 20px !important; }
+h4 { font-size: 18px !important; }
+
+/* Paragraphes */
+p {
+    font-size: 16px !important;
+    line-height: 1.8 !important;
+}
+
+/* Labels et textes de formulaire */
+label,
+.form-group label {
+    font-size: 15px !important;
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+    font-size: 16px !important;
+    padding: 10px 14px !important;
+}
+
+/* Boutons */
+button,
+.btn {
+    font-size: 15px !important;
+    padding: 10px 20px !important;
+}
+
+/* Tableaux */
+table {
+    font-size: 15px !important;
+}
+
+table th,
+table td {
+    padding: 10px 14px !important;
+}
+
+/* Badges et petites étiquettes */
+.badge,
+.rp-badge {
+    font-size: 13px !important;
+}
+
+/* Métadonnées */
+.rp-stat-label,
+.rp-stat-value {
+    font-size: 15px !important;
+}
+
+.rp-stat-value .score-nombre {
+    font-size: 28px !important;
+}
+
