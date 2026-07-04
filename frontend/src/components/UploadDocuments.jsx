@@ -47,7 +47,7 @@ function UploadDocuments({ projetId }) {
                 setUploadProgress(Math.round((uploaded / files.length) * 100));
             }
 
-            alert(`✅ ${files.length} document(s) uploadé(s) avec succès !`);
+            alert(`${files.length} document(s) uploadé(s) avec succès !`);
             setFiles([]);
             setUploadProgress(0);
 
