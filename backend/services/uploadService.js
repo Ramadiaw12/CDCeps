@@ -43,7 +43,7 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-// ✅ Configuration multer (renommé en uploadMiddleware)
+// Configuration multer (renommé en uploadMiddleware)
 const uploadMiddleware = multer({
     storage: storage,
     fileFilter: fileFilter,
@@ -52,7 +52,7 @@ const uploadMiddleware = multer({
     }
 });
 
-// ✅ Service d'upload (renommé en uploadDocumentService)
+// Service d'upload (renommé en uploadDocumentService)
 export const uploadDocumentService = async (file, metadata) => {
     try {
         const content = fs.readFileSync(file.path, 'utf8');
@@ -79,5 +79,5 @@ export const uploadDocumentService = async (file, metadata) => {
     }
 };
 
-// ✅ Export
+// Export
 export { uploadMiddleware };

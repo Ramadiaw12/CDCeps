@@ -359,7 +359,7 @@ export const generatePDF = async (markdownContent, outputPath, metadata = {}) =>
             doc.end();
 
             stream.on('finish', () => {
-                console.log('✅ PDF généré avec succès');
+                console.log('PDF généré avec succès');
                 resolve(outputPath);
             });
 
