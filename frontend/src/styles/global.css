@@ -6383,3 +6383,148 @@ body {
         grid-template-columns: 1fr !important;
     }
 }
+
+
+
+.footer-responsive {
+    padding: 56px 0 32px !important;
+    margin-top: 60px !important;
+}
+
+.footer-container {
+    padding: 0 24px !important;
+}
+
+.footer-grid {
+    gap: 32px !important;
+    margin-bottom: 32px !important;
+}
+
+/* ---------- Brand ---------- */
+.footer-brand {
+    gap: 12px !important;
+}
+
+.footer-logo {
+    font-size: 22px !important;
+}
+
+.footer-tagline {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+    max-width: 260px !important;
+}
+
+.footer-status {
+    padding: 6px 14px !important;
+    gap: 8px !important;
+}
+
+.footer-status-dot {
+    width: 8px !important;
+    height: 8px !important;
+}
+
+.footer-status-text {
+    font-size: 12px !important;
+}
+
+/* ---------- Titres de colonnes (EN DIRECT / ACTIONS RAPIDES / SUPPORT) ---------- */
+.footer-title {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 16px !important;
+}
+
+/* ---------- Métriques ---------- */
+.footer-metrics-grid {
+    gap: 12px !important;
+}
+
+.footer-metric {
+    padding: 14px 12px !important;
+    border-radius: 12px !important;
+}
+
+.footer-metric-value {
+    font-size: 24px !important;
+}
+
+.footer-metric-label {
+    font-size: 11px !important;
+    margin-top: 4px !important;
+}
+
+/* ---------- Actions rapides ---------- */
+.footer-actions-list {
+    gap: 10px !important;
+}
+
+.footer-action {
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+    gap: 10px !important;
+    border-radius: 10px !important;
+}
+
+.footer-action-arrow {
+    font-size: 14px !important;
+}
+
+/* ---------- Support ---------- */
+.footer-support-list {
+    gap: 12px !important;
+}
+
+.footer-support-item {
+    gap: 12px !important;
+}
+
+.footer-support-icon {
+    font-size: 18px !important;
+    width: 34px !important;
+    height: 34px !important;
+}
+
+.footer-support-label {
+    font-size: 11px !important;
+}
+
+.footer-support-value {
+    font-size: 13px !important;
+}
+
+/* ---------- Bas de page ---------- */
+.footer-bottom {
+    padding-top: 20px !important;
+    gap: 12px !important;
+}
+
+.footer-copyright,
+.footer-version {
+    font-size: 12px !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .footer-grid {
+        gap: 28px !important;
+    }
+    .footer-metrics-grid {
+        flex-direction: row !important;
+        gap: 12px !important;
+    }
+    .footer-metric-value {
+        font-size: 20px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-metrics-grid {
+        flex-direction: column !important;
+    }
+    .footer-tagline {
+        max-width: 100% !important;
+    }
+}
