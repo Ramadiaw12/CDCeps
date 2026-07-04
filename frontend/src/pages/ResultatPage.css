@@ -117,10 +117,6 @@
     color-scheme: dark;
 }
 
-/* Forcer le clair même si l'OS est en dark */
-.light {
-    color-scheme: light;
-}
 
 /* ============================================================
    ANIMATIONS
@@ -168,9 +164,9 @@
     }
 }
 
-/* ============================================================
+/* 
    LAYOUT PRINCIPAL
-   ============================================================ */
+    */
 * {
     box-sizing: border-box;
 }
@@ -197,9 +193,9 @@
     gap: 16px;
 }
 
-/* ============================================================
+/* 
    HERO
-   ============================================================ */
+    */
 .rp-hero {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -234,9 +230,9 @@
     flex-wrap: wrap;
 }
 
-/* ============================================================
+/* 
    TYPOGRAPHIE
-   ============================================================ */
+    */
 .rp-eyebrow {
     display: flex;
     align-items: center;
@@ -279,9 +275,9 @@
     font-weight: 500;
 }
 
-/* ============================================================
+/* 
    STATS GRID
-   ============================================================ */
+    */
 .rp-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -331,9 +327,9 @@
     transition: color 0.3s ease;
 }
 
-/* ============================================================
+/* 
    SCORE ARC
-   ============================================================ */
+    */
 .rp-score-wrap {
     position: relative;
     width: 80px;
@@ -387,9 +383,9 @@
     transition: color 0.3s ease;
 }
 
-/* ============================================================
+/* 
    BADGES
-   ============================================================ */
+    */
 .rp-badge {
     display: inline-flex;
     align-items: center;
@@ -405,9 +401,9 @@
 .rp-badge-success { background: var(--rp-success-bg); color: var(--rp-success-text); }
 .rp-badge-warning { background: var(--rp-warning-bg); color: var(--rp-warning-text); }
 
-/* ============================================================
+/* 
    AVERTISSEMENT
-   ============================================================ */
+    */
 .rp-warn {
     display: flex;
     gap: 14px;
@@ -446,9 +442,9 @@
     margin-bottom: 3px;
 }
 
-/* ============================================================
+/* 
    DOCUMENT
-   ============================================================ */
+    */
 .rp-doc {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -511,9 +507,9 @@
     color: var(--rp-accent-text);
 }
 
-/* ============================================================
+/* 
    SPINNER
-   ============================================================ */
+    */
 .rp-spinner {
     width: 38px;
     height: 38px;
@@ -539,9 +535,9 @@
     animation: rp-fade-in 0.3s ease both;
 }
 
-/* ============================================================
+/* 
    ERREUR
-   ============================================================ */
+    */
 .rp-error-card {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -574,9 +570,6 @@
     transition: color 0.3s ease;
 }
 
-/* ============================================================
-   FOOTER + BOUTONS (version unique, sans doublon)
-   ============================================================ */
 .rp-footer {
     display: flex;
     justify-content: space-between;
