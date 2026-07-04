@@ -3,22 +3,25 @@
    Design system : dark/light mode, animations, typographie
    ============================================================ */
 
-/*  Tokens light  */
+/* ============================================================
+   TOKENS LIGHT (défaut)
+   ============================================================ */
 :root {
     --rp-bg:           #f8fafc;
     --rp-surface:      #ffffff;
     --rp-surface-low:  #f1f5f9;
     --rp-border:       #e2e8f0;
     --rp-border-med:   #cbd5e1;
+    --rp-border-strong:#94a3b8;
 
     --rp-text-primary:   #0f172a;
     --rp-text-secondary: #334155;
     --rp-text-muted:     #64748b;
 
-    --rp-accent:        #4f46e5;
-    --rp-accent-hover:  #4338ca;
+    --rp-accent:        #5edfff;
+    --rp-accent-hover:  #5edfff;
     --rp-accent-bg:     #eef2ff;
-    --rp-accent-text:   #4338ca;
+    --rp-accent-text:   #5edfff;
 
     --rp-success:       #10b981;
     --rp-success-bg:    #ecfdf5;
@@ -29,6 +32,7 @@
     --rp-warning-border:#fcd34d;
 
     --rp-danger:        #ef4444;
+    --rp-danger-bg:     #fef2f2;
 
     --rp-radius:        10px;
     --rp-radius-lg:     16px;
@@ -36,15 +40,17 @@
     --rp-shadow:        0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
     --rp-shadow-hover:  0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
 }
-
-/*  Tokens dark (via préférence système)  */
+/* ============================================================
+   TOKENS DARK (via préférence système)
+   ============================================================ */
 @media (prefers-color-scheme: dark) {
     :root {
         --rp-bg:           #0b1120;
         --rp-surface:      #131e2e;
         --rp-surface-low:  #0d1626;
-        --rp-border:       rgba(255, 255, 255, 0.08);
-        --rp-border-med:   rgba(255, 255, 255, 0.16);
+        --rp-border:       #1e293b;
+        --rp-border-med:   #334155;
+        --rp-border-strong:#475569;
 
         --rp-text-primary:   #f1f5f9;
         --rp-text-secondary: #cbd5e1;
@@ -64,52 +70,28 @@
         --rp-warning-border:rgba(251, 191, 36, 0.3);
 
         --rp-danger:        #f87171;
+        --rp-danger-bg:     rgba(239, 68, 68, 0.12);
 
         --rp-shadow:        0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
         --rp-shadow-hover:  0 4px 16px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
     }
 }
 
-/* Support class-based dark mode (mêmes valeurs que la media query, pour cohérence) */
-.dark {
-    --rp-bg:           #0b1120;
-    --rp-surface:      #131e2e;
-    --rp-surface-low:  #0d1626;
-    --rp-border:       rgba(255, 255, 255, 0.08);
-    --rp-border-med:   rgba(255, 255, 255, 0.16);
 
-    --rp-text-primary:   #f1f5f9;
-    --rp-text-secondary: #cbd5e1;
-    --rp-text-muted:     #94a3b8;
 
-    --rp-accent:        #818cf8;
-    --rp-accent-hover:  #6366f1;
-    --rp-accent-bg:     rgba(99, 102, 241, 0.15);
-    --rp-accent-text:   #a5b4fc;
-
-    --rp-success:       #34d399;
-    --rp-success-bg:    rgba(16, 185, 129, 0.12);
-    --rp-success-text:  #6ee7b7;
-
-    --rp-warning-bg:    rgba(251, 191, 36, 0.10);
-    --rp-warning-text:  #fcd34d;
-    --rp-warning-border:rgba(251, 191, 36, 0.30);
-
-    --rp-danger:        #f87171;
-
-    --rp-shadow:        0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
-    --rp-shadow-hover:  0 4px 16px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
-}
-
-/* ── Animations ───────────────────────────────────────────── */
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
 @keyframes rp-slide-down {
     from { opacity: 0; transform: translateY(-12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+
 @keyframes rp-pulse {
     0%, 100% { opacity: 1; transform: scale(1); }
     50%       { opacity: 0.4; transform: scale(0.75); }
 }
+
 @keyframes rp-spin {
     to { transform: rotate(360deg); }
 }
@@ -121,22 +103,28 @@
 .rp-anim-5 { animation: rp-slide-down 0.45s 0.28s cubic-bezier(0.16,1,0.3,1) both; }
 
 @media (prefers-reduced-motion: reduce) {
-    .rp-anim-1, .rp-anim-2, .rp-anim-3, .rp-anim-4, .rp-anim-5 { animation: none; }
+    .rp-anim-1, .rp-anim-2, .rp-anim-3, .rp-anim-4, .rp-anim-5 {
+        animation: none;
+        opacity: 1;
+    }
 }
 
-
-/*  Layout  */
+/* ============================================================
+   LAYOUT PRINCIPAL
+   ============================================================ */
 .rp-page {
     min-height: 100vh;
     background: var(--rp-bg);
     padding: 40px 0 60px;
-    transition: background 0.2s;
+    transition: background 0.3s ease, color 0.3s ease;
 }
+
 .rp-container {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 24px;
 }
+
 .rp-center {
     display: flex;
     flex-direction: column;
@@ -146,7 +134,9 @@
     gap: 16px;
 }
 
-/*  Hero  */
+/* ============================================================
+   HERO
+   ============================================================ */
 .rp-hero {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -156,13 +146,18 @@
     position: relative;
     overflow: hidden;
     box-shadow: var(--rp-shadow);
-    transition: box-shadow 0.2s;
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
-.rp-hero:hover { box-shadow: var(--rp-shadow-hover); }
+
+.rp-hero:hover {
+    box-shadow: var(--rp-shadow-hover);
+}
 
 .rp-hero-bar {
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--rp-accent), var(--rp-success));
     border-radius: var(--rp-radius-lg) var(--rp-radius-lg) 0 0;
@@ -176,6 +171,9 @@
     flex-wrap: wrap;
 }
 
+/* ============================================================
+   TYPOGRAPHIE
+   ============================================================ */
 .rp-eyebrow {
     display: flex;
     align-items: center;
@@ -186,9 +184,12 @@
     text-transform: uppercase;
     color: var(--rp-accent);
     margin-bottom: 8px;
+    transition: color 0.3s ease;
 }
+
 .rp-eyebrow-dot {
-    width: 6px; height: 6px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--rp-accent);
     flex-shrink: 0;
@@ -196,23 +197,28 @@
 }
 
 .rp-title {
-    font-family: 'Playfair Display', Georgia, serif;
     font-size: 26px;
     font-weight: 700;
     color: var(--rp-text-primary);
     line-height: 1.25;
     margin: 0 0 8px;
+    transition: color 0.3s ease;
 }
+
 .rp-subtitle {
     font-size: 13px;
     color: var(--rp-text-muted);
+    transition: color 0.3s ease;
 }
+
 .rp-subtitle strong {
     color: var(--rp-text-secondary);
     font-weight: 500;
 }
 
-/* Boutons  */
+/* ============================================================
+   BOUTONS
+   ============================================================ */
 .rp-actions {
     display: flex;
     gap: 10px;
@@ -232,29 +238,40 @@
     border: 1px solid var(--rp-border-med);
     background: var(--rp-surface);
     color: var(--rp-text-primary);
-    transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s;
+    transition: background 0.15s, border-color 0.15s, transform 0.1s, box-shadow 0.15s, color 0.3s ease;
     white-space: nowrap;
 }
+
 .rp-btn:hover {
     background: var(--rp-surface-low);
     border-color: var(--rp-accent);
     box-shadow: 0 0 0 3px var(--rp-accent-bg);
 }
-.rp-btn:active { transform: scale(0.97); }
-.rp-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.rp-btn:active {
+    transform: scale(0.97);
+}
+
+.rp-btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
 
 .rp-btn-primary {
     background: var(--rp-accent);
     color: #fff;
     border-color: transparent;
 }
+
 .rp-btn-primary:hover {
     background: var(--rp-accent-hover);
     border-color: transparent;
     box-shadow: 0 0 0 3px var(--rp-accent-bg);
 }
 
-/*  Stats grid  */
+/* ============================================================
+   STATS GRID
+   ============================================================ */
 .rp-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -273,43 +290,58 @@
     gap: 10px;
     text-align: center;
     box-shadow: var(--rp-shadow);
-    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s, background 0.3s ease, border-color 0.3s ease;
 }
+
 .rp-stat:hover {
     border-color: var(--rp-accent);
     box-shadow: 0 0 0 3px var(--rp-accent-bg), var(--rp-shadow-hover);
     transform: translateY(-2px);
 }
 
-.rp-stat-icon { font-size: 22px; line-height: 1; }
+.rp-stat-icon {
+    font-size: 22px;
+    line-height: 1;
+}
+
 .rp-stat-label {
     font-size: 11px;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--rp-text-muted);
+    transition: color 0.3s ease;
 }
+
 .rp-stat-value {
     font-size: 15px;
     font-weight: 600;
     color: var(--rp-text-primary);
+    transition: color 0.3s ease;
 }
 
-/*  Score arc  */
+/* ============================================================
+   SCORE ARC
+   ============================================================ */
 .rp-score-wrap {
     position: relative;
-    width: 80px; height: 80px;
+    width: 80px;
+    height: 80px;
     flex-shrink: 0;
 }
+
 .rp-score-svg {
     transform: rotate(-90deg);
     display: block;
 }
+
 .rp-score-track {
     fill: none;
     stroke: var(--rp-border-med);
     stroke-width: 6;
+    transition: stroke 0.3s ease;
 }
+
 .rp-score-bar {
     fill: none;
     stroke-width: 6;
@@ -319,6 +351,7 @@
     transition: stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1) 0.3s,
                 stroke 0.3s ease;
 }
+
 .rp-score-num {
     position: absolute;
     inset: 0;
@@ -330,16 +363,21 @@
     font-weight: 600;
     color: var(--rp-text-primary);
     line-height: 1;
+    transition: color 0.3s ease;
 }
+
 .rp-score-label {
     font-size: 9px;
     color: var(--rp-text-muted);
     margin-top: 3px;
     font-weight: 500;
     letter-spacing: 0.04em;
+    transition: color 0.3s ease;
 }
 
-/*  Badges  */
+/* ============================================================
+   BADGES
+   ============================================================ */
 .rp-badge {
     display: inline-flex;
     align-items: center;
@@ -348,12 +386,27 @@
     border-radius: 20px;
     font-size: 12px;
     font-weight: 500;
+    transition: background 0.3s ease, color 0.3s ease;
 }
-.rp-badge-accent  { background: var(--rp-accent-bg);  color: var(--rp-accent-text); }
-.rp-badge-success { background: var(--rp-success-bg); color: var(--rp-success-text); }
-.rp-badge-warning { background: var(--rp-warning-bg); color: var(--rp-warning-text); }
 
-/* Avertissement  */
+.rp-badge-accent {
+    background: var(--rp-accent-bg);
+    color: var(--rp-accent-text);
+}
+
+.rp-badge-success {
+    background: var(--rp-success-bg);
+    color: var(--rp-success-text);
+}
+
+.rp-badge-warning {
+    background: var(--rp-warning-bg);
+    color: var(--rp-warning-text);
+}
+
+/* ============================================================
+   AVERTISSEMENT
+   ============================================================ */
 .rp-warn {
     display: flex;
     gap: 14px;
@@ -363,14 +416,38 @@
     border-radius: var(--rp-radius-lg);
     padding: 18px 20px;
     margin-bottom: 20px;
+    transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
-.rp-warn-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
-.rp-warn-body  { font-size: 13px; color: var(--rp-warning-text); }
-.rp-warn-title { font-weight: 600; margin-bottom: 6px; }
-.rp-warn-list  { padding-left: 18px; margin: 0; }
-.rp-warn-list li { margin-bottom: 3px; }
 
-/*  Document  */
+.rp-warn-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.rp-warn-body {
+    font-size: 13px;
+    color: var(--rp-warning-text);
+    transition: color 0.3s ease;
+}
+
+.rp-warn-title {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.rp-warn-list {
+    padding-left: 18px;
+    margin: 0;
+}
+
+.rp-warn-list li {
+    margin-bottom: 3px;
+}
+
+/* ============================================================
+   DOCUMENT
+   ============================================================ */
 .rp-doc {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -378,6 +455,7 @@
     overflow: hidden;
     margin-bottom: 24px;
     box-shadow: var(--rp-shadow);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .rp-doc-toolbar {
@@ -387,35 +465,62 @@
     padding: 11px 18px;
     background: var(--rp-surface-low);
     border-bottom: 1px solid var(--rp-border);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
-.rp-doc-dots { display: flex; gap: 7px; align-items: center; }
-.rp-dot { width: 11px; height: 11px; border-radius: 50%; }
-.rp-dot-red    { background: #ff5f57; }
-.rp-dot-yellow { background: #febc2e; }
-.rp-dot-green  { background: #28c840; }
+
+.rp-doc-dots {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.rp-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+}
+
+.rp-dot-red {
+    background: #ff5f57;
+}
+
+.rp-dot-yellow {
+    background: #febc2e;
+}
+
+.rp-dot-green {
+    background: #28c840;
+}
 
 .rp-doc-filename {
     font-size: 12px;
     font-weight: 500;
     color: var(--rp-text-muted);
     font-family: monospace;
+    transition: color 0.3s ease;
 }
 
 .rp-doc-content {
     padding: 36px 40px;
     color: var(--rp-text-secondary);
     line-height: 1.65;
+    transition: color 0.3s ease;
 }
+
 .rp-doc-content h1,
 .rp-doc-content h2,
 .rp-doc-content h3 {
     color: var(--rp-text-primary);
+    transition: color 0.3s ease;
 }
+
 .rp-doc-content strong {
     color: var(--rp-accent-text);
 }
 
-/*  Footer  */
+/* ============================================================
+   FOOTER
+   ============================================================ */
 .rp-footer {
     display: flex;
     justify-content: space-between;
@@ -437,28 +542,41 @@
     padding: 8px 0;
     transition: color 0.15s;
 }
-.rp-back-link:hover { color: var(--rp-text-primary); }
 
-/*  Spinner  */
+.rp-back-link:hover {
+    color: var(--rp-text-primary);
+}
+
+/* ============================================================
+   SPINNER
+   ============================================================ */
 .rp-spinner {
-    width: 38px; height: 38px;
+    width: 38px;
+    height: 38px;
     border: 3px solid var(--rp-border-med);
     border-top-color: var(--rp-accent);
     border-radius: 50%;
     animation: rp-spin 0.75s linear infinite;
     flex-shrink: 0;
+    transition: border-color 0.3s ease;
 }
+
 .rp-spinner-sm {
-    width: 14px; height: 14px;
+    width: 14px;
+    height: 14px;
     border-width: 2px;
 }
+
 .rp-loading-text {
     font-size: 14px;
     color: var(--rp-text-muted);
     margin: 0;
+    transition: color 0.3s ease;
 }
 
-/*  Erreur  */
+/* ============================================================
+   ERREUR
+   ============================================================ */
 .rp-error-card {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -466,21 +584,511 @@
     padding: 48px 40px;
     text-align: center;
     box-shadow: var(--rp-shadow);
+    transition: background 0.3s ease, border-color 0.3s ease;
 }
-.rp-error-icon  { font-size: 36px; display: block; margin-bottom: 12px; }
-.rp-error-title { font-size: 18px; font-weight: 600; color: var(--rp-text-primary); margin: 0 0 6px; }
-.rp-error-body  { font-size: 14px; color: var(--rp-text-muted); margin: 0 0 20px; }
 
-/*  Responsive  */
+.rp-error-icon {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.rp-error-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--rp-text-primary);
+    margin: 0 0 6px;
+    transition: color 0.3s ease;
+}
+
+.rp-error-body {
+    font-size: 14px;
+    color: var(--rp-text-muted);
+    margin: 0 0 20px;
+    transition: color 0.3s ease;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 640px) {
-    .rp-page      { padding: 24px 0 40px; }
-    .rp-hero      { padding: 24px 20px 20px; }
-    .rp-doc-content { padding: 24px 20px; }
-    .rp-title     { font-size: 21px; }
-    .rp-hero-top  { flex-direction: column; }
-    .rp-actions   { width: 100%; }
-    .rp-btn       { flex: 1; justify-content: center; }
-    .rp-stats     { grid-template-columns: repeat(2, 1fr); }
-    .rp-footer    { flex-direction: column-reverse; align-items: stretch; text-align: center; }
-    .rp-back-link { justify-content: center; }
+    .rp-page {
+        padding: 24px 0 40px;
+    }
+
+    .rp-hero {
+        padding: 24px 20px 20px;
+    }
+
+    .rp-doc-content {
+        padding: 24px 20px;
+    }
+
+    .rp-title {
+        font-size: 21px;
+    }
+
+    .rp-hero-top {
+        flex-direction: column;
+    }
+
+    .rp-actions {
+        width: 100%;
+    }
+
+    .rp-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .rp-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rp-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .rp-back-link {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 400px) {
+    .rp-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .rp-stat {
+        padding: 14px 12px;
+    }
+
+    .rp-title {
+        font-size: 18px;
+    }
+
+    .rp-hero {
+        padding: 16px 14px;
+    }
+}
+
+
+/* ============================================================
+   MODE LIGHT (forcé)
+   ============================================================ */
+@media (prefers-color-scheme: light) {
+    .rp-page {
+        background: #f8fafc !important;
+    }
+
+    .rp-hero,
+    .rp-stat,
+    .rp-doc,
+    .rp-error-card {
+        background: #ffffff !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    .rp-doc-toolbar {
+        background: #f1f5f9 !important;
+        border-color: #e2e8f0 !important;
+    }
+
+    .rp-title,
+    .rp-stat-value,
+    .rp-score-num,
+    .rp-error-title,
+    .rp-doc-content h1,
+    .rp-doc-content h2,
+    .rp-doc-content h3 {
+        color: #0f172a !important;
+    }
+
+    .rp-subtitle,
+    .rp-stat-label,
+    .rp-doc-filename,
+    .rp-error-body,
+    .rp-loading-text,
+    .rp-doc-content p,
+    .rp-doc-content li,
+    .rp-score-label {
+        color: #64748b !important;
+    }
+
+    .rp-btn {
+        background: #ffffff !important;
+        color: #0f172a !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    .rp-btn:hover {
+        background: #f1f5f9 !important;
+    }
+
+    .rp-btn-primary {
+        background: #4f46e5 !important;
+        color: #ffffff !important;
+    }
+
+    .rp-btn-primary:hover {
+        background: #4338ca !important;
+    }
+
+    .rp-back-link {
+        color: #64748b !important;
+    }
+
+    .rp-back-link:hover {
+        color: #0f172a !important;
+    }
+
+    .rp-spinner {
+        border-color: #cbd5e1 !important;
+        border-top-color: #4f46e5 !important;
+    }
+
+    .rp-score-track {
+        stroke: #cbd5e1 !important;
+    }
+
+    .rp-warn {
+        background: #fffbeb !important;
+        border-color: #fcd34d !important;
+        color: #92400e !important;
+    }
+
+    .rp-badge-accent {
+        background: #eef2ff !important;
+        color: #4338ca !important;
+    }
+
+    .rp-badge-success {
+        background: #ecfdf5 !important;
+        color: #065f46 !important;
+    }
+
+    .rp-badge-warning {
+        background: #fffbeb !important;
+        color: #92400e !important;
+    }
+
+    .rp-footer {
+        border-top-color: #e2e8f0 !important;
+    }
+}
+
+/* ============================================================
+   BOUTONS DU FOOTER - Animations
+   ============================================================ */
+
+/* Conteneur des boutons du footer */
+.rp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 20px 0 40px;
+    border-top: 1px solid var(--rp-border, #e2e8f0);
+    margin-top: 8px;
+    animation: rp-slide-down 0.5s ease 0.3s both;
+}
+
+/* Groupe de boutons à droite */
+.rp-footer-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Bouton "Nouveau projet" */
+.rp-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rp-text-muted, #64748b);
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 10px 20px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+/* Effet de fond au survol */
+.rp-back-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rp-accent-bg, #eef2ff);
+    border-radius: 10px;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rp-back-link:hover::before {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.rp-back-link:hover {
+    color: var(--rp-accent, #4f46e5);
+    transform: translateX(-4px);
+}
+
+.rp-back-link:active {
+    transform: scale(0.95);
+}
+
+.rp-back-link .link-icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.rp-back-link:hover .link-icon {
+    transform: rotate(-15deg) scale(1.1);
+}
+
+.rp-back-link .link-text {
+    position: relative;
+    z-index: 1;
+}
+
+/* Bouton "Télécharger PDF" */
+.rp-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 24px;
+    background: var(--rp-accent, #4f46e5);
+    color: #ffffff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+}
+
+/* Effet de brillance */
+.rp-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: left 0.6s ease;
+}
+
+.rp-btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Effet d'onde au clic */
+.rp-btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.rp-btn-primary:active::after {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.rp-btn-primary:hover {
+    background: var(--rp-accent-hover, #4338ca);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 24px rgba(79, 70, 229, 0.35);
+}
+
+.rp-btn-primary:active {
+    transform: translateY(0px) scale(0.97);
+}
+
+.rp-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.rp-btn-primary .btn-icon {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.rp-btn-primary:hover .btn-icon {
+    transform: translateY(-2px) scale(1.1);
+}
+
+/* Bouton "Markdown" */
+.rp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid var(--rp-border-med, #cbd5e1);
+    background: var(--rp-surface, #ffffff);
+    color: var(--rp-text-primary, #0f172a);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.rp-btn:hover {
+    background: var(--rp-surface-low, #f1f5f9);
+    border-color: var(--rp-accent, #4f46e5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.rp-btn:active {
+    transform: translateY(0px) scale(0.97);
+}
+
+.rp-btn .btn-icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.rp-btn:hover .btn-icon {
+    transform: scale(1.2);
+}
+
+/* Animations d'entrée pour les boutons */
+.rp-back-link {
+    animation: rp-btnFadeIn 0.5s ease 0.3s both;
+}
+
+.rp-btn {
+    animation: rp-btnFadeIn 0.5s ease 0.35s both;
+}
+
+.rp-btn-primary {
+    animation: rp-btnFadeIn 0.5s ease 0.4s both;
+}
+
+@keyframes rp-btnFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================================
+   MODE DARK pour les boutons
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+    .rp-btn {
+        background: #131e2e;
+        color: #f1f5f9;
+        border-color: #334155;
+    }
+
+    .rp-btn:hover {
+        background: #1e293b;
+        border-color: #818cf8;
+    }
+
+    .rp-back-link {
+        color: #94a3b8;
+    }
+
+    .rp-back-link::before {
+        background: rgba(99, 102, 241, 0.15);
+    }
+
+    .rp-back-link:hover {
+        color: #818cf8;
+    }
+
+    .rp-btn-primary {
+        background: #818cf8;
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+    }
+
+    .rp-btn-primary:hover {
+        background: #6366f1;
+        box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
+    }
+
+    .rp-footer {
+        border-top-color: #1e293b;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE pour les boutons
+   ============================================================ */
+@media (max-width: 640px) {
+    .rp-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .rp-footer-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .rp-btn,
+    .rp-btn-primary,
+    .rp-back-link {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .rp-back-link {
+        padding: 12px 20px;
+        justify-content: center;
+        border: 1px solid var(--rp-border, #4f9bff);
+        border-radius: 10px;
+    }
+
+    .rp-back-link::before {
+        display: none;
+    }
+
+    .rp-back-link:hover {
+        background: var(--rp-accent-bg, #82bee6);
+        transform: none;
+    }
 }
