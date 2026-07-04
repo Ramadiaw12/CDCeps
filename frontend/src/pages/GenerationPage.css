@@ -564,3 +564,489 @@
         background: #475569 !important;
     }
 }
+
+
+/* ---------- Titre de la section export ---------- */
+.result-export-section {
+    margin: 20px 0 !important;
+}
+
+.result-export-section h3 {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #334155 !important;
+    margin-bottom: 12px !important;
+}
+
+/* ---------- Conteneur des boutons d'export ---------- */
+.export-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+}
+
+/* ---------- Bouton d'export base ---------- */
+.btn-export {
+    display: flex !important;
+    align-items: center !important;
+    gap: 14px !important;
+    padding: 16px 18px !important;
+    border-radius: 14px !important;
+    border: 1.5px solid #e5e7eb !important;
+    background: #ffffff !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1),
+                box-shadow 0.25s ease,
+                border-color 0.25s ease !important;
+}
+
+/* icône dans un badge rond coloré */
+.btn-export::before {
+    content: '' !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    flex-shrink: 0 !important;
+}
+
+.btn-export:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.10) !important;
+}
+
+.btn-export:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+/* Effet de balayage lumineux au survol */
+.btn-export::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -120% !important;
+    width: 60% !important;
+    height: 100% !important;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent) !important;
+    transition: left 0.6s ease !important;
+    pointer-events: none !important;
+}
+
+.btn-export:hover::after {
+    left: 130% !important;
+}
+
+/* Icône emoji/svg du bouton, si dans un span/i dédié */
+.btn-export .export-icon,
+.btn-export > span:first-child {
+    font-size: 22px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 12px !important;
+    transition: transform 0.25s ease !important;
+}
+
+.btn-export:hover .export-icon,
+.btn-export:hover > span:first-child {
+    transform: scale(1.1) rotate(-4deg) !important;
+}
+
+/* Textes */
+.export-label {
+    display: block !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    margin-bottom: 2px !important;
+}
+
+.export-desc {
+    display: block !important;
+    font-size: 12px !important;
+    color: #6b7280 !important;
+}
+
+/* ---------- Variante Markdown (1er bouton) bleu ---------- */
+.export-buttons > *:first-child,
+.btn-markdown {
+    border-color: #94bff3 !important;
+}
+
+.export-buttons > *:first-child .export-icon,
+.export-buttons > *:first-child > span:first-child,
+.btn-markdown .export-icon {
+    background: #91baf0 !important;
+    color: #2563eb !important;
+}
+
+.export-buttons > *:first-child:hover,
+.btn-markdown:hover {
+    border-color: #60a5fa !important;
+    background: #82b4ec !important;
+}
+
+/* ---------- Variante PDF (2e bouton)  rouge/orange ---------- */
+.export-buttons > *:last-child,
+.btn-pdf {
+    border-color: #fecaca !important;
+}
+
+.export-buttons > *:last-child .export-icon,
+.export-buttons > *:last-child > span:first-child,
+.btn-pdf .export-icon {
+    background: #fee2e2 !important;
+    color: #dc2626 !important;
+}
+
+.export-buttons > *:last-child:hover,
+.btn-pdf:hover {
+    border-color: #f87171 !important;
+    background: #cf8e8e !important;
+}
+
+/* ============================================================
+   BOUTONS D'ACTION  "Voir le CDC" / "Nouveau projet"
+   ============================================================ */
+.result-actions {
+    display: flex !important;
+    gap: 14px !important;
+    margin-top: 24px !important;
+    flex-wrap: wrap !important;
+}
+
+/* Bouton principal  Voir le CDC */
+.btn-resultat {
+    flex: 1 !important;
+    min-width: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    padding: 14px 24px !important;
+    border-radius: 12px !important;
+    border: none !important;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9) !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35) !important;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s ease !important;
+}
+
+.btn-resultat::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent) !important;
+    transition: left 0.6s ease !important;
+}
+
+.btn-resultat:hover::before {
+    left: 100% !important;
+}
+
+.btn-resultat:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 28px rgba(14, 165, 233, 0.45) !important;
+}
+
+.btn-resultat:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+/* Bouton secondaire Nouveau projet */
+.btn-secondary-resultat {
+    flex: 1 !important;
+    min-width: 200px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    padding: 14px 24px !important;
+    border-radius: 12px !important;
+    border: 1.5px solid #e2e8f0 !important;
+    background: #ffffff !important;
+    color: #334155 !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1) !important;
+}
+
+.btn-secondary-resultat:hover {
+    border-color: #38bdf8 !important;
+    color: #0ea5e9 !important;
+    background: #f0f9ff !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.15) !important;
+}
+
+.btn-secondary-resultat:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .export-buttons {
+        grid-template-columns: 1fr !important;
+    }
+
+    .result-actions {
+        flex-direction: column !important;
+    }
+
+    .btn-resultat,
+    .btn-secondary-resultat {
+        width: 100% !important;
+    }
+}
+
+
+/* ---------- Tokens LIGHT (par défaut, et si data-theme="light") ---------- */
+.gen-result-card {
+    --gr-bg:            #f4fdf9 !important;
+    --gr-border:        #10b981 !important;
+    --gr-title:         #0f172a !important;
+    --gr-label:         #334155 !important;
+    --gr-track:         #f3f4f6 !important;
+    --gr-verdict-bg:    #E1F5EE !important;
+    --gr-verdict-text:  #085041 !important;
+
+    --gr-export-bg:     #ffffff !important;
+    --gr-export-border: #e5e7eb !important;
+    --gr-export-label:  #0f172a !important;
+    --gr-export-desc:   #6b7280 !important;
+
+    --gr-md-bg:     #dbeafe !important;
+    --gr-md-accent: #2563eb !important;
+    --gr-md-border: #bfdbfe !important;
+
+    --gr-pdf-bg:     #fee2e2 !important;
+    --gr-pdf-accent: #dc2626 !important;
+    --gr-pdf-border: #fecaca !important;
+
+    --gr-btn2-bg:     #ffffff !important;
+    --gr-btn2-text:   #334155 !important;
+    --gr-btn2-border: #e2e8f0 !important;
+}
+
+/* ---------- Tokens DARK uniquement quand l'app est réellement en sombre ---------- */
+[data-theme="dark"] .gen-result-card {
+    --gr-bg:            #0d2018 !important;
+    --gr-border:        #10b981 !important;
+    --gr-title:         #f1f5f9 !important;
+    --gr-label:         #cbd5e1 !important;
+    --gr-track:         #1e293b !important;
+    --gr-verdict-bg:    rgba(16, 185, 129, 0.14) !important;
+    --gr-verdict-text:  #6ee7b7 !important;
+
+    --gr-export-bg:     #131e2e !important;
+    --gr-export-border: #334155 !important;
+    --gr-export-label:  #f1f5f9 !important;
+    --gr-export-desc:   #94a3b8 !important;
+
+    --gr-md-bg:     rgba(37, 99, 235, 0.18) !important;
+    --gr-md-accent: #60a5fa !important;
+    --gr-md-border: rgba(96, 165, 250, 0.35) !important;
+
+    --gr-pdf-bg:     rgba(220, 38, 38, 0.18) !important;
+    --gr-pdf-accent: #f87171 !important;
+    --gr-pdf-border: rgba(248, 113, 113, 0.35) !important;
+
+    --gr-btn2-bg:     #1e293b !important;
+    --gr-btn2-text:   #cbd5e1 !important;
+    --gr-btn2-border: #334155 !important;
+}
+
+/* ---------- Application des tokens à la carte (valable dans les 2 thèmes) ---------- */
+.gen-result-card {
+    background: var(--gr-bg) !important;
+    border: 1.5px solid var(--gr-border) !important;
+    transition: background 0.3s ease, border-color 0.3s ease !important;
+}
+
+.gen-result-card .result-header h2 {
+    color: var(--gr-title) !important;
+    opacity: 1 !important;
+}
+
+.gen-result-card .score-label {
+    color: var(--gr-label) !important;
+    opacity: 1 !important;
+}
+
+.gen-result-card .score-number {
+    color: var(--gr-title) !important;
+    opacity: 1 !important;
+}
+
+.gen-result-card .score-max {
+    color: var(--gr-label) !important;
+    opacity: 1 !important;
+}
+
+.gen-result-card .score-bar-container {
+    background: var(--gr-track) !important;
+}
+
+.gen-result-card .result-verdict {
+    background: var(--gr-verdict-bg) !important;
+}
+
+.gen-result-card .result-verdict p {
+    color: var(--gr-verdict-text) !important;
+}
+
+.gen-result-card .result-export-section h3 {
+    color: var(--gr-label) !important;
+}
+
+.gen-result-card .btn-export {
+    background: var(--gr-export-bg) !important;
+    border-color: var(--gr-export-border) !important;
+}
+
+.gen-result-card .export-label {
+    color: var(--gr-export-label) !important;
+    opacity: 1 !important;
+}
+
+.gen-result-card .export-desc {
+    color: var(--gr-export-desc) !important;
+    opacity: 1 !important;
+}
+
+/* Markdown (1er bouton) */
+.gen-result-card .export-buttons > *:first-child {
+    border-color: var(--gr-md-border) !important;
+}
+
+.gen-result-card .export-buttons > *:first-child .export-icon,
+.gen-result-card .export-buttons > *:first-child > span:first-child {
+    background: var(--gr-md-bg) !important;
+    color: var(--gr-md-accent) !important;
+}
+
+/* PDF (2e bouton) */
+.gen-result-card .export-buttons > *:last-child {
+    border-color: var(--gr-pdf-border) !important;
+}
+
+.gen-result-card .export-buttons > *:last-child .export-icon,
+.gen-result-card .export-buttons > *:last-child > span:first-child {
+    background: var(--gr-pdf-bg) !important;
+    color: var(--gr-pdf-accent) !important;
+}
+
+/* Bouton secondaire "Nouveau projet" */
+.gen-result-card .btn-secondary-resultat {
+    background: var(--gr-btn2-bg) !important;
+    color: var(--gr-btn2-text) !important;
+    border-color: var(--gr-btn2-border) !important;
+}
+
+.gen-result-card .btn-secondary-resultat:hover {
+    border-color: #38bdf8 !important;
+    color: #38bdf8 !important;
+}
+
+
+/* ---------- Conteneur ---------- */
+.gen-result-card .export-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px !important;
+}
+
+/* ---------- Bouton d'export — base ---------- */
+.gen-result-card .btn-export {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 14px 18px !important;
+    border-radius: 14px !important;
+    border: 1.5px solid var(--gr-export-border, #e5e7eb) !important;
+    background: var(--gr-export-bg, #ffffff) !important;
+    color: var(--gr-export-label, #0f172a) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    transition: transform 0.25s cubic-bezier(0.4,0,0.2,1),
+                box-shadow 0.25s ease,
+                border-color 0.25s ease,
+                background 0.25s ease !important;
+}
+
+.gen-result-card .btn-export:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12) !important;
+}
+
+.gen-result-card .btn-export:active {
+    transform: translateY(-1px) scale(0.98) !important;
+}
+
+/* Effet de balayage lumineux au survol */
+.gen-result-card .btn-export::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -120% !important;
+    width: 60% !important;
+    height: 100% !important;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.5), transparent) !important;
+    transition: left 0.6s ease !important;
+    pointer-events: none !important;
+}
+
+.gen-result-card .btn-export:hover::after {
+    left: 130% !important;
+}
+
+/* ---------- Markdown — bleu ---------- */
+.gen-result-card .btn-markdown {
+    border-color: var(--gr-md-border, #bfdbfe) !important;
+    background: var(--gr-md-bg, #dbeafe) !important;
+    color: var(--gr-md-accent, #2563eb) !important;
+}
+
+.gen-result-card .btn-markdown:hover {
+    border-color: var(--gr-md-accent, #2563eb) !important;
+}
+
+/* ---------- PDF — rouge ---------- */
+.gen-result-card .btn-pdf {
+    border-color: var(--gr-pdf-border, #fecaca) !important;
+    background: var(--gr-pdf-bg, #fee2e2) !important;
+    color: var(--gr-pdf-accent, #dc2626) !important;
+}
+
+.gen-result-card .btn-pdf:hover {
+    border-color: var(--gr-pdf-accent, #dc2626) !important;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+    .gen-result-card .export-buttons {
+        grid-template-columns: 1fr !important;
+    }
+}
