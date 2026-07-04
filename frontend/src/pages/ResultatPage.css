@@ -879,3 +879,384 @@
         flex-direction: column;
     }
 }
+
+
+
+/* ============================================================
+   COULEUR DU SCORE - VERT
+   ============================================================ */
+
+/* Score arc - vert par défaut */
+.rp-score-bar {
+    stroke: #10b981 !important; /* Vert */
+}
+
+/* Texte du score - vert */
+.rp-score-num {
+    color: #10b981 !important;
+}
+
+/* Label du score */
+.rp-score-label {
+    color: #10b981 !important;
+}
+
+/* Score dans les statistiques */
+.rp-stat-value .score-nombre {
+    color: #10b981 !important;
+}
+
+/* Pour le score affiché dans la carte */
+.rp-stat-value[style*="color"] {
+    color: #10b981 !important;
+}
+
+/* ============================================================
+   FOOTER - Boutons encadrés et animés
+   ============================================================ */
+
+/* Conteneur du footer */
+.rp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 24px 28px;
+    background: var(--rp-surface, #ffffff);
+    border-radius: var(--rp-radius-lg, 16px);
+    border: 1px solid var(--rp-border, #e2e8f0);
+    box-shadow: var(--rp-shadow, 0 1px 3px rgba(0,0,0,0.06));
+    margin-top: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet de brillance sur le footer */
+.rp-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 70%
+    );
+    animation: rp-footerShine 4s ease-in-out infinite;
+}
+
+@keyframes rp-footerShine {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(50%); }
+}
+
+/* Groupe de boutons à droite */
+.rp-footer-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* ============================================================
+   BOUTON "Nouveau projet"
+   ============================================================ */
+.rp-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--rp-text-primary, #0f172a);
+    background: var(--rp-surface-low, #f1f5f9);
+    border: 2px solid var(--rp-border, #e2e8f0);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Effet de fond au survol */
+.rp-back-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--rp-accent, #4f46e5), var(--rp-accent-hover, #4338ca));
+    border-radius: 10px;
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rp-back-link:hover::before {
+    transform: scale(1);
+    opacity: 0.08;
+}
+
+.rp-back-link:hover {
+    border-color: var(--rp-accent, #4f46e5);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.15);
+}
+
+.rp-back-link:active {
+    transform: translateY(0px) scale(0.97);
+}
+
+/* Icône du bouton */
+.rp-back-link .link-icon {
+    font-size: 18px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+}
+
+.rp-back-link:hover .link-icon {
+    transform: rotate(-20deg) scale(1.2);
+    color: var(--rp-accent, #4f46e5);
+}
+
+.rp-back-link .link-text {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.rp-back-link:hover .link-text {
+    color: var(--rp-accent, #4f46e5);
+}
+
+/* Badge "nouveau" sur le bouton */
+.rp-back-link .link-badge {
+    position: relative;
+    z-index: 1;
+    background: var(--rp-accent, #4f46e5);
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: rp-badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes rp-badgePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* ============================================================
+   BOUTON "Télécharger en PDF"
+   ============================================================ */
+.rp-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, var(--rp-accent, #4f46e5), var(--rp-accent-hover, #4338ca));
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+}
+
+/* Effet de brillance */
+.rp-btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.25) 50%,
+        transparent 70%
+    );
+    transition: left 0.6s ease;
+}
+
+.rp-btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Effet d'onde au clic */
+.rp-btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(0);
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.rp-btn-primary:active::after {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.rp-btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4);
+}
+
+.rp-btn-primary:active {
+    transform: translateY(0px) scale(0.97);
+}
+
+.rp-btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Icône du bouton PDF */
+.rp-btn-primary .btn-icon {
+    font-size: 18px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.rp-btn-primary:hover .btn-icon {
+    transform: translateY(-3px) scale(1.1);
+}
+
+/* Spinner dans le bouton */
+.rp-btn-primary .rp-spinner-sm {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: rp-spin 0.8s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   ANIMATIONS D'ENTRÉE
+   ============================================================ */
+.rp-back-link {
+    animation: rp-btnSlideUp 0.5s ease 0.2s both;
+}
+
+.rp-btn-primary {
+    animation: rp-btnSlideUp 0.5s ease 0.3s both;
+}
+
+@keyframes rp-btnSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================================
+   MODE DARK
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+    .rp-footer {
+        background: #131e2e;
+        border-color: #1e293b;
+    }
+
+    .rp-footer::before {
+        background: linear-gradient(
+            90deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.03) 50%,
+            transparent 70%
+        );
+    }
+
+    .rp-back-link {
+        background: #1e293b;
+        color: #f1f5f9;
+        border-color: #334155;
+    }
+
+    .rp-back-link:hover {
+        border-color: #818cf8;
+    }
+
+    .rp-back-link:hover .link-text {
+        color: #818cf8;
+    }
+
+    .rp-back-link .link-badge {
+        background: #818cf8;
+    }
+
+    .rp-btn-primary {
+        background: linear-gradient(135deg, #818cf8, #6366f1);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    }
+
+    .rp-btn-primary:hover {
+        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+    }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+    .rp-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 18px 20px;
+    }
+
+    .rp-footer-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .rp-back-link,
+    .rp-btn-primary {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+    }
+
+    .rp-back-link {
+        border: 2px solid var(--rp-border, #e2e8f0);
+    }
+
+    .rp-back-link::before {
+        display: none;
+    }
+
+    .rp-back-link:hover {
+        background: var(--rp-accent-bg, #eef2ff);
+        transform: none;
+    }
+
+    .rp-btn-primary {
+        border-radius: 12px;
+    }
+}
