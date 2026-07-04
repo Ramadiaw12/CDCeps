@@ -74,33 +74,43 @@ function FormulairePage() {
     setChargement(true);
 
     try {
-            // 1. Créer le projet
-            const reponseProjet = await creerProjet({
-                ...formulaire,
-                budget_estime: formulaire.budget_estime ? parseFloat(formulaire.budget_estime) : null
-            });
+        // 1. Créer le projet
+        const reponseProjet = await creerProjet({
+            ...formulaire,
+            budget_estime: formulaire.budget_estime ? parseFloat(formulaire.budget_estime) : null
+        });
 
-            // 2. Récupérer l'ID du projet
-            const projetId = reponseProjet.data.projetId;
+        // 2. Récupérer l'ID du projet
+        const projetId = reponseProjet.data.projetId;
 
-            // 3. Stocker l'ID pour l'upload
-            setProjetId(projetId);
-            setShowUpload(true);
+        // 3. Stocker l'ID et afficher l'upload
+        setProjetId(projetId);
+        setShowUpload(true);
+        setChargement(false);
 
-            // 4. Lancer la génération
-            await lancerGeneration(projetId);
-
-            // 5. Rediriger
-            navigate(`/generation/${projetId}`);
+        // await lancerGeneration(projetId);
+        // navigate(`/generation/${projetId}`);
 
         } catch (error) {
             setErreurs({
                 global: error.response?.data?.message || 'Erreur lors de la création du projet'
             });
-        } finally {
             setChargement(false);
         }
     };
+
+    const handleLancerGeneration = async () => {
+    setChargement(true);
+    try {
+        await lancerGeneration(projetId);
+        navigate(`/generation/${projetId}`);
+    } catch (error) {
+        setErreurs({
+            global: error.response?.data?.message || 'Erreur lors du lancement de la génération'
+        });
+        setChargement(false);
+    }
+};
 
     return (
         <div className="page formulaire-page">
