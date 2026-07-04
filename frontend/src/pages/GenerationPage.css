@@ -1078,8 +1078,8 @@
     /* Boutons export */
     .generation-page .btn-markdown {
         background: #1e293b !important;
-        color: #818cf8 !important;
-        border-color: #4f46e5 !important;
+        color: #73b8f0 !important;
+        border-color: #73b8f0 !important;
     }
 
     .generation-page .btn-markdown:hover {
@@ -1098,11 +1098,11 @@
 
     /* Boutons actions */
     .generation-page .btn-resultat {
-        background: #4f46e5 !important;
+        background: #73b8f0 !important;
     }
 
     .generation-page .btn-resultat:hover {
-        background: #6366f1 !important;
+        background: #73b8f0 !important;
     }
 
     .generation-page .btn-secondary-resultat {

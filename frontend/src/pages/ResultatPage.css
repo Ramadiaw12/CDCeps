@@ -656,7 +656,6 @@
     z-index: 1;
 }
 
-/* --- Bouton secondaire (ex : "Markdown") --- */
 .rp-btn {
     display: inline-flex;
     align-items: center;
@@ -708,7 +707,7 @@
     transform: scale(1.2);
 }
 
-/* --- Bouton principal (ex : "Télécharger en PDF") --- */
+/* --- Bouton principal ( "Télécharger en PDF") --- */
 .rp-btn-primary {
     display: inline-flex;
     align-items: center;
@@ -795,9 +794,9 @@
     transform: translateY(-2px) scale(1.1);
 }
 
-/* ============================================================
+/* 
    RESPONSIVE
-   ============================================================ */
+    */
 @media (max-width: 640px) {
     .rp-page {
         padding: 24px 0 40px;
