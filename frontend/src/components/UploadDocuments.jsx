@@ -1,9 +1,11 @@
 import { useState, useRef } from 'react';
+import './UploadDocuments.css';
 
 function UploadDocuments({ projetId }) {
     const [files, setFiles] = useState([]);
     const [uploading, setUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [isDragging, setIsDragging] = useState(false);
     const fileInputRef = useRef(null);
 
     const handleFileChange = (e) => {
@@ -31,7 +33,7 @@ function UploadDocuments({ projetId }) {
             for (const file of files) {
                 const formData = new FormData();
                 formData.append('document', file);
-                formData.append('projetId', projetId); // ✅ Envoyer l'ID du projet
+                formData.append('projetId', projetId);
 
                 const response = await fetch('http://localhost:3001/api/documents/upload', {
                     method: 'POST',
@@ -47,7 +49,7 @@ function UploadDocuments({ projetId }) {
                 setUploadProgress(Math.round((uploaded / files.length) * 100));
             }
 
-            alert(`${files.length} document(s) uploadé(s) avec succès !`);
+            alert(`✅ ${files.length} document(s) uploadé(s) avec succès !`);
             setFiles([]);
             setUploadProgress(0);
 
@@ -70,54 +72,38 @@ function UploadDocuments({ projetId }) {
     };
 
     return (
-        <div style={{
-            border: '2px dashed #cbd5e1',
-            borderRadius: '10px',
-            padding: '20px',
-            marginTop: '15px',
-            background: '#f8fafc'
-        }}>
-            <h4>📎 Documents supports</h4>
-            <p style={{ fontSize: '13px', color: '#64748b' }}>
+        <div className="upload-container">
+            <div className="upload-header">
+                <span className="upload-header-icon">📎</span>
+                <h4 className="upload-title">Documents supports</h4>
+                <span className="upload-badge">optionnel</span>
+            </div>
+            <p className="upload-subtitle">
                 Ajoutez des documents pour enrichir la base de connaissances
             </p>
 
-            {/* Zone de drop */}
             <div
-                style={{
-                    border: '2px dashed #cbd5e1',
-                    borderRadius: '8px',
-                    padding: '30px',
-                    textAlign: 'center',
-                    cursor: 'pointer',
-                    background: '#ffffff',
-                    transition: 'all 0.3s ease'
-                }}
+                className={`upload-dropzone ${isDragging ? 'dragover' : ''}`}
                 onClick={() => fileInputRef.current?.click()}
                 onDragOver={(e) => {
                     e.preventDefault();
-                    e.currentTarget.style.borderColor = '#4f46e5';
-                    e.currentTarget.style.background = '#eef2ff';
+                    setIsDragging(true);
                 }}
                 onDragLeave={(e) => {
-                    e.currentTarget.style.borderColor = '#cbd5e1';
-                    e.currentTarget.style.background = '#ffffff';
+                    e.preventDefault();
+                    setIsDragging(false);
                 }}
                 onDrop={(e) => {
                     e.preventDefault();
-                    e.currentTarget.style.borderColor = '#cbd5e1';
-                    e.currentTarget.style.background = '#ffffff';
+                    setIsDragging(false);
                     const droppedFiles = Array.from(e.dataTransfer.files);
                     setFiles(prev => [...prev, ...droppedFiles]);
                 }}
             >
-                📤 Glissez-déposez vos fichiers ici
-                <br />
-                <span style={{ fontSize: '12px', color: '#94a3b8' }}>
-                    ou cliquez pour sélectionner
-                </span>
-                <br />
-                <span style={{ fontSize: '11px', color: '#94a3b8' }}>
+                <span className="upload-dropzone-icon">📤</span>
+                <p className="upload-dropzone-text">Glissez-déposez vos fichiers ici</p>
+                <p className="upload-dropzone-subtext">ou cliquez pour sélectionner</p>
+                <span className="upload-dropzone-formats">
                     Formats : PDF, DOC, DOCX, TXT (max 5MB)
                 </span>
                 <input
@@ -130,108 +116,70 @@ function UploadDocuments({ projetId }) {
                 />
             </div>
 
-            {/* Liste des fichiers */}
             {files.length > 0 && (
-                <div style={{ marginTop: '15px' }}>
-                    <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        marginBottom: '10px'
-                    }}>
-                        <p style={{ margin: 0 }}>
-                            <strong>{files.length} fichier(s) sélectionné(s)</strong>
-                        </p>
+                <div className="upload-files-section">
+                    <div className="upload-files-header">
+                        <span className="upload-files-count">
+                            {files.length} fichier(s) sélectionné(s)
+                            <span>{files.reduce((acc, f) => acc + f.size, 0) / 1024 / 1024 > 1 ? 
+                                ` ${(files.reduce((acc, f) => acc + f.size, 0) / 1024 / 1024).toFixed(1)} MB` : 
+                                ''}
+                            </span>
+                        </span>
                         <button
+                            className="btn-upload-files"
                             onClick={handleUpload}
                             disabled={uploading || !projetId}
-                            style={{
-                                padding: '8px 20px',
-                                background: uploading ? '#94a3b8' : '#4f46e5',
-                                color: 'white',
-                                border: 'none',
-                                borderRadius: '6px',
-                                cursor: uploading ? 'not-allowed' : 'pointer',
-                                transition: 'all 0.3s ease'
-                            }}
                         >
-                            {uploading ? `Upload en cours... ${uploadProgress}%` : '📥 Uploader'}
+                            {uploading ? (
+                                <>
+                                    <span className="spinner-small" />
+                                    Upload {uploadProgress}%
+                                </>
+                            ) : (
+                                '📥 Uploader'
+                            )}
                         </button>
                     </div>
 
-                    {/* Barre de progression */}
                     {uploading && (
-                        <div style={{
-                            width: '100%',
-                            height: '6px',
-                            background: '#e2e8f0',
-                            borderRadius: '3px',
-                            overflow: 'hidden',
-                            marginBottom: '10px'
-                        }}>
-                            <div style={{
-                                width: `${uploadProgress}%`,
-                                height: '100%',
-                                background: 'linear-gradient(90deg, #4f46e5, #10b981)',
-                                transition: 'width 0.3s ease'
-                            }} />
-                        </div>
+                        <>
+                            <span className="upload-progress-text">{uploadProgress}%</span>
+                            <div className="upload-progress-bar">
+                                <div className="upload-progress-fill" style={{ width: `${uploadProgress}%` }} />
+                            </div>
+                        </>
                     )}
 
-                    {/* Liste */}
-                    <ul style={{
-                        marginTop: '10px',
-                        padding: 0,
-                        listStyle: 'none',
-                        maxHeight: '150px',
-                        overflowY: 'auto'
-                    }}>
+                    <ul className="upload-file-list">
                         {files.map((file, index) => (
-                            <li key={index} style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                padding: '6px 10px',
-                                borderBottom: '1px solid #e2e8f0',
-                                fontSize: '13px'
-                            }}>
-                                <span>
-                                    {file.name}
-                                    <span style={{
-                                        fontSize: '11px',
-                                        color: '#94a3b8',
-                                        marginLeft: '8px'
-                                    }}>
-                                        ({formatFileSize(file.size)})
+                            <li key={index} className="upload-file-item">
+                                <div className="upload-file-info">
+                                    <span className="upload-file-icon">📄</span>
+                                    <span className="upload-file-name">{file.name}</span>
+                                    <span className="upload-file-size">({formatFileSize(file.size)})</span>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <span className={`upload-file-status ${uploading ? 'uploading' : 'pending'}`}>
+                                        {uploading ? '⏳ Upload...' : 'En attente'}
                                     </span>
-                                </span>
-                                {!uploading && (
-                                    <button
-                                        onClick={() => removeFile(index)}
-                                        style={{
-                                            background: 'none',
-                                            border: 'none',
-                                            color: '#ef4444',
-                                            cursor: 'pointer',
-                                            fontSize: '16px',
-                                            padding: '0 5px'
-                                        }}
-                                    >
-                                        ✕
-                                    </button>
-                                )}
+                                    {!uploading && (
+                                        <button
+                                            className="btn-remove-file"
+                                            onClick={() => removeFile(index)}
+                                        >
+                                            ✕
+                                        </button>
+                                    )}
+                                </div>
                             </li>
                         ))}
                     </ul>
 
                     {!projetId && (
-                        <p style={{
-                            fontSize: '12px',
-                            color: '#ef4444',
-                            marginTop: '8px'
-                        }}>
+                        <div className="upload-no-project">
                             ⚠️ Créez d'abord le projet pour pouvoir uploader des documents
-                        </p>
+                        </div>
                     )}
                 </div>
             )}

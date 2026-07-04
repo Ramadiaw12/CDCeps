@@ -8,15 +8,15 @@
     --rp-bg:           #f8fafc;
     --rp-surface:      #ffffff;
     --rp-surface-low:  #f1f5f9;
-    --rp-border:       rgb(255, 254, 254);
-    --rp-border-med:   rgba(255, 245, 245, 0.94);
+    --rp-border:       #e2e8f0;
+    --rp-border-med:   #cbd5e1;
 
-    --rp-text-primary:   #e0e0e0;
-    --rp-text-secondary: #e8ebf0;
-    --rp-text-muted:     #dde6f1;
+    --rp-text-primary:   #0f172a;
+    --rp-text-secondary: #334155;
+    --rp-text-muted:     #64748b;
 
-    --rp-accent:        #63c4f1;
-    --rp-accent-hover:  #4678e5;
+    --rp-accent:        #4f46e5;
+    --rp-accent-hover:  #4338ca;
     --rp-accent-bg:     #eef2ff;
     --rp-accent-text:   #4338ca;
 
@@ -37,18 +37,18 @@
     --rp-shadow-hover:  0 4px 12px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06);
 }
 
-/*  Tokens dark  */
+/*  Tokens dark (via préférence système)  */
 @media (prefers-color-scheme: dark) {
     :root {
         --rp-bg:           #0b1120;
         --rp-surface:      #131e2e;
         --rp-surface-low:  #0d1626;
         --rp-border:       rgba(255, 255, 255, 0.08);
-        --rp-border-med:   rgba(255, 255, 255, 0.14);
+        --rp-border-med:   rgba(255, 255, 255, 0.16);
 
         --rp-text-primary:   #f1f5f9;
-        --rp-text-secondary: #f5f7fa;
-        --rp-text-muted:     #fdfeff;
+        --rp-text-secondary: #cbd5e1;
+        --rp-text-muted:     #94a3b8;
 
         --rp-accent:        #818cf8;
         --rp-accent-hover:  #6366f1;
@@ -70,28 +70,34 @@
     }
 }
 
-/* Support class-based dark mode */
+/* Support class-based dark mode (mêmes valeurs que la media query, pour cohérence) */
 .dark {
     --rp-bg:           #0b1120;
     --rp-surface:      #131e2e;
-    --rp-surface-low:  #f7f7f7;
-    --rp-border:       rgb(255, 255, 255);
-    --rp-border-med:   rgba(255, 255, 255, 0.99);
+    --rp-surface-low:  #0d1626;
+    --rp-border:       rgba(255, 255, 255, 0.08);
+    --rp-border-med:   rgba(255, 255, 255, 0.16);
+
     --rp-text-primary:   #f1f5f9;
-    --rp-text-secondary: #f1f1f1;
-    --rp-text-muted:     #fafafa;
-    --rp-accent:        #ffffff;
+    --rp-text-secondary: #cbd5e1;
+    --rp-text-muted:     #94a3b8;
+
+    --rp-accent:        #818cf8;
     --rp-accent-hover:  #6366f1;
     --rp-accent-bg:     rgba(99, 102, 241, 0.15);
-    --rp-accent-text:   #fcfcfc;
+    --rp-accent-text:   #a5b4fc;
+
     --rp-success:       #34d399;
     --rp-success-bg:    rgba(16, 185, 129, 0.12);
     --rp-success-text:  #6ee7b7;
+
     --rp-warning-bg:    rgba(251, 191, 36, 0.10);
     --rp-warning-text:  #fcd34d;
     --rp-warning-border:rgba(251, 191, 36, 0.30);
+
     --rp-danger:        #f87171;
-    --rp-shadow:        0 1px 3px rgba(255, 250, 250, 0.4), 0 1px 2px rgba(0,0,0,0.3);
+
+    --rp-shadow:        0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
     --rp-shadow-hover:  0 4px 16px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
 }
 
@@ -394,7 +400,19 @@
     font-family: monospace;
 }
 
-.rp-doc-content { padding: 36px 40px; }
+.rp-doc-content {
+    padding: 36px 40px;
+    color: var(--rp-text-secondary);
+    line-height: 1.65;
+}
+.rp-doc-content h1,
+.rp-doc-content h2,
+.rp-doc-content h3 {
+    color: var(--rp-text-primary);
+}
+.rp-doc-content strong {
+    color: var(--rp-accent-text);
+}
 
 /*  Footer  */
 .rp-footer {
@@ -465,4 +483,3 @@
     .rp-footer    { flex-direction: column-reverse; align-items: stretch; text-align: center; }
     .rp-back-link { justify-content: center; }
 }
-
