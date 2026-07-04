@@ -107,7 +107,7 @@ function Documentation({ isOpen, onClose }) {
                                         <tr><td>Backend API</td><td>Node.js + Express</td><td>20.x</td></tr>
                                         <tr><td>Admin PHP</td><td>PHP + MySQL</td><td>8.2</td></tr>
                                         <tr><td>Base de données</td><td>MySQL</td><td>8.0</td></tr>
-                                        <tr><td>IA / LLM</td><td>OpenAI GPT-4o</td><td>Latest</td></tr>
+                                        <tr><td>IA / LLM</td><td>Grok & llama</td><td>Latest</td></tr>
                                         <tr><td>Communication temps réel</td><td>Socket.io</td><td>4.6</td></tr>
                                     </tbody>
                                 </table>
@@ -286,7 +286,7 @@ socket.on('pipeline_erreur', (data) => {});`}</code></pre>
                                     <div className="info-content">
                                         <strong>Variables d'environnement</strong>
                                         <ul>
-                                            <li>OPENAI_API_KEY=sk-xxx</li>
+                                            <li>GROK_API_KEY=sk-xxx</li>
                                             <li>DB_HOST=mysql</li>
                                             <li>JWT_SECRET=xxx</li>
                                         </ul>
