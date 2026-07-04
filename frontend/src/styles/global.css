@@ -6110,12 +6110,7 @@ body {
 .btn-secondary-resultat:hover { background: #f9fafb; }
 
 
-/* ============================================================
-   RESTAURATION LISIBILITÉ — À COLLER TOUT À LA FIN DU FICHIER
-   Ce bloc doit rester APRÈS toutes les sections "compact/petit
-   carré" pour reprendre le dessus (même spécificité + !important
-   + ordre de déclaration = dernier gagne).
-   ============================================================ */
+
 
 /* ---------- Base ---------- */
 body {
@@ -6187,7 +6182,7 @@ body {
     font-size: 13px !important;
 }
 
-/* ---------- Grilles Benefits / Agents / KPI (on garde 4 colonnes mais lisibles) ---------- */
+/* ---------- Grilles Benefits / Agents / KPI  ---------- */
 .benefits-grid,
 .agents-grid-full,
 .kpi-grid {
@@ -6369,7 +6364,7 @@ body {
     font-size: 10px !important;
 }
 
-/* ---------- Responsive : on garde les colonnes réduites sur mobile ---------- */
+/* --------- Responsive : on garde les colonnes réduites sur mobile ---------- */
 @media (max-width: 768px) {
     .benefits-grid,
     .agents-grid-full,

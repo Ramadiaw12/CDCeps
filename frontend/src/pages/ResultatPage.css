@@ -1,6 +1,9 @@
 /* ============================================================
-   ResultatPage.css
-   Design system : dark/light mode, animations, typographie
+   ResultatPage.css — Version consolidée
+   Design system : dark/light mode via tokens, animations,
+   typographie. Une seule définition par composant : tout
+   composant utilise var(--rp-*), donc le thème système
+   s'applique automatiquement sans bloc dark dupliqué.
    ============================================================ */
 
 /* ============================================================
@@ -44,7 +47,6 @@
     color-scheme: light;
 }
 
-
 @media (prefers-color-scheme: dark) {
     :root:not(.light) {
         --rp-bg:            #0b1120;
@@ -82,6 +84,7 @@
     }
 }
 
+/* Toggle manuel (bouton thème dans l'app) */
 .dark {
     --rp-bg:            #0b1120;
     --rp-surface:       #131e2e;
@@ -117,7 +120,6 @@
     color-scheme: dark;
 }
 
-
 /* ============================================================
    ANIMATIONS
    ============================================================ */
@@ -150,6 +152,16 @@
     to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+@keyframes rp-footer-shine {
+    0%, 100% { transform: translateX(0); }
+    50%      { transform: translateX(50%); }
+}
+
+@keyframes rp-badge-pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.05); }
+}
+
 .rp-anim-1 { animation: rp-slide-down 0.45s cubic-bezier(0.16,1,0.3,1) both; }
 .rp-anim-2 { animation: rp-slide-down 0.45s 0.08s cubic-bezier(0.16,1,0.3,1) both; }
 .rp-anim-3 { animation: rp-slide-down 0.45s 0.14s cubic-bezier(0.16,1,0.3,1) both; }
@@ -164,9 +176,9 @@
     }
 }
 
-/* 
+/* ============================================================
    LAYOUT PRINCIPAL
-    */
+   ============================================================ */
 * {
     box-sizing: border-box;
 }
@@ -175,6 +187,7 @@
     min-height: 100vh;
     background: var(--rp-bg);
     padding: 40px 0 60px;
+    font-size: 16px;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
@@ -193,9 +206,9 @@
     gap: 16px;
 }
 
-/* 
+/* ============================================================
    HERO
-    */
+   ============================================================ */
 .rp-hero {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -230,9 +243,9 @@
     flex-wrap: wrap;
 }
 
-/* 
+/* ============================================================
    TYPOGRAPHIE
-    */
+   ============================================================ */
 .rp-eyebrow {
     display: flex;
     align-items: center;
@@ -256,7 +269,7 @@
 }
 
 .rp-title {
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 700;
     color: var(--rp-text-primary);
     line-height: 1.25;
@@ -265,7 +278,7 @@
 }
 
 .rp-subtitle {
-    font-size: 13px;
+    font-size: 16px;
     color: var(--rp-text-muted);
     transition: color 0.3s ease;
 }
@@ -275,9 +288,9 @@
     font-weight: 500;
 }
 
-/* 
+/* ============================================================
    STATS GRID
-    */
+   ============================================================ */
 .rp-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -312,7 +325,7 @@
 }
 
 .rp-stat-label {
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -321,15 +334,15 @@
 }
 
 .rp-stat-value {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 600;
     color: var(--rp-text-primary);
     transition: color 0.3s ease;
 }
 
-/* 
+/* ============================================================
    SCORE ARC
-    */
+   ============================================================ */
 .rp-score-wrap {
     position: relative;
     width: 80px;
@@ -349,9 +362,13 @@
     transition: stroke 0.3s ease;
 }
 
+/* Couleur du score : verte quand le CDC est validé/complet.
+   Si tu veux qu'elle varie selon le score (rouge/orange/vert),
+   remplace la ligne stroke ci-dessous par var(--rp-accent)
+   et pilote la couleur depuis le JS via un style inline. */
 .rp-score-bar {
     fill: none;
-    stroke: var(--rp-accent);
+    stroke: var(--rp-success);
     stroke-width: 6;
     stroke-linecap: round;
     stroke-dasharray: 220;
@@ -367,15 +384,15 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
+    font-size: 28px;
     font-weight: 600;
-    color: var(--rp-text-primary);
+    color: var(--rp-success);
     line-height: 1;
     transition: color 0.3s ease;
 }
 
 .rp-score-label {
-    font-size: 9px;
+    font-size: 12px;
     color: var(--rp-text-muted);
     margin-top: 3px;
     font-weight: 500;
@@ -383,16 +400,16 @@
     transition: color 0.3s ease;
 }
 
-/* 
+/* ============================================================
    BADGES
-    */
+   ============================================================ */
 .rp-badge {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    padding: 4px 11px;
+    padding: 6px 14px;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     transition: background 0.3s ease, color 0.3s ease;
 }
@@ -401,9 +418,9 @@
 .rp-badge-success { background: var(--rp-success-bg); color: var(--rp-success-text); }
 .rp-badge-warning { background: var(--rp-warning-bg); color: var(--rp-warning-text); }
 
-/* 
+/* ============================================================
    AVERTISSEMENT
-    */
+   ============================================================ */
 .rp-warn {
     display: flex;
     gap: 14px;
@@ -423,7 +440,7 @@
 }
 
 .rp-warn-body {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--rp-warning-text);
     transition: color 0.3s ease;
 }
@@ -439,12 +456,13 @@
 }
 
 .rp-warn-list li {
+    font-size: 15px;
     margin-bottom: 3px;
 }
 
-/* 
-   DOCUMENT
-    */
+/* ============================================================
+   DOCUMENT (contenu du CDC)
+   ============================================================ */
 .rp-doc {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -492,7 +510,8 @@
 .rp-doc-content {
     padding: 36px 40px;
     color: var(--rp-text-secondary);
-    line-height: 1.65;
+    font-size: 16px;
+    line-height: 1.8;
     transition: color 0.3s ease;
 }
 
@@ -503,13 +522,23 @@
     transition: color 0.3s ease;
 }
 
+.rp-doc-content h1 { font-size: 28px; }
+.rp-doc-content h2 { font-size: 24px; }
+.rp-doc-content h3 { font-size: 20px; }
+
+.rp-doc-content p,
+.rp-doc-content li {
+    font-size: 16px;
+    line-height: 1.8;
+}
+
 .rp-doc-content strong {
     color: var(--rp-accent-text);
 }
 
-/* 
+/* ============================================================
    SPINNER
-    */
+   ============================================================ */
 .rp-spinner {
     width: 38px;
     height: 38px;
@@ -522,9 +551,10 @@
 }
 
 .rp-spinner-sm {
-    width: 14px;
-    height: 14px;
-    border-width: 2px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
 }
 
 .rp-loading-text {
@@ -535,9 +565,9 @@
     animation: rp-fade-in 0.3s ease both;
 }
 
-/* 
+/* ============================================================
    ERREUR
-    */
+   ============================================================ */
 .rp-error-card {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -570,17 +600,43 @@
     transition: color 0.3s ease;
 }
 
+/* ============================================================
+   FOOTER — définition unique (utilise les tokens, s'adapte
+   automatiquement au thème sans bloc dark séparé)
+   ============================================================ */
 .rp-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 16px;
-    padding: 20px 0 40px;
-    border-top: 1px solid var(--rp-border);
-    margin-top: 8px;
-    transition: border-color 0.3s ease;
+    padding: 24px 28px;
+    background: var(--rp-surface);
+    border: 1px solid var(--rp-border);
+    border-radius: var(--rp-radius-lg);
+    box-shadow: var(--rp-shadow);
+    margin-top: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease, border-color 0.3s ease;
     animation: rp-slide-down 0.5s ease 0.3s both;
+}
+
+.rp-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 70%
+    );
+    animation: rp-footer-shine 4s ease-in-out infinite;
+    pointer-events: none;
 }
 
 .rp-footer-actions {
@@ -590,49 +646,53 @@
     align-items: center;
 }
 
-/* --- Lien "retour / nouveau projet" --- */
+/* ============================================================
+   BOUTON "Nouveau projet / Retour" — définition unique
+   ============================================================ */
 .rp-back-link {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
+    gap: 10px;
+    padding: 12px 24px;
+    font-size: 15px;
     font-weight: 600;
-    color: var(--rp-text-muted);
+    color: var(--rp-text-primary);
+    background: var(--rp-surface-low);
+    border: 2px solid var(--rp-border);
+    border-radius: 12px;
     cursor: pointer;
-    border: none;
-    background: none;
-    padding: 10px 20px;
-    border-radius: 10px;
+    text-decoration: none;
     position: relative;
     overflow: hidden;
-    text-decoration: none;
-    transition: color 0.25s ease, transform 0.25s ease;
-    animation: rp-btn-fade-in 0.5s ease 0.3s both;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: rp-btn-fade-in 0.5s ease 0.2s both;
 }
 
 .rp-back-link::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
-    background: var(--rp-accent-bg);
+    background: var(--rp-accent);
     border-radius: 10px;
-    transform: scale(0.8);
+    transform: scale(0);
     opacity: 0;
-    transition: transform 0.25s ease, opacity 0.25s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .rp-back-link:hover::before {
     transform: scale(1);
-    opacity: 1;
+    opacity: 0.08;
 }
 
 .rp-back-link:hover {
-    color: var(--rp-accent);
-    transform: translateX(-4px);
+    border-color: var(--rp-accent);
+    transform: translateY(-3px) scale(1.01);
+    box-shadow: var(--rp-shadow-hover);
 }
 
 .rp-back-link:active {
-    transform: scale(0.95);
+    transform: translateY(0) scale(0.97);
 }
 
 .rp-back-link:focus-visible {
@@ -644,25 +704,48 @@
     font-size: 18px;
     position: relative;
     z-index: 1;
-    transition: transform 0.25s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
 }
 
 .rp-back-link:hover .link-icon {
-    transform: rotate(-15deg) scale(1.1);
+    transform: rotate(-20deg) scale(1.15);
+    color: var(--rp-accent);
 }
 
 .rp-back-link .link-text {
     position: relative;
     z-index: 1;
+    transition: color 0.3s ease;
 }
 
+.rp-back-link:hover .link-text {
+    color: var(--rp-accent);
+}
+
+.rp-back-link .link-badge {
+    position: relative;
+    z-index: 1;
+    background: var(--rp-accent);
+    color: var(--rp-text-on-accent);
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    animation: rp-badge-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   BOUTON SECONDAIRE générique (.rp-btn)
+   ============================================================ */
 .rp-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 500;
     cursor: pointer;
     border: 1px solid var(--rp-border-med);
@@ -680,7 +763,7 @@
     background: var(--rp-surface-low);
     border-color: var(--rp-accent);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--rp-shadow-hover);
 }
 
 .rp-btn:active {
@@ -707,28 +790,30 @@
     transform: scale(1.2);
 }
 
-/* --- Bouton principal ( "Télécharger en PDF") --- */
+/* ============================================================
+   BOUTON PRINCIPAL "Télécharger en PDF" — définition unique
+   ============================================================ */
 .rp-btn-primary {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 24px;
-    background: var(--rp-accent);
+    gap: 10px;
+    padding: 12px 28px;
+    background: linear-gradient(135deg, var(--rp-accent), var(--rp-accent-hover));
     color: var(--rp-text-on-accent);
     border: none;
-    border-radius: 10px;
-    font-size: 14px;
+    border-radius: 12px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(79, 155, 255, 0.30);
+    box-shadow: 0 4px 15px rgba(79, 155, 255, 0.30);
     transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
     animation: rp-btn-fade-in 0.5s ease 0.4s both;
 }
 
 .rp-btn-primary::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: -100%;
@@ -748,10 +833,10 @@
 }
 
 .rp-btn-primary::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
-    border-radius: 10px;
+    border-radius: 12px;
     background: rgba(255, 255, 255, 0.15);
     transform: scale(0);
     opacity: 0;
@@ -764,9 +849,8 @@
 }
 
 .rp-btn-primary:hover {
-    background: var(--rp-accent-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(79, 155, 255, 0.40);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(79, 155, 255, 0.40);
 }
 
 .rp-btn-primary:active {
@@ -794,9 +878,15 @@
     transform: translateY(-2px) scale(1.1);
 }
 
-/* 
+.rp-btn-primary .rp-spinner-sm {
+    animation: rp-spin 0.8s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ============================================================
    RESPONSIVE
-    */
+   ============================================================ */
 @media (max-width: 640px) {
     .rp-page {
         padding: 24px 0 40px;
@@ -811,7 +901,7 @@
     }
 
     .rp-title {
-        font-size: 21px;
+        font-size: 22px;
     }
 
     .rp-hero-top {
@@ -826,6 +916,7 @@
         flex-direction: column;
         align-items: stretch;
         gap: 12px;
+        padding: 18px 20px;
         text-align: center;
     }
 
@@ -839,12 +930,11 @@
     .rp-back-link {
         width: 100%;
         justify-content: center;
-        padding: 12px 20px;
+        padding: 14px 20px;
     }
 
     .rp-back-link {
-        border: 1px solid var(--rp-border);
-        border-radius: 10px;
+        border: 2px solid var(--rp-border);
     }
 
     .rp-back-link::before {
@@ -868,501 +958,10 @@
     }
 
     .rp-title {
-        font-size: 18px;
+        font-size: 19px;
     }
 
     .rp-hero {
         padding: 16px 14px;
     }
-
-    .rp-footer-actions {
-        flex-direction: column;
-    }
-}
-
-
-
-/* ============================================================
-   COULEUR DU SCORE - VERT
-   ============================================================ */
-
-/* Score arc - vert par défaut */
-.rp-score-bar {
-    stroke: #10b981 !important; /* Vert */
-}
-
-/* Texte du score - vert */
-.rp-score-num {
-    color: #10b981 !important;
-}
-
-/* Label du score */
-.rp-score-label {
-    color: #10b981 !important;
-}
-
-/* Score dans les statistiques */
-.rp-stat-value .score-nombre {
-    color: #10b981 !important;
-}
-
-/* Pour le score affiché dans la carte */
-.rp-stat-value[style*="color"] {
-    color: #10b981 !important;
-}
-
-/* ============================================================
-   FOOTER - Boutons encadrés et animés
-   ============================================================ */
-
-/* Conteneur du footer */
-.rp-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 16px;
-    padding: 24px 28px;
-    background: var(--rp-surface, #ffffff);
-    border-radius: var(--rp-radius-lg, 16px);
-    border: 1px solid var(--rp-border, #e2e8f0);
-    box-shadow: var(--rp-shadow, 0 1px 3px rgba(0,0,0,0.06));
-    margin-top: 16px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Effet de brillance sur le footer */
-.rp-footer::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.05) 50%,
-        transparent 70%
-    );
-    animation: rp-footerShine 4s ease-in-out infinite;
-}
-
-@keyframes rp-footerShine {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(50%); }
-}
-
-/* Groupe de boutons à droite */
-.rp-footer-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-/* ============================================================
-   BOUTON "Nouveau projet"
-   ============================================================ */
-.rp-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--rp-text-primary, #0f172a);
-    background: var(--rp-surface-low, #f1f5f9);
-    border: 2px solid var(--rp-border, #e2e8f0);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
-
-/* Effet de fond au survol */
-.rp-back-link::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, var(--rp-accent, #4f46e5), var(--rp-accent-hover, #4338ca));
-    border-radius: 10px;
-    transform: scale(0);
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.rp-back-link:hover::before {
-    transform: scale(1);
-    opacity: 0.08;
-}
-
-.rp-back-link:hover {
-    border-color: var(--rp-accent, #4f46e5);
-    transform: translateY(-3px) scale(1.01);
-    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.15);
-}
-
-.rp-back-link:active {
-    transform: translateY(0px) scale(0.97);
-}
-
-/* Icône du bouton */
-.rp-back-link .link-icon {
-    font-size: 18px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    z-index: 1;
-}
-
-.rp-back-link:hover .link-icon {
-    transform: rotate(-20deg) scale(1.2);
-    color: var(--rp-accent, #4f46e5);
-}
-
-.rp-back-link .link-text {
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease;
-}
-
-.rp-back-link:hover .link-text {
-    color: var(--rp-accent, #4f46e5);
-}
-
-/* Badge "nouveau" sur le bouton */
-.rp-back-link .link-badge {
-    position: relative;
-    z-index: 1;
-    background: var(--rp-accent, #4f46e5);
-    color: #ffffff;
-    font-size: 9px;
-    font-weight: 700;
-    padding: 2px 8px;
-    border-radius: 20px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    animation: rp-badgePulse 2s ease-in-out infinite;
-}
-
-@keyframes rp-badgePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
-
-/* ============================================================
-   BOUTON "Télécharger en PDF"
-   ============================================================ */
-.rp-btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 28px;
-    background: linear-gradient(135deg, var(--rp-accent, #4f46e5), var(--rp-accent-hover, #4338ca));
-    color: #ffffff;
-    border: none;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-}
-
-/* Effet de brillance */
-.rp-btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent 30%,
-        rgba(255, 255, 255, 0.25) 50%,
-        transparent 70%
-    );
-    transition: left 0.6s ease;
-}
-
-.rp-btn-primary:hover::before {
-    left: 100%;
-}
-
-/* Effet d'onde au clic */
-.rp-btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.15);
-    transform: scale(0);
-    opacity: 0;
-    transition: all 0.4s ease;
-}
-
-.rp-btn-primary:active::after {
-    transform: scale(1);
-    opacity: 1;
-}
-
-.rp-btn-primary:hover {
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4);
-}
-
-.rp-btn-primary:active {
-    transform: translateY(0px) scale(0.97);
-}
-
-.rp-btn-primary:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-    box-shadow: none !important;
-}
-
-/* Icône du bouton PDF */
-.rp-btn-primary .btn-icon {
-    font-size: 18px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.rp-btn-primary:hover .btn-icon {
-    transform: translateY(-3px) scale(1.1);
-}
-
-/* Spinner dans le bouton */
-.rp-btn-primary .rp-spinner-sm {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #ffffff;
-    border-radius: 50%;
-    animation: rp-spin 0.8s linear infinite;
-    display: inline-block;
-    flex-shrink: 0;
-}
-
-/* ============================================================
-   ANIMATIONS D'ENTRÉE
-   ============================================================ */
-.rp-back-link {
-    animation: rp-btnSlideUp 0.5s ease 0.2s both;
-}
-
-.rp-btn-primary {
-    animation: rp-btnSlideUp 0.5s ease 0.3s both;
-}
-
-@keyframes rp-btnSlideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* ============================================================
-   MODE DARK
-   ============================================================ */
-@media (prefers-color-scheme: dark) {
-    .rp-footer {
-        background: #131e2e;
-        border-color: #1e293b;
-    }
-
-    .rp-footer::before {
-        background: linear-gradient(
-            90deg,
-            transparent 30%,
-            rgba(255, 255, 255, 0.03) 50%,
-            transparent 70%
-        );
-    }
-
-    .rp-back-link {
-        background: #1e293b;
-        color: #f1f5f9;
-        border-color: #334155;
-    }
-
-    .rp-back-link:hover {
-        border-color: #818cf8;
-    }
-
-    .rp-back-link:hover .link-text {
-        color: #818cf8;
-    }
-
-    .rp-back-link .link-badge {
-        background: #818cf8;
-    }
-
-    .rp-btn-primary {
-        background: linear-gradient(135deg, #818cf8, #6366f1);
-        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-    }
-
-    .rp-btn-primary:hover {
-        box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
-    }
-}
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width: 640px) {
-    .rp-footer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
-        padding: 18px 20px;
-    }
-
-    .rp-footer-actions {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .rp-back-link,
-    .rp-btn-primary {
-        width: 100%;
-        justify-content: center;
-        padding: 14px 20px;
-    }
-
-    .rp-back-link {
-        border: 2px solid var(--rp-border, #e2e8f0);
-    }
-
-    .rp-back-link::before {
-        display: none;
-    }
-
-    .rp-back-link:hover {
-        background: var(--rp-accent-bg, #eef2ff);
-        transform: none;
-    }
-
-    .rp-btn-primary {
-        border-radius: 12px;
-    }
-}
-
-
-
-/* ============================================================
-   AGRANDISSEMENT GLOBAL - Résultat Page
-   ============================================================ */
-
-/* Taille de base */
-.rp-page {
-    font-size: 16px;
-}
-
-/* Titre principal */
-.rp-title {
-    font-size: 30px !important;
-    font-weight: 700 !important;
-}
-
-/* Sous-titre */
-.rp-subtitle {
-    font-size: 16px !important;
-}
-
-/* Métadonnées */
-.rp-stat-label {
-    font-size: 13px !important;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.rp-stat-value {
-    font-size: 18px !important;
-}
-
-/* Score */
-.rp-score-num {
-    font-size: 28px !important;
-}
-
-.rp-score-label {
-    font-size: 12px !important;
-}
-
-/* Badges */
-.rp-badge {
-    font-size: 14px !important;
-    padding: 6px 14px !important;
-}
-
-/* Avertissement */
-.rp-warn-body {
-    font-size: 15px !important;
-}
-
-.rp-warn-list li {
-    font-size: 15px !important;
-}
-
-/* Contenu du CDC */
-.rp-doc-content {
-    font-size: 16px !important;
-    line-height: 1.8 !important;
-}
-
-.rp-doc-content h1 {
-    font-size: 28px !important;
-}
-
-.rp-doc-content h2 {
-    font-size: 24px !important;
-}
-
-.rp-doc-content h3 {
-    font-size: 20px !important;
-}
-
-.rp-doc-content p {
-    font-size: 16px !important;
-    line-height: 1.8 !important;
-}
-
-.rp-doc-content li {
-    font-size: 16px !important;
-    line-height: 1.8 !important;
-}
-
-/* Boutons */
-.rp-btn {
-    font-size: 15px !important;
-    padding: 12px 24px !important;
-}
-
-.rp-btn-primary {
-    font-size: 15px !important;
-    padding: 12px 28px !important;
-}
-
-.rp-back-link {
-    font-size: 15px !important;
-    padding: 12px 24px !important;
-}
-
-/* Footer */
-.rp-footer {
-    padding: 20px 24px !important;
 }

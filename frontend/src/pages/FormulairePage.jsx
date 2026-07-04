@@ -329,12 +329,12 @@ function FormulairePage() {
                                     />
                                 </div>
 
-                                {/* ✅ Upload de documents (optionnel) - apparaît après création du projet */}
+                                {/* Upload de documents (optionnel) - apparaît après création du projet */}
                                 {showUpload && projetId && (
                                     <UploadDocuments projetId={projetId} />
                                 )}
 
-                                {/* ✅ Bouton Continuer vers la génération - apparaît après création du projet */}
+                                {/*Bouton Continuer vers la génération - apparaît après création du projet */}
                                 {showUpload && projetId && (
                                     <div style={{ marginTop: '15px' }}>
                                         <button

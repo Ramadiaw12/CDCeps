@@ -16,12 +16,12 @@ function UploadDocuments({ projetId }) {
 
     const handleUpload = async () => {
         if (files.length === 0) {
-            alert('⚠️ Aucun fichier sélectionné');
+            alert('Aucun fichier sélectionné');
             return;
         }
 
         if (!projetId) {
-            alert('⚠️ Veuillez d\'abord créer le projet');
+            alert('Veuillez d\'abord créer le projet');
             return;
         }
 
@@ -49,7 +49,7 @@ function UploadDocuments({ projetId }) {
                 setUploadProgress(Math.round((uploaded / files.length) * 100));
             }
 
-            alert(`✅ ${files.length} document(s) uploadé(s) avec succès !`);
+            alert(`${files.length} document(s) uploadé(s) avec succès !`);
             setFiles([]);
             setUploadProgress(0);
 
