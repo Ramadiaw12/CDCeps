@@ -1,0 +1,611 @@
+/* ============================================================
+   FormulairePage.css — Fichier unique et final
+   Toutes les règles concernant la page Formulaire.
+   Ne dépend d'aucune variable CSS globale : les couleurs sont
+   explicites pour chaque thème, séparées proprement.
+   ============================================================ */
+
+/* ============================================================
+   1. CONTENEUR PRINCIPAL
+   ============================================================ */
+.formulaire-page {
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+    padding: 40px 24px 60px;
+    background: #f8fafc;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.formulaire-wrapper {
+    max-width: 650px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+/* ============================================================
+   2. HEADER
+   ============================================================ */
+.formulaire-header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: safeSlideDown 0.5s ease-out both;
+}
+
+.formulaire-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.formulaire-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+}
+
+.formulaire-subtitle {
+    color: #64748b;
+    font-size: 16px;
+}
+
+/* ============================================================
+   3. INDICATEUR D'ÉTAPES
+   ============================================================ */
+.formulaire-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.form-step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.form-step-item.active {
+    opacity: 1;
+}
+
+.form-step-number {
+    width: 40px;
+    height: 40px;
+    background: #ffffff;
+    border: 2px solid #e2e8f0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #64748b;
+    transition: all 0.3s ease;
+}
+
+.form-step-item.active .form-step-number {
+    background: #20d2ff;
+    border-color: #20d2ff;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(32, 210, 255, 0.35);
+}
+
+.form-step-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
+}
+
+.form-step-item.active .form-step-label {
+    color: #20d2ff;
+}
+
+.form-step-line {
+    flex: 1;
+    height: 2px;
+    background: #e2e8f0;
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 80px;
+}
+
+.form-step-line-fill {
+    height: 100%;
+    background: #20d2ff;
+    transition: width 0.5s ease;
+}
+
+/* ============================================================
+   4. ERREUR GLOBALE
+   ============================================================ */
+.formulaire-error-global {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #991b1b;
+    padding: 14px 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: shake 0.4s ease-out;
+}
+
+/* ============================================================
+   5. CARTE FORMULAIRE
+   ============================================================ */
+.formulaire-card {
+    background: #ffffff;
+    border: 1px solid #eef2f6;
+    border-radius: 20px;
+    padding: 32px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    animation: safeSlideUp 0.5s ease-out both;
+}
+
+.formulaire-step-content {
+    position: relative;
+    z-index: 2;
+}
+
+.form-step-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #eef2f6;
+}
+
+.form-step-header-icon {
+    font-size: 26px;
+}
+
+.form-step-header h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0;
+}
+
+/* ============================================================
+   6. CHAMPS DU FORMULAIRE
+   ============================================================ */
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.animated-group {
+    animation: safeSlideUp 0.35s ease-out both;
+}
+
+.animated-group:nth-child(1) { animation-delay: 0.03s; }
+.animated-group:nth-child(2) { animation-delay: 0.06s; }
+.animated-group:nth-child(3) { animation-delay: 0.09s; }
+.animated-group:nth-child(4) { animation-delay: 0.12s; }
+.animated-group:nth-child(5) { animation-delay: 0.15s; }
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 7px;
+}
+
+.form-group label::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    background: #20d2ff;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px 14px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #0f172a;
+    font-family: inherit;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #20d2ff;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(32, 210, 255, 0.12);
+}
+
+.form-group input.error,
+.form-group textarea.error {
+    border-color: #ef4444;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.5;
+}
+
+.error-message {
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 6px;
+    display: block;
+}
+
+.textarea-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+
+.char-count {
+    font-size: 11px;
+    color: #94a3b8;
+}
+
+.char-count.warning {
+    color: #f59e0b;
+}
+
+.char-count.ok {
+    color: #10b981;
+}
+
+/* ============================================================
+   7. BOUTONS
+   ============================================================ */
+.formulaire-buttons {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid #eef2f6;
+}
+
+.formulaire-buttons.double {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.formulaire-buttons.double .btn {
+    flex: 1;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 13px 24px;
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-family: inherit;
+}
+
+.next-btn, .submit-btn {
+    width: 100%;
+    background: #20d2ff;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(32, 210, 255, 0.25);
+}
+
+.next-btn:hover, .submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(32, 210, 255, 0.35);
+}
+
+.next-btn:disabled, .submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.back-btn {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+}
+
+.back-btn:hover {
+    background: #e2e8f0;
+}
+
+.form-btn-arrow {
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.next-btn:hover .form-btn-arrow,
+.submit-btn:hover .form-btn-arrow {
+    transform: translateX(5px);
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+}
+
+/* ============================================================
+   8. ORBES DÉCORATIVES
+   ============================================================ */
+.formulaire-orb-1,
+.formulaire-orb-2 {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.formulaire-orb-1 {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #20d2ff 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    opacity: 0.08;
+    animation: float 10s ease-in-out infinite;
+}
+
+.formulaire-orb-2 {
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, #7c3aed 0%, transparent 70%);
+    bottom: -80px;
+    left: -80px;
+    opacity: 0.06;
+    animation: floatReverse 12s ease-in-out infinite;
+}
+
+/* ============================================================
+   9. ANIMATIONS
+   (aucune ne fait jamais passer l'opacité par 0 : un remount
+   React entre les étapes ne peut donc jamais laisser un texte
+   "délavé" figé à l'écran)
+   ============================================================ */
+@keyframes safeSlideDown {
+    from { transform: translateY(-16px); }
+    to   { transform: translateY(0); }
+}
+
+@keyframes safeSlideUp {
+    from { transform: translateY(16px); }
+    to   { transform: translateY(0); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(15px, -20px); }
+}
+
+@keyframes floatReverse {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-15px, 15px); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ============================================================
+   10. RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+    .formulaire-page {
+        padding: 24px 16px 40px;
+    }
+
+    .formulaire-icon {
+        font-size: 36px;
+    }
+
+    .formulaire-title {
+        font-size: 24px;
+    }
+
+    .formulaire-card {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 640px) {
+    .form-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .form-step-label {
+        display: none;
+    }
+
+    .form-step-line {
+        max-width: 40px;
+    }
+
+    .formulaire-buttons.double {
+        flex-direction: column;
+    }
+
+    .formulaire-orb-1,
+    .formulaire-orb-2 {
+        width: 180px;
+        height: 180px;
+    }
+}
+
+/* ============================================================
+   11. MODE DARK — [data-theme="dark"]
+   ============================================================ */
+[data-theme="dark"] .formulaire-page {
+    background: #0b1120;
+}
+
+[data-theme="dark"] .formulaire-title {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .formulaire-subtitle {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .form-step-number {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .form-step-item.active .form-step-number {
+    background: #818cf8;
+    border-color: #818cf8;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .form-step-label {
+    color: #94a3b8;
+}
+
+[data-theme="dark"] .form-step-item.active .form-step-label {
+    color: #818cf8;
+}
+
+[data-theme="dark"] .formulaire-error-global {
+    background: #7f1d1d;
+    border-color: #f87171;
+    color: #fca5a5;
+}
+
+[data-theme="dark"] .formulaire-card {
+    background: #131e2e;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .form-step-header {
+    border-color: #334155;
+}
+
+[data-theme="dark"] .form-step-header h2 {
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .form-group label {
+    color: #cbd5e1;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+}
+
+[data-theme="dark"] .form-group input::placeholder,
+[data-theme="dark"] .form-group textarea::placeholder {
+    color: #64748b;
+}
+
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+    background: #0f172a;
+    border-color: #818cf8;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.2);
+}
+
+[data-theme="dark"] .char-count {
+    color: #64748b;
+}
+
+[data-theme="dark"] .formulaire-buttons {
+    border-color: #334155;
+}
+
+[data-theme="dark"] .back-btn {
+    background: #1e293b;
+    color: #cbd5e1;
+    border-color: #334155;
+}
+
+[data-theme="dark"] .back-btn:hover {
+    background: #334155;
+}
+
+/* Garantie d'affichage — bypass tout conflit résiduel */
+.form-step-header {
+    display: flex !important;
+    visibility: visible !important;
+    height: auto !important;
+    overflow: visible !important;
+}
+
+.form-step-header h2 {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #0f172a !important;
+    font-size: 20px !important;
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+}
+
+[data-theme="dark"] .form-step-header h2 {
+    color: #f1f5f9 !important;
+}
+
+[data-theme="dark"] .form-group input,
+[data-theme="dark"] .form-group select,
+[data-theme="dark"] .form-group textarea {
+    color: #f1f5f9 !important;
+}

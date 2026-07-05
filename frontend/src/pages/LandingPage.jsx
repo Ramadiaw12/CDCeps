@@ -123,56 +123,52 @@ function LandingPage() {
             
             {/* CTA Final */}
             <section className="cta-engineering-section">
-                <div className="container">
-                    <div className="cta-engineering-card">
-                        <div className="cta-engineering-badge">
-                            <span className="badge-icon">🧪</span>
-                            <span>Testez en moins de 2 minutes</span>
-                        </div>
-                        
-                        <h2 className="cta-engineering-title">
-                            Prêt à automatiser vos 
-                            <span className="title-highlight"> cahiers des charges ?</span>
-                        </h2>
-                        
-                        <p className="cta-engineering-description">
-                            Gagnez en productivité et standardisez vos livrables techniques.
-                            Aucune installation requise, lancez-vous immédiatement.
-                        </p>
-                        
-                        <div className="cta-engineering-buttons">
-                            <Link to="/nouveau-projet" className="cta-primary-btn">
-                                <span>✨</span>
-                                Générer mon premier CDC
-                                <span className="btn-arrow">→</span>
-                            </Link>
-                            <button 
-                                className="cta-secondary-btn" 
-                                onClick={() => setShowDoc(true)}
-                            >
-                                <span>📖</span>
-                                Voir la documentation
-                            </button>
-                        </div>
-                        
-                        <div className="cta-engineering-features">
-                            <div className="feature-item">
-                                <span className="feature-check">✓</span>
-                                <span>Gratuit pour les tests</span>
-                            </div>
-                            <div className="feature-item">
-                                <span className="feature-check">✓</span>
-                                <span>Export PDF/Markdown</span>
-                            </div>
-                            <div className="feature-item">
-                                <span className="feature-check">✓</span>
-                                <span>Support technique inclus</span>
-                            </div>
-                        </div>
-                    </div>
+    <div className="container">
+        <div className="cta-engineering-card">
+            <div className="cta-engineering-badge">
+                <span className="badge-icon">⚙️</span>
+                <span>Pensé pour les chefs de projet</span>
+            </div>
+            <h2 className="cta-engineering-title">
+                Un CDC professionnel, 
+                <span className="title-highlight"> pas une nuit blanche</span>
+            </h2>
+            <p className="cta-engineering-description">
+                Vous connaissez le projet, vous connaissez le client — laissez CDCEPS
+                structurer, rédiger et vérifier le document. Vous gardez la main sur
+                le fond, vous gagnez des heures sur la forme.
+            </p>
+            <div className="cta-engineering-buttons">
+                <Link to="/nouveau-projet" className="cta-primary-btn">
+                    <span>⚡</span>
+                    Générer mon premier CDC
+                    <span className="btn-arrow">→</span>
+                </Link>
+                <button 
+                    className="cta-secondary-btn" 
+                    onClick={() => setShowDoc(true)}
+                >
+                    <span>📖</span>
+                    Voir la documentation technique
+                </button>
+            </div>
+            <div className="cta-engineering-features">
+                <div className="feature-item">
+                    <span className="feature-check">✓</span>
+                    <span>Un CDC prêt à présenter, projet après projet</span>
                 </div>
-            </section>
-
+                <div className="feature-item">
+                    <span className="feature-check">✓</span>
+                    <span>Export PDF/Markdown, prêt à envoyer au client</span>
+                </div>
+                <div className="feature-item">
+                    <span className="feature-check">✓</span>
+                    <span>Un agent dédié relit et valide avant vous</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
             {/* Documentation Modal */}
             <Documentation isOpen={showDoc} onClose={() => setShowDoc(false)} />
         </div>

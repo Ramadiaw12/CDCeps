@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { creerProjet, lancerGeneration } from '../services/api.js';
 import UploadDocuments from '../components/UploadDocuments';
+import './FormulairePage.css';
 
 function FormulairePage() {
     const navigate = useNavigate();
