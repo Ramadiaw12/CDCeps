@@ -5299,7 +5299,7 @@ textarea {
     font-size: 12px !important;
 }
 
-/* Suppression du bouton "Générer un CDC" - CACHÉ */
+/* Suppression du bouton "Générer un CDC" */
 .nav-cta {
     display: none !important;
 }
@@ -6527,11 +6527,6 @@ body {
     background: #ffffff !important;
 }
 
-.formulaire-title,
-[data-theme="light"] .formulaire-title {
-    color: #0f172a !important;
-    opacity: 1 !important;
-}
 
 .formulaire-subtitle,
 [data-theme="light"] .formulaire-subtitle {
@@ -6539,11 +6534,6 @@ body {
     opacity: 1 !important;
 }
 
-.form-step-header h2,
-[data-theme="light"] .form-step-header h2 {
-    color: #0f172a !important;
-    opacity: 1 !important;
-}
 
 .form-group label,
 [data-theme="light"] .form-group label {
@@ -6579,7 +6569,7 @@ body {
     background: #ffffff !important;
     border-color: #20d2ff !important;
     box-shadow: 0 0 0 4px rgba(32, 210, 255, 0.12) !important;
-    color: #0f172a !important;
+    color: #080b0e !important;
 }
 
 /* Steps indicateur (les ronds numérotés 1 / 2) */
@@ -6606,85 +6596,6 @@ body {
 [data-theme="light"] .form-step-item.active .form-step-label {
     color: #20d2ff !important;
 }
-/* ============================================================
-   FORMULAIRE — Se fond dans la couleur de la page
-   Plus de fond propre (blanc/marine imposé) : tout suit les
-   variables globales déjà définies dans ton CSS principal
-   ([data-theme="light"] / [data-theme="dark"] sur :root).
-   À coller à la fin de ton fichier CSS.
-   ============================================================ */
 
-/* La carte n'a plus de fond distinct : elle prend celui de la page */
-.formulaire-card {
-    background: var(--bg) !important;
-    border: 1px solid var(--border) !important;
-    box-shadow: none !important;
-}
 
-/* Titres et textes : suivent les couleurs de texte de la page */
-.formulaire-title,
-.form-step-header h2 {
-    color: var(--text) !important;
-    opacity: 1 !important;
-}
 
-.formulaire-subtitle {
-    color: var(--text-muted) !important;
-    opacity: 1 !important;
-}
-
-.form-group label {
-    color: var(--text) !important;
-    opacity: 1 !important;
-}
-
-/* Champs de saisie : légèrement distincts du fond via --surface,
-   mais toujours dans la palette de la page (pas de couleur figée) */
-.form-group input,
-.form-group select,
-.form-group textarea {
-    background: var(--surface, var(--bg)) !important;
-    border: 1.5px solid var(--border) !important;
-    color: var(--text) !important;
-}
-
-.form-group input::placeholder,
-.form-group textarea::placeholder {
-    color: var(--text-hint, var(--text-muted)) !important;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    background: var(--bg) !important;
-    border-color: var(--primary, #20d2ff) !important;
-    box-shadow: 0 0 0 4px var(--primary-light, rgba(32, 210, 255, 0.15)) !important;
-    color: var(--text) !important;
-}
-
-/* Steps indicateur (ronds 1 / 2) */
-.form-step-number {
-    background: var(--surface, var(--bg)) !important;
-    border-color: var(--border) !important;
-    color: var(--text-muted) !important;
-}
-
-.form-step-item.active .form-step-number {
-    background: var(--primary, #20d2ff) !important;
-    border-color: var(--primary, #20d2ff) !important;
-    color: #ffffff !important;
-}
-
-.form-step-label {
-    color: var(--text-muted) !important;
-}
-
-.form-step-item.active .form-step-label {
-    color: var(--primary, #20d2ff) !important;
-}
-
-/* Séparateurs à l'intérieur de la carte */
-.form-step-header,
-.formulaire-buttons {
-    border-color: var(--border) !important;
-}
