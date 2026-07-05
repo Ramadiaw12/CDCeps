@@ -3788,10 +3788,7 @@ body {
 /* ============================================
    CORRECTION DU PADDING POUR NAVBAR FIXE
    ============================================ */
-/* Hauteur de la navbar */
-/* body {
-    padding-top: 60px; 
-} */
+
 
 /* Pour mobile, la navbar est plus petite */
 @media (max-width: 768px) {
@@ -5810,15 +5807,7 @@ body {
 
 
 
-/* 
-   FORMULAIRE - RÉDUCTION LARGEUR
-    */
 
-/* Réduction de la largeur globale du formulaire */
-/* .formulaire-wrapper {
-    max-width: 50px !important;
-    margin: 0 auto !important;
-} */
 
 /* Réduction du padding de la carte */
 .formulaire-card {
@@ -6112,12 +6101,12 @@ body {
 
 
 
-/* ---------- Base ---------- */
+/*  Base */
 body {
     font-size: 16px !important;
 }
 
-/* ---------- Sections génériques ---------- */
+/*  Sections génériques  */
 .section,
 .section-alt,
 .pipeline-section,
@@ -6138,7 +6127,7 @@ body {
     margin-bottom: 40px !important;
 }
 
-/* ---------- Hero ---------- */
+/*  Hero  */
 .hero {
     min-height: 70vh !important;
     padding: 40px 0 !important;
@@ -6182,7 +6171,7 @@ body {
     font-size: 13px !important;
 }
 
-/* ---------- Grilles Benefits / Agents / KPI  ---------- */
+/*  Grilles Benefits / Agents / KPI   */
 .benefits-grid,
 .agents-grid-full,
 .kpi-grid {
@@ -6291,7 +6280,7 @@ body {
     font-size: 13px !important;
 }
 
-/* ---------- Formulaire ---------- */
+/*  Formulaire  */
 .formulaire-wrapper {
     max-width: 650px !important;
 }
@@ -6319,7 +6308,7 @@ body {
     font-size: 14px !important;
 }
 
-/* ---------- Navbar ---------- */
+/* Navbar  */
 .navbar, .navbar-container {
     height: 64px !important;
 }
@@ -6343,7 +6332,7 @@ body {
     padding: 8px 14px !important;
 }
 
-/* ---------- Footer ---------- */
+/* Footer */
 .footer-tagline {
     font-size: 12px !important;
 }
@@ -6364,7 +6353,7 @@ body {
     font-size: 10px !important;
 }
 
-/* --------- Responsive : on garde les colonnes réduites sur mobile ---------- */
+/* Responsive : on garde les colonnes réduites sur mobile */
 @media (max-width: 768px) {
     .benefits-grid,
     .agents-grid-full,
@@ -6400,7 +6389,7 @@ body {
     margin-bottom: 32px !important;
 }
 
-/* ---------- Brand ---------- */
+/* Brand */
 .footer-brand {
     gap: 12px !important;
 }
@@ -6437,7 +6426,7 @@ body {
     margin-bottom: 16px !important;
 }
 
-/* ---------- Métriques ---------- */
+/* Métriques */
 .footer-metrics-grid {
     gap: 12px !important;
 }
@@ -6456,7 +6445,7 @@ body {
     margin-top: 4px !important;
 }
 
-/* ---------- Actions rapides ---------- */
+/* Actions rapides */
 .footer-actions-list {
     gap: 10px !important;
 }
@@ -6472,7 +6461,7 @@ body {
     font-size: 14px !important;
 }
 
-/* ---------- Support ---------- */
+/* Support */
 .footer-support-list {
     gap: 12px !important;
 }
@@ -6495,7 +6484,7 @@ body {
     font-size: 13px !important;
 }
 
-/* ---------- Bas de page ---------- */
+/* Bas de page */
 .footer-bottom {
     padding-top: 20px !important;
     gap: 12px !important;
@@ -6506,7 +6495,7 @@ body {
     font-size: 12px !important;
 }
 
-/* ---------- Responsive ---------- */
+/* Responsive */
 @media (max-width: 768px) {
     .footer-grid {
         gap: 28px !important;
@@ -6527,4 +6516,175 @@ body {
     .footer-tagline {
         max-width: 100% !important;
     }
+}
+
+
+/* ============================================================
+   MODE LIGHT (par défaut, et si data-theme="light")
+   ============================================================ */
+.formulaire-card,
+[data-theme="light"] .formulaire-card {
+    background: #ffffff !important;
+}
+
+.formulaire-title,
+[data-theme="light"] .formulaire-title {
+    color: #0f172a !important;
+    opacity: 1 !important;
+}
+
+.formulaire-subtitle,
+[data-theme="light"] .formulaire-subtitle {
+    color: #64748b !important;
+    opacity: 1 !important;
+}
+
+.form-step-header h2,
+[data-theme="light"] .form-step-header h2 {
+    color: #0f172a !important;
+    opacity: 1 !important;
+}
+
+.form-group label,
+[data-theme="light"] .form-group label {
+    color: #334155 !important;
+    opacity: 1 !important;
+}
+
+/* --- Le point important : les champs de saisie eux-mêmes --- */
+.form-group input,
+.form-group select,
+.form-group textarea,
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select,
+[data-theme="light"] .form-group textarea {
+    background: #f8fafc !important;
+    border: 1.5px solid #e2e8f0 !important;
+    color: #0f172a !important;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder,
+[data-theme="light"] .form-group input::placeholder,
+[data-theme="light"] .form-group textarea::placeholder {
+    color: #94a3b8 !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus,
+[data-theme="light"] .form-group input:focus,
+[data-theme="light"] .form-group select:focus,
+[data-theme="light"] .form-group textarea:focus {
+    background: #ffffff !important;
+    border-color: #20d2ff !important;
+    box-shadow: 0 0 0 4px rgba(32, 210, 255, 0.12) !important;
+    color: #0f172a !important;
+}
+
+/* Steps indicateur (les ronds numérotés 1 / 2) */
+.form-step-number,
+[data-theme="light"] .form-step-number {
+    background: #ffffff !important;
+    border-color: #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+.form-step-item.active .form-step-number,
+[data-theme="light"] .form-step-item.active .form-step-number {
+    background: #20d2ff !important;
+    border-color: #20d2ff !important;
+    color: #ffffff !important;
+}
+
+.form-step-label,
+[data-theme="light"] .form-step-label {
+    color: #64748b !important;
+}
+
+.form-step-item.active .form-step-label,
+[data-theme="light"] .form-step-item.active .form-step-label {
+    color: #20d2ff !important;
+}
+/* ============================================================
+   FORMULAIRE — Se fond dans la couleur de la page
+   Plus de fond propre (blanc/marine imposé) : tout suit les
+   variables globales déjà définies dans ton CSS principal
+   ([data-theme="light"] / [data-theme="dark"] sur :root).
+   À coller à la fin de ton fichier CSS.
+   ============================================================ */
+
+/* La carte n'a plus de fond distinct : elle prend celui de la page */
+.formulaire-card {
+    background: var(--bg) !important;
+    border: 1px solid var(--border) !important;
+    box-shadow: none !important;
+}
+
+/* Titres et textes : suivent les couleurs de texte de la page */
+.formulaire-title,
+.form-step-header h2 {
+    color: var(--text) !important;
+    opacity: 1 !important;
+}
+
+.formulaire-subtitle {
+    color: var(--text-muted) !important;
+    opacity: 1 !important;
+}
+
+.form-group label {
+    color: var(--text) !important;
+    opacity: 1 !important;
+}
+
+/* Champs de saisie : légèrement distincts du fond via --surface,
+   mais toujours dans la palette de la page (pas de couleur figée) */
+.form-group input,
+.form-group select,
+.form-group textarea {
+    background: var(--surface, var(--bg)) !important;
+    border: 1.5px solid var(--border) !important;
+    color: var(--text) !important;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-hint, var(--text-muted)) !important;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    background: var(--bg) !important;
+    border-color: var(--primary, #20d2ff) !important;
+    box-shadow: 0 0 0 4px var(--primary-light, rgba(32, 210, 255, 0.15)) !important;
+    color: var(--text) !important;
+}
+
+/* Steps indicateur (ronds 1 / 2) */
+.form-step-number {
+    background: var(--surface, var(--bg)) !important;
+    border-color: var(--border) !important;
+    color: var(--text-muted) !important;
+}
+
+.form-step-item.active .form-step-number {
+    background: var(--primary, #20d2ff) !important;
+    border-color: var(--primary, #20d2ff) !important;
+    color: #ffffff !important;
+}
+
+.form-step-label {
+    color: var(--text-muted) !important;
+}
+
+.form-step-item.active .form-step-label {
+    color: var(--primary, #20d2ff) !important;
+}
+
+/* Séparateurs à l'intérieur de la carte */
+.form-step-header,
+.formulaire-buttons {
+    border-color: var(--border) !important;
 }
