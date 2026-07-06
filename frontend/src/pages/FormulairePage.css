@@ -5,9 +5,9 @@
    explicites pour chaque thème, séparées proprement.
    ============================================================ */
 
-/* ============================================================
+/* 
    1. CONTENEUR PRINCIPAL
-   ============================================================ */
+    */
 .formulaire-page {
     position: relative;
     overflow-x: hidden;
@@ -24,9 +24,9 @@
     z-index: 2;
 }
 
-/* ============================================================
+/* 
    2. HEADER
-   ============================================================ */
+    */
 .formulaire-header {
     text-align: center;
     margin-bottom: 40px;
@@ -51,9 +51,9 @@
     font-size: 16px;
 }
 
-/* ============================================================
+/* 
    3. INDICATEUR D'ÉTAPES
-   ============================================================ */
+    */
 .formulaire-steps {
     display: flex;
     align-items: center;
@@ -122,9 +122,9 @@
     transition: width 0.5s ease;
 }
 
-/* ============================================================
+/* 
    4. ERREUR GLOBALE
-   ============================================================ */
+    */
 .formulaire-error-global {
     background: #fef2f2;
     border: 1px solid #fca5a5;
@@ -139,9 +139,9 @@
     animation: shake 0.4s ease-out;
 }
 
-/* ============================================================
+/* 
    5. CARTE FORMULAIRE
-   ============================================================ */
+    */
 .formulaire-card {
     background: #ffffff;
     border: 1px solid #eef2f6;
@@ -609,3 +609,4 @@
 [data-theme="dark"] .form-group textarea {
     color: #f1f5f9 !important;
 }
+

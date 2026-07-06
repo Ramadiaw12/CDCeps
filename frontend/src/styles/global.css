@@ -798,7 +798,7 @@ body {
     color: white;
     box-shadow: 0 0 20px rgba(135, 206, 235, 0.4);
 } */
-/* 
+
 .form-step-label {
     font-size: 12px;
     font-weight: 500;
@@ -807,7 +807,7 @@ body {
 
 .form-step-item.active .form-step-label {
     color: var(--primary);
-} */
+}
 /* 
 .form-step-line {
     flex: 1;
@@ -6592,6 +6592,8 @@ body {
 [data-theme="light"] .form-step-item.active .form-step-label {
     color: #20d2ff !important;
 }
+
+
 
 
 

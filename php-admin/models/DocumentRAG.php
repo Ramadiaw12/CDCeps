@@ -14,9 +14,9 @@ class DocumentRAG {
         $this->db = Database::getInstance()->getConnection();
     }
     
-    // ============================================================
+    // 
     // LISTE TOUS LES DOCUMENTS RAG
-    // ============================================================
+    // 
     public function getAll($type_projet = null) {
         $sql = "
             SELECT id, title, type_projet, secteur, 
@@ -38,9 +38,9 @@ class DocumentRAG {
         return $stmt->fetchAll();
     }
     
-    // ============================================================
+    // 
     // RÉCUPÈRE UN DOCUMENT PAR SON ID
-    // ============================================================
+    // 
     public function getById($id) {
         $stmt = $this->db->prepare("
             SELECT d.*, 
@@ -53,9 +53,9 @@ class DocumentRAG {
         return $stmt->fetch();
     }
     
-    // ============================================================
+    // 
     // CRÉE UN DOCUMENT (AVEC APPEL À L'API NODE.JS)
-    // ============================================================
+    // 
     public function create($data) {
         // Utilise la constante API_URL définie dans config.php
         $result = $this->callNodeAPI('/documents/rag', 'POST', [
@@ -73,9 +73,9 @@ class DocumentRAG {
         throw new Exception($result['message'] ?? 'Erreur indexation');
     }
     
-    // ============================================================
+    // 
     // RECHERCHE SÉMANTIQUE VIA L'API NODE.JS
-    // ============================================================
+    // 
     public function search($query, $type_projet = null, $limit = 5) {
         $result = $this->callNodeAPI('/rag/search', 'POST', [
             'query' => $query,
@@ -90,9 +90,9 @@ class DocumentRAG {
         return [];
     }
     
-    // ============================================================
+    // 
     // APPEL À L'API NODE.JS
-    // ============================================================
+    // 
     private function callNodeAPI($endpoint, $method = 'GET', $data = null) {
         // Utilise la constante API_URL définie dans config.php
         $url = API_URL . $endpoint;

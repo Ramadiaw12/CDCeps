@@ -1,40 +1,40 @@
 # ============================================================
 # docker-compose.yml
 # Orchestre tous les services du projet CDCEPS
-# Lance MySQL + Node.js + React + PHP en une commande
+# Lance PostgreSQL + Node.js + React + PHP en une commande
 # ============================================================
 
 version: '3.8'
 
 services:
 
-  # Base de données MySQL
-  mysql:
-    image: mysql:8.0
-    container_name: cdceps_mysql
+  # ============================================================
+  # BASE DE DONNÉES - PostgreSQL + pgvector
+  # ============================================================
+  database:
+    image: ankane/pgvector:latest
+    container_name: cdceps_database
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: cdceps
-      MYSQL_USER: cdceps_user
-      MYSQL_PASSWORD: cdceps2024
+      POSTGRES_USER: cdcuser
+      POSTGRES_PASSWORD: cdcEPS26
+      POSTGRES_DB: rag_db
     ports:
-      # Port local:port conteneur
-      - "3307:3306"
+      - "5432:5432"
     volumes:
-      # Persiste les données MySQL entre les redémarrages
-      - mysql_data:/var/lib/mysql
-      # Exécute le script SQL au premier démarrage
-      - ./database.sql:/docker-entrypoint-initdb.d/database.sql
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - cdceps_network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD-SHELL", "pg_isready -U cdcuser -d rag_db"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-  # Backend Node.js
+  # ============================================================
+  # BACKEND - Node.js
+  # ============================================================
   backend:
     build:
       context: ./backend
@@ -43,30 +43,39 @@ services:
     restart: unless-stopped
     environment:
       PORT: 3001
-      DB_HOST: mysql          # Nom du service MySQL dans Docker
-      DB_USER: cdceps_user
-      DB_PASSWORD: cdceps2024
-      DB_NAME: cdceps
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_USER: cdcuser
+      DB_PASSWORD: cdcEPS26
+      DB_NAME: rag_db
+      GROQ_API_KEY: ${GROQ_API_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       SESSION_SECRET: ${SESSION_SECRET}
     ports:
       - "3001:3001"
     volumes:
-      # Monte le dossier uploads pour persister les fichiers
       - ./backend/uploads:/app/uploads
+      - ./backend:/app
+      - /app/node_modules
     depends_on:
-      mysql:
+      database:
         condition: service_healthy
     networks:
       - cdceps_network
 
-  # Frontend React
+  # ============================================================
+  # FRONTEND - React
+  # ============================================================
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: cdceps_frontend
     restart: unless-stopped
+    environment:
+      VITE_API_URL: http://localhost:3001/api
+      VITE_SOCKET_URL: http://localhost:3001
     ports:
       - "5173:80"
     depends_on:
@@ -74,32 +83,42 @@ services:
     networks:
       - cdceps_network
 
-  # PHP Admin 
-  php_admin:
+  # ============================================================
+  # ADMIN - PHP
+  # ============================================================
+  admin:
     build:
       context: ./php-admin
       dockerfile: Dockerfile
-    container_name: cdceps_php
+    container_name: cdceps_admin
     restart: unless-stopped
     environment:
-      DB_HOST: mysql
-      DB_USER: cdceps_user
-      DB_PASSWORD: cdceps2024
-      DB_NAME: cdceps
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_USER: cdcuser
+      DB_PASSWORD: cdcEPS26
+      DB_NAME: rag_db
+      API_URL: http://backend:3001/api
     ports:
-      - "8080:8080"
+      - "8000:8000"
+    volumes:
+      - ./php-admin:/var/www/html
     depends_on:
-      mysql:
+      database:
         condition: service_healthy
     networks:
       - cdceps_network
 
-# Volumes persistants 
+# ============================================================
+# VOLUMES PERSISTANTS
+# ============================================================
 volumes:
-  mysql_data:
+  postgres_data:
     driver: local
 
-# Réseau interne
+# ============================================================
+# RÉSEAU INTERNE
+# ============================================================
 networks:
   cdceps_network:
     driver: bridge
