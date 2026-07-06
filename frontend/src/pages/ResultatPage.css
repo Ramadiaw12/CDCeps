@@ -985,3 +985,111 @@
     color: #334155 !important;
     border-color: #e2e8f0 !important;
 }
+
+
+/* ============================================================
+   FIX : BOUTON TÉLÉCHARGER PDF - MODE LIGHT
+   ============================================================ */
+
+/* Mode Light - bouton PDF */
+@media (prefers-color-scheme: light) {
+    .rp-btn-primary {
+        background: #4f46e5 !important;
+        color: #ffffff !important;
+        border: 1px solid #4f46e5 !important;
+        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25) !important;
+    }
+
+    .rp-btn-primary:hover {
+        background: #4338ca !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35) !important;
+    }
+
+    .rp-btn-primary:disabled {
+        background: #94a3b8 !important;
+        color: #e2e8f0 !important;
+        border-color: #94a3b8 !important;
+    }
+
+    .rp-btn-primary .rp-spinner-sm {
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        border-top-color: #ffffff !important;
+    }
+}
+
+/* Mode Dark - bouton PDF */
+@media (prefers-color-scheme: dark) {
+    .rp-btn-primary {
+        background: #818cf8 !important;
+        color: #ffffff !important;
+        border: 1px solid #818cf8 !important;
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3) !important;
+    }
+
+    .rp-btn-primary:hover {
+        background: #6366f1 !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4) !important;
+    }
+
+    .rp-btn-primary:disabled {
+        background: #475569 !important;
+        color: #94a3b8 !important;
+        border-color: #475569 !important;
+    }
+
+    .rp-btn-primary .rp-spinner-sm {
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        border-top-color: #ffffff !important;
+    }
+}
+
+
+/* ============================================================
+   FIX : ESPACEMENT DES BOUTONS
+   ============================================================ */
+
+/* Conteneur des boutons dans le header */
+.rp-actions {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+}
+
+/* Conteneur des boutons dans le footer */
+.rp-footer-actions {
+    display: flex !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+}
+
+/* Tous les boutons */
+.rp-btn,
+.rp-btn-primary {
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+}
+
+/* Responsive : empiler les boutons sur mobile */
+@media (max-width: 640px) {
+    .rp-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .rp-footer-actions {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .rp-btn,
+    .rp-btn-primary {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+}

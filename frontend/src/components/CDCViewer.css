@@ -3,10 +3,55 @@
    Styles pour l'affichage du CDC
    ============================================================ */
 
+/* ============================================================
+   VARIABLES CSS
+   ============================================================ */
+:root {
+    --cdc-text-primary: #0f172a;
+    --cdc-text-secondary: #334155;
+    --cdc-text-muted: #64748b;
+    --cdc-bg: #ffffff;
+    --cdc-bg-low: #f8fafc;
+    --cdc-border: #e2e8f0;
+    --cdc-accent: #4f46e5;
+}
+
+/* ============================================================
+   MODE DARK (via préférence système)
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --cdc-text-primary: #f1f5f9;
+        --cdc-text-secondary: #cbd5e1;
+        --cdc-text-muted: #94a3b8;
+        --cdc-bg: #131e2e;
+        --cdc-bg-low: #1e293b;
+        --cdc-border: #334155;
+        --cdc-accent: #818cf8;
+    }
+}
+
+/* ============================================================
+   SUPPORT CLASS-BASED DARK MODE
+   ============================================================ */
+.dark {
+    --cdc-text-primary: #f1f5f9;
+    --cdc-text-secondary: #cbd5e1;
+    --cdc-text-muted: #94a3b8;
+    --cdc-bg: #131e2e;
+    --cdc-bg-low: #1e293b;
+    --cdc-border: #334155;
+    --cdc-accent: #818cf8;
+}
+
+/* ============================================================
+   CONTENEUR PRINCIPAL
+   ============================================================ */
 .cdc-viewer {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.7;
-    color: var(--text-primary, #0f172a);
+    line-height: 1.8;
+    color: var(--cdc-text-primary, #0f172a);
+    font-size: 16px;
     animation: cdcFadeIn 0.6s ease forwards;
 }
 
@@ -19,38 +64,38 @@
    TITRES
    ============================================================ */
 .cdc-viewer h1 {
-    font-size: 28px;
+    font-size: 28px !important;
     font-weight: 700;
-    color: var(--text-primary, #0f172a);
+    color: var(--cdc-text-primary, #0f172a);
     margin: 0 0 16px 0;
     padding-bottom: 12px;
-    border-bottom: 3px solid var(--accent, #4f46e5);
+    border-bottom: 3px solid var(--cdc-accent, #4f46e5);
     transition: color 0.3s ease, border-color 0.3s ease;
     letter-spacing: -0.5px;
 }
 
 .cdc-viewer h2 {
-    font-size: 22px;
+    font-size: 24px !important;
     font-weight: 600;
-    color: var(--text-primary, #0f172a);
+    color: var(--cdc-text-primary, #0f172a);
     margin: 28px 0 14px 0;
     padding-left: 14px;
-    border-left: 4px solid var(--accent, #4f46e5);
+    border-left: 4px solid var(--cdc-accent, #4f46e5);
     transition: color 0.3s ease, border-color 0.3s ease;
 }
 
 .cdc-viewer h3 {
-    font-size: 18px;
+    font-size: 20px !important;
     font-weight: 600;
-    color: var(--text-secondary, #1e293b);
+    color: var(--cdc-text-primary, #0f172a);
     margin: 22px 0 10px 0;
     transition: color 0.3s ease;
 }
 
 .cdc-viewer h4 {
-    font-size: 16px;
+    font-size: 18px !important;
     font-weight: 600;
-    color: var(--text-secondary, #334155);
+    color: var(--cdc-text-secondary, #334155);
     margin: 16px 0 8px 0;
     transition: color 0.3s ease;
 }
@@ -59,9 +104,9 @@
    PARAGRAPHES
    ============================================================ */
 .cdc-viewer p {
-    font-size: 15px;
+    font-size: 16px !important;
     line-height: 1.8;
-    color: var(--text-secondary, #334155);
+    color: var(--cdc-text-secondary, #334155);
     margin: 0 0 14px 0;
     transition: color 0.3s ease;
 }
@@ -73,33 +118,41 @@
 .cdc-viewer ol {
     padding-left: 24px;
     margin: 8px 0 16px 0;
-    color: var(--text-secondary, #334155);
+    color: var(--cdc-text-secondary, #334155);
     transition: color 0.3s ease;
 }
 
 .cdc-viewer ul li,
 .cdc-viewer ol li {
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: 16px !important;
+    line-height: 1.8;
     margin: 4px 0;
-    color: var(--text-secondary, #334155);
+    color: var(--cdc-text-secondary, #334155);
     transition: color 0.3s ease;
 }
 
 .cdc-viewer ul li::marker {
-    color: var(--accent, #4f46e5);
+    color: var(--cdc-accent, #4f46e5);
+}
+
+/* ============================================================
+   TEXTE EN GRAS
+   ============================================================ */
+.cdc-viewer strong {
+    color: var(--cdc-text-primary, #0f172a);
+    font-weight: 600;
 }
 
 /* ============================================================
    BLOCS DE CITATION
    ============================================================ */
 .cdc-viewer blockquote {
-    border-left: 4px solid var(--accent, #4f46e5);
+    border-left: 4px solid var(--cdc-accent, #4f46e5);
     padding: 12px 18px;
     margin: 16px 0;
-    background: var(--surface-low, #f8fafc);
+    background: var(--cdc-bg-low, #f8fafc);
     border-radius: 0 8px 8px 0;
-    color: var(--text-secondary, #475569);
+    color: var(--cdc-text-secondary, #475569);
     font-style: italic;
     transition: all 0.3s ease;
 }
@@ -111,64 +164,64 @@
     width: 100%;
     border-collapse: collapse;
     margin: 16px 0;
-    font-size: 14px;
+    font-size: 15px !important;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
 .cdc-viewer thead {
-    background: var(--surface-low, #f1f5f9);
+    background: var(--cdc-bg-low, #f1f5f9);
     transition: background 0.3s ease;
 }
 
 .cdc-viewer th {
     font-weight: 600;
-    color: var(--text-primary, #0f172a);
-    padding: 12px 16px;
+    color: var(--cdc-text-primary, #0f172a);
+    padding: 10px 14px !important;
     text-align: left;
-    border-bottom: 2px solid var(--border, #e2e8f0);
+    border-bottom: 2px solid var(--cdc-border, #e2e8f0);
     transition: all 0.3s ease;
 }
 
 .cdc-viewer td {
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border, #e2e8f0);
-    color: var(--text-secondary, #334155);
+    padding: 10px 14px !important;
+    border-bottom: 1px solid var(--cdc-border, #e2e8f0);
+    color: var(--cdc-text-secondary, #334155);
     transition: all 0.3s ease;
 }
 
 .cdc-viewer tr:hover td {
-    background: var(--surface-low, #f8fafc);
+    background: var(--cdc-bg-low, #f8fafc);
 }
 
 /* ============================================================
    CODE
    ============================================================ */
 .cdc-viewer code {
-    background: var(--surface-low, #f1f5f9);
+    background: var(--cdc-bg-low, #f1f5f9);
     padding: 2px 8px;
     border-radius: 4px;
-    font-size: 13px;
+    font-size: 15px !important;
     font-family: 'JetBrains Mono', 'Courier New', monospace;
-    color: var(--accent, #4f46e5);
+    color: var(--cdc-accent, #4f46e5);
     transition: all 0.3s ease;
 }
 
 .cdc-viewer pre {
-    background: var(--surface-low, #f1f5f9);
-    padding: 16px 20px;
+    background: var(--cdc-bg-low, #f8fafc);
+    padding: 16px 20px !important;
     border-radius: 8px;
     overflow-x: auto;
-    border: 1px solid var(--border, #e2e8f0);
+    border: 1px solid var(--cdc-border, #e2e8f0);
     transition: all 0.3s ease;
 }
 
 .cdc-viewer pre code {
     background: none;
     padding: 0;
-    color: var(--text-secondary, #334155);
-    font-size: 13px;
+    color: var(--cdc-text-secondary, #334155);
+    font-size: 15px !important;
 }
 
 /* ============================================================
@@ -177,7 +230,7 @@
 .cdc-viewer hr {
     border: none;
     height: 1px;
-    background: var(--border, #e2e8f0);
+    background: var(--cdc-border, #e2e8f0);
     margin: 24px 0;
     transition: background 0.3s ease;
 }
@@ -187,96 +240,9 @@
    ============================================================ */
 .cdc-empty {
     text-align: center;
-    color: var(--text-muted, #94a3b8);
+    color: var(--cdc-text-muted, #94a3b8);
     padding: 40px 0;
     font-size: 15px;
-}
-
-/* ============================================================
-   DARK MODE
-   ============================================================ */
-@media (prefers-color-scheme: dark) {
-    .cdc-viewer h1 {
-        color: #f1f5f9;
-        border-bottom-color: #818cf8;
-    }
-
-    .cdc-viewer h2 {
-        color: #f1f5f9;
-        border-left-color: #818cf8;
-    }
-
-    .cdc-viewer h3 {
-        color: #e2e8f0;
-    }
-
-    .cdc-viewer h4 {
-        color: #cbd5e1;
-    }
-
-    .cdc-viewer p {
-        color: #cbd5e1;
-    }
-
-    .cdc-viewer ul,
-    .cdc-viewer ol {
-        color: #cbd5e1;
-    }
-
-    .cdc-viewer ul li,
-    .cdc-viewer ol li {
-        color: #cbd5e1;
-    }
-
-    .cdc-viewer blockquote {
-        background: #1e293b;
-        color: #94a3b8;
-        border-left-color: #818cf8;
-    }
-
-    .cdc-viewer table {
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
-
-    .cdc-viewer thead {
-        background: #1e293b;
-    }
-
-    .cdc-viewer th {
-        color: #f1f5f9;
-        border-bottom-color: #334155;
-    }
-
-    .cdc-viewer td {
-        color: #cbd5e1;
-        border-bottom-color: #1e293b;
-    }
-
-    .cdc-viewer tr:hover td {
-        background: #1e293b;
-    }
-
-    .cdc-viewer code {
-        background: #1e293b;
-        color: #818cf8;
-    }
-
-    .cdc-viewer pre {
-        background: #1e293b;
-        border-color: #334155;
-    }
-
-    .cdc-viewer pre code {
-        color: #cbd5e1;
-    }
-
-    .cdc-viewer hr {
-        background: #334155;
-    }
-
-    .cdc-empty {
-        color: #94a3b8;
-    }
 }
 
 /* ============================================================
@@ -284,154 +250,37 @@
    ============================================================ */
 @media (max-width: 640px) {
     .cdc-viewer h1 {
-        font-size: 22px;
+        font-size: 22px !important;
     }
 
     .cdc-viewer h2 {
-        font-size: 18px;
+        font-size: 18px !important;
     }
 
     .cdc-viewer h3 {
-        font-size: 16px;
+        font-size: 16px !important;
     }
 
     .cdc-viewer p {
-        font-size: 14px;
+        font-size: 14px !important;
     }
 
     .cdc-viewer ul li,
     .cdc-viewer ol li {
-        font-size: 14px;
+        font-size: 14px !important;
     }
 
     .cdc-viewer table {
-        font-size: 12px;
+        font-size: 12px !important;
     }
 
     .cdc-viewer th,
     .cdc-viewer td {
-        padding: 8px 10px;
+        padding: 8px 10px !important;
     }
 
     .cdc-viewer pre {
-        padding: 12px 14px;
-        font-size: 12px;
+        padding: 12px 14px !important;
+        font-size: 12px !important;
     }
-}
-
-/* ============================================================
-   AGRANDISSEMENT - CDC Viewer
-   ============================================================ */
-
-.cdc-viewer {
-    font-size: 16px;
-    line-height: 1.8;
-}
-
-.cdc-viewer h1 {
-    font-size: 28px !important;
-}
-
-.cdc-viewer h2 {
-    font-size: 24px !important;
-}
-
-.cdc-viewer h3 {
-    font-size: 20px !important;
-}
-
-.cdc-viewer h4 {
-    font-size: 18px !important;
-}
-
-.cdc-viewer p {
-    font-size: 16px !important;
-    line-height: 1.8 !important;
-}
-
-.cdc-viewer ul li,
-.cdc-viewer ol li {
-    font-size: 16px !important;
-    line-height: 1.8 !important;
-}
-
-.cdc-viewer table {
-    font-size: 15px !important;
-}
-
-.cdc-viewer th,
-.cdc-viewer td {
-    padding: 10px 14px !important;
-}
-
-.cdc-viewer code {
-    font-size: 15px !important;
-}
-
-.cdc-viewer pre {
-    font-size: 15px !important;
-    padding: 16px 20px !important;
-}
-
-/* ============================================================
-   FORCER LE MODE LIGHT POUR LE CONTENU CDC
-   ============================================================ */
-
-/* Forcer tout en mode light */
-.cdc-viewer {
-    color: #0f172a !important;
-}
-
-.cdc-viewer h1,
-.cdc-viewer h2,
-.cdc-viewer h3,
-.cdc-viewer h4 {
-    color: #0f172a !important;
-}
-
-.cdc-viewer p {
-    color: #334155 !important;
-}
-
-.cdc-viewer ul li,
-.cdc-viewer ol li {
-    color: #334155 !important;
-}
-
-.cdc-viewer strong {
-    color: #0f172a !important;
-}
-
-.cdc-viewer blockquote {
-    color: #334155 !important;
-    border-left-color: #4f46e5 !important;
-    background: #f8fafc !important;
-}
-
-.cdc-viewer table {
-    color: #334155 !important;
-}
-
-.cdc-viewer th {
-    color: #0f172a !important;
-    background: #f1f5f9 !important;
-}
-
-.cdc-viewer td {
-    color: #334155 !important;
-    border-color: #e2e8f0 !important;
-}
-
-.cdc-viewer code {
-    color: #4f46e5 !important;
-    background: #f1f5f9 !important;
-}
-
-.cdc-viewer pre {
-    background: #f8fafc !important;
-    border-color: #e2e8f0 !important;
-}
-
-.cdc-viewer pre code {
-    color: #334155 !important;
 }
