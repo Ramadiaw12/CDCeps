@@ -4,27 +4,34 @@
 # On part de l'image officielle Node.js version 20
 # ============================================================
 
-# Image de base légère
-FROM node:20-alpine
 
-# Installe pnpm globalement
-RUN npm install -g pnpm
+FROM node:22-alpine
 
-# Définit le répertoire de travail dans le conteneur
+# Installer les dépendances système (pour Puppeteer)
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    && rm -rf /var/cache/apk/*
+
+# Variables d'environnement pour Puppeteer
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+
+# Créer le dossier de l'application
 WORKDIR /app
 
-# Copie d'abord les fichiers de dépendances
-# pour profiter du cache Docker
-COPY package.json pnpm-lock.yaml ./
+# Copier package.json et installer les dépendances
+COPY package*.json ./
+RUN npm install
 
-# Installe les dépendances
-RUN pnpm install
-
-# Copie tout le reste du code
+# Copier le code source
 COPY . .
 
-# Expose le port du serveur Node.js
+# Exposer le port
 EXPOSE 3001
 
-# Lance le serveur en mode production
-CMD ["node", "server.js"]
+# Démarrer l'application
+CMD ["npm", "run", "dev"]
