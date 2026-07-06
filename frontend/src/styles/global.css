@@ -6596,6 +6596,51 @@ body {
 
 
 
+/* Fond de page en mode light */
+.formulaire-page,
+[data-theme="light"] .formulaire-page {
+    background: #f8fafc !important;
+}
+
+/* Titre principal "Nouveau projet" */
+.formulaire-title,
+[data-theme="light"] .formulaire-title {
+    color: #0f172a !important;
+}
+
+/* Titres de section dans les cards ("Informations client", "Description du projet") */
+.form-step-header h2,
+[data-theme="light"] .form-step-header h2 {
+    color: #0f172a !important;
+}
+
+/* Libellé de l'étape non active (ex: "Description du projet" grisé sous le rond 2) */
+.form-step-label,
+[data-theme="light"] .form-step-label {
+    color: #64748b !important;
+}
+
+.form-step-item.active .form-step-label,
+[data-theme="light"] .form-step-item.active .form-step-label {
+    color: #20d2ff !important;
+}
+
+
+/* Supprime le fond sombre derrière le formulaire */
+.formulaire-page,
+[data-theme="light"] .formulaire-page {
+    background: transparent !important;
+}
+
+.page,
+[data-theme="light"] .page {
+    background: transparent !important;
+}
+
+.formulaire-wrapper,
+[data-theme="light"] .formulaire-wrapper {
+    background: transparent !important;
+}
 
 
 
