@@ -230,3 +230,28 @@ table td {
     font-size: 28px !important;
 }
 
+
+
+/* ============================================================
+   FIX : Mode light pour tout le contenu
+   ============================================================ */
+
+/* Forcer toutes les couleurs en mode light */
+.cdc-viewer *,
+.rp-doc-content * {
+    color: #0f172a !important;
+}
+
+.cdc-viewer p,
+.rp-doc-content p {
+    color: #334155 !important;
+}
+
+.cdc-viewer h1,
+.cdc-viewer h2,
+.cdc-viewer h3,
+.rp-doc-content h1,
+.rp-doc-content h2,
+.rp-doc-content h3 {
+    color: #0f172a !important;
+}

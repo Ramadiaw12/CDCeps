@@ -372,3 +372,66 @@
     font-size: 15px !important;
     padding: 16px 20px !important;
 }
+
+/* ============================================================
+   FORCER LE MODE LIGHT POUR LE CONTENU CDC
+   ============================================================ */
+
+/* Forcer tout en mode light */
+.cdc-viewer {
+    color: #0f172a !important;
+}
+
+.cdc-viewer h1,
+.cdc-viewer h2,
+.cdc-viewer h3,
+.cdc-viewer h4 {
+    color: #0f172a !important;
+}
+
+.cdc-viewer p {
+    color: #334155 !important;
+}
+
+.cdc-viewer ul li,
+.cdc-viewer ol li {
+    color: #334155 !important;
+}
+
+.cdc-viewer strong {
+    color: #0f172a !important;
+}
+
+.cdc-viewer blockquote {
+    color: #334155 !important;
+    border-left-color: #4f46e5 !important;
+    background: #f8fafc !important;
+}
+
+.cdc-viewer table {
+    color: #334155 !important;
+}
+
+.cdc-viewer th {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+}
+
+.cdc-viewer td {
+    color: #334155 !important;
+    border-color: #e2e8f0 !important;
+}
+
+.cdc-viewer code {
+    color: #4f46e5 !important;
+    background: #f1f5f9 !important;
+}
+
+.cdc-viewer pre {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+.cdc-viewer pre code {
+    color: #334155 !important;
+}

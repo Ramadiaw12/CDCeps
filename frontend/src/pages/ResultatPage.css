@@ -47,45 +47,8 @@
     color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root:not(.light) {
-        --rp-bg:            #0b1120;
-        --rp-surface:       #131e2e;
-        --rp-surface-low:   #0d1626;
-        --rp-border:        #1e293b;
-        --rp-border-med:    #334155;
-        --rp-border-strong: #475569;
-
-        --rp-text-primary:   #f1f5f9;
-        --rp-text-secondary: #cbd5e1;
-        --rp-text-muted:     #94a3b8;
-        --rp-text-on-accent: #ffffff;
-
-        --rp-accent:       #818cf8;
-        --rp-accent-hover: #6366f1;
-        --rp-accent-bg:    rgba(99, 102, 241, 0.16);
-        --rp-accent-text:  #a5b4fc;
-
-        --rp-success:      #34d399;
-        --rp-success-bg:   rgba(16, 185, 129, 0.12);
-        --rp-success-text: #6ee7b7;
-
-        --rp-warning-bg:     rgba(251, 191, 36, 0.10);
-        --rp-warning-text:   #fcd34d;
-        --rp-warning-border: rgba(251, 191, 36, 0.30);
-
-        --rp-danger:    #f87171;
-        --rp-danger-bg: rgba(239, 68, 68, 0.12);
-
-        --rp-shadow:       0 1px 3px rgba(0,0,0,0.40), 0 1px 2px rgba(0,0,0,0.30);
-        --rp-shadow-hover: 0 4px 16px rgba(0,0,0,0.50), 0 2px 4px rgba(0,0,0,0.30);
-
-        color-scheme: dark;
-    }
-}
-
-/* Toggle manuel (bouton thème dans l'app) */
-.dark {
+/* Mode dark : uniquement quand l'app le déclare explicitement */
+[data-theme="dark"] {
     --rp-bg:            #0b1120;
     --rp-surface:       #131e2e;
     --rp-surface-low:   #0d1626;
@@ -119,7 +82,6 @@
 
     color-scheme: dark;
 }
-
 /* ============================================================
    ANIMATIONS
    ============================================================ */
@@ -340,9 +302,9 @@
     transition: color 0.3s ease;
 }
 
-/* ============================================================
+/* 
    SCORE ARC
-   ============================================================ */
+    */
 .rp-score-wrap {
     position: relative;
     width: 80px;
@@ -363,9 +325,7 @@
 }
 
 /* Couleur du score : verte quand le CDC est validé/complet.
-   Si tu veux qu'elle varie selon le score (rouge/orange/vert),
-   remplace la ligne stroke ci-dessous par var(--rp-accent)
-   et pilote la couleur depuis le JS via un style inline. */
+    */
 .rp-score-bar {
     fill: none;
     stroke: var(--rp-success);
@@ -400,9 +360,9 @@
     transition: color 0.3s ease;
 }
 
-/* ============================================================
+/* 
    BADGES
-   ============================================================ */
+    */
 .rp-badge {
     display: inline-flex;
     align-items: center;
@@ -418,9 +378,9 @@
 .rp-badge-success { background: var(--rp-success-bg); color: var(--rp-success-text); }
 .rp-badge-warning { background: var(--rp-warning-bg); color: var(--rp-warning-text); }
 
-/* ============================================================
+/* 
    AVERTISSEMENT
-   ============================================================ */
+    */
 .rp-warn {
     display: flex;
     gap: 14px;
@@ -460,9 +420,9 @@
     margin-bottom: 3px;
 }
 
-/* ============================================================
+/* 
    DOCUMENT (contenu du CDC)
-   ============================================================ */
+    */
 .rp-doc {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -536,9 +496,9 @@
     color: var(--rp-accent-text);
 }
 
-/* ============================================================
+/* 
    SPINNER
-   ============================================================ */
+    */
 .rp-spinner {
     width: 38px;
     height: 38px;
@@ -565,9 +525,9 @@
     animation: rp-fade-in 0.3s ease both;
 }
 
-/* ============================================================
+/* 
    ERREUR
-   ============================================================ */
+    */
 .rp-error-card {
     background: var(--rp-surface);
     border: 1px solid var(--rp-border);
@@ -600,10 +560,10 @@
     transition: color 0.3s ease;
 }
 
-/* ============================================================
-   FOOTER — définition unique (utilise les tokens, s'adapte
+/* 
+   FOOTER définition unique (utilise les tokens, s'adapte
    automatiquement au thème sans bloc dark séparé)
-   ============================================================ */
+    */
 .rp-footer {
     display: flex;
     justify-content: space-between;
@@ -646,9 +606,9 @@
     align-items: center;
 }
 
-/* ============================================================
-   BOUTON "Nouveau projet / Retour" — définition unique
-   ============================================================ */
+/* 
+   BOUTON "Nouveau projet / Retour"  définition unique
+    */
 .rp-back-link {
     display: inline-flex;
     align-items: center;
@@ -736,9 +696,9 @@
     animation: rp-badge-pulse 2s ease-in-out infinite;
 }
 
-/* ============================================================
+/* $
    BOUTON SECONDAIRE générique (.rp-btn)
-   ============================================================ */
+    */
 .rp-btn {
     display: inline-flex;
     align-items: center;
@@ -790,9 +750,9 @@
     transform: scale(1.2);
 }
 
-/* ============================================================
-   BOUTON PRINCIPAL "Télécharger en PDF" — définition unique
-   ============================================================ */
+/* 
+   BOUTON PRINCIPAL "Télécharger en PDF"  définition unique
+    */
 .rp-btn-primary {
     display: inline-flex;
     align-items: center;
@@ -884,9 +844,9 @@
     flex-shrink: 0;
 }
 
-/* ============================================================
+/* 
    RESPONSIVE
-   ============================================================ */
+    */
 @media (max-width: 640px) {
     .rp-page {
         padding: 24px 0 40px;
@@ -964,4 +924,64 @@
     .rp-hero {
         padding: 16px 14px;
     }
+}
+
+
+
+/* 
+   FORCER LE MODE LIGHT POUR LA PAGE DE RÉSULTAT
+    */
+
+.rp-doc-content {
+    color: #334155 !important;
+}
+
+.rp-doc-content h1,
+.rp-doc-content h2,
+.rp-doc-content h3,
+.rp-doc-content h4 {
+    color: #0f172a !important;
+}
+
+.rp-doc-content p {
+    color: #334155 !important;
+}
+
+.rp-doc-content li {
+    color: #334155 !important;
+}
+
+.rp-doc-content strong {
+    color: #0f172a !important;
+}
+
+.rp-doc-content code {
+    color: #4f46e5 !important;
+    background: #f1f5f9 !important;
+}
+
+.rp-doc-content pre {
+    background: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+.rp-doc-content blockquote {
+    color: #475569 !important;
+    border-left-color: #4f46e5 !important;
+    background: #f8fafc !important;
+}
+
+.rp-doc-content table {
+    color: #334155 !important;
+}
+
+.rp-doc-content th {
+    color: #0f172a !important;
+    background: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+}
+
+.rp-doc-content td {
+    color: #334155 !important;
+    border-color: #e2e8f0 !important;
 }
