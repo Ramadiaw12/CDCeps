@@ -23,10 +23,10 @@ require_once __DIR__ . '/controllers/ProjetController.php';
 require_once __DIR__ . '/controllers/CDCController.php';
 require_once __DIR__ . '/controllers/RAGController.php';
 
-// ============================================================
+// 
 // 2. ROUTEUR PRINCIPAL
 // Détermine quel contrôleur et quelle action exécuter
-// ============================================================
+// 
 
 // Récupère les paramètres de l'URL
 // Exemple: ?controller=projet&action=voir&id=5
@@ -34,9 +34,9 @@ $controller = $_GET['controller'] ?? 'dashboard';
 $action = $_GET['action'] ?? 'index';
 $id = $_GET['id'] ?? null;
 
-// ============================================================
+// 
 // 3. INSTANCIATION DU CONTRÔLEUR
-// ============================================================
+// 
 switch ($controller) {
     case 'rag':
         $ctrl = new RAGController();
@@ -53,10 +53,10 @@ switch ($controller) {
         break;
 }
 
-// ============================================================
+// 
 // 4. EXÉCUTION DE L'ACTION
 // Vérifie si la méthode existe avant de l'appeler
-// ============================================================
+// 
 if ($id && method_exists($ctrl, $action)) {
     // Action avec paramètre ID (exemple: voir, modifier, supprimer)
     $ctrl->$action($id);
