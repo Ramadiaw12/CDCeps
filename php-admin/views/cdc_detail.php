@@ -105,7 +105,7 @@
 <!-- Sections manquantes  -->
 <?php if (!empty($cdc['sections_manquantes'])): ?>
     <div class="alert alert-danger" style="margin-bottom:24px;">
-        <strong>⚠️ Sections à compléter :</strong>
+        <strong>Sections à compléter :</strong>
         <ul style="margin-top:8px;padding-left:20px;">
             <?php foreach ($cdc['sections_manquantes'] as $section): ?>
                 <li style="font-size:13px;"><?= htmlspecialchars($section) ?></li>
