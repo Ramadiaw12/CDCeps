@@ -6,9 +6,9 @@
 // et quelle action exécuter selon les paramètres GET/POST
 // ============================================================
 
-// ============================================================
+// 
 // 1. INCLUSION DES CONFIGURATIONS ET CONTROLEURS
-// ============================================================
+// 
 require_once __DIR__ . '/config/config.php';
 require_once __DIR__ . '/config/database.php';
 
