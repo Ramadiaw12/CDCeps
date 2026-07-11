@@ -28,31 +28,31 @@ $message_type = $_SESSION['message_type'] ?? 'info';
 unset($_SESSION['message'], $_SESSION['message_type']);
 ?>
 
-<!-- ============================================================
+<!-- 
      DÉBUT DE LA VUE
-     ============================================================ -->
+      -->
 <div class="rag-container">
 
-    <!-- ============================================================
+    <!-- 
          TITRE DE LA PAGE
-         ============================================================ -->
+          -->
     <div class="rag-header">
         <h1 class="rag-title">📚 Gestion des Documents RAG</h1>
         <p class="rag-subtitle">Indexez vos documents pour enrichir la base de connaissances</p>
     </div>
 
-    <!-- ============================================================
+    <!-- 
          AFFICHAGE DES MESSAGES FLASH
-         ============================================================ -->
+          -->
     <?php if ($message): ?>
         <div class="alert alert-<?= $message_type ?>">
             <?= htmlspecialchars($message) ?>
         </div>
     <?php endif; ?>
 
-    <!-- ============================================================
+    <!-- 
          FORMULAIRE D'UPLOAD
-         ============================================================ -->
+          -->
     <div class="rag-card">
         <div class="rag-card-header">
             <span class="rag-card-icon">📤</span>
@@ -91,9 +91,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         </div>
     </div>
 
-    <!-- ============================================================
+    <!-- 
          LISTE DES DOCUMENTS INDEXÉS
-         ============================================================ -->
+          -->
     <div class="rag-card">
         <div class="rag-card-header">
             <span class="rag-card-icon">📋</span>
@@ -204,13 +204,13 @@ unset($_SESSION['message'], $_SESSION['message_type']);
 
 </div>
 
-<!-- ============================================================
+<!-- 
      STYLES CSS SPÉCIFIQUES À LA PAGE RAG
-     ============================================================ -->
+      -->
 <style>
-    /* ============================================================
+    /* 
        RAG - CONTAINER PRINCIPAL
-       ============================================================ */
+        */
     .rag-container {
         max-width: 100%;
     }
@@ -397,9 +397,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         background: #f8fafc;
     }
 
-    /* ============================================================
+    /* 
        RAG - BADGES ET TAGS
-       ============================================================ */
+        */
     .rag-id-badge {
         display: inline-block;
         padding: 1px 8px;
@@ -454,9 +454,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         font-size: 12px;
     }
 
-    /* ============================================================
+    /* 
        RAG - DOCUMENT TITLE
-       ============================================================ */
+        */
     .rag-doc-title {
         display: flex;
         flex-direction: column;
@@ -477,9 +477,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         text-overflow: ellipsis;
     }
 
-    /* ============================================================
+    /* 
        RAG - ACTIONS GROUP
-       ============================================================ */
+        */
     .rag-actions-group {
         display: flex;
         gap: 4px;
@@ -532,9 +532,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         background: #fecaca;
     }
 
-    /* ============================================================
+    /* 
        RAG - EMPTY STATE
-       ============================================================ */
+        */
     .rag-empty {
         text-align: center;
         padding: 40px 20px;
@@ -558,9 +558,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         margin-top: 4px !important;
     }
 
-    /* ============================================================
+    /* 
        RAG - ALERTES
-       ============================================================ */
+        */
     .alert {
         padding: 10px 16px;
         border-radius: 6px;
@@ -587,9 +587,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         color: #1e40af;
     }
 
-    /* ============================================================
+    /* 
        RAG - RESPONSIVE
-       ============================================================ */
+        */
     @media (max-width: 900px) {
         .rag-form-grid {
             grid-template-columns: 1fr 1fr;
