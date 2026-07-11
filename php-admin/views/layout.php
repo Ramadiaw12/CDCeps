@@ -556,6 +556,22 @@
     </div>
 
 </main>
+<!-- 
+     SCROLL EN HAUT À CHAQUE PAGE
+      -->
+<script>
+    // Scroll en haut à chaque chargement de page
+    window.scrollTo(0, 0);
 
+    // Pour les liens de navigation, forcer le scroll en haut
+    document.addEventListener('DOMContentLoaded', function() {
+        const links = document.querySelectorAll('.nav-item');
+        links.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Le scroll se fera naturellement grâce à window.scrollTo
+            });
+        });
+    });
+</script>
 </body>
 </html>
