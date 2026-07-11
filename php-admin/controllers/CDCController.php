@@ -4,6 +4,8 @@
 // Contrôleur pour la gestion des CDC
 // ============================================================
 
+require_once __DIR__ . '/../models/CDC.php';
+
 class CDCController {
     private CDC $cdc;
 
