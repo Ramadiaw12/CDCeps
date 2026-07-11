@@ -469,11 +469,11 @@
         <span>Projets</span>
     </a>
 
-    <a href="index.php?controller=cdc&action=index"
+    <!-- <a href="index.php?controller=cdc&action=index"
        class="nav-item <?= ($controller === 'cdc') ? 'active' : '' ?>">
         <span class="nav-icon">📄</span>
         <span>CDC Générés</span>
-    </a>
+    </a> -->
 
     <a href="index.php?controller=rag&action=index"
        class="nav-item <?= ($controller === 'rag') ? 'active' : '' ?>">

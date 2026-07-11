@@ -232,9 +232,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         margin: 0;
     }
 
-    /* ============================================================
+    /* 
        RAG - CARTES
-       ============================================================ */
+        */
     .rag-card {
         background: #ffffff;
         border-radius: 10px;
@@ -279,9 +279,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         padding: 20px;
     }
 
-    /* ============================================================
+    /* 
        RAG - FORMULAIRE
-       ============================================================ */
+        */
     .rag-form-grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
@@ -333,9 +333,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         color: #94a3b8;
     }
 
-    /* ============================================================
+    /* 
        RAG - BOUTONS
-       ============================================================ */
+        */
     .rag-btn-primary {
         display: inline-flex;
         align-items: center;
@@ -357,9 +357,9 @@ unset($_SESSION['message'], $_SESSION['message_type']);
         box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
 
-    /* ============================================================
+    /* 
        RAG - TABLEAU
-       ============================================================ */
+        */
     .rag-table-responsive {
         overflow-x: auto;
     }
