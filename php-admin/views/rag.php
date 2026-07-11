@@ -12,17 +12,17 @@
 // Permet d'ajouter, activer/désactiver des documents
 // ============================================================
 
-// ============================================================
+// 
 // VÉRIFICATION QUE LA VARIABLE $documents EXISTE
 // Si elle n'existe pas, on la définit comme un tableau vide
-// ============================================================
+// 
 if (!isset($documents)) {
     $documents = [];
 }
 
-// ============================================================
+// 
 // AFFICHAGE DES MESSAGES DE SUCCÈS OU D'ERREUR
-// ============================================================
+// 
 $message = $_SESSION['message'] ?? null;
 $message_type = $_SESSION['message_type'] ?? 'info';
 unset($_SESSION['message'], $_SESSION['message_type']);
