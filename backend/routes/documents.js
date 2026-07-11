@@ -529,4 +529,74 @@ router.post('/upload', uploadMiddleware.single('document'), async (req, res) => 
     }
 });
 
+// ============================================================
+// GET /api/documents/rag/:id
+// Récupère un document RAG par son ID
+// ============================================================
+router.get('/rag/:id', async (req, res) => {
+    try {
+        const result = await pool.query(
+            `SELECT id, title as titre, type_projet, secteur,
+                    mots_cles, actif, created_at
+             FROM documents
+             WHERE id = $1`,
+            [req.params.id]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                succes: false,
+                message: 'Document introuvable'
+            });
+        }
+
+        return res.json({
+            succes: true,
+            data: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error('❌ Erreur récupération document:', error.message);
+        return res.status(500).json({
+            succes: false,
+            message: 'Erreur récupération document',
+            erreur: error.message
+        });
+    }
+});
+
+// ============================================================
+// POST /api/rag/search
+// Recherche sémantique dans les documents RAG
+// ============================================================
+router.post('/rag/search', async (req, res) => {
+    try {
+        const { query, type_projet, limit = 5 } = req.body;
+
+        if (!query) {
+            return res.status(400).json({
+                succes: false,
+                message: 'Requête de recherche vide'
+            });
+        }
+
+        // Importer la fonction de recherche depuis ragService
+        const { searchDocuments } = await import('../services/ragService.js');
+        const results = await searchDocuments(query, type_projet, limit);
+
+        return res.json({
+            succes: true,
+            data: results
+        });
+
+    } catch (error) {
+        console.error('❌ Erreur recherche RAG:', error.message);
+        return res.status(500).json({
+            succes: false,
+            message: 'Erreur recherche RAG',
+            erreur: error.message
+        });
+    }
+});
+
 export default router;
