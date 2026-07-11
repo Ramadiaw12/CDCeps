@@ -126,9 +126,9 @@ class DocumentRAG {
         ];
     }
     
-    // ============================================================
+    // 
     // STATISTIQUES POUR LE DASHBOARD
-    // ============================================================
+    // 
     public function getStats(): array {
         // Nombre total de documents actifs
         $total = $this->db->query(
