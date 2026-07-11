@@ -5,10 +5,10 @@
 // Vue utilisée par ProjetController pour afficher la liste
 // ============================================================
 
-// ============================================================
+// 
 // VÉRIFICATION DES VARIABLES
 // Si elles n'existent pas, on les définit comme vides
-// ============================================================
+// 
 if (!isset($projets)) {
     $projets = [];
 }
@@ -16,7 +16,7 @@ if (!isset($cdcs)) {
     $cdcs = [];
 }
 if (!isset($vue)) {
-    $vue = 'projets'; // 'projets' ou 'cdcs'
+    $vue = 'projets'; 
 }
 ?>
 
@@ -72,7 +72,7 @@ if (!isset($vue)) {
                     <tr>
                         <td colspan="7" style="text-align:center;
                             color:#94a3b8;padding:32px;">
-                            📭 Aucun CDC généré pour l'instant
+                            Aucun CDC généré pour l'instant
                         </td>
                     </tr>
                 <?php else: ?>
@@ -179,7 +179,7 @@ if (!isset($vue)) {
                     <tr>
                         <td colspan="8" style="text-align:center;
                             color:#94a3b8;padding:32px;">
-                            📭 Aucun projet pour l'instant
+                            Aucun projet pour l'instant
                             <br>
                             <small>Créez votre premier projet via l'interface React</small>
                         </td>
