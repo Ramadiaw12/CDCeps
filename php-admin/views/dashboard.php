@@ -115,76 +115,69 @@
 
     <!-- Derniers CDC -->
     <div class="card">
-        <div class="card-title">
-            📄 Derniers CDC générés
-            <a href="index.php?controller=cdc&action=index" class="card-link">
-                Voir tout →
-            </a>
-        </div>
-        <?php if (empty($derniersCDC)): ?>
-            <p class="empty-state">Aucun CDC généré pour l'instant</p>
-        <?php else: ?>
-            <table class="dashboard-table">
-                <thead>
+    <div class="card-title">
+        📄 Derniers CDC générés
+        <a href="index.php?controller=projet&action=index" class="card-link">
+            Voir tout →
+        </a>
+    </div>
+    <?php if (empty($derniersCDC)): ?>
+        <p style="color:#94a3b8;text-align:center;padding:20px 0;">
+            Aucun CDC généré pour l'instant
+        </p>
+    <?php else: ?>
+        <table>
+            <thead>
+                <tr>
+                    <th>Projet</th>
+                    <th>Score</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($derniersCDC as $cdc): ?>
                     <tr>
-                        <th>Projet</th>
-                        <th>Score</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($derniersCDC as $cdc): ?>
-                        <tr>
-                            <td>
-                                <a href="index.php?controller=cdc&action=voir&id=<?= $cdc['id'] ?>" class="link">
-                                    <?= htmlspecialchars(
-                                        substr($cdc['projet_titre'] ?? 'Sans titre', 0, 25)
-                                        . (strlen($cdc['projet_titre'] ?? '') > 25 ? '...' : '')
-                                    ) ?>
-                                </a>
-                            </td>
-                            <td>
-                                <div class="score-display">
-                                    <span class="score-value" style="color:<?=
-                                        ($cdc['score_completude'] ?? 0) >= 80 ? '#10b981' :
-                                        (($cdc['score_completude'] ?? 0) >= 60 ? '#f59e0b' : '#ef4444')
-                                    ?>">
-                                        <?= $cdc['score_completude'] ?? 0 ?>
-                                    </span>
-                                    <div class="score-bar">
-                                        <div class="score-fill" style="
-                                            width:<?= $cdc['score_completude'] ?? 0 ?>%;
-                                            background:<?=
-                                                ($cdc['score_completude'] ?? 0) >= 80 ? '#10b981' :
-                                                (($cdc['score_completude'] ?? 0) >= 60 ? '#f59e0b' : '#ef4444')
-                                            ?>;
-                                        ">
-                                        </div>
+                        <td>
+                            <a href="index.php?controller=projet&action=voir&id=<?= $cdc['projet_id'] ?>" class="link">
+                                <?= htmlspecialchars(
+                                    substr($cdc['projet_titre'] ?? 'Sans titre', 0, 25)
+                                    . (strlen($cdc['projet_titre'] ?? '') > 25 ? '...' : '')
+                                ) ?>
+                            </a>
+                        </td>
+                        <td>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span style="font-weight:700;font-size:15px;color:<?=
+                                    ($cdc['score_completude'] ?? 0) >= 80 ? '#10b981' :
+                                    (($cdc['score_completude'] ?? 0) >= 60 ? '#f59e0b' : '#ef4444')
+                                ?>">
+                                    <?= $cdc['score_completude'] ?? 0 ?>
+                                </span>
+                                <div class="score-bar" style="width:60px;height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden;">
+                                    <div class="score-fill" style="
+                                        width:<?= $cdc['score_completude'] ?? 0 ?>%;
+                                        background:<?=
+                                            ($cdc['score_completude'] ?? 0) >= 80 ? '#10b981' :
+                                            (($cdc['score_completude'] ?? 0) >= 60 ? '#f59e0b' : '#ef4444')
+                                        ?>;
+                                    ">
                                     </div>
                                 </div>
-                            </td>
-                            <td>
-                                <?php
-                                    $badgesCdc = [
-                                        'brouillon'   => 'warning',
-                                        'finalise'    => 'success',
-                                        'valide'      => 'success'
-                                    ];
-                                    $statutCdc = $cdc['statut'] ?? 'brouillon';
-                                    $classeCdc = $badgesCdc[$statutCdc] ?? 'gray';
-                                ?>
-                                <span class="badge badge-<?= $classeCdc ?>">
-                                    <?= $statutCdc ?>
-                                </span>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        <?php endif; ?>
-    </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge badge-<?=
+                                ($cdc['statut'] ?? 'brouillon') === 'finalise' ? 'success' : 'warning'
+                            ?>">
+                                <?= $cdc['statut'] ?? 'brouillon' ?>
+                            </span>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
 </div>
-
 <!-- 
      STYLES
       -->
