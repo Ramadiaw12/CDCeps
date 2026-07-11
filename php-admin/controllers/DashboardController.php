@@ -5,18 +5,18 @@
 // Agrège les statistiques de tous les modèles
 // ============================================================
 
-// ============================================================
+// 
 // INCLUSION DES MODÈLES
 // Chaque modèle est inclus pour pouvoir être utilisé
-// ============================================================
+// 
 require_once __DIR__ . '/../models/Projet.php';
 require_once __DIR__ . '/../models/CDC.php';
 require_once __DIR__ . '/../models/DocumentRAG.php';
 
-// ============================================================
+// 
 // CLASSE DASHBOARDCONTROLLER
 // Gère l'affichage du tableau de bord avec toutes les stats
-// ============================================================
+// 
 class DashboardController {
     private Projet      $projet;
     private CDC         $cdc;
