@@ -122,7 +122,7 @@ class RAGController {
             return $output;
         }
         
-        // Fallback : utiliser une librairie PHP
+        // Fallback : utilise une librairie PHP
         // require_once __DIR__ . '/../vendor/autoload.php';
         // $parser = new \Smalot\PdfParser\Parser();
         // $pdf = $parser->parseFile($pdfPath);
