@@ -138,8 +138,9 @@ export const appelLLM = async (messages, options = {}) => {
 // 
 
 export const genererEmbedding = async (texte) => {
-    console.warn('Embedding simulé');
-    return new Array(1536).fill(0).map(() => Math.random() * 0.1);
+    console.warn('Embedding simulé (Groq ne fournit pas d\'embedding)');
+    // Retourne un vecteur aléatoire de 1536 dimensions
+    return new Array(1536).fill(0).map(() => (Math.random() * 2) - 1);
 };
 
 // 

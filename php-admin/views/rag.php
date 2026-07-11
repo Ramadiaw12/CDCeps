@@ -6,11 +6,11 @@
 // ============================================================
 
 
-// ============================================================
+// 
 // views/rag.php
 // Gestion de la base documentaire RAG
 // Permet d'ajouter, activer/désactiver des documents
-// ============================================================
+// 
 
 // 
 // VÉRIFICATION QUE LA VARIABLE $documents EXISTE
