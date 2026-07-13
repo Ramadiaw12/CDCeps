@@ -96,4 +96,18 @@ class CDCController {
         header('Location: http://localhost:3001/api/documents/cdc/' . $id . '/pdf');
         exit;
     }
+
+    //  Voir le CDC d'un projet (via l'id du PROJET, pas du CDC) 
+    public function voirProjet($projetId): void {
+        $cdc = $this->cdc->getByProjetId((int) $projetId);
+
+        if (!$cdc) {
+            $_SESSION['erreur'] = 'Aucun CDC généré pour ce projet';
+            header('Location: index.php?controller=projet&action=index');
+            exit;
+        }
+
+        $vue = 'cdc_detail';
+        require_once __DIR__ . '/../views/layout.php';
+    }
 }

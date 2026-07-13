@@ -43,22 +43,27 @@ class CDC {
     // Retourne toutes les colonnes du CDC + infos projet et client
     // Les sections_manquantes sont automatiquement décodées du JSON
     // 
-    public function getById(int $id): array|false {
+    // 
+// RÉCUPÈRE LE CDC LE PLUS RÉCENT D'UN PROJET DONNÉ
+// Utilisé quand on ne connaît que l'id du projet (pas l'id du CDC)
+// 
+    public function getByProjetId(int $projetId): array|false {
         $stmt = $this->db->prepare(
             "SELECT cdc.*,
                     p.titre as projet_titre, p.type_projet,
                     p.description_brute,
                     c.nom, c.prenom, c.email, c.entreprise
-             FROM cahiers_des_charges cdc
-             JOIN projets p ON cdc.projet_id = p.id
-             JOIN clients c ON p.client_id = c.id
-             WHERE cdc.id = ?"
+            FROM cahiers_des_charges cdc
+            JOIN projets p ON cdc.projet_id = p.id
+            JOIN clients c ON p.client_id = c.id
+            WHERE cdc.projet_id = ?
+            ORDER BY cdc.created_at DESC
+            LIMIT 1"
         );
-        $stmt->execute([$id]);
+        $stmt->execute([$projetId]);
         $cdc = $stmt->fetch();
 
         if ($cdc) {
-            // Convertit la chaîne JSON en tableau PHP
             $cdc['sections_manquantes'] = json_decode(
                 $cdc['sections_manquantes'] ?? '[]',
                 true
