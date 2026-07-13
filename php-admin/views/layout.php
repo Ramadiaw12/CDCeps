@@ -272,7 +272,7 @@
         .badge-success  { background: #dcfce7; color: #166534; }
         .badge-warning  { background: #fef3c7; color: #92400e; }
         .badge-danger   { background: #fee2e2; color: #991b1b; }
-        .badge-primary  { background: #dbeafe; color: #1e40af; }
+        .badge-primary  { background: #dbeafe; color: #4d9fe2; }
         .badge-gray     { background: #f1f5f9; color: #475569; }
 
         /* 
@@ -292,8 +292,8 @@
             transition: all 0.2s ease;
         }
 
-        .btn-primary  { background: #2563eb; color: white; }
-        .btn-primary:hover  { background: #1d4ed8; }
+        .btn-primary  { background: #34abf0; color: white; }
+        .btn-primary:hover  { background: #1d9dd8; }
         .btn-success  { background: #10b981; color: white; }
         .btn-success:hover  { background: #059669; }
         .btn-danger   { background: #ef4444; color: white; }
