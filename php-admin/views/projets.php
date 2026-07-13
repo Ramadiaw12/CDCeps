@@ -138,8 +138,7 @@ if (!isset($vue)) {
                                        class="btn btn-secondary btn-sm">
                                         👁 Voir
                                     </a>
-                                    <a href="index.php?controller=cdc&action=export_md&id=<?= $cdc['id'] ?>"
-                                       class="btn btn-secondary btn-sm">
+                                    <a href="index.php?controller=cdc&action=exportMarkdown&id=<?= $cdc['id'] ?>"                                       class="btn btn-secondary btn-sm">
                                         ⬇ MD
                                     </a>
                                     <a href="index.php?controller=cdc&action=export_pdf&id=<?= $cdc['id'] ?>"

@@ -35,6 +35,20 @@ class CDCController {
         require_once __DIR__ . '/../views/layout.php';
     }
 
+    //  Voir un CDC 
+    public function voir($id): void {
+        $cdc = $this->cdc->getById($id);
+
+        if (!$cdc) {
+            $_SESSION['erreur'] = 'CDC introuvable';
+            header('Location: index.php?page=cdcs');
+            exit;
+        }
+
+        $vue = 'cdc_detail';
+        require_once __DIR__ . '/../views/layout.php';
+    }
+
     //  Finalise un CDC 
     public function finaliser(): void {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -70,6 +84,16 @@ class CDCController {
         header("Content-Disposition: attachment; filename=cdc_{$nomFichier}.md");
 
         echo $cdc['contenu_markdown'];
+        exit;
+    }
+
+    //  Export PDF 
+    public function export_pdf($id): void {
+        $cdc = $this->cdc->getById($id);
+        if (!$cdc) {
+            die('CDC introuvable');
+        }
+        header('Location: http://localhost:3001/api/documents/cdc/' . $id . '/pdf');
         exit;
     }
 }
