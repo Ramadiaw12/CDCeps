@@ -227,9 +227,7 @@ if (!isset($vue)) {
                             </td>
                             <td>
                                 <!-- Formulaire de changement de statut -->
-                                <form method="POST"
-                                      action="index.php?controller=projet&action=update_statut"
-                                      style="display:inline;">
+                                <form method="POST" action="index.php?controller=projet&action=updateStatut" style="display:inline;">
                                     <input type="hidden"
                                            name="id"
                                            value="<?= $projet['id'] ?>">
