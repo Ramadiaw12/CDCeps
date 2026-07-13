@@ -267,14 +267,21 @@ if (!isset($vue)) {
                             <td>
                                 <div style="display:flex;gap:6px;flex-wrap:wrap;">
                                     <a href="http://localhost:5173/generation/<?= $projet['id'] ?>"
-                                       target="_blank"
-                                       class="btn btn-primary btn-sm">
+                                    target="_blank"
+                                    class="btn btn-primary btn-sm">
                                         🚀 Générer
                                     </a>
-                                    <a href="index.php?controller=projet&action=voir&id=<?= $projet['id'] ?>"
-                                       class="btn btn-secondary btn-sm">
-                                        👁 Voir
-                                    </a>
+                                    <?php if (($projet['nb_cdc'] ?? 0) > 0): ?>
+                                        <a href="index.php?controller=cdc&action=voirProjet&id=<?= $projet['id'] ?>"
+                                        class="btn btn-secondary btn-sm">
+                                            👁 Voir
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="btn btn-secondary btn-sm" style="opacity:0.4;cursor:not-allowed;"
+                                            title="Aucun CDC généré">
+                                            👁 Voir
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
                             </td>
                         </tr>
