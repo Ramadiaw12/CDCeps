@@ -17,6 +17,19 @@ class ProjetController {
         $vue = 'projets';
         require_once __DIR__ . '/../views/layout.php';
     }
+        // Affiche le détail d'un projet
+    public function voir(int $id): void {
+        $projet = $this->projet->getById($id);
+
+        if ($projet === false) {
+            http_response_code(404);
+            echo "Projet #$id introuvable";
+            return;
+        }
+
+        $vue = 'projet_detail';
+        require_once __DIR__ . '/../views/layout.php';
+    }
 
     // Met à jour le statut d'un projet 
     public function updateStatut(): void {
@@ -36,7 +49,7 @@ class ProjetController {
         }
 
         // Redirige vers la liste des projets
-        header('Location: index.php?page=projets');
+        header('Location: index.php?controller=projet&action=index');
         exit;
     }
 }

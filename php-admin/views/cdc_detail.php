@@ -140,14 +140,10 @@ if (!isset($cdc) || empty($cdc)) {
         // Convertir le Markdown en HTML
         $markdown = $cdc['contenu_markdown'] ?? '# Contenu non disponible';
         
-        // Utiliser Parsedown si disponible
-        if (class_exists('Parsedown')) {
-            $parsedown = new Parsedown();
-            echo $parsedown->text($markdown);
-        } else {
-            // Fallback : afficher brut
-            echo nl2br(htmlspecialchars($markdown));
-        }
+        // Charger Parsedown et convertir
+        require_once __DIR__ . '/../vendor/autoload.php';
+        $parsedown = new Parsedown();
+        echo $parsedown->text($markdown);
         ?>
     </div>
 
