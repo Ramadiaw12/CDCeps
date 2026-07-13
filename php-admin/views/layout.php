@@ -445,7 +445,7 @@
     </style>
 </head>
 <body>
-
+<?php $controller = $_GET['controller'] ?? 'dashboard'; ?>
 <!-- 
      SIDEBAR
       -->
@@ -504,14 +504,13 @@
         <h2>
             <?php
                 $titres = [
-                    'dashboard' => '📊 Tableau de bord',
-                    'projet'    => '📁 Gestion des projets',
-                    'cdc'       => '📄 CDC Générés',
-                    'rag'       => '📚 Base documentaire RAG',
-                    'cdc_detail'=> '📄 Détail CDC',
+                    'dashboard'  => '📊 Tableau de bord',
+                    'projets'    => '📁 Gestion des projets',
+                    'cdcs'       => '📄 CDC Générés',
+                    'rag'        => '📚 Base documentaire RAG',
+                    'cdc_detail' => '📄 Détail CDC',
                 ];
-                $controller = $_GET['controller'] ?? 'dashboard';
-                echo $titres[$controller] ?? 'Dashboard';
+                echo $titres[$vue ?? 'dashboard'] ?? 'Dashboard';
             ?>
         </h2>
         <div class="topbar-actions">
@@ -542,15 +541,15 @@
     <!-- Vue dynamique -->
     <div class="content">
         <?php
-            // Charge la vue correspondant au contrôleur
+            // Charge la vue correspondant à $vue (posé par le contrôleur)
             $vuesFichiers = [
                 'dashboard'  => 'dashboard.php',
-                'projet'     => 'projets.php',
-                'cdc'        => 'cdcs.php',
+                'projets'    => 'projets.php',
+                'cdcs'       => 'cdcs.php',
                 'rag'        => 'rag.php',
                 'cdc_detail' => 'cdc_detail.php',
             ];
-            $vueFichier = $vuesFichiers[$controller ?? 'dashboard'] ?? 'dashboard.php';
+            $vueFichier = $vuesFichiers[$vue ?? 'dashboard'] ?? 'dashboard.php';
             require_once __DIR__ . '/' . $vueFichier;
         ?>
     </div>
