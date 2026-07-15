@@ -32,8 +32,8 @@
 
 <br>
 
-# Démo
-🌍 **Try it live :** 
+# 🌍 Démo
+
 ![Demo CDCEPS](demo.gif)
 
 ## 📖 Table des Matières
