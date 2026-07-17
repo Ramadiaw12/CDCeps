@@ -97,7 +97,7 @@ class CDCController {
         exit;
     }
 
-    //  Voir le CDC d'un projet (via l'id du PROJET, pas du CDC) 
+    //  Voir le CDC d'un projet (via l'id du PROJET, pas du CDC)
     public function voirProjet($projetId): void {
         $cdc = $this->cdc->getByProjetId((int) $projetId);
 
