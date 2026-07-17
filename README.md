@@ -18,11 +18,7 @@
 [![Groq](https://img.shields.io/badge/Groq-API-F55036?style=flat-square)](https://groq.com)
 [![PHP](https://img.shields.io/badge/PHP-8.x-777BB4?style=flat-square&logo=php&logoColor=white)](https://php.net)
 
-[![Build](https://img.shields.io/badge/build-passing-brightgreen?style=flat-square)](https://github.com)
-[![Coverage](https://img.shields.io/badge/coverage-85%25-brightgreen?style=flat-square)](https://github.com)
-[![Quality](https://img.shields.io/badge/quality-A-blue?style=flat-square)](https://github.com)
-[![Security](https://img.shields.io/badge/security-A+-success?style=flat-square)](https://github.com)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com)
+
 
 <br>
 
