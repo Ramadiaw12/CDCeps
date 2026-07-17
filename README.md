@@ -10,7 +10,6 @@
 
 [![Status](https://img.shields.io/badge/status-production-brightgreen?style=for-the-badge)](https://github.com)
 [![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)](https://github.com)
-[![License](https://img.shields.io/badge/license-MIT-green?style=for-the-badge)](https://github.com)
 
 [![Node.js](https://img.shields.io/badge/Node.js-22.x-339933?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org)
 [![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
